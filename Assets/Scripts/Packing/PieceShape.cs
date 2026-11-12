@@ -1,5 +1,6 @@
 // Implements: design/game-brief.md "Cơ chế chính" (Xoay đồ: 90° per tap).
-// Story: production/epics/pack-it-perfect/story-001-core-packing-loop.md
+// Stories: production/epics/pack-it-perfect/story-001-core-packing-loop.md,
+// story-004-outline-imprints.md / story-005-hint-and-stars.md (SameCells: "placed correctly", solution orientation).
 // Pure C#: no MonoBehaviour dependency.
 
 using System.Collections.Generic;
@@ -79,5 +80,120 @@ namespace PackItPerfect
 
         /// <summary>True if the shape has a cell at <paramref name="cell"/>.</summary>
         public bool Contains(Vector2Int cell) => cellSet.Contains(cell);
+
+        /// <summary>True if <paramref name="other"/> covers exactly the same normalised cells (same orientation).</summary>
+        public bool SameCells(PieceShape other)
+        {
+            if (other == null || other.Width != Width || other.Height != Height || other.cells.Length != cells.Length)
+            {
+                return false;
+            }
+            foreach (var c in other.cells)
+            {
+                if (!cellSet.Contains(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// First cell in reading order (top row first, then leftmost). Rule badges sit on this cell.
+        /// </summary>
+        public Vector2Int FirstCell
+        {
+            get
+            {
+                var first = cells[0];
+                foreach (var c in cells)
+                {
+                    if (c.y < first.y || (c.y == first.y && c.x < first.x))
+                    {
+                        first = c;
+                    }
+                }
+                return first;
+            }
+        }
+
+        /// <summary>
+        /// Where the item icon goes, in shape units (x right, y down from the top-left corner):
+        /// the centre of a 2x2 block of cells (or between two adjacent 2x2 blocks) nearest the shape's centroid
+        /// if the shape has one, else the centre of the cell with the most neighbours (ties: nearest the centroid).
+        /// Recomputed per orientation, so the icon stays upright while the cell layout turns.
+        /// </summary>
+        /// <param name="onBlock">True if the point is on a 2x2 block (room for a larger icon).</param>
+        public Vector2 IconAnchor(out bool onBlock)
+        {
+            var centroid = Vector2.zero;
+            foreach (var c in cells)
+            {
+                centroid += new Vector2(c.x + 0.5f, c.y + 0.5f);
+            }
+            centroid /= cells.Length;
+
+            var right = new Vector2Int(1, 0);
+            var down = new Vector2Int(0, 1);
+            var blocks = new List<Vector2Int>();
+            foreach (var c in cells)
+            {
+                if (cellSet.Contains(c + right) && cellSet.Contains(c + down) && cellSet.Contains(c + right + down))
+                {
+                    blocks.Add(c);
+                }
+            }
+
+            onBlock = blocks.Count > 0;
+            var best = Vector2.zero;
+            float bestDistance = float.MaxValue;
+            if (onBlock)
+            {
+                var blockSet = new HashSet<Vector2Int>(blocks);
+                foreach (var b in blocks)
+                {
+                    // The block's own centre, plus the midpoint to a block one cell right or down (a 3x2 / 2x3 area).
+                    Consider(new Vector2(b.x + 1f, b.y + 1f), centroid, ref best, ref bestDistance);
+                    if (blockSet.Contains(b + right))
+                    {
+                        Consider(new Vector2(b.x + 1.5f, b.y + 1f), centroid, ref best, ref bestDistance);
+                    }
+                    if (blockSet.Contains(b + down))
+                    {
+                        Consider(new Vector2(b.x + 1f, b.y + 1.5f), centroid, ref best, ref bestDistance);
+                    }
+                }
+                return best;
+            }
+
+            int mostNeighbours = -1;
+            foreach (var c in cells)
+            {
+                int neighbours = 0;
+                if (cellSet.Contains(c + right)) neighbours++;
+                if (cellSet.Contains(c - right)) neighbours++;
+                if (cellSet.Contains(c + down)) neighbours++;
+                if (cellSet.Contains(c - down)) neighbours++;
+                var center = new Vector2(c.x + 0.5f, c.y + 0.5f);
+                float distance = (center - centroid).sqrMagnitude;
+                if (neighbours > mostNeighbours || (neighbours == mostNeighbours && distance < bestDistance))
+                {
+                    mostNeighbours = neighbours;
+                    bestDistance = distance;
+                    best = center;
+                }
+            }
+            return best;
+        }
+
+        static void Consider(Vector2 point, Vector2 centroid, ref Vector2 best, ref float bestDistance)
+        {
+            float distance = (point - centroid).sqrMagnitude;
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                best = point;
+            }
+        }
     }
 }

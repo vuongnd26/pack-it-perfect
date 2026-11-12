@@ -19,10 +19,10 @@ Out of scope: monetization, KPIs, reference-game positioning (blank in the GDD, 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
 | 001 | Core packing loop | Logic | Complete | N/A |
-| 002 | 15-level data | Config/Data | Ready | N/A |
-| 003 | Obstacle rules | Logic | Ready | N/A |
-| 004 | Outline imprints | Visual/Feel | Ready | N/A |
-| 005 | Hint booster and star rule | Logic | Ready | N/A |
+| 002 | 15-level data | Config/Data | Complete | N/A |
+| 003 | Obstacle rules | Logic | Complete | N/A |
+| 004 | Outline imprints | Visual/Feel | Complete | N/A |
+| 005 | Hint booster and star rule | Logic | Complete | N/A |
 | 006 | Timer mode and lose screen | UI | Ready | N/A |
 | 007 | Progression and meta screens | UI | Ready | N/A |
 | 008 | Tutorial hand and placement juice | Visual/Feel | Ready | N/A |

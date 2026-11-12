@@ -1,4 +1,4 @@
-// Tuning values for story 001 (production/epics/pack-it-perfect/story-001-core-packing-loop.md).
+// Tuning values for stories 001–005 (production/epics/pack-it-perfect/story-00[1-5]-*.md).
 // Values marked "prototype" come from the behaviour reference (claude.ai artifact PskwEekJTZ85nAVkZywy4j);
 // the rest are first-pass layout and feel values. All lengths are world units, 1 unit = 1 grid cell.
 
@@ -99,5 +99,186 @@ namespace PackItPerfect
 
         [Tooltip("Size of the zipper pull, in cells.")]
         public float zipperPullSize = 0.32f;
+
+        [Header("Win")]
+        [Tooltip("After the lid closes, a tap loads the next level. The UI wave turns this off and shows a win screen instead.")]
+        public bool autoAdvanceOnWin = true;
+
+        [Header("Level limits (loader check)")]
+        [Tooltip("A level outside these limits is rejected by the loader. Brief: grid 4x3 to 7x7, 3–13 items.")]
+        public LevelLimits levelLimits = new LevelLimits();
+
+        [Header("Item icons")]
+        [Tooltip("Icon width when it sits on a 2x2 block of the piece, in cells.")]
+        public float iconSizeOnBlock = 1.2f;
+
+        [Tooltip("Icon width when the piece has no 2x2 block (sits on one cell), in cells.")]
+        public float iconSizeOnCell = 0.82f;
+
+        [Header("Rule badges")]
+        [Tooltip("Diameter of a rule badge (zone, heavy, upright, pair) on a piece, in cells.")]
+        public float badgeSize = 0.36f;
+
+        [Tooltip("Gap between a badge and the edge of its cell, in cells.")]
+        public float badgeMargin = 0.03f;
+
+        [Tooltip("Emoji size inside a badge, as a fraction of the badge diameter.")]
+        public float badgeEmojiScale = 0.62f;
+
+        [Tooltip("Circle behind the zone icon badge.")]
+        public Color zoneBadgeColor = new Color(1f, 1f, 1f, 0.92f);
+
+        [Tooltip("Circle behind the ⚓ heavy badge (dark).")]
+        public Color heavyBadgeColor = new Color(0x2E / 255f, 0x2E / 255f, 0x3A / 255f, 1f);
+
+        [Tooltip("Circle behind the ⬆️ upright badge (yellow).")]
+        public Color uprightBadgeColor = new Color(0xF2 / 255f, 0xC1 / 255f, 0x4E / 255f, 1f);
+
+        [Tooltip("Circle behind the 🔗 pair badge (pink).")]
+        public Color pairBadgeColor = new Color(0xF0 / 255f, 0x8D / 255f, 0xB5 / 255f, 1f);
+
+        [Header("Zones")]
+        [Tooltip("Line drawn where neighbouring cells change zone.")]
+        public Color zoneDividerColor = new Color(0x50 / 255f, 0x3C / 255f, 0x28 / 255f, 0.55f);
+
+        [Tooltip("Thickness of the zone divider, in cells.")]
+        public float zoneDividerWidth = 0.06f;
+
+        [Tooltip("Dashes per cell edge of the zone divider; 0 = solid line.")]
+        public int zoneDividerDashesPerCell = 3;
+
+        [Tooltip("Drawn part of each dash period, 0..1.")]
+        [Range(0.05f, 1f)] public float zoneDividerDashFill = 0.6f;
+
+        [Tooltip("Height of the zone label text (\"🍴 Food\"), in cells.")]
+        public float zoneLabelSize = 0.26f;
+
+        [Tooltip("Zone label text colour.")]
+        public Color zoneLabelColor = new Color(0x3C / 255f, 0x28 / 255f, 0x14 / 255f, 0.7f);
+
+        [Header("Outlines (story 004)")]
+        [Tooltip("Fill of an outline imprint. Prototype: rgba(60,40,20,.13).")]
+        public Color outlineColor = new Color(60f / 255f, 40f / 255f, 20f / 255f, 0.13f);
+
+        [Tooltip("Opacity of the item icon on an outline imprint. Prototype: ~0.32.")]
+        [Range(0f, 1f)] public float outlineIconAlpha = 0.32f;
+
+        [Tooltip("Opacity multiplier of an outline once its item is placed exactly on it; 0 = disappears.")]
+        [Range(0f, 1f)] public float outlinePlacedOpacity = 0f;
+
+        [Header("Wobble (upright tap)")]
+        [Tooltip("Peak rotation of a wobble, in degrees.")]
+        public float wobbleAngle = 10f;
+
+        [Tooltip("Seconds an upright piece wobbles when tapped.")]
+        public float wobbleDuration = 0.45f;
+
+        [Tooltip("Full left-right swings during that wobble.")]
+        public float wobbleCycles = 3f;
+
+        [Header("Hint (story 005)")]
+        [Tooltip("Seconds the target cells glow. Brief: ~2 s.")]
+        public float hintGlowDuration = 2f;
+
+        [Tooltip("Glow pulses per second.")]
+        public float hintGlowPulsesPerSecond = 2f;
+
+        [Tooltip("Glow colour (alpha is driven by the pulse).")]
+        public Color hintGlowColor = Color.white;
+
+        [Tooltip("Glow opacity at the low point of a pulse.")]
+        [Range(0f, 1f)] public float hintGlowMinAlpha = 0.25f;
+
+        [Tooltip("Glow opacity at the peak of a pulse.")]
+        [Range(0f, 1f)] public float hintGlowMaxAlpha = 0.9f;
+
+        [Tooltip("Opacity of the glow's cell fill relative to its dashed border.")]
+        [Range(0f, 1f)] public float hintGlowFillAlpha = 0.45f;
+
+        [Tooltip("Thickness of the glow's dashed border, in cells.")]
+        public float hintGlowBorderWidth = 0.07f;
+
+        [Tooltip("Inset of the glow square inside its cell, in cells.")]
+        public float hintGlowInset = 0.08f;
+
+        [Tooltip("Dashes per side of a glowing cell's border; 0 = solid.")]
+        public int hintGlowDashesPerCell = 3;
+
+        [Tooltip("Drawn part of each border dash period, 0..1.")]
+        [Range(0.05f, 1f)] public float hintGlowDashFill = 0.6f;
+
+        [Tooltip("Seconds the hinted piece wobbles in the tray.")]
+        public float hintWobbleDuration = 1.2f;
+
+        [Tooltip("Full left-right swings during the hint wobble.")]
+        public float hintWobbleCycles = 4f;
+
+        [Header("Toast")]
+        [Tooltip("Seconds a toast stays fully visible before fading. Prototype: ~1.7 s.")]
+        public float toastDuration = 1.7f;
+
+        [Tooltip("Seconds the toast takes to fade out.")]
+        public float toastFadeDuration = 0.3f;
+
+        [Tooltip("Toast sizes below are in cells for a view this many cells tall; the toast scales with the view so it reads the same on every level.")]
+        public float toastReferenceViewHeight = 12f;
+
+        [Tooltip("Toast text height (reference cells).")]
+        public float toastTextSize = 0.42f;
+
+        [Tooltip("Toast pill height (reference cells).")]
+        public float toastHeight = 0.8f;
+
+        [Tooltip("Space between the text and each end of the pill (reference cells).")]
+        public float toastPaddingX = 0.35f;
+
+        [Tooltip("Space between the bottom of the view and the toast (reference cells).")]
+        public float toastBottomMargin = 0.5f;
+
+        [Tooltip("Toast pill colour (dark).")]
+        public Color toastBackColor = new Color(0x22 / 255f, 0x22 / 255f, 0x2B / 255f, 0.92f);
+
+        [Tooltip("Toast text colour.")]
+        public Color toastTextColor = Color.white;
+
+        [Header("Words (Pair!)")]
+        [Tooltip("Seconds a word floats before it is gone.")]
+        public float wordDuration = 1f;
+
+        [Tooltip("How far a word rises over its life, in cells.")]
+        public float wordRise = 0.6f;
+
+        [Tooltip("Word text height, in cells.")]
+        public float wordTextSize = 0.36f;
+
+        [Tooltip("Word pill height, in cells.")]
+        public float wordHeight = 0.6f;
+
+        [Tooltip("Space between the word and each end of its pill, in cells.")]
+        public float wordPaddingX = 0.22f;
+
+        [Tooltip("Word pill colour.")]
+        public Color wordBackColor = new Color(0xE0 / 255f, 0x4F / 255f, 0x8C / 255f, 0.95f);
+
+        [Tooltip("Word text colour.")]
+        public Color wordTextColor = Color.white;
+    }
+
+    /// <summary>Grid size and piece count a level must stay within (brief "Progression & Meta": 4x3 to 7x7, 3–13 items).</summary>
+    [Serializable]
+    public class LevelLimits
+    {
+        /// <summary>Fewest columns.</summary>
+        public int minWidth = 4;
+        /// <summary>Fewest rows.</summary>
+        public int minHeight = 3;
+        /// <summary>Most columns.</summary>
+        public int maxWidth = 7;
+        /// <summary>Most rows.</summary>
+        public int maxHeight = 7;
+        /// <summary>Fewest items.</summary>
+        public int minPieces = 3;
+        /// <summary>Most items.</summary>
+        public int maxPieces = 13;
     }
 }

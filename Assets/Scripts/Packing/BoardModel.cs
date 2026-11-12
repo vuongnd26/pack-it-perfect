@@ -1,6 +1,7 @@
 // Implements: design/game-brief.md "Core loop", "Điều kiện thắng / thua" (placement and win),
 // "Cơ chế chính" (Kéo thả đặt đồ: valid = in bounds, no overlap, not blocked; fill %).
-// Story: production/epics/pack-it-perfect/story-001-core-packing-loop.md
+// "Obstacles" + "Điều kiện thắng / thua" (won only when every active rule holds).
+// Stories: production/epics/pack-it-perfect/story-001-core-packing-loop.md, story-003-obstacle-rules.md
 // Pure C#: no MonoBehaviour dependency, so it can be unit-tested.
 
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace PackItPerfect
         readonly bool[,] blocked;
         readonly int[,] occupant;
         readonly Dictionary<int, Placement> placements = new Dictionary<int, Placement>();
+        readonly IReadOnlyList<IPackingRule> rules;
 
         /// <summary>Columns in the grid.</summary>
         public int Width { get; }
@@ -54,13 +56,19 @@ namespace PackItPerfect
         /// <summary>True when every piece is on the board.</summary>
         public bool AllPlaced => placements.Count == PieceCount;
 
+        /// <summary>The level's active obstacle rules (empty when it has none).</summary>
+        public IReadOnlyList<IPackingRule> Rules => rules;
+
         /// <summary>Creates an empty board.</summary>
         /// <param name="width">Columns.</param>
         /// <param name="height">Rows.</param>
         /// <param name="blockedCells">Cells nothing can be placed on.</param>
         /// <param name="pieceCount">Number of pieces in the level.</param>
-        public BoardModel(int width, int height, IEnumerable<Vector2Int> blockedCells, int pieceCount)
+        /// <param name="rules">Active obstacle rules, evaluated on every placement and by <see cref="IsWon"/>; null = none.</param>
+        public BoardModel(int width, int height, IEnumerable<Vector2Int> blockedCells, int pieceCount,
+            IReadOnlyList<IPackingRule> rules = null)
         {
+            this.rules = rules ?? new IPackingRule[0];
             Width = width;
             Height = height;
             PieceCount = pieceCount;
@@ -99,15 +107,46 @@ namespace PackItPerfect
         public bool IsPlaced(int pieceId) => placements.ContainsKey(pieceId);
 
         /// <summary>
-        /// True if every cell of <paramref name="shape"/> offset by <paramref name="origin"/> is in bounds,
-        /// not blocked and not covered by another piece.
+        /// Every reason piece <paramref name="pieceId"/> cannot sit with <paramref name="shape"/> at <paramref name="origin"/>:
+        /// out of bounds, blocked, covered by another piece, and each active rule's drop-time check.
         /// </summary>
-        public bool CanPlace(PieceShape shape, Vector2Int origin)
+        /// <returns><see cref="PlacementFailure.None"/> if the piece may be placed there.</returns>
+        public PlacementFailure CheckPlacement(int pieceId, PieceShape shape, Vector2Int origin)
         {
+            var failure = PlacementFailure.None;
             foreach (var c in shape.Cells)
             {
                 var cell = origin + c;
-                if (!InBounds(cell) || blocked[cell.x, cell.y] || occupant[cell.x, cell.y] != NO_PIECE)
+                if (!InBounds(cell))
+                {
+                    failure |= PlacementFailure.OutOfBounds;
+                }
+                else if (blocked[cell.x, cell.y])
+                {
+                    failure |= PlacementFailure.Blocked;
+                }
+                else if (occupant[cell.x, cell.y] != NO_PIECE && occupant[cell.x, cell.y] != pieceId)
+                {
+                    failure |= PlacementFailure.Occupied;
+                }
+            }
+            foreach (var rule in rules)
+            {
+                failure |= rule.CheckPlacement(pieceId, shape, origin);
+            }
+            return failure;
+        }
+
+        /// <summary>True if <see cref="CheckPlacement"/> finds nothing wrong.</summary>
+        public bool CanPlace(int pieceId, PieceShape shape, Vector2Int origin) =>
+            CheckPlacement(pieceId, shape, origin) == PlacementFailure.None;
+
+        /// <summary>True unless an active rule (upright) forbids turning the piece.</summary>
+        public bool CanRotate(int pieceId)
+        {
+            foreach (var rule in rules)
+            {
+                if (!rule.AllowsRotation(pieceId))
                 {
                     return false;
                 }
@@ -115,11 +154,26 @@ namespace PackItPerfect
             return true;
         }
 
+        /// <summary>Shape and origin of a placed piece.</summary>
+        /// <returns>False if the piece is not on the board.</returns>
+        public bool TryGetPlacement(int pieceId, out PieceShape shape, out Vector2Int origin)
+        {
+            if (placements.TryGetValue(pieceId, out var placement))
+            {
+                shape = placement.shape;
+                origin = placement.origin;
+                return true;
+            }
+            shape = null;
+            origin = default;
+            return false;
+        }
+
         /// <summary>Places the piece if <see cref="CanPlace"/> allows it. The piece must not already be placed.</summary>
         /// <returns>True if the piece was placed.</returns>
         public bool Place(int pieceId, PieceShape shape, Vector2Int origin)
         {
-            if (!CanPlace(shape, origin))
+            if (placements.ContainsKey(pieceId) || !CanPlace(pieceId, shape, origin))
             {
                 return false;
             }
@@ -150,9 +204,26 @@ namespace PackItPerfect
         }
 
         /// <summary>
-        /// True when the level is won. Story 001 has no rules beyond placement, so this is
-        /// <see cref="AllPlaced"/>; story 003 adds the zone / pair / heavy / upright checks here.
+        /// The first active rule a full board breaks (pairs not touching), or <see cref="RuleViolation.NONE"/>.
+        /// Only meaningful once <see cref="AllPlaced"/> is true.
         /// </summary>
-        public bool IsWon() => AllPlaced;
+        public RuleViolation FindCompletionViolation()
+        {
+            foreach (var rule in rules)
+            {
+                int piece = rule.FindCompletionViolation(this);
+                if (piece != NO_PIECE)
+                {
+                    return new RuleViolation(rule, piece);
+                }
+            }
+            return RuleViolation.NONE;
+        }
+
+        /// <summary>
+        /// True when the level is won: every piece is placed (so every fillable cell is covered — the pieces exactly
+        /// tile the fillable cells) and every active rule holds.
+        /// </summary>
+        public bool IsWon() => AllPlaced && !FindCompletionViolation().IsViolation;
     }
 }

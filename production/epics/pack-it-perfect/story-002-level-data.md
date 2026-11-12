@@ -1,12 +1,12 @@
 # Story 002: 15-level data
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Foundation
 > **Type**: Config/Data
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -73,10 +73,9 @@
 
 ## Files
 
-- Assets/Scripts/Packing/LevelData.cs
-- Assets/Data/Levels/Level01.asset … Level15.asset
-
----
+Assets/Data/Levels/levels.json (theme = level name + theme colours; no separate theme id)
+Assets/Scripts/Packing/LevelLoader.cs
+Assets/Scripts/Packing/PackingTuning.cs
 
 ## QA Test Cases
 

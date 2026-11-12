@@ -1,7 +1,7 @@
 // Implements: design/game-brief.md "Quyết định đã chốt" (level data in Assets/Data/Levels/levels.json).
-// Story: production/epics/pack-it-perfect/story-001-core-packing-loop.md
-// These classes mirror the full levels.json schema so JsonUtility parses every field;
-// story 001 reads only map, pieces[].letter/item/startTurns, items[] and theme.
+// Stories: production/epics/pack-it-perfect/story-001-core-packing-loop.md, story-002-level-data.md
+// These classes mirror the full levels.json schema so JsonUtility parses every field. Every rule is a per-level
+// or per-piece value here (never a level-number check in code); LevelLoader.Build validates them.
 // Field names must match the JSON keys exactly, so they are lower camelCase public fields.
 
 using System;
