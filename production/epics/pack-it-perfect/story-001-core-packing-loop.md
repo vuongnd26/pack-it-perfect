@@ -1,12 +1,12 @@
 # Story 001: Core packing loop
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Core
 > **Type**: Logic
 > **Estimate**: L
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -61,15 +61,17 @@
 
 ## Files
 
-- Assets/Scripts/Packing/BoardModel.cs
-- Assets/Scripts/Packing/ItemShape.cs
-- Assets/Scripts/Packing/LevelData.cs
-- Assets/Scripts/Packing/PackingController.cs
-- Assets/Scripts/Packing/TrayView.cs
-- Assets/Scripts/Packing/GridView.cs
-- Assets/Scenes/Game.unity
-
----
+Assets/Scripts/Packing/BoardModel.cs
+Assets/Scripts/Packing/GridView.cs
+Assets/Scripts/Packing/LevelData.cs
+Assets/Scripts/Packing/LevelLoader.cs
+Assets/Scripts/Packing/LidView.cs
+Assets/Scripts/Packing/PackingGame.cs
+Assets/Scripts/Packing/PackingTuning.cs
+Assets/Scripts/Packing/PieceShape.cs
+Assets/Scripts/Packing/PieceView.cs
+Assets/Scripts/Packing/SpriteFactory.cs
+Assets/Scripts/Packing/TrayView.cs
 
 ## QA Test Cases
 
@@ -82,7 +84,7 @@ N/A — no qa-lead specs at this tier; implement against the Acceptance Criteria
 **Story Type**: Logic
 **Required evidence**: Test: waived at qa.level minimal. The change is still launched and observed once; keep a screenshot in `production/qa/evidence/` (see `.claude/docs/run-and-observe.md`).
 
-**Status**: [ ] Not yet created
+**Status**: [x] Screenshot retained: production/qa/evidence/story-001-core-packing-loop/level01-start.png (tests waived at qa.level minimal). Played by user 2026-11-12: OK.
 
 ---
 

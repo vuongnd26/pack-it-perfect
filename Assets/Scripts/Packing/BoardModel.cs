@@ -1,0 +1,158 @@
+// Implements: design/game-brief.md "Core loop", "Điều kiện thắng / thua" (placement and win),
+// "Cơ chế chính" (Kéo thả đặt đồ: valid = in bounds, no overlap, not blocked; fill %).
+// Story: production/epics/pack-it-perfect/story-001-core-packing-loop.md
+// Pure C#: no MonoBehaviour dependency, so it can be unit-tested.
+
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace PackItPerfect
+{
+    /// <summary>
+    /// The container grid: blocked cells and which piece occupies each cell.
+    /// Cells are (column, row) with row 0 at the top. Pieces are identified by their index in the level's pieces array.
+    /// </summary>
+    public sealed class BoardModel
+    {
+        /// <summary>Value returned by <see cref="PieceAt"/> for a cell no piece covers.</summary>
+        public const int NO_PIECE = -1;
+
+        readonly struct Placement
+        {
+            public readonly PieceShape shape;
+            public readonly Vector2Int origin;
+
+            public Placement(PieceShape shape, Vector2Int origin)
+            {
+                this.shape = shape;
+                this.origin = origin;
+            }
+        }
+
+        readonly bool[,] blocked;
+        readonly int[,] occupant;
+        readonly Dictionary<int, Placement> placements = new Dictionary<int, Placement>();
+
+        /// <summary>Columns in the grid.</summary>
+        public int Width { get; }
+
+        /// <summary>Rows in the grid.</summary>
+        public int Height { get; }
+
+        /// <summary>Number of pieces the level has; the board is full of pieces when all are placed.</summary>
+        public int PieceCount { get; }
+
+        /// <summary>Cells that are not blocked: w·h − blocked.</summary>
+        public int FillableCellCount { get; }
+
+        /// <summary>Cells currently covered by a placed piece.</summary>
+        public int CoveredCellCount { get; private set; }
+
+        /// <summary>CoveredCellCount / FillableCellCount, in [0, 1].</summary>
+        public float FillRatio => (float)CoveredCellCount / FillableCellCount;
+
+        /// <summary>True when every piece is on the board.</summary>
+        public bool AllPlaced => placements.Count == PieceCount;
+
+        /// <summary>Creates an empty board.</summary>
+        /// <param name="width">Columns.</param>
+        /// <param name="height">Rows.</param>
+        /// <param name="blockedCells">Cells nothing can be placed on.</param>
+        /// <param name="pieceCount">Number of pieces in the level.</param>
+        public BoardModel(int width, int height, IEnumerable<Vector2Int> blockedCells, int pieceCount)
+        {
+            Width = width;
+            Height = height;
+            PieceCount = pieceCount;
+            blocked = new bool[width, height];
+            occupant = new int[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    occupant[x, y] = NO_PIECE;
+                }
+            }
+
+            int blockedCount = 0;
+            foreach (var c in blockedCells)
+            {
+                if (!blocked[c.x, c.y])
+                {
+                    blocked[c.x, c.y] = true;
+                    blockedCount++;
+                }
+            }
+            FillableCellCount = width * height - blockedCount;
+        }
+
+        /// <summary>True if the cell lies inside the grid.</summary>
+        public bool InBounds(Vector2Int cell) => cell.x >= 0 && cell.y >= 0 && cell.x < Width && cell.y < Height;
+
+        /// <summary>True if the cell is inside the grid and blocked.</summary>
+        public bool IsBlocked(Vector2Int cell) => InBounds(cell) && blocked[cell.x, cell.y];
+
+        /// <summary>Index of the piece covering the cell, or <see cref="NO_PIECE"/>.</summary>
+        public int PieceAt(Vector2Int cell) => InBounds(cell) ? occupant[cell.x, cell.y] : NO_PIECE;
+
+        /// <summary>True if the piece is on the board.</summary>
+        public bool IsPlaced(int pieceId) => placements.ContainsKey(pieceId);
+
+        /// <summary>
+        /// True if every cell of <paramref name="shape"/> offset by <paramref name="origin"/> is in bounds,
+        /// not blocked and not covered by another piece.
+        /// </summary>
+        public bool CanPlace(PieceShape shape, Vector2Int origin)
+        {
+            foreach (var c in shape.Cells)
+            {
+                var cell = origin + c;
+                if (!InBounds(cell) || blocked[cell.x, cell.y] || occupant[cell.x, cell.y] != NO_PIECE)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>Places the piece if <see cref="CanPlace"/> allows it. The piece must not already be placed.</summary>
+        /// <returns>True if the piece was placed.</returns>
+        public bool Place(int pieceId, PieceShape shape, Vector2Int origin)
+        {
+            if (!CanPlace(shape, origin))
+            {
+                return false;
+            }
+            foreach (var c in shape.Cells)
+            {
+                var cell = origin + c;
+                occupant[cell.x, cell.y] = pieceId;
+            }
+            placements[pieceId] = new Placement(shape, origin);
+            CoveredCellCount += shape.Cells.Count;
+            return true;
+        }
+
+        /// <summary>Takes the piece off the board. Does nothing if it is not placed.</summary>
+        public void Remove(int pieceId)
+        {
+            if (!placements.TryGetValue(pieceId, out var placement))
+            {
+                return;
+            }
+            foreach (var c in placement.shape.Cells)
+            {
+                var cell = placement.origin + c;
+                occupant[cell.x, cell.y] = NO_PIECE;
+            }
+            placements.Remove(pieceId);
+            CoveredCellCount -= placement.shape.Cells.Count;
+        }
+
+        /// <summary>
+        /// True when the level is won. Story 001 has no rules beyond placement, so this is
+        /// <see cref="AllPlaced"/>; story 003 adds the zone / pair / heavy / upright checks here.
+        /// </summary>
+        public bool IsWon() => AllPlaced;
+    }
+}

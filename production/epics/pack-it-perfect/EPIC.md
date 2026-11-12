@@ -18,7 +18,7 @@ Out of scope: monetization, KPIs, reference-game positioning (blank in the GDD, 
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | Core packing loop | Logic | Ready | N/A |
+| 001 | Core packing loop | Logic | Complete | N/A |
 | 002 | 15-level data | Config/Data | Ready | N/A |
 | 003 | Obstacle rules | Logic | Ready | N/A |
 | 004 | Outline imprints | Visual/Feel | Ready | N/A |
