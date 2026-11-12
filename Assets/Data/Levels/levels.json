@@ -1,0 +1,1780 @@
+{
+  "source": "https://claude.ai/artifact/PskwEekJTZ85nAVkZywy4j (Pack It Perfect prototype), extracted 2026-11-12",
+  "items": [
+    {
+      "id": "shirt",
+      "displayName": "Shirt",
+      "color": "#4DA3E6",
+      "pattern": "stripe"
+    },
+    {
+      "id": "sock",
+      "displayName": "Sock",
+      "color": "#F26B5B",
+      "pattern": "dots"
+    },
+    {
+      "id": "camera",
+      "displayName": "Camera",
+      "color": "#F2C14E",
+      "pattern": "check"
+    },
+    {
+      "id": "sneaker",
+      "displayName": "Sneaker",
+      "color": "#3FB68B",
+      "pattern": "knit"
+    },
+    {
+      "id": "hat",
+      "displayName": "Hat",
+      "color": "#F28F3B",
+      "pattern": "diag"
+    },
+    {
+      "id": "sunglasses",
+      "displayName": "Sunglasses",
+      "color": "#2FB5B5",
+      "pattern": "dots"
+    },
+    {
+      "id": "book",
+      "displayName": "Book",
+      "color": "#F08DB5",
+      "pattern": "stripe"
+    },
+    {
+      "id": "perfume",
+      "displayName": "Perfume",
+      "color": "#9B7BE0",
+      "pattern": "check"
+    },
+    {
+      "id": "onigiri",
+      "displayName": "Onigiri",
+      "color": "#E5484D",
+      "pattern": "dots"
+    },
+    {
+      "id": "egg",
+      "displayName": "Egg",
+      "color": "#3FB68B",
+      "pattern": "check"
+    },
+    {
+      "id": "broccoli",
+      "displayName": "Broccoli",
+      "color": "#F2C14E",
+      "pattern": "stripe"
+    },
+    {
+      "id": "sushi",
+      "displayName": "Sushi",
+      "color": "#4DA3E6",
+      "pattern": "diag"
+    },
+    {
+      "id": "carrot",
+      "displayName": "Carrot",
+      "color": "#9B7BE0",
+      "pattern": "dots"
+    },
+    {
+      "id": "apple",
+      "displayName": "Apple",
+      "color": "#2FB5B5",
+      "pattern": "check"
+    },
+    {
+      "id": "milk",
+      "displayName": "Milk",
+      "color": "#4DA3E6",
+      "pattern": "stripe"
+    },
+    {
+      "id": "cheese",
+      "displayName": "Cheese",
+      "color": "#F26B5B",
+      "pattern": "diag"
+    },
+    {
+      "id": "ball",
+      "displayName": "Ball",
+      "color": "#F2C14E",
+      "pattern": "knit"
+    },
+    {
+      "id": "teddy",
+      "displayName": "Teddy",
+      "color": "#F08DB5",
+      "pattern": "dots"
+    },
+    {
+      "id": "umbrella",
+      "displayName": "Umbrella",
+      "color": "#3FB68B",
+      "pattern": "stripe"
+    },
+    {
+      "id": "backpack",
+      "displayName": "Backpack",
+      "color": "#F28F3B",
+      "pattern": "check"
+    },
+    {
+      "id": "toothbrush",
+      "displayName": "Toothbrush",
+      "color": "#2FB5B5",
+      "pattern": "stripe"
+    }
+  ],
+  "levels": [
+    {
+      "number": 1,
+      "name": "Weekend suitcase",
+      "map": [
+        "AABB",
+        "ACCB",
+        "ACCB"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "",
+      "bannerSubtitle": "",
+      "ruleChips": [],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "sock",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "camera",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#2F4D73",
+        "rim": "#22395A",
+        "lining": "#F4E7C5",
+        "line": "#A0783C33",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": true
+      }
+    },
+    {
+      "number": 2,
+      "name": "Beach bag",
+      "map": [
+        "AABB",
+        "ACCB",
+        "ACDD",
+        "EEDD"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "",
+      "bannerSubtitle": "",
+      "ruleChips": [],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "hat",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "sunglasses",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "book",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#2FA59E",
+        "rim": "#1F7F79",
+        "lining": "#F7E8C4",
+        "line": "#A0783C2E",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 3,
+      "name": "Bento box",
+      "map": [
+        "AAABB",
+        "ACCDB",
+        "ECFD#",
+        "EFFD#"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "",
+      "bannerSubtitle": "",
+      "ruleChips": [],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "onigiri",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "egg",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "broccoli",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "sushi",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "carrot",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "apple",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#B8453A",
+        "rim": "#8E2F27",
+        "lining": "#3B2A24",
+        "line": "#FFDCB41F",
+        "block": "#FFE2BE52",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 4,
+      "name": "Fridge shelf",
+      "map": [
+        "AABBB",
+        "ACCDB",
+        "ACEDD",
+        "FFEEG",
+        "FHHGG"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "",
+      "bannerSubtitle": "",
+      "ruleChips": [],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "milk",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "cheese",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "apple",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "carrot",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "broccoli",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "egg",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "onigiri",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "sushi",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#9CC3E4",
+        "rim": "#6E9CC4",
+        "lining": "#F1F8FC",
+        "line": "#5082AA33",
+        "block": "#5082AA4D",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 5,
+      "name": "Car trunk",
+      "map": [
+        "AABBBC",
+        "DAAEBC",
+        "DDEEFC",
+        "DGGEFF"
+      ],
+      "timerSeconds": 30,
+      "bannerTitle": "",
+      "bannerSubtitle": "",
+      "ruleChips": [],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "ball",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "teddy",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "umbrella",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "backpack",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "sneaker",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "camera",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#3A3F4A",
+        "rim": "#262A31",
+        "lining": "#5A6170",
+        "line": "#FFFFFF14",
+        "block": "#1E1E2859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 6,
+      "name": "Gym bag",
+      "map": [
+        "AABB",
+        "ACCB",
+        "ACCD",
+        "EEDD"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: outlines",
+      "bannerSubtitle": "Faded shapes show where items go",
+      "ruleChips": [
+        "👀 Match the outlines"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": true
+        },
+        {
+          "letter": "B",
+          "item": "sock",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "ball",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "sneaker",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": true
+        },
+        {
+          "letter": "E",
+          "item": "sunglasses",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#E5484D",
+        "rim": "#B23338",
+        "lining": "#EEF1F5",
+        "line": "#505A6E29",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 7,
+      "name": "Picnic basket",
+      "map": [
+        "AABCC",
+        "ABBCD",
+        "EEFDD",
+        "EFFFD"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: zones",
+      "bannerSubtitle": "Food on one side, stuff on the other",
+      "ruleChips": [
+        "🍴 Food side",
+        "🎒 Stuff side"
+      ],
+      "zoneMap": [
+        "fffgg",
+        "fffgg",
+        "fffgg",
+        "ffffg"
+      ],
+      "zones": [
+        {
+          "key": "f",
+          "icon": "🍴",
+          "name": "Food",
+          "color": "#F2C14E4D"
+        },
+        {
+          "key": "g",
+          "icon": "🎒",
+          "name": "Stuff",
+          "color": "#4DA3E638"
+        }
+      ],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "onigiri",
+          "startTurns": 2,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "sushi",
+          "startTurns": 3,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "book",
+          "startTurns": 0,
+          "zone": "g",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "umbrella",
+          "startTurns": 1,
+          "zone": "g",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "apple",
+          "startTurns": 2,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "egg",
+          "startTurns": 3,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#B98A4E",
+        "rim": "#8F6634",
+        "lining": "#F7EBD3",
+        "line": "#96642833",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 8,
+      "name": "Wardrobe drawer",
+      "map": [
+        "AAABB",
+        "CDDDB",
+        "CCDEE",
+        "FGGEH",
+        "FFGHH"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: pairs",
+      "bannerSubtitle": "Matching items must touch",
+      "ruleChips": [
+        "👀 Outlines",
+        "🔗 Pairs touch"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "book",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "sneaker",
+          "startTurns": 0,
+          "zone": "",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "hat",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": true
+        },
+        {
+          "letter": "D",
+          "item": "shirt",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": true
+        },
+        {
+          "letter": "E",
+          "item": "sneaker",
+          "startTurns": 3,
+          "zone": "",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "sock",
+          "startTurns": 0,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "sunglasses",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#8A5A3C",
+        "rim": "#64402A",
+        "lining": "#F3E6D2",
+        "line": "#7850282E",
+        "block": "#1E1E2859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 9,
+      "name": "Moving box",
+      "map": [
+        "AABBBC",
+        "ADDEBC",
+        "FD#EEC",
+        "FF#GGH",
+        "IIIGHH"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "Zones + pairs",
+      "bannerSubtitle": "Use every clue",
+      "ruleChips": [
+        "🍳 Kitchen",
+        "🧸 Toys",
+        "🔗 Pairs touch"
+      ],
+      "zoneMap": [
+        "ffgggg",
+        "fffggg",
+        "ff#ggg",
+        "ff#ggg",
+        "fffggg"
+      ],
+      "zones": [
+        {
+          "key": "f",
+          "icon": "🍳",
+          "name": "Kitchen",
+          "color": "#F2C14E4D"
+        },
+        {
+          "key": "g",
+          "icon": "🧸",
+          "name": "Toys",
+          "color": "#F08DB53D"
+        }
+      ],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "backpack",
+          "startTurns": 1,
+          "zone": "g",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": true
+        },
+        {
+          "letter": "C",
+          "item": "umbrella",
+          "startTurns": 2,
+          "zone": "g",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "cheese",
+          "startTurns": 3,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "ball",
+          "startTurns": 0,
+          "zone": "g",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "apple",
+          "startTurns": 1,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "teddy",
+          "startTurns": 2,
+          "zone": "g",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "teddy",
+          "startTurns": 3,
+          "zone": "g",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "I",
+          "item": "carrot",
+          "startTurns": 0,
+          "zone": "f",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#C9A066",
+        "rim": "#9C773F",
+        "lining": "#F5E9D2",
+        "line": "#9664282E",
+        "block": "#78502859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 10,
+      "name": "Holiday suitcase",
+      "map": [
+        "AABBCC",
+        "ADBEEC",
+        "DDBFEG",
+        "HDFFGG",
+        "HHIIIG"
+      ],
+      "timerSeconds": 45,
+      "bannerTitle": "Big trip!",
+      "bannerSubtitle": "Zones and pairs, no outlines",
+      "ruleChips": [
+        "👕 Clothes",
+        "🧴 Toiletries",
+        "🔗 Pairs touch"
+      ],
+      "zoneMap": [
+        "cccctt",
+        "cccttt",
+        "cccctt",
+        "cccctt",
+        "ccccct"
+      ],
+      "zones": [
+        {
+          "key": "c",
+          "icon": "👕",
+          "name": "Clothes",
+          "color": "#9B7BE038"
+        },
+        {
+          "key": "t",
+          "icon": "🧴",
+          "name": "Toiletries",
+          "color": "#2FB5B53D"
+        }
+      ],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "hat",
+          "startTurns": 1,
+          "zone": "c",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "shirt",
+          "startTurns": 2,
+          "zone": "c",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "perfume",
+          "startTurns": 3,
+          "zone": "t",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "sneaker",
+          "startTurns": 0,
+          "zone": "c",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "perfume",
+          "startTurns": 1,
+          "zone": "t",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "sunglasses",
+          "startTurns": 2,
+          "zone": "c",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "toothbrush",
+          "startTurns": 3,
+          "zone": "t",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "sock",
+          "startTurns": 0,
+          "zone": "c",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "I",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "c",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#9B7BE0",
+        "rim": "#7457BF",
+        "lining": "#F4EEFF",
+        "line": "#6E50B429",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": true
+      }
+    },
+    {
+      "number": 11,
+      "name": "Camping backpack",
+      "map": [
+        "AAABBC",
+        "ADBBEC",
+        "ADDBEC",
+        "FFDDEE",
+        "FFGGGG"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "Big pieces!",
+      "bannerSubtitle": "Some items take 5 squares",
+      "ruleChips": [
+        "🧩 5-square items"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "hat",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "sunglasses",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "ball",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "umbrella",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "apple",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "carrot",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#4E7D4A",
+        "rim": "#365A33",
+        "lining": "#EEF3E3",
+        "line": "#466E3C2E",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 12,
+      "name": "Grocery bag",
+      "map": [
+        "AAABBB",
+        "CCADEE",
+        "CCADEE",
+        "CFFDGG",
+        "FFHDDG",
+        "FHHHGG"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: heavy items",
+      "bannerSubtitle": "⚓ Heavy things touch the bottom",
+      "ruleChips": [
+        "⚓ Heavy at the bottom"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "hat",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "sunglasses",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "ball",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "umbrella",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "book",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "cheese",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "camera",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#C98A4B",
+        "rim": "#9C6630",
+        "lining": "#FBF1E2",
+        "line": "#9664282E",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 13,
+      "name": "Bathroom cabinet",
+      "map": [
+        "AAABBB",
+        "CAABDD",
+        "CE#DDF",
+        "CEE#DF",
+        "GGEEHF",
+        "GHHHHF"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: upright",
+      "bannerSubtitle": "⬆️ Bottles can’t be turned",
+      "ruleChips": [
+        "⬆️ Bottles stay upright"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "hat",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "sunglasses",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "toothbrush",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "ball",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "umbrella",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#7FB7C9",
+        "rim": "#5A93A6",
+        "lining": "#F2FAFC",
+        "line": "#3C82962E",
+        "block": "#3C829652",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 14,
+      "name": "Road trip trunk",
+      "map": [
+        "AAABBBC",
+        "DAAEECC",
+        "DDFEEGG",
+        "DFFHIIG",
+        "FFHHHIG",
+        "JJJJHII"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "Mix it up",
+      "bannerSubtitle": "Heavy, upright and pairs",
+      "ruleChips": [
+        "⚓ Heavy bottom",
+        "⬆️ Upright",
+        "🔗 Pairs"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "shirt",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "hat",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "sunglasses",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "ball",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "sock",
+          "startTurns": 0,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "I",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "J",
+          "item": "cheese",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#3A3F4A",
+        "rim": "#262A31",
+        "lining": "#E9ECF1",
+        "line": "#3C465A24",
+        "block": "#1E1E2859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 15,
+      "name": "World tour suitcase",
+      "map": [
+        "AABCCDD",
+        "AEBBCFF",
+        "GEBCCFF",
+        "GEEHHHI",
+        "GJJKLLI",
+        "GGJKKLI",
+        "MMMMKLL"
+      ],
+      "timerSeconds": 75,
+      "bannerTitle": "Final boss!",
+      "bannerSubtitle": "Every rule, no outlines",
+      "ruleChips": [
+        "🎒 Carry-on",
+        "🧳 Checked",
+        "⚓ Heavy",
+        "⬆️ Upright",
+        "🔗 Pairs"
+      ],
+      "zoneMap": [
+        "aaabbbb",
+        "aaaabbb",
+        "aaabbbb",
+        "aaabbbb",
+        "aaabbbb",
+        "aaabbbb",
+        "aaaabbb"
+      ],
+      "zones": [
+        {
+          "key": "a",
+          "icon": "🎒",
+          "name": "Carry-on",
+          "color": "#F2C14E47"
+        },
+        {
+          "key": "b",
+          "icon": "🧳",
+          "name": "Checked",
+          "color": "#4DA3E638"
+        }
+      ],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "a",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "B",
+          "item": "sock",
+          "startTurns": 3,
+          "zone": "a",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "C",
+          "item": "shirt",
+          "startTurns": 0,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "D",
+          "item": "hat",
+          "startTurns": 1,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "E",
+          "item": "sock",
+          "startTurns": 2,
+          "zone": "a",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "F",
+          "item": "sneaker",
+          "startTurns": 3,
+          "zone": "b",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "G",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "a",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false
+        },
+        {
+          "letter": "H",
+          "item": "sunglasses",
+          "startTurns": 1,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "I",
+          "item": "sneaker",
+          "startTurns": 2,
+          "zone": "b",
+          "pair": 1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "J",
+          "item": "ball",
+          "startTurns": 3,
+          "zone": "a",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "K",
+          "item": "umbrella",
+          "startTurns": 0,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "L",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "b",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        },
+        {
+          "letter": "M",
+          "item": "cheese",
+          "startTurns": 2,
+          "zone": "a",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false
+        }
+      ],
+      "theme": {
+        "frame": "#E5484D",
+        "rim": "#B23338",
+        "lining": "#FFF4EE",
+        "line": "#B4463C24",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": true
+      }
+    }
+  ]
+}
