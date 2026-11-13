@@ -4,12 +4,12 @@ using UnityEngine;
 namespace PackItPerfect
 {
     /// <summary>Semantic audio identifiers; UI and gameplay never select clips directly.</summary>
-    public enum GameSound { Pickup, Place, Rotate, Invalid, Zipper, Win, Tick, UI }
+    public enum GameSound { Pickup, Place, Rotate, Invalid, Zipper, Win, Tick, UI, Booster }
 
     /// <summary>Owns a bounded voice bank and original short procedural PCM clips; no downloads or imported audio.</summary>
     public sealed class GameAudio : IDisposable
     {
-        readonly AudioClip[] _clips = new AudioClip[8];
+        readonly AudioClip[] _clips = new AudioClip[(int)GameSound.Booster + 1];
         readonly AudioSource[] _voices;
         readonly GameObject _root;
         readonly AudioTuning _tuning;
@@ -40,6 +40,7 @@ namespace PackItPerfect
             _clips[(int)GameSound.Zipper] = ToneClip("Zipper", tuning.zipper);
             _clips[(int)GameSound.Tick] = ToneClip("Tick", tuning.tick);
             _clips[(int)GameSound.UI] = ToneClip("UI", tuning.ui);
+            _clips[(int)GameSound.Booster] = ToneClip("Booster", tuning.booster);
             _clips[(int)GameSound.Win] = VictoryClip();
         }
 

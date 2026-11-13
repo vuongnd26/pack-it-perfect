@@ -16,6 +16,7 @@ namespace PackItPerfect
         float remaining;
         int shownSeconds;
         bool running;
+        float frozen;
 
         /// <summary>Raised with the seconds left each time the shown value changes, once on Start, and with 0 on expiry.</summary>
         public event Action<int> SecondTick;
@@ -45,6 +46,35 @@ namespace PackItPerfect
         /// <summary>True while running and past the start delay.</summary>
         public bool IsCounting => running && delay <= 0f;
 
+        /// <summary>Raised when a freeze starts (true) or ends (false), including when Start or Stop cancels one.</summary>
+        public event Action<bool> FreezeChanged;
+        /// <summary>True while a Freeze booster is holding the countdown.</summary>
+        public bool IsFrozen => frozen > 0f;
+        /// <summary>Seconds of freeze left (0 when not frozen).</summary>
+        public float FrozenRemaining => frozen;
+        /// <summary>
+        /// Holds the countdown for <paramref name="seconds"/>. Only works while the clock is counting (running, past its
+        /// start delay, not expired) and not already frozen: freezes never stack and never revive an expired level.
+        /// </summary>
+        /// <returns>True if the freeze started.</returns>
+        public bool Freeze(float seconds)
+        {
+            if (!IsCounting || IsFrozen || seconds <= 0f || remaining <= 0f)
+            {
+                return false;
+            }
+            frozen = seconds;
+            FreezeChanged?.Invoke(true);
+            return true;
+        }
+        void EndFreeze()
+        {
+            if (frozen > 0f)
+            {
+                frozen = 0f;
+                FreezeChanged?.Invoke(false);
+            }
+        }
         /// <summary>Exact seconds left.</summary>
         public float Remaining => remaining;
 
@@ -59,6 +89,7 @@ namespace PackItPerfect
                 Stop();
                 return;
             }
+            EndFreeze();
             remaining = seconds;
             delay = Math.Max(0f, startDelay);
             shownSeconds = seconds;
@@ -67,7 +98,11 @@ namespace PackItPerfect
         }
 
         /// <summary>Stops the countdown (e.g. on win); the remaining time is kept for display.</summary>
-        public void Stop() => running = false;
+        public void Stop()
+        {
+            running = false;
+            EndFreeze();
+        }
 
         /// <summary>Advances the countdown by <paramref name="deltaTime"/> seconds (pass unscaled time).</summary>
         public void Tick(float deltaTime)
@@ -85,6 +120,21 @@ namespace PackItPerfect
                 }
                 deltaTime = -delay;
                 delay = 0f;
+            }
+            if (frozen > 0f)
+            {
+                // The freeze absorbs time first; only what is left over reaches the countdown.
+                if (deltaTime < frozen)
+                {
+                    frozen -= deltaTime;
+                    return;
+                }
+                deltaTime -= frozen;
+                EndFreeze();
+                if (deltaTime <= 0f)
+                {
+                    return;
+                }
             }
             remaining = Math.Max(0f, remaining - deltaTime);
             int seconds = (int)Math.Ceiling(remaining);

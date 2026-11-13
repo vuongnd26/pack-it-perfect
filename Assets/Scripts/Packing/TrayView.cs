@@ -75,6 +75,28 @@ namespace PackItPerfect
             return new Vector3(center.x - shape.Width * scale / 2f, center.y + shape.Height * scale / 2f, 0f);
         }
 
+        /// <summary>Nearest available slot within a bounded margin; exact hits win and ties keep data order.</summary>
+        public int HitTestExpanded(Vector2 world, Func<int, bool> isInTray, float margin)
+        {
+            int exact = HitTest(world, isInTray);
+            if (exact >= 0) return exact;
+            if (margin <= 0f) return -1;
+            var allowed = new Rect(Bounds.xMin - margin, Bounds.yMin - margin,
+                Bounds.width + margin * 2f, Bounds.height + margin * 2f);
+            if (!allowed.Contains(world)) return -1;
+            int nearest = -1;
+            float distance = margin * margin;
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (!isInTray(i)) continue;
+                var closest = new Vector2(Mathf.Clamp(world.x, slots[i].xMin, slots[i].xMax),
+                    Mathf.Clamp(world.y, slots[i].yMin, slots[i].yMax));
+                float squared = (closest - world).sqrMagnitude;
+                if (squared < distance) { distance = squared; nearest = i; }
+            }
+            return nearest;
+        }
+
         /// <summary>Index of the slot under the world point whose piece is in the tray, or -1.</summary>
         public int HitTest(Vector2 world, Func<int, bool> isInTray)
         {

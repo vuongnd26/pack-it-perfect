@@ -1,9 +1,11 @@
-// In-level HUD: top band (home, level pill, timer, level name, fill %, rule chips) and bottom bar (Hint, Restart).
-// Implements: design/game-brief.md "Cơ chế chính" (Thanh %), "Booster" ("💡 Hint"), "Cơ chế chính" (Hẹn giờ).
+// In-level HUD: top band (round pause button, level pill with the level name, timer pill, compact rule chips) and the
+// bottom booster dock (Undo, Hint, Auto Pack, Freeze) with a toast line above it.
+// Implements: design/game-brief.md "Cơ chế chính" (Hẹn giờ), "Nâng cấp Cozy Travel" (HUD gọn, booster dock).
 // Stories: production/epics/pack-it-perfect/story-006-timer-mode.md, story-007-progression-meta.md
 
 using System;
 using System.Collections.Generic;
+using PackItPerfect.Meta;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,34 +15,43 @@ namespace PackItPerfect.UI
     /// <summary>Displays level state; raises button events and never changes game state itself.</summary>
     public sealed class HudView
     {
-        const float ROW_GAP = 14f;
-        const float CHIP_SPACING = 16f;
-        const float CHIP_PADDING_X = 24;
-        const float BUTTON_GAP = 32f;
-        const float PERCENT = 100f;
+        const float NAME_GAP = 4f;
+        const float TOAST_RADIUS = 32f;
+        const float TOAST_PADDING = 28f;
+        const float CHIP_MIN_FONT_SHARE = 0.6f;
 
         readonly UIFactory factory;
         readonly UITuning tuning;
+        readonly UIAnimator animator;
         readonly GameObject root;
         readonly CanvasGroup interaction;
         readonly TextMeshProUGUI levelLabel;
         readonly TextMeshProUGUI nameLabel;
         readonly TextMeshProUGUI fillLabel;
         readonly RectTransform chipRow;
+        readonly RectTransform dock;
         readonly List<GameObject> chips = new List<GameObject>();
+        readonly DockSlot undoSlot;
+        readonly DockSlot[] boosterSlots = new DockSlot[BoosterBundle.TYPE_COUNT];
+        readonly GameObject toast;
+        readonly CanvasGroup toastGroup;
+        readonly TextMeshProUGUI toastText;
+        readonly object toastKey = new object();
+        bool undoUsable = true;
 
-        /// <summary>Home button clicked.</summary>
-        public event Action HomeClicked;
-        /// <summary>"💡 Hint" clicked.</summary>
-        public event Action HintClicked;
-        /// <summary>Restart clicked.</summary>
-        public event Action RestartClicked;
+        /// <summary>Pause button clicked.</summary>
+        public event Action PauseClicked;
+        /// <summary>Undo slot clicked.</summary>
+        public event Action UndoClicked;
+        /// <summary>A booster slot (Hint, Auto Pack, Freeze) clicked, locked or not.</summary>
+        public event Action<BoosterType> BoosterClicked;
 
         /// <summary>Builds the HUD under <paramref name="parent"/> (hidden until <see cref="SetVisible"/>).</summary>
-        public HudView(UIFactory factory, Transform parent, UITuning tuning)
+        public HudView(UIFactory factory, Transform parent, UITuning tuning, UIAnimator animator)
         {
             this.factory = factory;
             this.tuning = tuning;
+            this.animator = animator;
             var rootRect = UIFactory.CreateRect("HUD", parent);
             UIFactory.Stretch(rootRect);
             root = rootRect.gameObject;
@@ -49,67 +60,78 @@ namespace PackItPerfect.UI
 
             var top = UIFactory.CreateRect("Top Band", safe);
             UIFactory.TopStrip(top, 0f, tuning.hudHeight, tuning.sideMargin);
-            float rowTop = ROW_GAP;
+            float rowTop = tuning.hudTopMargin;
 
-            var home = factory.Button("HUD Home", top, UIStrings.HOME_ICON, ButtonStyle.Secondary, tuning.buttonFontSize,
-                () => HomeClicked?.Invoke());
-            UIFactory.Place(home.Root, new Vector2(0f, 1f), new Vector2(0f, -rowTop), Vector2.one * tuning.hudButtonSize);
-            factory.ButtonIcon(home, "ui_home", iconOnly: true);
+            PauseButton = factory.RoundButton("HUD Pause", top, UIStrings.PAUSE_ICON, ButtonStyle.Secondary,
+                tuning.buttonFontSize, tuning.hudButtonSize, () => PauseClicked?.Invoke());
+            UIFactory.Place(PauseButton.Root, new Vector2(0f, 1f), new Vector2(0f, -rowTop), Vector2.one * tuning.hudButtonSize);
+            factory.ButtonIcon(PauseButton, "ui_pause", iconOnly: true);
 
-            var levelPill = factory.Panel("Level Pill", top, tuning.ink, tuning.hudRowHeight / 2f);
-            UIFactory.Place(levelPill.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -rowTop),
-                new Vector2(tuning.levelPillWidth, tuning.hudRowHeight));
+            var levelPill = factory.Panel("Level Pill", top, tuning.ink, tuning.hudPillHeight / 2f);
+            UIFactory.TopStrip(levelPill.rectTransform, rowTop, tuning.hudPillHeight, 0f);
+            levelPill.rectTransform.offsetMin = new Vector2(tuning.hudButtonSize + tuning.chipSpacing, levelPill.rectTransform.offsetMin.y);
+            levelPill.rectTransform.offsetMax = new Vector2(-tuning.timerPillWidth - tuning.chipSpacing, levelPill.rectTransform.offsetMax.y);
             levelLabel = factory.Text("Level", levelPill.transform, string.Empty, tuning.bodyFontSize, Color.white, FontStyles.Bold);
             levelLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            levelLabel.enableAutoSizing = true;
+            levelLabel.fontSizeMax = tuning.bodyFontSize;
+            levelLabel.fontSizeMin = tuning.hudNameFontSize;
             UIFactory.Stretch(levelLabel.rectTransform);
+
+            nameLabel = factory.Text("Level Name", top, string.Empty, tuning.hudNameFontSize, tuning.ink, FontStyles.Bold);
+            nameLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            nameLabel.enableAutoSizing = true;
+            nameLabel.fontSizeMax = tuning.hudNameFontSize;
+            nameLabel.fontSizeMin = tuning.hudNameFontSize * CHIP_MIN_FONT_SHARE;
+            UIFactory.TopStrip(nameLabel.rectTransform, rowTop + tuning.hudPillHeight + NAME_GAP, tuning.hudNameHeight, 0f);
+            nameLabel.rectTransform.offsetMin = new Vector2(tuning.hudButtonSize + tuning.chipSpacing, nameLabel.rectTransform.offsetMin.y);
+            nameLabel.rectTransform.offsetMax = new Vector2(-tuning.timerPillWidth - tuning.chipSpacing, nameLabel.rectTransform.offsetMax.y);
 
             Timer = new TimerView(factory, top, tuning);
             UIFactory.Place(Timer.Root, new Vector2(1f, 1f), new Vector2(0f, -rowTop),
-                new Vector2(tuning.timerPillWidth, tuning.hudRowHeight));
+                new Vector2(tuning.timerPillWidth, tuning.hudPillHeight));
             Timer.SetVisible(false);
 
-            float nameTop = rowTop + tuning.hudRowHeight + ROW_GAP;
-            float nameHeight = tuning.chipHeight + ROW_GAP;
-            nameLabel = factory.Text("Level Name", top, string.Empty, tuning.bodyFontSize + 6f, tuning.ink, FontStyles.Bold);
-            nameLabel.textWrappingMode = TextWrappingModes.NoWrap;
-            nameLabel.enableAutoSizing = true;
-            nameLabel.fontSizeMax = tuning.bodyFontSize + 6f;
-            nameLabel.fontSizeMin = tuning.smallFontSize;
-            UIFactory.TopStrip(nameLabel.rectTransform, nameTop, nameHeight, tuning.fillPillWidth + ROW_GAP);
-
-            var fillPill = factory.Panel("Fill Pill", top, tuning.panel, nameHeight / 2f);
-            UIFactory.Place(fillPill.rectTransform, new Vector2(1f, 1f), new Vector2(0f, -nameTop),
-                new Vector2(tuning.fillPillWidth, nameHeight));
-            fillLabel = factory.Text("Fill", fillPill.transform, string.Empty, tuning.bodyFontSize, tuning.primaryShadow, FontStyles.Bold);
-            fillLabel.textWrappingMode = TextWrappingModes.NoWrap;
-            UIFactory.Stretch(fillLabel.rectTransform);
-
             chipRow = UIFactory.CreateRect("Rule Chips", top);
-            UIFactory.TopStrip(chipRow, nameTop + nameHeight + ROW_GAP, tuning.chipHeight, 0f);
-            var rowLayout = chipRow.gameObject.AddComponent<HorizontalLayoutGroup>();
-            rowLayout.spacing = CHIP_SPACING;
-            rowLayout.childAlignment = TextAnchor.MiddleCenter;
-            rowLayout.childControlWidth = true;
-            rowLayout.childControlHeight = true;
-            rowLayout.childForceExpandWidth = false;
-            rowLayout.childForceExpandHeight = true;
+            UIFactory.TopStrip(chipRow, tuning.chipRowTop, tuning.chipHeight, 0f);
+            chipRow.gameObject.AddComponent<ResponsiveUILayout>().ConfigureFlow(tuning.chipSpacing,
+                tuning.chipHeight, tuning.chipPaddingX);
 
-            var bottom = UIFactory.CreateRect("Bottom Bar", safe);
-            bottom.anchorMin = new Vector2(0f, 0f);
-            bottom.anchorMax = new Vector2(1f, 0f);
-            bottom.pivot = new Vector2(0.5f, 0f);
-            bottom.anchoredPosition = new Vector2(0f, tuning.bottomBarMargin);
-            bottom.sizeDelta = new Vector2(-2f * tuning.sideMargin, tuning.bottomBarHeight);
+            fillLabel = factory.Text("Fill", top, string.Empty, tuning.hudNameFontSize, tuning.ink, FontStyles.Bold);
+            UIFactory.Place(fillLabel.rectTransform, new Vector2(1f, 1f),
+                new Vector2(0f, -(rowTop + tuning.hudPillHeight + NAME_GAP)),
+                new Vector2(tuning.timerPillWidth, tuning.hudNameHeight));
+            fillLabel.gameObject.SetActive(false);
 
-            var hint = factory.Button("HUD Hint", bottom, UIStrings.HINT_LABEL, ButtonStyle.Accent, tuning.buttonFontSize,
-                () => HintClicked?.Invoke());
-            HalfWidth(hint.Root, left: true);
-            var restart = factory.Button("HUD Restart", bottom, UIStrings.RESTART, ButtonStyle.Secondary, tuning.buttonFontSize,
-                () => RestartClicked?.Invoke());
-            HalfWidth(restart.Root, left: false);
-            factory.ButtonIcon(hint, "ui_hint");
-            factory.ButtonIcon(restart, "ui_restart");
-            HintButton = hint;
+            dock = UIFactory.CreateRect("Booster Dock", safe);
+            dock.anchorMin = new Vector2(0f, 0f);
+            dock.anchorMax = new Vector2(1f, 0f);
+            dock.pivot = new Vector2(0.5f, 0f);
+            dock.anchoredPosition = new Vector2(0f, tuning.bottomBarMargin);
+            dock.sizeDelta = new Vector2(-2f * tuning.sideMargin, tuning.bottomBarHeight);
+            dock.gameObject.AddComponent<ResponsiveUILayout>().ConfigureFlow(tuning.dockSpacing,
+                tuning.dockSlotSize, 0f, false);
+
+            undoSlot = new DockSlot(factory, dock, tuning, animator, "HUD Undo", "ui_undo", UIStrings.UNDO, false,
+                () => UndoClicked?.Invoke());
+            boosterSlots[(int)BoosterType.Hint] = CreateBoosterSlot(BoosterType.Hint, "HUD Hint");
+            boosterSlots[(int)BoosterType.AutoPack] = CreateBoosterSlot(BoosterType.AutoPack, "HUD AutoPack");
+            boosterSlots[(int)BoosterType.Freeze] = CreateBoosterSlot(BoosterType.Freeze, "HUD Freeze");
+
+            var toastImage = factory.Panel("Toast", safe, tuning.bannerBackground, TOAST_RADIUS);
+            toast = toastImage.gameObject;
+            toastGroup = toast.AddComponent<CanvasGroup>();
+            toastGroup.blocksRaycasts = false;
+            toastGroup.interactable = false;
+            UIFactory.Place(toastImage.rectTransform, new Vector2(0.5f, 0f),
+                new Vector2(0f, tuning.bottomBarMargin + tuning.bottomBarHeight + tuning.toastGap),
+                new Vector2(tuning.toastWidth, tuning.toastHeight));
+            toastText = factory.Text("Message", toast.transform, string.Empty, tuning.toastFontSize, Color.white, FontStyles.Bold);
+            toastText.enableAutoSizing = true;
+            toastText.fontSizeMax = tuning.toastFontSize;
+            toastText.fontSizeMin = tuning.toastFontSize * CHIP_MIN_FONT_SHARE;
+            UIFactory.Stretch(toastText.rectTransform, TOAST_PADDING, 0f, TOAST_PADDING, 0f);
+            toast.SetActive(false);
 
             root.SetActive(false);
         }
@@ -117,17 +139,37 @@ namespace PackItPerfect.UI
         /// <summary>The clock pill.</summary>
         public TimerView Timer { get; }
 
-        /// <summary>The Hint button (first focus for gamepads).</summary>
-        public UIButton HintButton { get; }
+        /// <summary>The round pause button.</summary>
+        public UIButton PauseButton { get; }
+
+        /// <summary>The Hint slot's button (first focus for gamepads).</summary>
+        public UIButton FirstFocus => boosterSlots[(int)BoosterType.Hint].Button;
 
         /// <summary>Height of the top band in reference pixels, below the safe-area top.</summary>
-        public float TopBandHeight => tuning.hudHeight;
+        public float TopBandHeight => Mathf.Max(tuning.hudHeight, tuning.chipRowTop + chipRow.rect.height + tuning.chipSpacing);
 
-        /// <summary>Height of the bottom bar plus its margin in reference pixels, above the safe-area bottom.</summary>
-        public float BottomBandHeight => tuning.bottomBarHeight + tuning.bottomBarMargin;
+        /// <summary>Displays board occupancy as a percentage. The game layer supplies a normalized 0..1 fraction.</summary>
+        public void SetFill(float fraction)
+        {
+            fillLabel.gameObject.SetActive(true);
+            fillLabel.text = TmpText.Clean(string.Format(UIStrings.FILL_FORMAT, Mathf.RoundToInt(Mathf.Clamp01(fraction) * 100f)));
+        }
+
+        /// <summary>Height of the dock plus its margin in reference pixels, above the safe-area bottom.</summary>
+        public float BottomBandHeight => Mathf.Max(tuning.bottomBarHeight, dock.rect.height) + tuning.bottomBarMargin;
 
         /// <summary>Shows or hides the whole HUD.</summary>
-        public void SetVisible(bool visible) => root.SetActive(visible);
+        public void SetVisible(bool visible)
+        {
+            if (!visible)
+            {
+                animator.Cancel(toastKey);
+                toast.SetActive(false);
+                undoSlot.ResetMotion();
+                foreach (var slot in boosterSlots) slot.ResetMotion();
+            }
+            root.SetActive(visible);
+        }
 
         /// <summary>Keeps the HUD visible but excludes covered controls from pointer and navigation input.</summary>
         public void SetInteractable(bool enabled)
@@ -137,12 +179,13 @@ namespace PackItPerfect.UI
         }
 
         /// <summary>Shows a level's number, name and rule chips.</summary>
-        public void Bind(LevelInfo info, int levelCount)
+        public void Bind(LevelInfo info)
         {
-            levelLabel.text = TmpText.Clean(string.Format(UIStrings.LEVEL_PILL_FORMAT, info?.Number ?? 0, levelCount));
+            levelLabel.text = TmpText.Clean(string.Format(UIStrings.LEVEL_PILL_FORMAT, info?.Number ?? 0));
             nameLabel.text = TmpText.Clean(info?.Name);
             foreach (var chip in chips)
             {
+                chip.SetActive(false);
                 UnityEngine.Object.Destroy(chip);
             }
             chips.Clear();
@@ -156,35 +199,74 @@ namespace PackItPerfect.UI
             }
         }
 
-        /// <summary>Shows the filled share (0..1) as a whole percentage.</summary>
-        public void SetFill(float fill)
+        /// <summary>Shows the timer pill and the Freeze slot on timed levels, hides both otherwise (the dock recentres).</summary>
+        public void SetTimed(bool timed)
         {
-            int percent = Mathf.RoundToInt(Mathf.Clamp01(fill) * PERCENT);
-            fillLabel.text = string.Format(UIStrings.FILL_FORMAT, percent);
+            Timer.SetVisible(timed);
+            boosterSlots[(int)BoosterType.Freeze].SetVisible(timed);
+            LayoutRebuilder.MarkLayoutForRebuild(dock);
         }
+
+        /// <summary>Updates lock state, count badge and usable look of the three booster slots.</summary>
+        /// <param name="progress">Source of unlocks and counts.</param>
+        /// <param name="frozen">True while a Freeze is running (the Freeze slot looks unusable).</param>
+        public void RefreshBoosters(ProgressService progress, bool frozen)
+        {
+            for (int i = 0; i < boosterSlots.Length; i++)
+            {
+                var type = (BoosterType)i;
+                var slot = boosterSlots[i];
+                bool locked = !progress.IsBoosterUnlocked(type);
+                int count = progress.BoosterCount(type);
+                slot.SetLocked(locked, progress.Rules.UnlockAfterLevel(type));
+                slot.SetCount(count);
+                slot.SetUsable(count > 0 && !(type == BoosterType.Freeze && frozen));
+            }
+        }
+
+        /// <summary>Dims the Undo slot when there is nothing to undo. Cheap to call every frame.</summary>
+        public void SetUndoUsable(bool usable)
+        {
+            if (usable == undoUsable)
+            {
+                return;
+            }
+            undoUsable = usable;
+            undoSlot.SetUsable(usable);
+        }
+
+        /// <summary>Shakes a booster slot (a refused tap).</summary>
+        public void ShakeBooster(BoosterType type) => boosterSlots[(int)type].Shake();
+
+        /// <summary>Shakes the Undo slot.</summary>
+        public void ShakeUndo() => undoSlot.Shake();
+
+        /// <summary>Bounces a booster slot after it was used.</summary>
+        public void BounceBooster(BoosterType type) => boosterSlots[(int)type].PlayUse();
+
+        /// <summary>Bounces the Undo slot.</summary>
+        public void BounceUndo() => undoSlot.PlayUse();
+
+        /// <summary>Shows a short message above the dock; it fades after <see cref="UITuning.toastHold"/> seconds.</summary>
+        public void ShowToast(string message)
+        {
+            toastText.text = TmpText.Clean(message);
+            toast.SetActive(true);
+            animator.Play(toastKey, tuning.toastHold, tuning.toastFade, t => toastGroup.alpha = 1f - t,
+                () => toast.SetActive(false));
+        }
+
+        DockSlot CreateBoosterSlot(BoosterType type, string id) => new DockSlot(factory, dock, tuning, animator, id,
+            UIStrings.BoosterArt(type), UIStrings.BoosterName(type), true, () => BoosterClicked?.Invoke(type));
 
         GameObject CreateChip(string text)
         {
             var chip = factory.Panel("Chip", chipRow, tuning.panel, tuning.chipHeight / 2f);
-            var layout = chip.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.padding = new RectOffset((int)CHIP_PADDING_X, (int)CHIP_PADDING_X, 0, 0);
-            layout.childAlignment = TextAnchor.MiddleCenter;
-            layout.childControlWidth = true;
-            layout.childControlHeight = true;
-            layout.childForceExpandWidth = false;
-            layout.childForceExpandHeight = true;
             var label = factory.Text("Text", chip.transform, text, tuning.chipFontSize, tuning.ink);
-            label.textWrappingMode = TextWrappingModes.NoWrap;
+            label.textWrappingMode = TextWrappingModes.Normal;
+            label.enableAutoSizing = false;
+            UIFactory.Stretch(label.rectTransform, tuning.chipPaddingX, 0f, tuning.chipPaddingX, 0f);
             return chip.gameObject;
-        }
-
-        void HalfWidth(RectTransform rect, bool left)
-        {
-            rect.anchorMin = new Vector2(left ? 0f : 0.5f, 0f);
-            rect.anchorMax = new Vector2(left ? 0.5f : 1f, 1f);
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.offsetMin = new Vector2(left ? 0f : BUTTON_GAP / 2f, 0f);
-            rect.offsetMax = new Vector2(left ? -BUTTON_GAP / 2f : 0f, 0f);
         }
     }
 }

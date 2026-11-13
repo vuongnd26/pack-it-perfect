@@ -17,13 +17,19 @@ namespace PackItPerfect.Meta
 
         readonly ISaveStore store;
         readonly ProgressData data;
+        readonly ProgressionRules rules;
 
         /// <summary>Raised when a win improves a level's best stars (a first win included).</summary>
         public event Action Changed;
 
         /// <summary>Loads progress from <paramref name="saveStore"/> (empty progress if none) for <paramref name="levelCount"/> levels.</summary>
-        public ProgressService(ISaveStore saveStore, int levelCount)
+        public ProgressService(ISaveStore saveStore, int levelCount) : this(saveStore, levelCount, null)
         {
+        }
+        /// <summary>Loads progress and applies <paramref name="progression"/> (booster unlocks and rewards; null = none).</summary>
+        public ProgressService(ISaveStore saveStore, int levelCount, ProgressionRules progression)
+        {
+            rules = progression ?? ProgressionRules.Empty();
             store = saveStore ?? throw new ArgumentNullException(nameof(saveStore));
             LevelCount = Math.Max(0, levelCount);
             data = store.Load() ?? new ProgressData();
@@ -131,6 +137,73 @@ namespace PackItPerfect.Meta
             return improved;
         }
 
+        /// <summary>Raised when a booster count changes (spent or rewarded).</summary>
+        public event Action BoostersChanged;
+        /// <summary>The progression rules in force.</summary>
+        public ProgressionRules Rules => rules;
+        /// <summary>Charges of <paramref name="type"/> the player holds.</summary>
+        public int BoosterCount(BoosterType type) => data.boosters[(int)type];
+        /// <summary>True once the level that opens <paramref name="type"/> was won (see <see cref="ProgressionRules.UnlockAfterLevel"/>).</summary>
+        public bool IsBoosterUnlocked(BoosterType type)
+        {
+            int after = rules.UnlockAfterLevel(type);
+            return after <= 0 || IsPassed(after);
+        }
+        /// <summary>Spends one charge of <paramref name="type"/> and saves. Returns false (and changes nothing) when none is left.</summary>
+        public bool TryConsume(BoosterType type)
+        {
+            if (data.boosters[(int)type] <= 0)
+            {
+                return false;
+            }
+            data.boosters[(int)type]--;
+            store.Save(data);
+            BoostersChanged?.Invoke();
+            return true;
+        }
+        /// <summary>
+        /// Records a win like <see cref="RecordWin"/> and hands out what the win earns: the level's milestone reward on its
+        /// first clear, and the 3-star bonus the first time the level reaches 3 stars. Replays never pay twice.
+        /// </summary>
+        public LevelReward CompleteLevel(int level, int stars)
+        {
+            if (!InRange(level) || stars <= 0)
+            {
+                return new LevelReward(false, false, default, new BoosterType[0]);
+            }
+            int before = data.bestStars[level - 1];
+            bool firstClear = before == 0;
+            var unlockedBefore = new bool[BoosterBundle.TYPE_COUNT];
+            for (int i = 0; i < unlockedBefore.Length; i++)
+            {
+                unlockedBefore[i] = IsBoosterUnlocked((BoosterType)i);
+            }
+            var reward = firstClear ? rules.MilestoneReward(level) : default;
+            if (before < MAX_STARS && Math.Min(stars, MAX_STARS) == MAX_STARS)
+            {
+                reward = reward.Plus(rules.ThreeStarBonus);
+            }
+            for (int i = 0; i < BoosterBundle.TYPE_COUNT; i++)
+            {
+                data.boosters[i] += reward.Of((BoosterType)i);
+            }
+            bool improved = RecordWin(level, stars); // saves, boosters included
+            int opened = 0;
+            var unlocked = new BoosterType[BoosterBundle.TYPE_COUNT];
+            for (int i = 0; i < BoosterBundle.TYPE_COUNT; i++)
+            {
+                if (!unlockedBefore[i] && IsBoosterUnlocked((BoosterType)i))
+                {
+                    unlocked[opened++] = (BoosterType)i;
+                }
+            }
+            Array.Resize(ref unlocked, opened);
+            if (!reward.IsEmpty)
+            {
+                BoostersChanged?.Invoke();
+            }
+            return new LevelReward(firstClear, improved, reward, unlocked);
+        }
         /// <summary>Saved audio preference.</summary>
         public bool Muted => data.muted;
 
@@ -145,11 +218,22 @@ namespace PackItPerfect.Meta
             store.Save(data);
         }
 
+        /// <summary>Saved readable UI size, in percent.</summary>
+        public int UIScalePercent => data.uiScalePercent;
+
+        /// <summary>Saves a supported UI size without changing gameplay progress or inventory.</summary>
+        public void SetUIScalePercent(int percent)
+        {
+            data.uiScalePercent = percent == 125 || percent == 150 ? percent : 100;
+            store.Save(data);
+        }
+
         bool InRange(int level) => level >= 1 && level <= LevelCount;
 
         // Fits the loaded array to the level count (levels.json may have grown or shrunk) and clamps bad values.
         void Normalize()
         {
+            if (data.uiScalePercent != 125 && data.uiScalePercent != 150) data.uiScalePercent = 100;
             var old = data.bestStars ?? Array.Empty<int>();
             var fitted = new int[LevelCount];
             for (int i = 0; i < fitted.Length && i < old.Length; i++)
@@ -157,6 +241,31 @@ namespace PackItPerfect.Meta
                 fitted[i] = Math.Max(0, Math.Min(old[i], MAX_STARS));
             }
             data.bestStars = fitted;
+            var held = data.boosters ?? Array.Empty<int>();
+            var boosters = new int[BoosterBundle.TYPE_COUNT];
+            for (int i = 0; i < boosters.Length && i < held.Length; i++)
+            {
+                boosters[i] = Math.Max(0, held[i]);
+            }
+            if (!data.startingBoostersGranted)
+            {
+                // New save, or a version 1 save from before boosters existed: hand out the starting stock once,
+                // plus every milestone the player has already passed so an old save is not short-changed.
+                var grant = rules.StartingBoosters;
+                for (int level = 1; level <= LevelCount; level++)
+                {
+                    if (fitted[level - 1] > 0)
+                    {
+                        grant = grant.Plus(rules.MilestoneReward(level));
+                    }
+                }
+                for (int i = 0; i < boosters.Length; i++)
+                {
+                    boosters[i] += grant.Of((BoosterType)i);
+                }
+                data.startingBoostersGranted = true;
+            }
+            data.boosters = boosters;
             data.version = ProgressData.CURRENT_VERSION;
         }
     }

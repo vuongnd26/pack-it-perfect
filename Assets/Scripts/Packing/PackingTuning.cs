@@ -14,9 +14,36 @@ namespace PackItPerfect
         [Header("Input")]
         [Tooltip("Pointer travel in screen pixels before a press becomes a drag; less is a tap. Prototype: 7.")]
         public float dragThresholdPixels = 7f;
+        [Tooltip("Touch travel in millimetres before dragging; mouse keeps the pixel threshold.")]
+        public float touchDragMillimetres = 1.5f;
+        [Tooltip("Touch threshold bounds in screen pixels; unreliable DPI uses a short-edge-derived estimate.")]
+        public Vector2 touchDragPixelBounds = new Vector2(8f, 28f);
+        [Tooltip("Extra touch reach around tray slots in screen pixels, capped in world cells.")]
+        public float touchHitPaddingPixels = 10f;
+        public float touchHitMaxCells = 0.25f;
 
         [Tooltip("The ghost hides when the pointer is further than this (cells) outside the grid.")]
         public float ghostHideDistance = 1f;
+
+        [Header("Drag lift (Cozy Travel)")]
+        [Tooltip("Cells a touch-dragged piece floats above the finger so the finger never hides it. Rationale: about one finger pad at phone scale.")]
+        public float touchLiftCells = 1.1f;
+        [Tooltip("Cells a mouse-dragged piece floats above the cursor (0: the cursor hides nothing).")]
+        public float mouseLiftCells = 0f;
+        [Tooltip("Seconds the lift takes to ease in after a drag starts.")]
+        public float liftEaseSeconds = 0.08f;
+
+        [Header("Undo and Auto Pack (Cozy Travel)")]
+        [Tooltip("Most player actions Undo can step back through; older ones are forgotten.")]
+        public int undoDepth = 40;
+        [Tooltip("Placements the Auto Pack search tries per frame (keeps a frame under a few milliseconds).")]
+        public int autoPackNodesPerFrame = 2500;
+        [Tooltip("Maximum search candidates. Exhaustion reports unknown without spending a booster; only proven impossibility allows reference fallback.")]
+        public int autoPackNodeLimit = 300000;
+        [Tooltip("Seconds an auto-packed piece takes to fly from the tray into place.")]
+        public float autoPackFlySeconds = 0.38f;
+        [Tooltip("Badge colour of fragile pieces.")]
+        public Color fragileBadgeColor = new Color(0x6C / 255f, 0xC5 / 255f, 0xE8 / 255f, 1f);
 
         [Header("Pieces")]
         [Tooltip("Scale of pieces resting in the tray. Prototype: 0.6.")]

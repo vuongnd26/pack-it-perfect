@@ -95,6 +95,7 @@ namespace PackItPerfect
             if (_ui != null)
             {
                 _ui.ButtonClicked += OnButton;
+                _ui.BoosterUsed += OnBooster;
                 _timer = _ui.Timer;
                 if (_timer != null) _timer.WarningTick += OnTick;
             }
@@ -139,6 +140,7 @@ namespace PackItPerfect
         void OnPickup(int id) => PlaySound(GameSound.Pickup);
         void OnRotate(int id) => PlaySound(GameSound.Rotate);
         void OnButton(string id) => PlaySound(GameSound.UI);
+        void OnBooster() => PlaySound(GameSound.Booster);
         void OnTick() => PlaySound(GameSound.Tick);
         void OnZipper() => PlaySound(GameSound.Zipper);
         void OnWon(int level, int stars) => PlaySound(GameSound.Win);
@@ -219,7 +221,11 @@ namespace PackItPerfect
                 _game.LevelCompleted -= OnCompleted;
                 _game.LevelWon -= OnWon;
             }
-            if (_ui != null) _ui.ButtonClicked -= OnButton;
+            if (_ui != null)
+            {
+                _ui.ButtonClicked -= OnButton;
+                _ui.BoosterUsed -= OnBooster;
+            }
             if (_timer != null) _timer.WarningTick -= OnTick;
             _audio?.Dispose();
             if (_root != null) Destroy(_root.gameObject);

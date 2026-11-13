@@ -32,6 +32,8 @@ namespace PackItPerfect
         public bool upright;
         /// <summary>Shows the 🔗 pair badge.</summary>
         public bool paired;
+        /// <summary>Shows the fragile badge.</summary>
+        public bool fragile;
     }
 
     /// <summary>
@@ -50,17 +52,26 @@ namespace PackItPerfect
         {
             public readonly SpriteRenderer circle;
             public readonly TextMeshPro emoji;
+            public readonly SpriteRenderer art;
             public readonly Corner corner;
 
-            public Badge(SpriteRenderer circle, TextMeshPro emoji, Corner corner)
+            public Badge(SpriteRenderer circle, TextMeshPro emoji, SpriteRenderer art, Corner corner)
             {
                 this.circle = circle;
                 this.emoji = emoji;
+                this.art = art;
                 this.corner = corner;
             }
         }
 
-        enum Corner { TopLeft, BottomLeft, TopRight }
+        enum Corner { TopLeft, BottomLeft, TopRight, BottomRight }
+
+        // Illustrated badge art (Resources/Art); the emoji text is the fallback when a sprite is missing.
+        const string ART_HEAVY = "ui_heavy";
+        const string ART_UPRIGHT = "ui_upright";
+        const string ART_PAIR = "ui_pair";
+        const string ART_FRAGILE = "ui_fragile";
+        const float BADGE_ART_FILL = 0.78f;
 
         readonly SpriteFactory factory;
         readonly PackingTuning tuning;
@@ -139,29 +150,47 @@ namespace PackItPerfect
             }
             if (!string.IsNullOrEmpty(decor.zoneIcon))
             {
-                AddBadge("ZoneBadge", decor.zoneIcon, tuning.zoneBadgeColor, Corner.TopLeft);
+                AddBadge("ZoneBadge", decor.zoneIcon, tuning.zoneBadgeColor, Corner.TopLeft, null);
             }
             if (decor.heavy)
             {
-                AddBadge("HeavyBadge", GameTexts.HEAVY_ICON, tuning.heavyBadgeColor, Corner.BottomLeft);
+                AddBadge("HeavyBadge", GameTexts.HEAVY_ICON, tuning.heavyBadgeColor, Corner.BottomLeft, ART_HEAVY);
             }
             else if (decor.upright)
             {
-                AddBadge("UprightBadge", GameTexts.UPRIGHT_ICON, tuning.uprightBadgeColor, Corner.BottomLeft);
+                AddBadge("UprightBadge", GameTexts.UPRIGHT_ICON, tuning.uprightBadgeColor, Corner.BottomLeft, ART_UPRIGHT);
             }
             if (decor.paired)
             {
-                AddBadge("PairBadge", GameTexts.PAIR_ICON, tuning.pairBadgeColor, Corner.TopRight);
+                AddBadge("PairBadge", GameTexts.PAIR_ICON, tuning.pairBadgeColor, Corner.TopRight, ART_PAIR);
+            }
+            if (decor.fragile)
+            {
+                AddBadge("FragileBadge", GameTexts.FRAGILE_ICON, tuning.fragileBadgeColor, Corner.BottomRight, ART_FRAGILE);
             }
         }
 
-        void AddBadge(string name, string emoji, Color circleColor, Corner corner)
+        void AddBadge(string name, string emoji, Color circleColor, Corner corner, string artName)
         {
             var circle = factory.CreateCircle(Root, name, Vector2.zero, tuning.badgeSize, circleColor, sortingOrder + BADGE_ORDER_OFFSET);
-            var text = TmpText.Create(Root, name + "Icon", emoji, tuning.badgeSize * tuning.badgeEmojiScale, Color.white,
-                sortingOrder + BADGE_TEXT_ORDER_OFFSET);
-            badges.Add(new Badge(circle, text, corner));
+            var sprite = artName != null ? factory.GetArt(artName) : null;
+            TextMeshPro text = null;
+            SpriteRenderer art = null;
+            if (sprite != null)
+            {
+                art = factory.CreateSprite(Root, name + "Art", sprite, Vector2.zero, Vector2.one * tuning.badgeSize * BADGE_ART_FILL,
+                    Color.white, sortingOrder + BADGE_TEXT_ORDER_OFFSET);
+            }
+            else
+            {
+                text = TmpText.Create(Root, name + "Icon", emoji, tuning.badgeSize * tuning.badgeEmojiScale, Color.white,
+                    sortingOrder + BADGE_TEXT_ORDER_OFFSET);
+            }
+            badges.Add(new Badge(circle, text, art, corner));
         }
+
+        /// <summary>Explicit visual orientation: clockwise quarter turns from the solution orientation (0–3).</summary>
+        public int ArtQuarterTurns => artQuarterTurns;
 
         /// <summary>Updates the footprint and draws the whole object, or legacy cells when no artwork is bound.</summary>
         /// <param name="shape">The existing logical footprint; never changed by this view.</param>
@@ -258,11 +287,14 @@ namespace PackItPerfect
             float half = tuning.badgeSize / 2f + tuning.badgeMargin;
             foreach (var badge in badges)
             {
-                float x = badge.corner == Corner.TopRight ? first.x + 1f - half : first.x + half;
-                float y = badge.corner == Corner.BottomLeft ? first.y + 1f - half : first.y + half;
+                bool rightSide = badge.corner == Corner.TopRight || badge.corner == Corner.BottomRight;
+                bool bottomSide = badge.corner == Corner.BottomLeft || badge.corner == Corner.BottomRight;
+                float x = rightSide ? first.x + 1f - half : first.x + half;
+                float y = bottomSide ? first.y + 1f - half : first.y + half;
                 var position = new Vector3(x, -y, 0f);
                 badge.circle.transform.localPosition = position;
-                badge.emoji.transform.localPosition = position;
+                if (badge.emoji != null) badge.emoji.transform.localPosition = position;
+                if (badge.art != null) badge.art.transform.localPosition = position;
             }
         }
 
@@ -329,7 +361,8 @@ namespace PackItPerfect
                 var c = badge.circle.color;
                 c.a = opacity;
                 badge.circle.color = c;
-                badge.emoji.alpha = opacity;
+                if (badge.emoji != null) badge.emoji.alpha = opacity;
+                if (badge.art != null) badge.art.color = new Color(1f, 1f, 1f, opacity);
             }
         }
 
@@ -350,7 +383,8 @@ namespace PackItPerfect
             foreach (var badge in badges)
             {
                 badge.circle.sortingOrder = order + BADGE_ORDER_OFFSET;
-                badge.emoji.sortingOrder = order + BADGE_TEXT_ORDER_OFFSET;
+                if (badge.emoji != null) badge.emoji.sortingOrder = order + BADGE_TEXT_ORDER_OFFSET;
+                if (badge.art != null) badge.art.sortingOrder = order + BADGE_TEXT_ORDER_OFFSET;
             }
         }
 

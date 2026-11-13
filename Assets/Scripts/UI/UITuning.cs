@@ -67,17 +67,82 @@ namespace PackItPerfect.UI
         public float chipFontSize = 34f;
 
         [Header("HUD")]
-        [Tooltip("Height of the top HUD band; the board is fitted below it.")]
-        public float hudHeight = 320f;
-        public float hudRowHeight = 120f;
+        [Tooltip("Height of the top HUD band (pause, level pill, timer, rule chips); the board is fitted below it.")]
+        public float hudHeight = 200f;
+        [Tooltip("Gap above the first HUD row.")]
+        public float hudTopMargin = 10f;
+        [Tooltip("Diameter of the round pause button.")]
         public float hudButtonSize = 120f;
-        public float levelPillWidth = 420f;
-        public float timerPillWidth = 230f;
-        public float fillPillWidth = 170f;
-        public float chipHeight = 64f;
-        [Tooltip("Height of the bottom bar (Hint, Restart); the board is fitted above it.")]
-        public float bottomBarHeight = 140f;
-        public float bottomBarMargin = 32f;
+        public float hudPillHeight = 76f;
+        public float hudNameHeight = 42f;
+        public float hudNameFontSize = 34f;
+        public float levelPillWidth = 300f;
+        public float timerPillWidth = 250f;
+        [Tooltip("Distance from the top of the band to the rule chip row.")]
+        public float chipRowTop = 140f;
+        public float chipHeight = 50f;
+        public float chipSpacing = 10f;
+        public float chipPaddingX = 18f;
+        [Tooltip("Height of the booster dock; equals the slot diameter. The board is fitted above it.")]
+        public float bottomBarHeight = 132f;
+        public float bottomBarMargin = 18f;
+
+        [Header("Booster dock")]
+        [Tooltip("Diameter of a dock slot (at least 120 reference px for touch).")]
+        public float dockSlotSize = 132f;
+        public float dockSpacing = 36f;
+        public float badgeSize = 52f;
+        public float badgeFontSize = 30f;
+        [Tooltip("How far the count badge sits outside the slot's top-right corner.")]
+        public Vector2 badgeOffset = new Vector2(6f, 6f);
+        public float dockLabelFontSize = 26f;
+        public float lockIconSize = 44f;
+        public float lockLabelFontSize = 28f;
+        [Tooltip("Tint multiplied onto a slot that cannot be used right now.")]
+        public Color dockDisabledTint = new Color(0.72f, 0.72f, 0.72f, 0.9f);
+        [Tooltip("Dark veil over a locked slot.")]
+        public Color dockLockVeil = new Color(0.1f, 0.14f, 0.2f, 0.62f);
+        public Color badgeColor = new Color32(0xE5, 0x48, 0x4D, 0xFF);
+        public Color badgeEmptyColor = new Color32(0x8A, 0x95, 0xA5, 0xFF);
+
+        [Header("Toast")]
+        public float toastWidth = 940f;
+        public float toastHeight = 96f;
+        public float toastFontSize = 34f;
+        public float toastHold = 1.8f;
+        public float toastFade = 0.3f;
+        public float toastGap = 22f;
+
+        [Header("Freeze")]
+        [Tooltip("Timer pill colour while a Freeze holds the clock.")]
+        public Color freezeTint = new Color32(0xBF, 0xE4, 0xFF, 0xFF);
+        public Color freezeText = new Color32(0x16, 0x4A, 0x7A, 0xFF);
+
+        [Header("Pause")]
+        public float pauseCardWidth = 860f;
+        public float pauseButtonHeight = 130f;
+        public float pauseToggleHeight = 110f;
+
+        [Header("Responsive menus")]
+        [Tooltip("Maximum share of safe-area height covered by the bottom result card. Overflow scrolls.")]
+        [Range(0.3f, 0.8f)] public float resultCardHeightShare = 0.55f;
+
+        [Header("Win screen")]
+        [Tooltip("Dim behind the win card; light so the packed container stays visible.")]
+        public Color winDim = new Color(10f / 255f, 16f / 255f, 24f / 255f, 0.35f);
+        public float winCardWidth = 900f;
+        public float winCardBottomMargin = 40f;
+        public float winStarSize = 140f;
+        public float winRewardItemWidth = 210f;
+        public float winRewardItemHeight = 96f;
+        public float winBoosterBlockHeight = 150f;
+        [Tooltip("Fill of the reward chips and the \"New booster!\" blocks on the win card.")]
+        public Color winBlockColor = new Color32(0xFF, 0xEC, 0xB8, 0xFF);
+
+        [Header("Banner")]
+        public float bannerWidth = 780f;
+        public float bannerHeight = 150f;
+        public float bannerHeightSingle = 100f;
 
         [Header("Timer")]
         [Tooltip("Seconds after a timed level loads before the clock starts (lets the banner play).")]
@@ -97,11 +162,24 @@ namespace PackItPerfect.UI
         public float cardPopDuration = 0.25f;
         public float starPopDuration = 0.35f;
         public float starPopStagger = 0.15f;
+        [Tooltip("Delay between reward items popping in on the win card.")]
+        public float rewardPopStagger = 0.12f;
+        public float badgePopDuration = 0.3f;
+        [Range(0.2f, 1f)] public float badgePopStart = 0.5f;
+        public float dockBounceDuration = 0.28f;
+        [Tooltip("Extra scale at the peak of a dock slot bounce.")]
+        public float dockBounceAmount = 0.16f;
+        public float shakeDuration = 0.3f;
+        public float shakeDistance = 14f;
         [Range(0f, 1f)] public float emptyStarAlpha = 0.2f;
 
         [Header("Level select")]
-        public int levelSelectColumns = 3;
-        public Vector2 levelCellSize = new Vector2(280f, 250f);
-        public Vector2 levelCellSpacing = new Vector2(40f, 40f);
+        public int levelSelectColumns = 4;
+        public Vector2 levelCellSize = new Vector2(216f, 216f);
+        public Vector2 levelCellSpacing = new Vector2(24f, 24f);
+        public float giftMarkerSize = 56f;
+
+        [Header("Main screen")]
+        public Vector2 mainBoosterChipSize = new Vector2(190f, 90f);
     }
 }

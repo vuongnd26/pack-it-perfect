@@ -56,6 +56,8 @@ namespace PackItPerfect
         public Tone tick = new Tone(0.045f, 1050f, 720f, 0.22f, 0.25f);
         [Tooltip("Quiet UI confirmation.")]
         public Tone ui = new Tone(0.065f, 720f, 850f, 0.22f);
+        [Tooltip("Bright upward sweep when a booster is used.")]
+        public Tone booster = new Tone(0.2f, 480f, 1000f, 0.3f);
 
         [Header("Victory phrase")]
         [Tooltip("Original short major arpeggio, semitone offsets from the base frequency.")]

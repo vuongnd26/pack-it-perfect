@@ -20,6 +20,19 @@ namespace PackItPerfect
         /// <summary>Label of the Hint button, for the UI wave (brief: Booster).</summary>
         public const string HINT_BUTTON = "💡 Hint";
 
+        /// <summary>Search exhaustion is unknown, not proof that the current board is impossible.</summary>
+        public const string AUTO_PACK_SEARCH_LIMIT = "No answer yet — try moving an item. No booster used.";
+        /// <summary>A geometric Hint target still conflicts with a neighboring rule.</summary>
+        public const string HINT_BLOCKED = "Move heavy items away from fragile items near the hint spot. No booster used.";
+        /// <summary>Shape-independent, non-colour placement cues.</summary>
+        public const string PLACEMENT_VALID = "OK";
+        /// <summary>Invalid preview marker remains legible without red/green discrimination.</summary>
+        public const string PLACEMENT_INVALID = "X";
+
+        /// <summary>Fragile violation toast (Cozy Travel upgrade: fragile items may not touch heavy ones).</summary>
+        public const string FRAGILE_VIOLATION = "Fragile! Keep it away from heavy items";
+        /// <summary>Badge text of fragile pieces when the illustrated badge is missing.</summary>
+        public const string FRAGILE_ICON = "!";
         /// <summary>Badge icon of heavy pieces.</summary>
         public const string HEAVY_ICON = "⚓";
 

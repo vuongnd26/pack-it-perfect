@@ -30,7 +30,8 @@ namespace PackItPerfect.UI
         /// Main ⇄ LevelSelect; Main/LevelSelect → Playing (a level loads; any level load enters Playing);
         /// Playing → Won (LevelWon) | Lost (timer expired) | Main (home);
         /// Won → Playing (next, replay) | LevelSelect | Main; Lost → Playing (try again) | LevelSelect.
-        /// Back key: Playing → Main, LevelSelect → Main, Won/Lost → LevelSelect.</summary>
+        /// Back key: Playing → opens / closes the pause overlay (a flag inside Playing), LevelSelect → Main,
+        /// Won/Lost → LevelSelect.</summary>
         enum UIState { Main, LevelSelect, Playing, Won, Lost }
 
         const float INSET_EPSILON = 0.001f;
@@ -42,6 +43,8 @@ namespace PackItPerfect.UI
         UIAnimator animator;
         UIFactory factory;
         ProgressService progress;
+        ISaveStore saveStoreOverride;
+        ProgressionRules rules;
         GameObject canvasObject;
         RectTransform canvasRect;
 
@@ -51,13 +54,25 @@ namespace PackItPerfect.UI
         BannerView banner;
         WinScreen winScreen;
         LoseScreen loseScreen;
+        PauseScreen pauseScreen;
 
         UIState state;
         bool built;
+        bool paused;
+        bool pendingAutoPack;
+        LevelReward lastReward;
+        int lastRewardLevel;
+        /// <summary>Optional platform safe-area source in screen pixels; null uses the device safe area.</summary>
+        public Func<Rect> SafeAreaProvider { get; set; }
+
+        Rect CurrentSafeArea => SafeAreaProvider != null ? SafeAreaProvider() : Screen.safeArea;
+
         Rect appliedSafeArea;
         Vector2Int appliedScreen;
         float appliedTopInset = -1f;
         float appliedBottomInset = -1f;
+        float appliedLeftInset = -1f;
+        float appliedRightInset = -1f;
 
         PointerEventData pointerData;
         readonly List<RaycastResult> raycastHits = new List<RaycastResult>();
@@ -68,11 +83,24 @@ namespace PackItPerfect.UI
         /// <summary>Any UI button was clicked (its id, e.g. "HUD Hint"). Audio hook for click sounds.</summary>
         public event Action<string> ButtonClicked;
 
+        /// <summary>A Hint, Auto Pack or Freeze was actually used. Audio hook for the booster sound.</summary>
+        public event Action BoosterUsed;
+
         /// <summary>The level countdown. Subscribe to <see cref="LevelTimer.WarningTick"/> to play the clock tick.</summary>
         public LevelTimer Timer => timer;
 
         /// <summary>Saved progress (null until Start).</summary>
         public ProgressService Progress => progress;
+
+        /// <summary>
+        /// Supplies an isolated save store before Start. Used by tests and alternate hosts so initialization
+        /// never reads, migrates or writes the production save. Cannot replace an initialized session's store.
+        /// </summary>
+        public void ConfigureSaveStore(ISaveStore store)
+        {
+            if (progress != null) throw new InvalidOperationException("Configure the save store before Start.");
+            saveStoreOverride = store ?? throw new ArgumentNullException(nameof(store));
+        }
 
         void Awake()
         {
@@ -82,19 +110,25 @@ namespace PackItPerfect.UI
             game.PointerBlocked = IsPointerOverUI;
             game.LevelLoaded += OnLevelLoaded;
             game.FillChanged += OnFillChanged;
+            game.HistoryChanged += OnHistoryChanged;
+            game.AutoPackFinished += OnAutoPackFinished;
             game.LevelWon += OnLevelWon;
             game.LevelCompleted += OnLevelCompleted;
 
             timer = new LevelTimer(tuning.timerWarningSeconds);
             timer.SecondTick += OnTimerSecond;
             timer.Expired += OnTimeUp;
+            timer.FreezeChanged += OnFreezeChanged;
             animator = new UIAnimator();
         }
 
         void Start()
         {
             // PackingGame.Awake has parsed levels.json by now (all Awakes run before any Start).
-            progress = new ProgressService(new JsonSaveStore(JsonSaveStore.DefaultPath), game.LevelCount);
+            rules = LoadRules();
+            // The Cozy Travel build keeps its own save; the 15-level build's progress file is never written here.
+            progress = new ProgressService(saveStoreOverride ?? new JsonSaveStore(JsonSaveStore.CozyPath), game.LevelCount, rules);
+            progress.BoostersChanged += OnBoostersChanged;
             EnsureEventSystem();
             BuildCanvas();
             built = true;
@@ -108,9 +142,15 @@ namespace PackItPerfect.UI
             {
                 game.LevelLoaded -= OnLevelLoaded;
                 game.FillChanged -= OnFillChanged;
+                game.HistoryChanged -= OnHistoryChanged;
+                game.AutoPackFinished -= OnAutoPackFinished;
                 game.LevelWon -= OnLevelWon;
                 game.LevelCompleted -= OnLevelCompleted;
                 game.PointerBlocked = null;
+            }
+            if (progress != null)
+            {
+                progress.BoostersChanged -= OnBoostersChanged;
             }
             if (factory != null)
             {
@@ -137,7 +177,16 @@ namespace PackItPerfect.UI
                 {
                     timer.Stop();
                 }
-                timer.Tick(deltaTime);
+                // The pause overlay stops the clock; it must not drain behind the card.
+                if (!paused)
+                {
+                    timer.Tick(deltaTime);
+                    hud.SetUndoUsable(game.CanUndo);
+                    if (timer.IsFrozen)
+                    {
+                        hud.Timer.SetFrozen(true, Mathf.CeilToInt(timer.FrozenRemaining));
+                    }
+                }
             }
             animator.Tick(deltaTime);
             UpdateSafeArea();
@@ -180,12 +229,20 @@ namespace PackItPerfect.UI
             factory.ButtonClicked += ForwardButtonClicked;
 
             // Sibling order is draw order: HUD, banner, overlays, then the opaque menus on top.
-            hud = new HudView(factory, canvasRect, tuning);
-            hud.HomeClicked += () => ShowState(UIState.Main);
-            hud.HintClicked += game.RequestHint;
-            hud.RestartClicked += game.RestartLevel;
+            hud = new HudView(factory, canvasRect, tuning, animator);
+            hud.PauseClicked += OpenPause;
+            hud.UndoClicked += OnUndoClicked;
+            hud.BoosterClicked += OnBoosterClicked;
 
             banner = new BannerView(factory, canvasRect, tuning, animator);
+
+            pauseScreen = new PauseScreen(factory, canvasRect, tuning, animator);
+            pauseScreen.ResumeClicked += ClosePause;
+            pauseScreen.UISizeClicked += CycleUISize;
+            pauseScreen.RestartClicked += OnPauseRestart;
+            pauseScreen.HomeClicked += () => ShowState(UIState.Main);
+            pauseScreen.SoundClicked += () => SetPreferences(!progress.Muted, progress.ReduceMotion);
+            pauseScreen.MotionClicked += () => SetPreferences(progress.Muted, !progress.ReduceMotion);
 
             winScreen = new WinScreen(factory, canvasRect, tuning, animator, ProgressService.MAX_STARS);
             winScreen.NextClicked += OnNextClicked;
@@ -204,6 +261,7 @@ namespace PackItPerfect.UI
 
             mainScreen = new MainScreen(factory, canvasRect, tuning);
             mainScreen.PlayClicked += OnPlayClicked;
+            mainScreen.UISizeClicked += CycleUISize;
             mainScreen.LevelsClicked += () => ShowState(UIState.LevelSelect);
             mainScreen.SoundClicked += () => SetPreferences(!progress.Muted, progress.ReduceMotion);
             mainScreen.MotionClicked += () => SetPreferences(progress.Muted, !progress.ReduceMotion);
@@ -216,6 +274,8 @@ namespace PackItPerfect.UI
         void ShowState(UIState next)
         {
             state = next;
+            paused = false;
+            pauseScreen.Hide();
             bool inLevel = next == UIState.Playing || next == UIState.Won || next == UIState.Lost;
             mainScreen.SetVisible(next == UIState.Main);
             levelSelect.SetVisible(next == UIState.LevelSelect);
@@ -247,7 +307,7 @@ namespace PackItPerfect.UI
                     Focus(levelSelect.Cell(progress.NextLevelToPlay) ?? levelSelect.HomeButton);
                     break;
                 case UIState.Playing:
-                    Focus(hud.HintButton);
+                    Focus(hud.FirstFocus);
                     break;
                 case UIState.Lost:
                     Focus(loseScreen.TryAgainButton);
@@ -292,12 +352,15 @@ namespace PackItPerfect.UI
                 return;
             }
             var info = level.Info;
-            hud.Bind(info, game.LevelCount);
-            hud.SetFill(0f);
+            hud.Bind(info);
+            pendingAutoPack = false;
             ShowState(UIState.Playing);
 
             bool timed = info != null && info.HasTimer;
-            hud.Timer.SetVisible(timed);
+            hud.SetTimed(timed);
+            hud.Timer.SetFrozen(false);
+            hud.SetUndoUsable(game.CanUndo);
+            hud.RefreshBoosters(progress, false);
             if (timed)
             {
                 // Timer levels show only the "Hard level!" banner, never their own bannerTitle (story 006).
@@ -310,7 +373,7 @@ namespace PackItPerfect.UI
                 timer.Stop();
                 if (info != null && !string.IsNullOrEmpty(info.BannerTitle))
                 {
-                    banner.Show(info.BannerTitle, info.BannerSubtitle);
+                    banner.Show(info.BannerTitle, info.BannerSubtitle, isNew: true);
                 }
                 else
                 {
@@ -319,19 +382,12 @@ namespace PackItPerfect.UI
             }
         }
 
-        void OnFillChanged(float fill)
-        {
-            if (built)
-            {
-                hud.SetFill(fill);
-            }
-        }
-
         void OnLevelCompleted(int level, int stars)
         {
             if (!built) return;
             timer.Stop();
-            progress.RecordWin(level, stars);
+            lastReward = progress.CompleteLevel(level, stars);
+            lastRewardLevel = level;
             hud.SetInteractable(false);
         }
 
@@ -344,7 +400,10 @@ namespace PackItPerfect.UI
             }
             timer.Stop();
             ShowState(UIState.Won);
-            winScreen.Show(stars, level >= game.LevelCount);
+            var reward = lastRewardLevel == level ? lastReward : null;
+            winScreen.Show(stars, level >= game.LevelCount, game.CurrentLevel?.Info?.Name ?? string.Empty, reward,
+                stars < ProgressService.MAX_STARS && game.AssistUsed, rules.NextMilestoneAfter(HighestPassed()),
+                rules.FreezeSeconds);
             Focus(winScreen.PrimaryButton);
         }
 
@@ -366,24 +425,245 @@ namespace PackItPerfect.UI
             ShowState(UIState.Lost);
         }
 
+        void OnApplicationPause(bool suspended)
+        {
+            if (suspended && built) OpenPause();
+        }
+
+        void OnApplicationFocus(bool focused)
+        {
+            if (!focused && built) OpenPause();
+        }
+
         void HandleBack()
         {
             var keyboard = Keyboard.current;
-            if (keyboard == null || !keyboard.escapeKey.wasPressedThisFrame)
+            var gamepad = Gamepad.current;
+            bool back = keyboard != null && keyboard.escapeKey.wasPressedThisFrame
+                || gamepad != null && (gamepad.buttonEast.wasPressedThisFrame || gamepad.startButton.wasPressedThisFrame);
+            if (!back)
             {
                 return;
             }
             switch (state)
             {
                 case UIState.LevelSelect:
-                case UIState.Playing:
                     ShowState(UIState.Main);
+                    break;
+                case UIState.Playing:
+                    if (paused)
+                    {
+                        ClosePause();
+                    }
+                    else
+                    {
+                        OpenPause();
+                    }
                     break;
                 case UIState.Won:
                 case UIState.Lost:
                     ShowState(UIState.LevelSelect);
                     break;
             }
+        }
+
+        // ---------------------------------------------------------------- pause and boosters
+
+        bool CanAct() => built && state == UIState.Playing && !paused && !game.IsWon;
+
+        void OpenPause()
+        {
+            if (state != UIState.Playing || paused || game.IsWon)
+            {
+                return;
+            }
+            paused = true;
+            game.SetInputLocked(true);
+            hud.SetInteractable(false);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
+            pauseScreen.Show();
+            Focus(pauseScreen.ResumeButton);
+        }
+
+        void ClosePause()
+        {
+            if (!paused)
+            {
+                return;
+            }
+            paused = false;
+            pauseScreen.Hide();
+            // Only a level still in play gets its input back (a lost or won level stays locked).
+            if (state == UIState.Playing && !game.IsWon)
+            {
+                game.SetInputLocked(false);
+                hud.SetInteractable(true);
+                Focus(hud.FirstFocus);
+            }
+        }
+
+        void OnPauseRestart()
+        {
+            paused = false;
+            pauseScreen.Hide();
+            game.RestartLevel();
+        }
+
+        void OnUndoClicked()
+        {
+            if (!CanAct())
+            {
+                return;
+            }
+            if (game.RequestUndo())
+            {
+                hud.BounceUndo();
+            }
+            else
+            {
+                hud.ShakeUndo();
+            }
+        }
+
+        void OnBoosterClicked(BoosterType type)
+        {
+            if (!CanAct())
+            {
+                return;
+            }
+            if (!progress.IsBoosterUnlocked(type))
+            {
+                Refuse(type, string.Format(UIStrings.BOOSTER_LOCKED_FORMAT, rules.UnlockAfterLevel(type)));
+                return;
+            }
+            if (progress.BoosterCount(type) <= 0)
+            {
+                Refuse(type, string.Format(UIStrings.BOOSTER_EMPTY_FORMAT, UIStrings.BoosterPlural(type)));
+                return;
+            }
+            switch (type)
+            {
+                case BoosterType.Hint:
+                    if (game.RequestHint())
+                    {
+                        progress.TryConsume(type);
+                        Used(type);
+                    }
+                    else
+                    {
+                        hud.ShakeBooster(type);
+                    }
+                    break;
+                case BoosterType.AutoPack:
+                    if (pendingAutoPack || game.IsBusy)
+                    {
+                        hud.ShakeBooster(type);
+                        break;
+                    }
+                    // Reduced motion can complete the coroutine before RequestAutoPack returns.
+                    pendingAutoPack = true;
+                    if (!game.RequestAutoPack())
+                    {
+                        pendingAutoPack = false;
+                        hud.ShakeBooster(type);
+                    }
+                    break;
+                case BoosterType.Freeze:
+                    if (!timer.Freeze(rules.FreezeSeconds))
+                    {
+                        Refuse(type, UIStrings.FREEZE_UNAVAILABLE);
+                        break;
+                    }
+                    progress.TryConsume(type);
+                    game.MarkAssistUsed();
+                    Used(type);
+                    break;
+            }
+        }
+
+        void Refuse(BoosterType type, string message)
+        {
+            hud.ShakeBooster(type);
+            hud.ShowToast(message);
+        }
+
+        void Used(BoosterType type)
+        {
+            hud.BounceBooster(type);
+            BoosterUsed?.Invoke();
+        }
+
+        void OnAutoPackFinished(bool packed)
+        {
+            if (!built || !pendingAutoPack)
+            {
+                return;
+            }
+            pendingAutoPack = false;
+            if (packed && progress.TryConsume(BoosterType.AutoPack))
+            {
+                Used(BoosterType.AutoPack);
+            }
+        }
+
+        void OnFillChanged(float fraction)
+        {
+            if (built) hud.SetFill(fraction);
+        }
+
+        void OnHistoryChanged()
+        {
+            if (built)
+            {
+                hud.SetUndoUsable(game.CanUndo);
+            }
+        }
+
+        void OnBoostersChanged()
+        {
+            if (built)
+            {
+                hud.RefreshBoosters(progress, timer.IsFrozen);
+            }
+        }
+
+        void OnFreezeChanged(bool frozen)
+        {
+            if (!built)
+            {
+                return;
+            }
+            hud.Timer.SetFrozen(frozen, frozen ? Mathf.CeilToInt(timer.FrozenRemaining) : 0);
+            hud.RefreshBoosters(progress, frozen);
+        }
+
+        int HighestPassed()
+        {
+            for (int level = progress.LevelCount; level >= 1; level--)
+            {
+                if (progress.IsPassed(level))
+                {
+                    return level;
+                }
+            }
+            return 0;
+        }
+
+        ProgressionRules LoadRules()
+        {
+            var asset = Resources.Load<TextAsset>(ProgressionRules.RESOURCE);
+            if (asset == null)
+            {
+                Debug.LogError($"GameUI: Resources/{ProgressionRules.RESOURCE}.json is missing; boosters are disabled.");
+                return ProgressionRules.Empty();
+            }
+            var loaded = ProgressionRules.FromJson(asset.text, out string error);
+            if (loaded == null)
+            {
+                Debug.LogError($"GameUI: {error} Boosters are disabled.");
+                return ProgressionRules.Empty();
+            }
+            return loaded;
         }
 
         /// <summary>Saves and applies player audio and motion preferences.</summary>
@@ -393,11 +673,25 @@ namespace PackItPerfect.UI
             progress.SetPreferences(muted, reduceMotion);
             ApplyPreferences();
             mainScreen.Refresh(progress);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
+        }
+
+        void CycleUISize()
+        {
+            progress.SetUIScalePercent(progress.UIScalePercent >= 150 ? 100 : progress.UIScalePercent + 25);
+            ApplyPreferences();
+            mainScreen.Refresh(progress);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
         }
 
         void ApplyPreferences()
         {
+            // Scale the entire interface, not just glyphs: controls and scroll layouts grow with the text.
+            // The smaller logical viewport triggers chip wrapping and adaptive grid columns.
+            canvasObject.GetComponent<CanvasScaler>().referenceResolution =
+                tuning.referenceResolution / (progress.UIScalePercent / 100f);
             tuning.reduceMotion = progress.ReduceMotion;
+            game.ReduceMotion = progress.ReduceMotion;
             if (tuning.reduceMotion) animator.FinishAll();
             var feel = GetComponent<GameFeel>();
             if (feel != null)
@@ -422,7 +716,7 @@ namespace PackItPerfect.UI
 
         void UpdateSafeArea()
         {
-            var safe = Screen.safeArea;
+            var safe = CurrentSafeArea;
             var screen = new Vector2Int(Screen.width, Screen.height);
             if (safe == appliedSafeArea && screen == appliedScreen || screen.x <= 0 || screen.y <= 0)
             {
@@ -444,21 +738,27 @@ namespace PackItPerfect.UI
         // Tells the board how much of the screen height the HUD bands take, so it fits between them.
         void UpdateViewInsets()
         {
+            banner.FitBelowHUD(hud.TopBandHeight);
             float canvasHeight = canvasRect.rect.height;
             if (canvasHeight <= 0f || Screen.height <= 0)
             {
                 return;
             }
-            var safe = Screen.safeArea;
+            var safe = CurrentSafeArea;
             float top = (Screen.height - safe.yMax) / Screen.height + hud.TopBandHeight / canvasHeight;
             float bottom = safe.yMin / Screen.height + hud.BottomBandHeight / canvasHeight;
-            if (Mathf.Abs(top - appliedTopInset) < INSET_EPSILON && Mathf.Abs(bottom - appliedBottomInset) < INSET_EPSILON)
+            float left = safe.xMin / Screen.width;
+            float right = (Screen.width - safe.xMax) / Screen.width;
+            if (Mathf.Abs(top - appliedTopInset) < INSET_EPSILON && Mathf.Abs(bottom - appliedBottomInset) < INSET_EPSILON &&
+                Mathf.Abs(left - appliedLeftInset) < INSET_EPSILON && Mathf.Abs(right - appliedRightInset) < INSET_EPSILON)
             {
                 return;
             }
             appliedTopInset = top;
             appliedBottomInset = bottom;
-            game.SetViewInsets(top, bottom);
+            appliedLeftInset = left;
+            appliedRightInset = right;
+            game.SetViewInsets(top, bottom, left, right);
         }
 
         // ---------------------------------------------------------------- input

@@ -582,6 +582,106 @@
         "X.",
         "X."
       ]
+    },
+    {
+      "id": "book_stack",
+      "display_name": "Stack of journals",
+      "sprite": "Items/book_stack",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "teapot",
+      "display_name": "Porcelain teapot",
+      "sprite": "Items/teapot",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "wine_glass",
+      "display_name": "Crystal goblet",
+      "sprite": "Items/wine_glass",
+      "cells": [
+        "X",
+        "X"
+      ]
+    },
+    {
+      "id": "vase",
+      "display_name": "Ceramic vase",
+      "sprite": "Items/vase",
+      "cells": [
+        "X",
+        "X",
+        "X"
+      ]
+    },
+    {
+      "id": "snow_globe",
+      "display_name": "Travel snow globe",
+      "sprite": "Items/snow_globe",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "tea_set",
+      "display_name": "Cup and saucer",
+      "sprite": "Items/tea_set",
+      "cells": [
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "hand_mirror",
+      "display_name": "Hand mirror",
+      "sprite": "Items/hand_mirror",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "dumbbell",
+      "display_name": "Travel dumbbell",
+      "sprite": "Items/dumbbell",
+      "cells": [
+        "XXX"
+      ]
+    },
+    {
+      "id": "hiking_boot",
+      "display_name": "Hiking boot",
+      "sprite": "Items/hiking_boot",
+      "cells": [
+        "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "toolbox",
+      "display_name": "Travel toolbox",
+      "sprite": "Items/toolbox",
+      "cells": [
+        "XXX",
+        "XXX"
+      ]
+    },
+    {
+      "id": "iron_l",
+      "display_name": "Travel iron",
+      "sprite": "Items/iron_l",
+      "cells": [
+        "XX",
+        "X."
+      ]
     }
   ],
   "bindings": [
@@ -1366,6 +1466,363 @@
       "level": 15,
       "piece": "M",
       "art_id": "powerbank",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "A",
+      "art_id": "book_stack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "B",
+      "art_id": "teapot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "C",
+      "art_id": "wine_glass",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "D",
+      "art_id": "scarf_s",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 16,
+      "piece": "E",
+      "art_id": "sock_long",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 16,
+      "piece": "F",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "G",
+      "art_id": "toothpaste",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "A",
+      "art_id": "dumbbell",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 17,
+      "piece": "C",
+      "art_id": "vase",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "D",
+      "art_id": "tea_set",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "E",
+      "art_id": "snow_globe",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "F",
+      "art_id": "sock_short",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "G",
+      "art_id": "sock_short",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "H",
+      "art_id": "towel_p",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 17,
+      "piece": "I",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "A",
+      "art_id": "toolbox",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "B",
+      "art_id": "iron_l",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "C",
+      "art_id": "hand_mirror",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "D",
+      "art_id": "wine_glass",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "E",
+      "art_id": "teapot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "F",
+      "art_id": "pump_long",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 18,
+      "piece": "G",
+      "art_id": "perfume_upright",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "H",
+      "art_id": "trainer",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "I",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "J",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "K",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "A",
+      "art_id": "book_stack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "B",
+      "art_id": "dumbbell",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "C",
+      "art_id": "vase",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "D",
+      "art_id": "snow_globe",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "E",
+      "art_id": "tea_set",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "F",
+      "art_id": "sock_long",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 19,
+      "piece": "G",
+      "art_id": "sock_long",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 19,
+      "piece": "H",
+      "art_id": "hoodie_p",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "I",
+      "art_id": "sock_short",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "J",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "K",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "A",
+      "art_id": "toolbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 20,
+      "piece": "C",
+      "art_id": "book_stack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "D",
+      "art_id": "hand_mirror",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "E",
+      "art_id": "teapot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "F",
+      "art_id": "wine_glass",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "G",
+      "art_id": "vase",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "H",
+      "art_id": "shampoo_pump",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 20,
+      "piece": "I",
+      "art_id": "atomizer_short",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "J",
+      "art_id": "slipper_straight",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "K",
+      "art_id": "slipper_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "L",
+      "art_id": "headphones",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "M",
+      "art_id": "scarf_s",
       "solution_turns": 0,
       "mirrored": false
     }

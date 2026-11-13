@@ -21,20 +21,24 @@ namespace PackItPerfect
         /// <summary>Upright items, or null when no piece is upright.</summary>
         public UprightRule Upright { get; }
 
+        /// <summary>Fragile items, or null when no piece is fragile.</summary>
+        public FragileRule Fragile { get; }
         /// <summary>Every active rule, in the order the board evaluates them.</summary>
         public IReadOnlyList<IPackingRule> All { get; }
 
-        LevelRules(ZoneRule zones, PairRule pairs, HeavyRule heavy, UprightRule upright)
+        LevelRules(ZoneRule zones, PairRule pairs, HeavyRule heavy, UprightRule upright, FragileRule fragile)
         {
             Zones = zones;
             Pairs = pairs;
             Heavy = heavy;
             Upright = upright;
+            Fragile = fragile;
             var all = new List<IPackingRule>();
             if (zones != null) all.Add(zones);
             if (heavy != null) all.Add(heavy);
             if (pairs != null) all.Add(pairs);
             if (upright != null) all.Add(upright);
+            if (fragile != null) all.Add(fragile);
             All = all;
         }
 
@@ -48,12 +52,15 @@ namespace PackItPerfect
             var heavy = new bool[count];
             var upright = new bool[count];
             var pairIndex = new int[count];
-            bool anyHeavy = false, anyUpright = false, anyPair = false;
+            var fragile = new bool[count];
+            bool anyHeavy = false, anyUpright = false, anyPair = false, anyFragile = false;
             for (int i = 0; i < count; i++)
             {
                 heavy[i] = pieces[i].heavy;
                 upright[i] = pieces[i].upright;
                 pairIndex[i] = pieces[i].pair < 0 ? PairRule.NO_PAIR : pieces[i].pair;
+                fragile[i] = pieces[i].fragile;
+                anyFragile |= fragile[i];
                 anyHeavy |= heavy[i];
                 anyUpright |= upright[i];
                 anyPair |= pairIndex[i] != PairRule.NO_PAIR;
@@ -64,7 +71,8 @@ namespace PackItPerfect
                 hasZones ? new ZoneRule(level.zoneMap, pieces) : null,
                 anyPair ? new PairRule(pairIndex) : null,
                 anyHeavy ? new HeavyRule(heavy, gridHeight) : null,
-                anyUpright ? new UprightRule(upright) : null);
+                anyUpright ? new UprightRule(upright) : null,
+                anyFragile ? new FragileRule(fragile, heavy) : null);
         }
     }
 }

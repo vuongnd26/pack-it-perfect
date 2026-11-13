@@ -23,6 +23,8 @@ namespace PackItPerfect
         Zone = 1 << 3,
         /// <summary>A heavy piece does not touch the bottom row (<see cref="HeavyRule"/>).</summary>
         Heavy = 1 << 4,
+        /// <summary>A fragile piece would share a cell edge with a heavy piece (<see cref="FragileRule"/>).</summary>
+        Fragile = 1 << 5,
     }
 
     /// <summary>
@@ -46,6 +48,17 @@ namespace PackItPerfect
 
         /// <summary>False if the piece may not be turned in the tray.</summary>
         bool AllowsRotation(int pieceId);
+    }
+
+    /// <summary>
+    /// A rule whose drop-time check depends on the pieces already on the board (e.g. <see cref="FragileRule"/>).
+    /// <see cref="BoardModel.CheckPlacement"/> calls this in addition to <see cref="IPackingRule.CheckPlacement"/>.
+    /// The check must be symmetric: a set of placements is legal or illegal whatever order they were made in.
+    /// </summary>
+    public interface IBoardAwareRule
+    {
+        /// <summary>Drop-time check against the current occupants of <paramref name="board"/> (the piece itself is ignored).</summary>
+        PlacementFailure CheckPlacement(BoardModel board, int pieceId, PieceShape shape, Vector2Int origin);
     }
 
     /// <summary>Result of <see cref="BoardModel.FindCompletionViolation"/>.</summary>

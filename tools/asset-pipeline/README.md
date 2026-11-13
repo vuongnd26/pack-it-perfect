@@ -7,10 +7,12 @@ These are original locally authored SVG illustrations, rendered to PNG with `@re
 ```sh
 # Install the renderer into a disposable tooling directory, not Assets or the game runtime.
 npm install --prefix /path/to/art-runtime --ignore-scripts --no-audit --no-fund @resvg/resvg-js@2.6.2
-node tools/asset-pipeline/item-art-build.js /path/to/art-runtime Assets/Resources/Art Assets/Data/Levels/levels.json
+# Use a new empty staging folder: the generator prunes unused images in its output.
+node tools/asset-pipeline/item-art-build.js /path/to/art-runtime /path/to/new-staging Assets/Data/Levels/levels.json
+# Review/diff staged images and catalog, then copy intended changes into Assets/Resources/Art.
 ```
 
-The generator draws the complete object in the footprint, with continuous surfaces, stitching/materials, outlines, light and shade. There is no separate coloured puzzle block below a small item icon. Shape assignments are explicit per level/letter, with context-specific food, clothing, toiletries, heavy objects, upright bottles, and paired folding poses. It verifies all 112 bindings against the unchanged level map, allowing artwork reflection and clockwise quarter turns only. The current catalog contains 63 referenced illustrations across all 15 levels.
+The generator draws the complete object in the footprint, with continuous surfaces, stitching/materials, outlines, light and shade. There is no separate coloured puzzle block below a small item icon. Shape assignments are explicit per level/letter, with context-specific food, clothing, toiletries, heavy objects, upright bottles, and paired folding poses. It verifies all 163 bindings against the current level map, allowing artwork reflection and clockwise quarter turns only. The current catalog contains 74 referenced illustrations across all 20 levels. Levels 16–20 take their assignments from `tools/level-design/cozy-assignments.json`; the original 112 bindings remain unchanged.
 
 PNG import contract: Sprite/Single, FullRect, centered pivot, 128 pixels per unit, alpha transparency, no mipmaps, Bilinear/Clamp, uncompressed, non-readable. Each authored cell is 100 SVG units rendered to 128 pixels. The drawing is inset 5 SVG units around its bounding rectangle, keeping the dark stroke inside the occupied footprint. SVG stroke width is 5 units and contour rounding radius is 14 units. These are art proportions, not gameplay constants.
 
@@ -49,9 +51,9 @@ node tools/asset-pipeline/art-build.js /path/to/art-runtime Assets/Resources/Art
 node tools/asset-pipeline/ui-art-build.js /path/to/art-runtime Assets/Resources/Art
 ```
 
-The generator builds eight original illustrations: `ui_home`, `ui_hint`, `ui_restart`, `ui_star`, `ui_lock`, `ui_clock`, `ui_ribbon`, and `ui_card`. They replace glyphs or plain surfaces in the HUD, timer, level select and result cards. Existing text/shape fallbacks remain available; not every emoji in the project has been replaced.
+The generator builds 19 original illustrations: the original `ui_home`, `ui_hint`, `ui_restart`, `ui_star`, `ui_lock`, `ui_clock`, `ui_ribbon`, and `ui_card`, plus `ui_undo`, `ui_autopack`, `ui_freeze`, `ui_badge`, `ui_slot`, `ui_pause`, `ui_heavy`, `ui_upright`, `ui_pair`, `ui_fragile`, and `ui_chest`. They replace glyphs or plain surfaces in the HUD, timer, level select and result cards. Existing text/shape fallbacks remain available; not every emoji in the project has been replaced.
 
-UI PNG import contract: Sprite/Single, FullRect, centered pivot, 100 pixels per unit, alpha transparency, no mipmaps, Bilinear/Clamp, uncompressed, non-readable, maximum texture size 2048, and no generated fallback physics shape. The SVGs render at 2× their authored dimensions. `ui_card` has an 84-pixel border on all four sides of its 384×384 texture; this preserves the illustrated rounded corners when `UIFactory.StyleCard` uses `Image.Type.Sliced`. The other seven UI sprites have zero borders. Generating PNGs does not itself configure Unity import settings; retain the associated `.meta` files.
+UI PNG import contract: Sprite/Single, FullRect, centered pivot, 100 pixels per unit, alpha transparency, no mipmaps, Bilinear/Clamp, uncompressed, non-readable, maximum texture size 2048, and no generated fallback physics shape. The SVGs render at 2× their authored dimensions. `ui_card` has an 84-pixel border on all four sides of its 384×384 texture; this preserves the illustrated rounded corners when `UIFactory.StyleCard` uses `Image.Type.Sliced`. The other eighteen UI sprites have zero borders. Generating PNGs does not itself configure Unity import settings; retain the associated `.meta` files.
 
 ## Tray presentation
 

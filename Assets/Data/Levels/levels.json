@@ -1775,6 +1775,755 @@
         "handle": true,
         "wheels": true
       }
+    },
+    {
+      "number": 16,
+      "name": "Gift hamper",
+      "map": [
+        "BBDCC",
+        "BBDDG",
+        "EEEDG",
+        "AAEFG",
+        "AAFFF"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "New: fragile items",
+      "bannerSubtitle": "✨ Keep fragile things away from heavy ones",
+      "ruleChips": [
+        "✨ Fragile away from heavy",
+        "⚓ Heavy at the bottom"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "B",
+          "item": "perfume",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "C",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "D",
+          "item": "shirt",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "E",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "F",
+          "item": "hat",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "G",
+          "item": "toothbrush",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        }
+      ],
+      "theme": {
+        "frame": "#E59A6F",
+        "rim": "#B86F48",
+        "lining": "#FFF6EA",
+        "line": "#B4703C24",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": false
+      }
+    },
+    {
+      "number": 17,
+      "name": "Housewarming crate",
+      "map": [
+        "FFCCCD",
+        "GFEEDD",
+        "GGEEHH",
+        "BIIHHH",
+        "BBBAAA"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "Handle with care",
+      "bannerSubtitle": "Fragile, heavy and a pair",
+      "ruleChips": [
+        "✨ Fragile away from heavy",
+        "⚓ Heavy bottom",
+        "🔗 Pairs touch"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "cheese",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "B",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "C",
+          "item": "perfume",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "D",
+          "item": "perfume",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "E",
+          "item": "ball",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "F",
+          "item": "sock",
+          "startTurns": 0,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "G",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "H",
+          "item": "shirt",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "I",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        }
+      ],
+      "theme": {
+        "frame": "#6FB7A8",
+        "rim": "#44897B",
+        "lining": "#F3FBF6",
+        "line": "#3C8C7824",
+        "block": "#1E1E2859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 18,
+      "name": "Honeymoon suitcase",
+      "map": [
+        "DDKEEJ",
+        "HHKEEJ",
+        "HIIFFC",
+        "AAIFCC",
+        "AABFGC",
+        "AABBGG"
+      ],
+      "timerSeconds": 60,
+      "bannerTitle": "Hard level!",
+      "bannerSubtitle": "Pack before the taxi leaves",
+      "ruleChips": [
+        "✨ Fragile",
+        "⚓ Heavy",
+        "⬆️ Upright",
+        "🔗 Pairs"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "backpack",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "B",
+          "item": "camera",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "C",
+          "item": "sunglasses",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "D",
+          "item": "perfume",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "E",
+          "item": "perfume",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "F",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "G",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "H",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "I",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "J",
+          "item": "book",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "K",
+          "item": "onigiri",
+          "startTurns": 0,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        }
+      ],
+      "theme": {
+        "frame": "#E8799B",
+        "rim": "#B94E70",
+        "lining": "#FFF3F6",
+        "line": "#B43C6424",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": true
+      }
+    },
+    {
+      "number": 19,
+      "name": "Antique market box",
+      "map": [
+        "#KIIFF#",
+        "KKKIFHH",
+        "DDEEFHH",
+        "DDEGGHB",
+        "JJJGAAB",
+        "CCCGAAB"
+      ],
+      "timerSeconds": 0,
+      "bannerTitle": "Tight squeeze",
+      "bannerSubtitle": "Blocked corners, fragile and heavy",
+      "ruleChips": [
+        "✨ Fragile away from heavy",
+        "⚓ Heavy bottom",
+        "🔗 Pairs touch"
+      ],
+      "zoneMap": [],
+      "zones": [],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "book",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "B",
+          "item": "cheese",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "C",
+          "item": "perfume",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "D",
+          "item": "ball",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "E",
+          "item": "perfume",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "F",
+          "item": "sock",
+          "startTurns": 2,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "G",
+          "item": "sock",
+          "startTurns": 1,
+          "zone": "",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "H",
+          "item": "shirt",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "I",
+          "item": "sock",
+          "startTurns": 2,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "J",
+          "item": "toothbrush",
+          "startTurns": 1,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "K",
+          "item": "hat",
+          "startTurns": 3,
+          "zone": "",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        }
+      ],
+      "theme": {
+        "frame": "#8E7CC3",
+        "rim": "#6452A0",
+        "lining": "#F6F2FF",
+        "line": "#5A46A024",
+        "block": "#1E1E2859",
+        "handle": false,
+        "wheels": false
+      }
+    },
+    {
+      "number": 20,
+      "name": "Grand voyage trunk",
+      "map": [
+        "JJJDDDG",
+        "KEELDLG",
+        "KEELLLG",
+        "KMMIIFF",
+        "BBMMIHH",
+        "BCCAAAH",
+        "BCCAAAH"
+      ],
+      "timerSeconds": 80,
+      "bannerTitle": "Hard level!",
+      "bannerSubtitle": "Pack before the taxi leaves",
+      "ruleChips": [
+        "🎒 Carry-on",
+        "🧳 Checked",
+        "✨ Fragile",
+        "⚓ Heavy",
+        "⬆️ Upright",
+        "🔗 Pairs"
+      ],
+      "zoneMap": [
+        "aaabbbb",
+        "aaabbbb",
+        "aaabbbb",
+        "aaabbbb",
+        "aaaabbb",
+        "aaabbbb",
+        "aaabbbb"
+      ],
+      "zones": [
+        {
+          "key": "a",
+          "icon": "🎒",
+          "name": "Carry-on",
+          "color": "#F2C14E47"
+        },
+        {
+          "key": "b",
+          "icon": "🧳",
+          "name": "Checked",
+          "color": "#4DA3E638"
+        }
+      ],
+      "pieces": [
+        {
+          "letter": "A",
+          "item": "backpack",
+          "startTurns": 3,
+          "zone": "b",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "B",
+          "item": "sneaker",
+          "startTurns": 3,
+          "zone": "a",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "C",
+          "item": "book",
+          "startTurns": 0,
+          "zone": "a",
+          "pair": -1,
+          "heavy": true,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "D",
+          "item": "sunglasses",
+          "startTurns": 2,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "E",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "a",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "F",
+          "item": "perfume",
+          "startTurns": 3,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "G",
+          "item": "perfume",
+          "startTurns": 3,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": true
+        },
+        {
+          "letter": "H",
+          "item": "milk",
+          "startTurns": 0,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "I",
+          "item": "perfume",
+          "startTurns": 0,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": true,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "J",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "a",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "K",
+          "item": "sneaker",
+          "startTurns": 1,
+          "zone": "a",
+          "pair": 0,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "L",
+          "item": "sunglasses",
+          "startTurns": 0,
+          "zone": "b",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        },
+        {
+          "letter": "M",
+          "item": "shirt",
+          "startTurns": 2,
+          "zone": "a",
+          "pair": -1,
+          "heavy": false,
+          "upright": false,
+          "outline": false,
+          "fragile": false
+        }
+      ],
+      "theme": {
+        "frame": "#3F7FBF",
+        "rim": "#2A5C91",
+        "lining": "#F0F7FF",
+        "line": "#285A9624",
+        "block": "#1E1E2859",
+        "handle": true,
+        "wheels": true
+      }
     }
   ]
 }

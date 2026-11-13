@@ -162,3 +162,98 @@ Toàn bộ số màn, text UI (toast, banner, màn thua) trong file này là **n
 chính thức** — khi viết C#, dùng đúng các chuỗi text này (kể cả icon ⚓ ⬆️ 💞 💡), không
 diễn giải lại hay rút gọn, vì đây là tài liệu sẽ được đối chiếu khi chấm điểm tài liệu
 (30% điểm theo quy định "Thuyết trình 20% – Tài liệu 30% – Kết quả UA 50%").
+
+---
+
+## Nâng cấp Cozy Travel (nhánh `feat/cozy-travel-upgrade`, 13/11/2026)
+
+> Phần này **chỉ áp dụng cho nhánh nâng cấp**. Bản 15 màn đúng GDD ở commit `cc01df6` giữ nguyên để nộp;
+> mọi mục phía trên vẫn là nguồn chính thức cho bản đó.
+
+### In your words
+
+> Tôi muốn sửa phần hint thành boooster của game và nghĩ thêm các boooster hoặc obsstacle hơn nữa đồng thời tối ưu
+> asset các mảnh ghép 2d UI UX game feeling phải như các dòng puzzle casual 2d trên thị trường hiện tại
+> Sau đợt sửa này thôi thấy vẫn giống bản web game quá chưa đạt được expect của user chơi đâu
+
+> Triển khai tiếp tục cho tôi làm đẹp thật đẹp cuốn hút người chơi vào nhé làm sao cho ra style game 2d puzzle casual vào
+> UIUX đẹp hấp dẫn người chơi
+> art assets đẹp dễ nhìn ra đồ vật
+> logic obs, booster phải chuẩn chính xác hợp lý
+> Có nhận được booster hoặc giới thiệu obs mới khi qua các mốc level
+> Tăng thử thách cho người chơi
+> Lets continue to cook the game make it hit maker
+
+Lựa chọn của người dùng: hướng hình ảnh **Cozy Travel**; phạm vi **"Toàn bộ game, nhánh riêng"**.
+
+### Booster (thay "Hint không giới hạn")
+
+| Booster | Tác dụng | Mở sau màn | Ghi chú |
+| --- | --- | --- | --- |
+| Undo | Lùi một thao tác (đặt, chuyển, lấy ra, xoay) | luôn có | Miễn phí, không giới hạn. Không trả lại thời gian hay lượt booster; không lùi qua Hint/Auto Pack. |
+| Hint | Như Hint cũ: xoay món chưa đặt đầu tiên về đúng hướng, trả về khay món đang chiếm chỗ, làm sáng ô đích | 1 | Tốn 1 lượt. |
+| Auto Pack | Tự đặt 1 món. Tìm cách xếp hết phần còn lại mà **giữ nguyên mọi món đã đặt**, rồi đặt món to nhất của cách xếp đó. Nếu các món đang đặt không thể xếp tiếp, đặt món chưa đặt đầu tiên vào vị trí tham chiếu và trả về khay món cản đường | 6 | Tốn 1 lượt, chỉ trừ khi đặt thành công. |
+| Freeze | Dừng đồng hồ 10 giây | 4 | Chỉ ở màn có timer. Không cộng dồn, không dùng được sau khi hết giờ. |
+
+- **Sao:** 3 sao nếu không dùng Hint/Auto Pack/Freeze; có dùng thì tối đa 2 sao (mở rộng luật Hint cũ). Undo không ảnh hưởng.
+- **Không** có cửa hàng, tiền tệ, quảng cáo hay mua booster. Booster chỉ nhận qua mốc màn.
+- Số liệu ở `Assets/Resources/Data/progression.json`. Lý do: Hint mở ngay sau màn 1 để người mới có trợ giúp;
+  Freeze phát trước màn hẹn giờ đầu tiên (5); Auto Pack mở khi lưới bắt đầu lớn (sau 6); 10 giây ≈ 1/3 đồng hồ
+  màn 5 (30 giây) — đủ cứu một nước sai mà không vô hiệu hóa timer. *(provisional — cần chơi thử để chỉnh)*
+
+### Phần thưởng theo mốc (lần đầu qua màn)
+
+| Qua màn | Nhận |
+| --- | --- |
+| 1 | Hint ×3 (mở Hint) |
+| 4 | Freeze ×2 (mở Freeze) |
+| 6 | Auto Pack ×2 (mở Auto Pack) |
+| 9 | Hint ×2, Freeze ×1 |
+| 12 | Auto Pack ×1 |
+| 14 | Auto Pack ×1, Freeze ×2 |
+| 15 | Hint ×2, Auto Pack ×1 |
+| 17 | Auto Pack ×1, Freeze ×1 |
+| 19 | Hint ×2, Auto Pack ×1, Freeze ×2 |
+
+Thêm: lần đầu đạt 3 sao ở mỗi màn nhận Hint ×1. Chơi lại không nhận lần hai.
+
+### Vật cản mới: Đồ dễ vỡ (fragile)
+
+- Món dễ vỡ **không được chung cạnh ô** với món nặng (chạm góc không tính). Kiểm tra **ngay khi thả**, không phụ thuộc
+  món nào đặt trước. Thả sai: món về khay + toast **"Fragile! Keep it away from heavy items"**.
+- Giới thiệu ở màn 16 (banner **"New: fragile items — ✨ Keep fragile things away from heavy ones"**).
+
+### Màn mới 16–20 (tăng thử thách)
+
+| Màn | Tên | Lưới | Món | Luật | Timer |
+| --- | --- | --- | --- | --- | --- |
+| 16 | Gift hamper | 5x5 | 7 | dễ vỡ, nặng | — |
+| 17 | Housewarming crate | 6x5 | 9 | dễ vỡ, nặng, cặp | — |
+| 18 | Honeymoon suitcase | 6x6 | 11 | dễ vỡ, nặng, đứng thẳng, cặp | 60 giây |
+| 19 | Antique market box | 7x6 (2 ô chặn) | 11 | dễ vỡ, nặng, cặp | — |
+| 20 | Grand voyage trunk | 7x7 | 13 | khu vực + dễ vỡ + nặng + đứng thẳng + cặp | 80 giây |
+
+Sinh bằng `tools/level-design/cozy-levels.py` (lời giải tham chiếu luôn thỏa mọi luật; không cần booster để thắng).
+Timer giữ ~5,5–6,2 giây/món như màn 15 (75 giây / 13 món).
+
+### Thao tác & hình ảnh
+
+- Kéo bằng ngón tay: món nổi lên trên ngón ~1,1 ô để không bị che; bóng xanh/đỏ và vị trí thả dùng cùng điểm đó.
+- Art: đồ vật có đường bao tự nhiên trên một "đệm" mờ theo đúng ô chiếm chỗ; không bẻ cong đồ cứng theo khối.
+- HUD gọn: nút tạm dừng (Restart/Home nằm trong đó), thanh booster ở đáy, màn thắng hiện phần thưởng.
+
+### Out of scope (nhánh nâng cấp)
+
+- Cửa hàng/tiền tệ/quảng cáo, Pair Assist, ngăn khóa, booster thu nhỏ món hoặc nới vali (phá luật lấp kín 100%).
+- Bản địa hóa đầy đủ, chế độ mù màu riêng, điều khiển bàn cờ bằng gamepad: **chưa làm** (khoảng trống đã biết).
+
+### Kiểm chứng logic và UX mobile (13/11/2026)
+
+- Giữ gameplay **2D có chiều sâu**, không chuyển sang model/gameplay 3D.
+- Hint thử dọn ô trên bản sao trước: nếu đích còn xung đột heavy/fragile, từ chối, báo lý do, không mất lượt hay đổi bàn/history/sao.
+- Auto Pack hết ngân sách (`GaveUp`) là **chưa kết luận**, không được dùng fallback tham chiếu hay trừ lượt. Chỉ `Impossible` mới cho fallback. Animation chưa commit không sửa occupancy; pause/chuyển màn hủy nguyên vẹn. UI chỉ trừ một lượt sau callback thành công, kể cả hoàn tất tức thì khi giảm chuyển động.
+- Pair vẫn cho thả tạm xa nhau; cảnh báo khi cả hai đã đặt nhưng chưa chạm, kiểm tra thắng khi đầy bàn. Các lỗi thả kết hợp ưu tiên Heavy → Fragile → Zone.
+- Background/mất focus mở Pause; trở lại vẫn chờ Resume, không tự tiêu thời gian trong nền. Đây là hợp đồng được kiểm tra qua callback tổng hợp; lifecycle thiết bị thật còn cần kiểm tra.
+- Menu có scroll và grid chọn màn thích ứng; chip luật wrap; HUD hiện phần trăm. Tùy chọn **Text & controls 100/125/150%** lưu riêng, phóng cả chữ lẫn hit area bằng canvas scale và reflow. Preview thả có `OK`/`X` ngoài màu để không chỉ dựa đỏ/xanh.
+- Catalog art: 163 bindings, 74 hình cho 20 màn; 19 icon/surface UI. Không sửa hình học hoặc timer level trong đợt UX này.
+- Preview ngang/ngắn còn thu nhỏ bàn quá mức; chưa đạt duyệt UX hoặc release-ready. Notch/safe-area mô phỏng, cảm ứng thật, performance/audio và art/feel sign-off vẫn là cổng riêng.

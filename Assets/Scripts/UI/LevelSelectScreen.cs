@@ -17,10 +17,15 @@ namespace PackItPerfect.UI
         const float HEADER_TOP = 24f;
         const float HEADER_HEIGHT = 120f;
         const float HOME_WIDTH = 300f;
-        const float TITLE_WIDTH = 500f;
         const float GRID_TOP = 200f;
         const float NUMBER_BOTTOM_SHARE = 0.38f;
         const float STARS_HEIGHT_SHARE = 0.36f;
+        const float NUMBER_FONT_SHARE = 0.85f;
+        const float STAR_ICON_SIZE = 48f;
+        const float STAR_ICON_STEP = 52f;
+        const float STAR_ICON_BOTTOM = 18f;
+        const float LOCK_ICON_SIZE = 56f;
+        const float GIFT_INSET_SHARE = 0.3f;
 
         readonly UITuning tuning;
         readonly GameObject root;
@@ -28,6 +33,7 @@ namespace PackItPerfect.UI
         readonly TextMeshProUGUI[] starLabels;
         readonly Image[,] starIcons;
         readonly Image[] lockIcons;
+        readonly GameObject[] giftMarkers;
         readonly StringBuilder builder = new StringBuilder();
 
         /// <summary>An unlocked level was clicked (1-based number).</summary>
@@ -52,17 +58,17 @@ namespace PackItPerfect.UI
             HomeButton = home;
 
             var title = factory.Text("Title", safe, UIStrings.LEVELS, tuning.headingFontSize, tuning.ink, FontStyles.Bold);
-            UIFactory.Place(title.rectTransform, new Vector2(1f, 1f), new Vector2(-tuning.sideMargin, -HEADER_TOP),
-                new Vector2(TITLE_WIDTH, HEADER_HEIGHT));
+            UIFactory.TopStrip(title.rectTransform, HEADER_TOP, HEADER_HEIGHT, tuning.sideMargin);
+            title.rectTransform.offsetMin = new Vector2(HOME_WIDTH + tuning.sideMargin * 2f, title.rectTransform.offsetMin.y);
             title.alignment = TextAlignmentOptions.Right;
+            title.enableAutoSizing = true;
+            title.fontSizeMax = tuning.headingFontSize;
+            title.fontSizeMin = tuning.smallFontSize;
 
             int columns = Mathf.Max(1, tuning.levelSelectColumns);
-            int rows = Mathf.CeilToInt(levelCount / (float)columns);
-            var gridRect = UIFactory.CreateRect("Grid", safe);
-            var gridSize = new Vector2(
-                columns * tuning.levelCellSize.x + (columns - 1) * tuning.levelCellSpacing.x,
-                rows * tuning.levelCellSize.y + Mathf.Max(0, rows - 1) * tuning.levelCellSpacing.y);
-            UIFactory.Place(gridRect, new Vector2(0.5f, 1f), new Vector2(0f, -GRID_TOP), gridSize);
+            var gridArea = UIFactory.CreateRect("Grid Area", safe);
+            UIFactory.Stretch(gridArea, tuning.sideMargin, tuning.sideMargin, tuning.sideMargin, GRID_TOP);
+            var gridRect = UIFactory.CreateRect("Grid", gridArea);
             var grid = gridRect.gameObject.AddComponent<GridLayoutGroup>();
             grid.cellSize = tuning.levelCellSize;
             grid.spacing = tuning.levelCellSpacing;
@@ -71,17 +77,24 @@ namespace PackItPerfect.UI
             grid.childAlignment = TextAnchor.UpperCenter;
             grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
             grid.startAxis = GridLayoutGroup.Axis.Horizontal;
+            // Padding keeps button lips and milestone markers inside the clipping viewport.
+            grid.padding = new RectOffset(12, 12, 12, 12);
+            var fitter = gridRect.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            gridRect.gameObject.AddComponent<ResponsiveUILayout>().ConfigureGrid(grid, tuning.levelCellSize, columns);
+            UIFactory.ScrollWithinSafeArea(gridRect, gridArea, float.MaxValue, 1f, 0f);
 
             cells = new UIButton[levelCount];
             starLabels = new TextMeshProUGUI[levelCount];
             starIcons = new Image[levelCount, ProgressService.MAX_STARS];
             lockIcons = new Image[levelCount];
+            giftMarkers = new GameObject[levelCount];
             float cellHeight = tuning.levelCellSize.y - tuning.buttonShadowDepth;
             for (int i = 0; i < levelCount; i++)
             {
                 int level = i + 1;
                 var cell = factory.Button($"Level {level}", gridRect, level.ToString(), ButtonStyle.Secondary,
-                    tuning.headingFontSize, () => LevelChosen?.Invoke(level));
+                    tuning.headingFontSize * NUMBER_FONT_SHARE, () => LevelChosen?.Invoke(level));
                 UIFactory.Stretch(cell.Label.rectTransform, 8f, cellHeight * NUMBER_BOTTOM_SHARE, 8f, 0f);
                 var stars = factory.Text("Stars", cell.Face.transform, string.Empty, tuning.smallFontSize + 4f, Color.white);
                 stars.textWrappingMode = TextWrappingModes.NoWrap;
@@ -95,13 +108,14 @@ namespace PackItPerfect.UI
                 {
                     var icon = factory.Art($"Star {s + 1}", cell.Face.transform, "ui_star");
                     if (icon != null)
-                        UIFactory.Place(icon.rectTransform, new Vector2(0.5f, 0f), new Vector2((s - 1) * 64f, 24f), new Vector2(62f, 62f));
+                        UIFactory.Place(icon.rectTransform, new Vector2(0.5f, 0f), new Vector2((s - 1) * STAR_ICON_STEP, STAR_ICON_BOTTOM), new Vector2(STAR_ICON_SIZE, STAR_ICON_SIZE));
                     starIcons[i, s] = icon;
                 }
                 var lockIcon = factory.Art("Lock", cell.Face.transform, "ui_lock");
                 if (lockIcon != null)
-                    UIFactory.Place(lockIcon.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 20f), new Vector2(70f, 70f));
+                    UIFactory.Place(lockIcon.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, STAR_ICON_BOTTOM), new Vector2(LOCK_ICON_SIZE, LOCK_ICON_SIZE));
                 lockIcons[i] = lockIcon;
+                giftMarkers[i] = CreateGiftMarker(factory, cell.Face.transform);
                 cells[i] = cell;
                 starLabels[i] = stars;
             }
@@ -136,9 +150,32 @@ namespace PackItPerfect.UI
                     icon.color = new Color(1f, 1f, 1f, s < progress.BestStars(level) ? 1f : tuning.emptyStarAlpha);
                 }
                 if (lockIcons[i] != null) lockIcons[i].gameObject.SetActive(!unlocked);
+                giftMarkers[i].SetActive(!progress.IsPassed(level) && !progress.Rules.MilestoneReward(level).IsEmpty);
                 cells[i].Face.color = !unlocked ? new Color32(0xEE, 0xE2, 0xCC, 0xFF)
                     : level == progress.NextLevelToPlay ? new Color32(0xD1, 0xF1, 0xDF, 0xFF) : tuning.panel;
             }
+        }
+
+        // Small gift in the cell's top-right corner: the chest art, or an accent dot with a "+" when the art is missing.
+        GameObject CreateGiftMarker(UIFactory factory, Transform parent)
+        {
+            var size = Vector2.one * tuning.giftMarkerSize;
+            var centre = new Vector2(0.5f, 0.5f);
+            var inset = -tuning.giftMarkerSize * GIFT_INSET_SHARE;
+            var art = factory.Art("Gift", parent, "ui_chest");
+            if (art != null)
+            {
+                UIFactory.Place(art.rectTransform, Vector2.one, new Vector2(inset, inset), size);
+                art.rectTransform.pivot = centre;
+                return art.gameObject;
+            }
+            var dot = factory.Panel("Gift", parent, tuning.accent, tuning.giftMarkerSize / 2f);
+            UIFactory.Place(dot.rectTransform, Vector2.one, new Vector2(inset, inset), size);
+            dot.rectTransform.pivot = centre;
+            var plus = factory.Text("Plus", dot.transform, UIStrings.GIFT_FALLBACK, tuning.bodyFontSize, tuning.ink, FontStyles.Bold);
+            plus.textWrappingMode = TextWrappingModes.NoWrap;
+            UIFactory.Stretch(plus.rectTransform);
+            return dot.gameObject;
         }
 
         string Stars(int count)

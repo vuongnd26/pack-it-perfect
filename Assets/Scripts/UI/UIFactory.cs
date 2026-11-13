@@ -131,6 +131,71 @@ namespace PackItPerfect.UI
             rect.sizeDelta = new Vector2(-2f * sideMargin, height);
         }
 
+        /// <summary>Gives <paramref name="rect"/> a fixed height inside a layout group (and optionally a fixed width).</summary>
+        public static LayoutElement FixedSize(RectTransform rect, float height, float width = -1f)
+        {
+            var element = rect.gameObject.GetComponent<LayoutElement>() ?? rect.gameObject.AddComponent<LayoutElement>();
+            element.minHeight = height;
+            element.preferredHeight = height;
+            if (width >= 0f)
+            {
+                element.minWidth = width;
+                element.preferredWidth = width;
+            }
+            return element;
+        }
+
+        /// <summary>
+        /// Adds a vertical layout group to <paramref name="rect"/> that stacks children top to bottom, stretches them to the
+        /// width and grows the rect to fit (use <see cref="FixedSize"/> on children).
+        /// </summary>
+        public static VerticalLayoutGroup StackVertically(RectTransform rect, int padding, float spacing)
+        {
+            var layout = rect.gameObject.AddComponent<VerticalLayoutGroup>();
+            layout.padding = new RectOffset(padding, padding, padding, padding);
+            layout.spacing = spacing;
+            layout.childAlignment = TextAnchor.UpperCenter;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = true;
+            layout.childForceExpandHeight = false;
+            var fitter = rect.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            return layout;
+        }
+
+        /// <summary>
+        /// Wraps existing content in a clipped, vertically scrollable safe-area viewport. The content keeps its layout
+        /// and preferred height; keyboard/gamepad selection is revealed automatically when focus moves off screen.
+        /// </summary>
+        public static RectTransform ScrollWithinSafeArea(RectTransform content, RectTransform safe, float maximumWidth,
+            float maximumHeightShare, float margin, bool bottom = false, float bottomMargin = 0f)
+        {
+            var viewport = CreateRect(content.name + " Viewport", safe);
+            var hit = viewport.gameObject.AddComponent<Image>();
+            hit.color = Color.clear;
+            hit.raycastTarget = true;
+            viewport.gameObject.AddComponent<RectMask2D>();
+            var scroll = viewport.gameObject.AddComponent<ScrollRect>();
+            scroll.horizontal = false;
+            scroll.vertical = true;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.inertia = false;
+            scroll.scrollSensitivity = 48f;
+            content.SetParent(viewport, false);
+            content.anchorMin = new Vector2(0f, 1f);
+            content.anchorMax = Vector2.one;
+            content.pivot = new Vector2(0.5f, 1f);
+            content.anchoredPosition = Vector2.zero;
+            content.sizeDelta = new Vector2(0f, content.sizeDelta.y);
+            scroll.viewport = viewport;
+            scroll.content = content;
+            viewport.gameObject.AddComponent<ResponsiveUILayout>().ConfigureScroll(safe, content, scroll,
+                maximumWidth, maximumHeightShare, margin, bottom, bottomMargin);
+            return viewport;
+        }
+
         /// <summary>Creates a full-stretch rect that the owner keeps inside the device safe area.</summary>
         public RectTransform SafeContent(Transform parent)
         {
@@ -262,8 +327,11 @@ namespace PackItPerfect.UI
         /// Size it through <see cref="UIButton.Root"/>.
         /// </summary>
         /// <param name="id">GameObject name and the id passed to <see cref="ButtonClicked"/>.</param>
-        public UIButton Button(string id, Transform parent, string label, ButtonStyle style, float fontSize, Action onClick)
+        /// <param name="radius">Corner radius in reference pixels; negative uses <see cref="UITuning.cornerRadius"/>.</param>
+        public UIButton Button(string id, Transform parent, string label, ButtonStyle style, float fontSize, Action onClick,
+            float radius = -1f)
         {
+            float corner = radius >= 0f ? radius : tuning.cornerRadius;
             // Root: invisible hit area that keeps its layout rect while the visual scales about its centre.
             var root = CreateRect(id, parent);
             var hit = root.gameObject.AddComponent<Image>();
@@ -273,15 +341,15 @@ namespace PackItPerfect.UI
             var visual = CreateRect("Visual", root);
             Stretch(visual);
 
-            var shadow = Panel("Base", visual, ShadowOf(style), tuning.cornerRadius);
+            var shadow = Panel("Base", visual, ShadowOf(style), corner);
             Stretch(shadow.rectTransform);
 
-            var face = Panel("Face", visual, FaceOf(style), tuning.cornerRadius);
+            var face = Panel("Face", visual, FaceOf(style), corner);
             Stretch(face.rectTransform, 0f, tuning.buttonShadowDepth, 0f, 0f);
 
             var sheen = CreateRect("Gloss", face.transform).gameObject.AddComponent<Image>();
             sheen.raycastTarget = false;
-            Slice(sheen, gloss, tuning.cornerRadius);
+            Slice(sheen, gloss, corner);
             Stretch(sheen.rectTransform);
 
             var text = Text("Label", face.transform, label, fontSize, TextOf(style), FontStyles.Bold);
@@ -307,6 +375,50 @@ namespace PackItPerfect.UI
             });
             root.gameObject.AddComponent<ButtonPressScale>().Init(button, visual, face.rectTransform, tuning);
             return new UIButton(root, button, face, text);
+        }
+
+        /// <summary>
+        /// A round glossy button of <paramref name="diameter"/> reference pixels. Uses the illustrated ui_slot base when it
+        /// exists, else the generated rounded shape. The caller places <see cref="UIButton.Root"/> and sizes it to the diameter.
+        /// </summary>
+        public UIButton RoundButton(string id, Transform parent, string label, ButtonStyle style, float fontSize,
+            float diameter, Action onClick)
+        {
+            float radius = Mathf.Max(1f, (diameter - tuning.buttonShadowDepth) / 2f);
+            var button = Button(id, parent, label, style, fontSize, onClick, radius);
+            var art = LoadArt("ui_slot");
+            if (art != null)
+            {
+                button.Face.sprite = art;
+                button.Face.type = Image.Type.Simple;
+                button.Face.preserveAspect = true;
+                button.Face.color = Color.white;
+                var baseLip = button.Root.Find("Visual/Base");
+                if (baseLip != null) baseLip.gameObject.SetActive(false);
+                var sheen = button.Face.transform.Find("Gloss");
+                if (sheen != null) sheen.gameObject.SetActive(false);
+            }
+            return button;
+        }
+
+        /// <summary>
+        /// Creates an icon: the art when it exists, else a text label of <paramref name="fallbackText"/>. The result never
+        /// catches clicks. Size it through its rect.
+        /// </summary>
+        public Graphic Icon(string name, Transform parent, string artName, string fallbackText, float fallbackFontSize,
+            Color fallbackColor)
+        {
+            var image = Art(name, parent, artName);
+            if (image != null)
+            {
+                return image;
+            }
+            var label = Text(name, parent, fallbackText, fallbackFontSize, fallbackColor, FontStyles.Bold);
+            label.textWrappingMode = TextWrappingModes.NoWrap;
+            label.enableAutoSizing = true;
+            label.fontSizeMax = fallbackFontSize;
+            label.fontSizeMin = fallbackFontSize * AUTO_SIZE_MIN_RATIO;
+            return label;
         }
 
         /// <summary>Destroys the generated sprite and texture.</summary>

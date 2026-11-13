@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "starting_boosters": { "hint": 0, "auto_pack": 0, "freeze": 0 },
+  "unlock_after_level": { "hint": 1, "freeze": 4, "auto_pack": 6 },
+  "three_star_first_clear_bonus": { "hint": 1, "auto_pack": 0, "freeze": 0 },
+  "freeze_seconds": 10,
+  "milestones": [
+    { "after_level": 1,  "hint": 3, "auto_pack": 0, "freeze": 0 },
+    { "after_level": 4,  "hint": 0, "auto_pack": 0, "freeze": 2 },
+    { "after_level": 6,  "hint": 0, "auto_pack": 2, "freeze": 0 },
+    { "after_level": 9,  "hint": 2, "auto_pack": 0, "freeze": 1 },
+    { "after_level": 12, "hint": 0, "auto_pack": 1, "freeze": 0 },
+    { "after_level": 14, "hint": 0, "auto_pack": 1, "freeze": 2 },
+    { "after_level": 15, "hint": 2, "auto_pack": 1, "freeze": 0 },
+    { "after_level": 17, "hint": 0, "auto_pack": 1, "freeze": 1 },
+    { "after_level": 19, "hint": 2, "auto_pack": 1, "freeze": 2 }
+  ]
+}

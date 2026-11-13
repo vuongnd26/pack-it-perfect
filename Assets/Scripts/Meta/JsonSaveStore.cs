@@ -25,6 +25,31 @@ namespace PackItPerfect.Meta
         /// <summary>Default save location: <c>Application.persistentDataPath/progress.json</c>.</summary>
         public static string DefaultPath => Path.Combine(Application.persistentDataPath, FILE_NAME);
 
+        /// <summary>File name of the Cozy Travel save. A separate file, so the 15-level build's progress.json is never rewritten.</summary>
+        public const string COZY_FILE_NAME = "progress_cozy.json";
+        /// <summary>
+        /// Save location of the Cozy Travel build. On first use the stars of an existing progress.json are copied in
+        /// (the original file is only read).
+        /// </summary>
+        public static string CozyPath
+        {
+            get
+            {
+                string cozy = Path.Combine(Application.persistentDataPath, COZY_FILE_NAME);
+                try
+                {
+                    if (!File.Exists(cozy) && File.Exists(DefaultPath))
+                    {
+                        File.Copy(DefaultPath, cozy);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"JsonSaveStore: could not carry progress.json over to {COZY_FILE_NAME}: {e.Message}");
+                }
+                return cozy;
+            }
+        }
         /// <summary>Creates a store for the file at <paramref name="filePath"/>.</summary>
         public JsonSaveStore(string filePath)
         {

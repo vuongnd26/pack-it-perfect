@@ -55,10 +55,11 @@ namespace PackItPerfect.UI
             card = cardImage.rectTransform;
             UIFactory.Place(card, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(CARD_WIDTH, CARD_HEIGHT));
             var top = new Vector2(0.5f, 1f);
+            UIFactory.StackVertically(card, 40, 24f);
 
             var clock = factory.Art("Timeout Clock", card, "ui_clock");
             if (clock != null)
-                UIFactory.Place(clock.rectTransform, top, new Vector2(0f, 130f), new Vector2(180f, 180f));
+                UIFactory.FixedSize(clock.rectTransform, 140f);
             var title = factory.Text("Title", card, UIStrings.LOSE_TITLE, tuning.headingFontSize, tuning.danger, FontStyles.Bold);
             UIFactory.Place(title.rectTransform, top, new Vector2(0f, -TITLE_TOP), new Vector2(BUTTON_WIDTH, TITLE_HEIGHT));
 
@@ -77,6 +78,12 @@ namespace PackItPerfect.UI
                 () => LevelsClicked?.Invoke());
             UIFactory.Place(levels.Root, top, new Vector2(0f, -LEVELS_TOP), new Vector2(LEVELS_WIDTH, LEVELS_HEIGHT));
 
+            UIFactory.FixedSize(title.rectTransform, TITLE_HEIGHT);
+            UIFactory.FixedSize(body.rectTransform, BODY_HEIGHT);
+            UIFactory.FixedSize(TryAgainButton.Root, TRY_HEIGHT);
+            UIFactory.FixedSize(install.Root, INSTALL_HEIGHT);
+            UIFactory.FixedSize(levels.Root, LEVELS_HEIGHT);
+            UIFactory.ScrollWithinSafeArea(card, safe, CARD_WIDTH, 1f, tuning.sideMargin);
             root.SetActive(false);
         }
 

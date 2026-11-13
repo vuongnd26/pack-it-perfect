@@ -94,6 +94,34 @@ namespace PackItPerfect
             FillableCellCount = width * height - blockedCount;
         }
 
+        /// <summary>
+        /// Independent copy with the same blocked cells, rules and current placements. Used by
+        /// <see cref="AutoPackSolver"/> to search without touching the board the player sees.
+        /// </summary>
+        public BoardModel Clone()
+        {
+            var blockedCells = new List<Vector2Int>();
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (blocked[x, y]) blockedCells.Add(new Vector2Int(x, y));
+                }
+            }
+            var copy = new BoardModel(Width, Height, blockedCells, PieceCount, rules);
+            foreach (var entry in placements)
+            {
+                foreach (var c in entry.Value.shape.Cells)
+                {
+                    var cell = entry.Value.origin + c;
+                    copy.occupant[cell.x, cell.y] = entry.Key;
+                }
+                copy.placements[entry.Key] = entry.Value;
+                copy.CoveredCellCount += entry.Value.shape.Cells.Count;
+            }
+            return copy;
+        }
+
         /// <summary>True if the cell lies inside the grid.</summary>
         public bool InBounds(Vector2Int cell) => cell.x >= 0 && cell.y >= 0 && cell.x < Width && cell.y < Height;
 
@@ -133,6 +161,10 @@ namespace PackItPerfect
             foreach (var rule in rules)
             {
                 failure |= rule.CheckPlacement(pieceId, shape, origin);
+                if (rule is IBoardAwareRule aware)
+                {
+                    failure |= aware.CheckPlacement(this, pieceId, shape, origin);
+                }
             }
             return failure;
         }

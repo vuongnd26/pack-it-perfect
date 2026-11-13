@@ -96,6 +96,8 @@ namespace PackItPerfect
         public bool upright;
         /// <summary>Shows a faded outline at its solution (story 003).</summary>
         public bool outline;
+        /// <summary>Fragile: may not share a cell edge with a heavy piece (Cozy Travel upgrade; absent = false).</summary>
+        public bool fragile;
     }
 
     /// <summary>Container colours of a level.</summary>

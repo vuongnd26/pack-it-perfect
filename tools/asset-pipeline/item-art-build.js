@@ -130,6 +130,56 @@ add('atomizer_short','Travel atomizer',['XX','X.'],purple,()=>rect(10,9,182,69,1
 add('perfume_upright','Perfume atomizer',['.X','XX'],purple,()=>rect(113,9,74,57,10,'#FFE4A5',outline)+rect(124,75,53,24,6,'#E5C18C',outline)+rect(13,115,172,70,14,'#D7B7EB',outline)+ellipse(104,149,38,23,'#FFF0D3')+star(104,149,1,'#AA87C8')+line('M27,128 V157','#F8E6FD',9));
 add('shampoo_pump','Shampoo dispenser',['XX','X.','X.'],mint,()=>rect(10,9,179,58,12,'#FFF0D4',outline)+rect(17,78,67,22,6,'#D5B992',outline)+rect(16,135,69,106,12,'#E9F5D6',outline)+ellipse(50,180,23,30,'#82CBB0')+line('M27,110 V126 M27,254 V278','#D8FFEA',9)+line('M113,49 H177','#D5D4BD',6));
 
+// Cozy Travel: readable material silhouettes, all geometry checked against the shipped levels below.
+add('book_stack','Stack of journals',['XX','XX'],blue,()=>
+ rect(12,14,176,49,10,'#F29C8E',outline)+rect(23,24,149,25,4,'#FFF2D4')+
+ rect(8,76,180,49,10,'#A5D8BE',outline)+rect(20,87,148,23,4,'#FFF2D4')+
+ rect(15,139,174,48,10,'#93BFE4',outline)+rect(27,149,148,24,4,'#FFF2D4')+
+ line('M43,29 H159 M37,93 H151 M45,155 H158','#DBC3A0',3));
+add('teapot','Porcelain teapot',['XX','XX'],mint,()=>
+ ellipse(164,100,28,36,'#FFF3D8',outline)+ellipse(164,100,14,21,'#70B8A6',outline)+
+ `<path d="M51,89 L11,64 Q8,110 57,128" fill="#FFF2DC" ${outline}/>`+
+ ellipse(98,113,64,63,'#FFF2DC',outline)+ellipse(98,61,47,14,'#C4E8D5',outline)+
+ circle(98,43,10,'#E9BC6D',outline)+star(98,118,1.5,'#EBA383')+line('M63,90 Q51,114 65,135','#fff',9));
+add('wine_glass','Crystal goblet',['X','X'],blue,()=>
+ `<path d="M15,15 H85 L80,77 Q74,105 51,106 Q25,105 20,77Z" fill="#D6F1F4" ${outline}/>`+
+ `<path d="M24,55 H77 L73,77 Q65,97 50,97 Q33,94 27,77Z" fill="#EFA6B7"/>`+
+ line('M50,108 V173',INK,9)+ellipse(50,180,33,9,'#DEF4EC',outline)+line('M30,27 V47','#fff',8)+line('M63,25 V39','#fff',4));
+add('vase','Ceramic vase',['X','X','X'],purple,()=>
+ `<path d="M24,13 H76 L69,89 Q96,133 89,210 L81,283 H19 L11,210 Q5,133 31,89Z" fill="#D9C5EE" ${outline}/>`+
+ ellipse(50,16,26,9,'#826992',outline)+line('M24,160 Q50,136 77,160 M21,188 Q50,164 80,188','#FFF0CF',9)+
+ star(50,225,1.35,'#F0BE73')+line('M32,108 Q20,128 24,147','#fff',8));
+add('snow_globe','Travel snow globe',['XX','XX'],blue,()=>
+ circle(100,85,75,'#CDECF2',outline)+circle(100,85,64,'#A8D8E4')+
+ `<path d="M39,127 L77,68 L99,104 L126,50 L166,127Z" fill="#F2FAE7" ${outline}/>`+
+ circle(66,44,5,'#fff')+circle(142,90,5,'#fff')+circle(112,33,4,'#fff')+
+ line('M49,54 Q34,74 39,91','#fff',9)+rect(32,143,136,44,14,'#E7B979',outline)+star(100,165,1,'#FFF2CF'));
+add('tea_set','Cup and saucer',['X.','XX'],pink,()=>
+ rect(12,12,75,99,18,'#FFF0D8',outline)+ellipse(49,21,31,10,'#B57D68',outline)+
+ star(49,66,1,'#D794B5')+ellipse(102,150,88,35,'#F7C5CD',outline)+ellipse(102,150,62,21,'#FFE8D5',outline)+
+ ellipse(134,146,27,13,'#B47A63',outline)+line('M24,39 V67','#fff',7));
+add('hand_mirror','Hand mirror',['XXX','.X.'],purple,()=>
+ ellipse(150,50,138,40,'#F3CA85',outline)+ellipse(150,50,119,29,'url(#glass)',outline)+
+ line('M69,66 L113,28 M128,72 L181,25','#DCEFF3',8)+rect(121,103,58,83,17,'#DAB5E8',outline)+
+ star(150,142,1,'#FFE8BA'));
+add('dumbbell','Travel dumbbell',['XXX'],blue,()=>
+ rect(56,33,189,34,9,'#AAB3BF',outline)+rect(13,9,59,82,12,'#71839A',outline)+
+ rect(228,9,59,82,12,'#71839A',outline)+line('M29,25 V70 M245,25 V70','#BDCFD9',8)+line('M86,43 H216','#E3EBE5',7));
+add('hiking_boot','Hiking boot',['X.','X.','XX'],yellow,()=>
+ rect(8,10,82,170,13,'#D9A66A',outline)+rect(17,17,66,30,8,'#FFF0D1',outline)+
+ `<path d="M8,175 H88 L108,219 Q180,211 190,252 V279 H10Z" fill="#B78358" ${outline}/>`+
+ rect(8,274,184,16,5,'#6B5960',outline)+line('M29,68 L67,87 M67,68 L29,87 M29,105 L67,124 M67,105 L29,124 M29,143 L67,162 M67,143 L29,162','#FFF0CF',7)+
+ line('M117,237 Q158,227 175,246','#E7B980',7));
+add('toolbox','Travel toolbox',['XXX','XXX'],red,()=>
+ rect(96,10,108,34,10,'#5E5466',outline)+rect(113,20,74,19,5,'#F9E3BD')+
+ rect(10,47,280,139,18,'#E99376',outline)+rect(10,47,280,48,15,'#F5BC8C',outline)+
+ line('M15,98 H285','#9C6664',6)+rect(62,79,29,46,6,'#FDE0A0',outline)+rect(209,79,29,46,6,'#FDE0A0',outline)+
+ line('M31,137 V162 M268,137 V162','#FFD2AD',8));
+add('iron_l','Travel iron',['XX','X.'],mint,()=>
+ rect(17,12,161,70,24,'#CCE8D7',outline)+rect(48,27,103,29,12,'#638F92',outline)+
+ `<path d="M11,89 H88 V178 H11Z" fill="#A9C5CD" ${outline}/>`+
+ line('M23,169 H77','#E8F3EA',9)+circle(34,69,9,'#F5C781',outline)+line('M36,126 H69 M36,145 H69','#63858E',4));
+
 // Explicit assignments: context/zone/pair decisions are content, never guessed at runtime.
 const assignments = [
  ['sock_long','sneaker','makeup'],
@@ -153,7 +203,9 @@ const key=cells=>normalize(cells).map(c=>c.join(',')).sort().join(';');
 const cellsOf=rows=>rows.flatMap((row,y)=>[...row].flatMap((s,x)=>s==='X'?[[x,y]]:[]));
 const rotate=cells=>normalize(cells.map(([x,y])=>[-y,x]));
 function transformFor(art,solution){for(let mirrored of [false,true]){let cells=normalize(cellsOf(art.cells).map(([x,y])=>[mirrored?-x:x,y]));for(let turns=0;turns<4;turns++){if(key(cells)===key(solution))return {solution_turns:turns,mirrored};cells=rotate(cells);}}throw Error(`No shape match for ${art.id}`);}
+const cozyAssignments=JSON.parse(fs.readFileSync(path.join(__dirname,'../level-design/cozy-assignments.json'),'utf8'));
 const levels=JSON.parse(fs.readFileSync(levelsPath,'utf8')).levels, bindings=[];
+for (const level of levels) if (level.number > 15) assignments[level.number-1] = cozyAssignments[String(level.number)];
 for(let li=0;li<levels.length;li++){
  const level=levels[li];if(assignments[li].length!==level.pieces.length)throw Error('Assignment count '+level.number);
  level.pieces.forEach((piece,pi)=>{const id=assignments[li][pi], art=objects.find(a=>a.id===id),cells=[];
