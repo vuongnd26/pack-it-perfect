@@ -29,6 +29,12 @@ namespace PackItPerfect
             Physics.simulationMode = SimulationMode.Script;
             Physics2D.simulationMode = SimulationMode2D.Script;
             if (Application.isMobilePlatform) Screen.sleepTimeout = SleepTimeout.NeverSleep;
+#if !UNITY_EDITOR
+            // A stack trace per log line costs real time on a phone; the game logs rarely, but errors still show their message.
+            Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+            Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
+#endif
+            Application.backgroundLoadingPriority = ThreadPriority.Low;
         }
 
         /// <summary>

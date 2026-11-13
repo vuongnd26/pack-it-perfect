@@ -101,6 +101,8 @@ namespace PackItPerfect
         float dragAge;
 
         const float MAX_VIEW_INSET = 0.45f;
+        const int LEVELS_PER_UNLOAD = 5;
+        int levelsSinceUnload;
         bool loadOnStart = true;
         float viewInsetTop;
         float viewInsetBottom;
@@ -574,6 +576,13 @@ namespace PackItPerfect
             lastScreenSize = Vector2Int.zero;
             FitCamera();
             OnBoardChanged();
+            // Earlier levels' illustrations are no longer referenced by anything shown: let the engine reclaim them.
+            factory.TrimPieceArt(data.number);
+            if (++levelsSinceUnload >= LEVELS_PER_UNLOAD)
+            {
+                levelsSinceUnload = 0;
+                Resources.UnloadUnusedAssets();
+            }
             LevelLoaded?.Invoke(loaded);
             HistoryChanged?.Invoke();
         }

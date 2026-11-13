@@ -272,6 +272,12 @@ namespace PackItPerfect
             return found;
         }
 
+        /// <summary>Forgets a cached illustration so its texture can be unloaded once nothing shows it.</summary>
+        public void ForgetArt(string name) => art.Remove(name);
+
+        /// <summary>Releases the illustrated objects of every level except <paramref name="levelNumber"/>.</summary>
+        public void TrimPieceArt(int levelNumber) => pieceArtCatalog?.KeepOnly(levelNumber);
+
         /// <summary>Resolves the presentation-only whole-object binding for a level's piece.</summary>
         public PieceArt GetPieceArt(int levelNumber, string letter)
         {

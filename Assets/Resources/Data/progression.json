@@ -4,6 +4,7 @@
   "unlock_after_level": { "hint": 1, "freeze": 4, "auto_pack": 6 },
   "three_star_first_clear_bonus": { "hint": 1, "auto_pack": 0, "freeze": 0 },
   "freeze_seconds": 10,
+  "shop_star_prices": { "hint": 2, "freeze": 3, "auto_pack": 5 },
   "milestones": [
     { "after_level": 1,  "hint": 3, "auto_pack": 0, "freeze": 0 },
     { "after_level": 4,  "hint": 0, "auto_pack": 0, "freeze": 2 },

@@ -127,11 +127,32 @@ namespace PackItPerfect.UI
         /// <summary>Toast when a locked booster is tapped: {0} = level.</summary>
         public const string BOOSTER_LOCKED_FORMAT = "Unlocks after level {0}";
         /// <summary>Toast when a booster has no charges: {0} = plural booster name.</summary>
-        public const string BOOSTER_EMPTY_FORMAT = "No {0} left – earn more at level milestones";
+        public const string BOOSTER_EMPTY_FORMAT = "No {0} left – get more in the Shop";
         /// <summary>Toast when Freeze cannot start (already frozen, clock not running).</summary>
         public const string FREEZE_UNAVAILABLE = "The clock can't be frozen right now";
         /// <summary>Lock overlay label on a dock slot: {0} = level.</summary>
         public const string LOCK_LEVEL_FORMAT = "Lv {0}";
+
+        /// <summary>Shop button label (main, win and pause screens).</summary>
+        public const string SHOP = "Shop";
+        /// <summary>Shop screen title.</summary>
+        public const string SHOP_TITLE = "Shop";
+        /// <summary>Star balance pill on the shop screen.</summary>
+        public const string SHOP_BALANCE_FORMAT = "⭐ {0}";
+        /// <summary>Buy button label: the price in stars.</summary>
+        public const string SHOP_PRICE_FORMAT = "⭐ {0}";
+        /// <summary>How many of a booster the player holds.</summary>
+        public const string SHOP_OWNED_FORMAT = "You have {0}";
+        /// <summary>Line under the title explaining how to earn stars.</summary>
+        public const string SHOP_HINT = "Earn stars by clearing levels";
+        /// <summary>Toast after a purchase; {0} is the booster name.</summary>
+        public const string SHOP_BOUGHT_FORMAT = "{0} added!";
+        /// <summary>Toast when the balance is too low; {0} is the number of missing stars.</summary>
+        public const string SHOP_NEED_FORMAT = "Need {0} more ⭐";
+        /// <summary>Shown instead of the price while a booster is locked; {0} is the level.</summary>
+        public const string SHOP_LOCKED_FORMAT = "Opens after level {0}";
+        /// <summary>Close button of the shop.</summary>
+        public const string SHOP_CLOSE = "Back";
         /// <summary>Timer pill while frozen and no snowflake art: {0} = freeze seconds left.</summary>
         public const string FROZEN_FORMAT = "Frozen {0}s";
         /// <summary>Tag on the level-start banner when the level adds a rule.</summary>

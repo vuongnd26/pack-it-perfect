@@ -128,6 +128,7 @@ namespace PackItPerfect.Tests
             muted = data.muted,
             reduceMotion = data.reduceMotion,
             uiScalePercent = data.uiScalePercent,
+            starsSpent = data.starsSpent,
         };
     }
 }

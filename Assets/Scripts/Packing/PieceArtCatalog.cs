@@ -46,7 +46,23 @@ namespace PackItPerfect
     public sealed class PieceArtCatalog
     {
         const string RESOURCE = "Art/item_catalog";
-        readonly Dictionary<string, PieceArt> bindings = new Dictionary<string, PieceArt>();
+
+        // Sprites are loaded when a level first asks for them and let go when another level is shown: loading every
+        // illustrated object of every level up front made the first level hitch and kept ~100 textures in memory.
+        sealed class Binding
+        {
+            public int level;
+            public string spriteName;
+            public string displayName;
+            public PieceShape shape;
+            public int solutionTurns;
+            public bool mirrored;
+            public PieceArt art;
+            public bool missing;
+        }
+
+        readonly SpriteFactory factory;
+        readonly Dictionary<string, Binding> bindings = new Dictionary<string, Binding>();
 
         // Only these DTO fields use snake_case: they are the external wire-format boundary.
         [Serializable] sealed class CatalogDto
@@ -74,6 +90,7 @@ namespace PackItPerfect
         /// <summary>Reads schema version 1 and resolves sprite assets through the supplied factory.</summary>
         public PieceArtCatalog(SpriteFactory factory)
         {
+            this.factory = factory;
             var text = Resources.Load<TextAsset>(RESOURCE);
             if (text == null) return; // Legacy art remains a safe fallback while authoring.
             var dto = JsonUtility.FromJson<CatalogDto>(text.text);
@@ -91,20 +108,52 @@ namespace PackItPerfect
                 for (int y = 0; y < item.cells.Length; y++)
                     for (int x = 0; x < item.cells[y].Length; x++)
                         if (item.cells[y][x] == 'X') cells.Add(new Vector2Int(x, y));
-                var sprite = factory.GetArt(item.sprite);
-                if (sprite == null)
+                bindings.Add(Key(binding.level, binding.piece), new Binding
                 {
-                    Debug.LogError($"PieceArtCatalog: missing illustrated object {item.sprite}.");
-                    continue;
-                }
-                bindings.Add(Key(binding.level, binding.piece), new PieceArt(sprite, item.display_name,
-                    PieceShape.FromCells(cells), binding.solution_turns, binding.mirrored));
+                    level = binding.level,
+                    spriteName = item.sprite,
+                    displayName = item.display_name,
+                    shape = PieceShape.FromCells(cells),
+                    solutionTurns = binding.solution_turns,
+                    mirrored = binding.mirrored,
+                });
             }
         }
 
-        /// <summary>Whole-object art for this level and letter, or null for a legacy/unbound piece.</summary>
-        public PieceArt Get(int levelNumber, string pieceLetter) =>
-            bindings.TryGetValue(Key(levelNumber, pieceLetter), out var art) ? art : null;
+        /// <summary>Whole-object art for this level and letter, or null for a legacy/unbound piece. Loads its sprite on first use.</summary>
+        public PieceArt Get(int levelNumber, string pieceLetter)
+        {
+            if (!bindings.TryGetValue(Key(levelNumber, pieceLetter), out var binding) || binding.missing) return null;
+            if (binding.art != null) return binding.art;
+            var sprite = factory.GetArt(binding.spriteName);
+            if (sprite == null)
+            {
+                binding.missing = true;
+                Debug.LogError($"PieceArtCatalog: missing illustrated object {binding.spriteName}.");
+                return null;
+            }
+            binding.art = new PieceArt(sprite, binding.displayName, binding.shape, binding.solutionTurns, binding.mirrored);
+            return binding.art;
+        }
+
+        /// <summary>
+        /// Drops the sprites of every level except <paramref name="levelNumber"/> from the caches, so the engine can unload
+        /// their textures. A sprite the shown level also uses is kept.
+        /// </summary>
+        public void KeepOnly(int levelNumber)
+        {
+            var keep = new HashSet<string>();
+            foreach (var binding in bindings.Values)
+            {
+                if (binding.level == levelNumber) keep.Add(binding.spriteName);
+            }
+            foreach (var binding in bindings.Values)
+            {
+                if (binding.level == levelNumber || binding.art == null) continue;
+                binding.art = null;
+                if (!keep.Contains(binding.spriteName)) factory.ForgetArt(binding.spriteName);
+            }
+        }
 
         static string Key(int levelNumber, string letter) => levelNumber + ":" + letter;
     }

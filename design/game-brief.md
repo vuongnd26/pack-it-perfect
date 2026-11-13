@@ -196,7 +196,11 @@ Lựa chọn của người dùng: hướng hình ảnh **Cozy Travel**; phạm 
 | Freeze | Dừng đồng hồ 10 giây | 4 | Chỉ ở màn có timer. Không cộng dồn, không dùng được sau khi hết giờ. |
 
 - **Sao:** 3 sao nếu không dùng Hint/Auto Pack/Freeze; có dùng thì tối đa 2 sao (mở rộng luật Hint cũ). Undo không ảnh hưởng.
-- **Không** có cửa hàng, tiền tệ, quảng cáo hay mua booster. Booster chỉ nhận qua mốc màn.
+- **Cửa hàng sao (quyết định 2026-11-13):** sao kiếm được ở các màn (tốt nhất mỗi màn) dùng để **mua booster**. Số dư = tổng sao
+  trừ sao đã tiêu; sao của từng màn **không bị trừ**. Giá ở `progression.json` → `shop_star_prices` (Hint 2, Freeze 3,
+  Auto Pack 5; giá ≤ 0 = không bán). Chỉ mua được booster đã mở khóa. Mở cửa hàng từ màn chính, màn thắng và màn tạm dừng.
+  Vẫn **không** có tiền thật, quảng cáo hay IAP. *(provisional — giá cần chơi thử để chỉnh)*
+- Booster ngoài cửa hàng vẫn nhận qua mốc màn.
 - Số liệu ở `Assets/Resources/Data/progression.json`. Lý do: Hint mở ngay sau màn 1 để người mới có trợ giúp;
   Freeze phát trước màn hẹn giờ đầu tiên (5); Auto Pack mở khi lưới bắt đầu lớn (sau 6); 10 giây ≈ 1/3 đồng hồ
   màn 5 (30 giây) — đủ cứu một nước sai mà không vô hiệu hóa timer. *(provisional — cần chơi thử để chỉnh)*
@@ -244,7 +248,7 @@ Timer giữ ~5,5–6,2 giây/món như màn 15 (75 giây / 13 món).
 
 ### Out of scope (nhánh nâng cấp)
 
-- Cửa hàng/tiền tệ/quảng cáo, Pair Assist, ngăn khóa, booster thu nhỏ món hoặc nới vali (phá luật lấp kín 100%).
+- Tiền thật/quảng cáo/IAP, Pair Assist, ngăn khóa, booster thu nhỏ món hoặc nới vali (phá luật lấp kín 100%).
 - Bản địa hóa đầy đủ, chế độ mù màu riêng, điều khiển bàn cờ bằng gamepad: **chưa làm** (khoảng trống đã biết).
 
 ### Kiểm chứng logic và UX mobile (13/11/2026)

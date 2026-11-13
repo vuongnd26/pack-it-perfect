@@ -35,5 +35,8 @@ namespace PackItPerfect.Meta
         public int[] boosters = Array.Empty<int>();
         /// <summary>True once the starting boosters of a new or migrated save were handed out (version 2).</summary>
         public bool startingBoostersGranted;
+
+        /// <summary>Stars spent in the shop. The spendable balance is the stars earned (best per level) minus this.</summary>
+        public int starsSpent;
     }
 }

@@ -70,11 +70,13 @@ namespace PackItPerfect.Meta
             public BundleDto three_star_first_clear_bonus;
             public float freeze_seconds;
             public MilestoneDto[] milestones;
+            public UnlockDto shop_star_prices;
         }
 
         readonly int[] unlockAfterLevel;
         readonly int[] milestoneLevels;
         readonly BoosterBundle[] milestoneRewards;
+        readonly int[] shopPrices;
 
         /// <summary>Boosters a brand-new save starts with.</summary>
         public BoosterBundle StartingBoosters { get; }
@@ -88,8 +90,13 @@ namespace PackItPerfect.Meta
         /// <param name="milestoneLevels">Levels whose first clear gives a reward.</param>
         /// <param name="milestoneRewards">Reward per entry of <paramref name="milestoneLevels"/>.</param>
         public ProgressionRules(BoosterBundle startingBoosters, int[] unlockAfterLevel, BoosterBundle threeStarBonus,
-            float freezeSeconds, int[] milestoneLevels, BoosterBundle[] milestoneRewards)
+            float freezeSeconds, int[] milestoneLevels, BoosterBundle[] milestoneRewards, int[] shopStarPrices = null)
         {
+            shopPrices = new int[BoosterBundle.TYPE_COUNT];
+            for (int i = 0; i < shopPrices.Length && shopStarPrices != null && i < shopStarPrices.Length; i++)
+            {
+                shopPrices[i] = Math.Max(0, shopStarPrices[i]);
+            }
             StartingBoosters = startingBoosters;
             this.unlockAfterLevel = (int[])unlockAfterLevel.Clone();
             ThreeStarBonus = threeStarBonus;
@@ -142,7 +149,22 @@ namespace PackItPerfect.Meta
             error = null;
             return new ProgressionRules(Bundle(dto.starting_boosters),
                 new[] { Math.Max(0, unlock.hint), Math.Max(0, unlock.auto_pack), Math.Max(0, unlock.freeze) },
-                Bundle(dto.three_star_first_clear_bonus), dto.freeze_seconds, levels, rewards);
+                Bundle(dto.three_star_first_clear_bonus), dto.freeze_seconds, levels, rewards,
+                dto.shop_star_prices == null ? null
+                    : new[] { dto.shop_star_prices.hint, dto.shop_star_prices.auto_pack, dto.shop_star_prices.freeze });
+        }
+
+        /// <summary>Stars one booster costs in the shop; 0 or less means it is not for sale.</summary>
+        public int ShopPrice(BoosterType type) => shopPrices[(int)type];
+
+        /// <summary>True when at least one booster is for sale (the Shop buttons appear only then).</summary>
+        public bool HasShop
+        {
+            get
+            {
+                foreach (int price in shopPrices) if (price > 0) return true;
+                return false;
+            }
         }
 
         static BoosterBundle Bundle(BundleDto dto) =>

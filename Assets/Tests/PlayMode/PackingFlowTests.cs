@@ -159,6 +159,86 @@ namespace PackItPerfect.Tests
         }
 
         [UnityTest]
+        public IEnumerator Shop_BuyFromMainScreen_SpendsStarsAndCloseReturnsToMain()
+        {
+            // Arrange: three three-star levels, then back at the main screen.
+            for (int number = 1; number <= 3; number++) ui.Progress.CompleteLevel(number, 3);
+            Invoke(ui, "ShowState", Enum.Parse(typeof(GameUI).GetNestedType("UIState", BindingFlags.NonPublic), "Main"));
+            yield return null;
+            int stars = ui.Progress.StarBalance;
+            int hints = ui.Progress.BoosterCount(BoosterType.Hint);
+            int price = ui.Progress.ShopPrice(BoosterType.Hint);
+            Assert.That(stars, Is.GreaterThanOrEqualTo(price));
+
+            // Act
+            Invoke(ui, "OpenShop");
+            yield return null;
+            var shop = Field<ShopScreen>(ui, "shopScreen");
+            Assert.That(shop.IsVisible, Is.True);
+            yield return Capture("shop-main");
+            Invoke(ui, "OnShopBuy", BoosterType.Hint);
+            yield return null;
+
+            // Assert: balance and stock changed, the shop is still open until Back.
+            Assert.That(ui.Progress.StarBalance, Is.EqualTo(stars - price));
+            Assert.That(ui.Progress.BoosterCount(BoosterType.Hint), Is.EqualTo(hints + 1));
+            Assert.That(shop.IsVisible, Is.True);
+            yield return Capture("shop-bought");
+            Invoke(ui, "CloseShop");
+            yield return null;
+            Assert.That(shop.IsVisible, Is.False);
+            LogAssert.NoUnexpectedReceived();
+        }
+
+        [UnityTest]
+        public IEnumerator Shop_TooFewStarsOrLocked_RefusesAndKeepsBalance()
+        {
+            ui.Progress.CompleteLevel(1, 1); // one star: too few for any booster; Freeze and Auto Pack are still locked
+            Invoke(ui, "OpenShop");
+            yield return null;
+            int stars = ui.Progress.StarBalance;
+
+            Invoke(ui, "OnShopBuy", BoosterType.Hint);
+            Invoke(ui, "OnShopBuy", BoosterType.Freeze);
+            Invoke(ui, "OnShopBuy", BoosterType.AutoPack);
+            yield return null;
+
+            Assert.That(ui.Progress.StarBalance, Is.EqualTo(stars));
+            Assert.That(ui.Progress.StarsSpent, Is.Zero);
+            LogAssert.NoUnexpectedReceived();
+        }
+
+        [UnityTest]
+        public IEnumerator Shop_LargeUIOnSmallScreens_KeepsEveryButtonInsideViewport()
+        {
+            for (int number = 1; number <= 10; number++) ui.Progress.CompleteLevel(number, 3);
+            ui.Progress.SetUIScalePercent(150);
+            int[,] sizes = { {480,800}, {720,1280}, {1080,2400}, {800,480} };
+            for (int index = 0; index < sizes.GetLength(0); index++)
+            {
+                SetGameViewSize(sizes[index,0], sizes[index,1]);
+                for (int frame = 0; frame < 8; frame++) yield return null;
+                Invoke(ui, "ApplyPreferences");
+                Invoke(ui, "OpenShop");
+                for (int frame = 0; frame < 6; frame++) yield return null;
+                yield return Capture($"shop-{sizes[index,0]}x{sizes[index,1]}-large");
+                var shop = Field<ShopScreen>(ui, "shopScreen");
+                var corners = new Vector3[4];
+                int checkedButtons = 0;
+                foreach (var button in shop.CloseButton.Root.root.GetComponentsInChildren<UnityEngine.UI.Button>(false))
+                {
+                    ((RectTransform)button.transform).GetWorldCorners(corners);
+                    Assert.That(corners[0].x, Is.GreaterThanOrEqualTo(-1f), $"{button.name} runs off the left edge at {sizes[index,0]}x{sizes[index,1]}.");
+                    Assert.That(corners[2].x, Is.LessThanOrEqualTo(Screen.width + 1f), $"{button.name} runs off the right edge at {sizes[index,0]}x{sizes[index,1]}.");
+                    checkedButtons++;
+                }
+                Assert.That(checkedButtons, Is.GreaterThanOrEqualTo(BoosterBundle.TYPE_COUNT + 1), "Three Buy buttons and Back.");
+                Invoke(ui, "CloseShop");
+                yield return null;
+            }
+        }
+
+        [UnityTest]
         public IEnumerator AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged()
         {
             game.LoadLevel(1);
@@ -522,6 +602,13 @@ namespace PackItPerfect.Tests
             var info = typeof(PackingGame).GetMethod(method, PrivateInstance);
             Assert.That(info, Is.Not.Null, $"Controller test adapter missing {method}.");
             info.Invoke(game, arguments);
+        }
+
+        static void Invoke(object target, string method, params object[] arguments)
+        {
+            var info = target.GetType().GetMethod(method, PrivateInstance);
+            Assert.That(info, Is.Not.Null, $"Test adapter missing {method}.");
+            info.Invoke(target, arguments);
         }
 
         static T Field<T>(object target, string name) => (T)target.GetType().GetField(name, PrivateInstance).GetValue(target);

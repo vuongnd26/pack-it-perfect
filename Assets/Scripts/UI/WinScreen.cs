@@ -60,6 +60,7 @@ namespace PackItPerfect.UI
         readonly UIButton replay;
         readonly UIButton home;
         readonly UIButton levels;
+        readonly UIButton shop;
         readonly object cardKey = new object();
         readonly object[] starKeys;
         readonly object[] rewardKeys = { new object(), new object(), new object() };
@@ -83,6 +84,11 @@ namespace PackItPerfect.UI
         public event Action LevelsClicked;
         /// <summary>"Home" clicked (end card only).</summary>
         public event Action HomeClicked;
+        /// <summary>"Shop" clicked.</summary>
+        public event Action ShopClicked;
+
+        /// <summary>True when boosters are for sale; the Shop button shows only then (and not on the end card).</summary>
+        public bool ShopAvailable { get; set; }
 
         /// <summary>Builds the (hidden) screen with <paramref name="starSlots"/> star slots under <paramref name="parent"/>.</summary>
         public WinScreen(UIFactory factory, Transform parent, UITuning tuning, UIAnimator animator, int starSlots)
@@ -197,6 +203,8 @@ namespace PackItPerfect.UI
             rowLayout.childForceExpandHeight = true;
             replay = factory.Button("Win Replay", row, UIStrings.REPLAY, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => ReplayClicked?.Invoke());
+            shop = factory.Button("Win Shop", row, UIStrings.SHOP, ButtonStyle.Accent, tuning.buttonFontSize,
+                () => ShopClicked?.Invoke());
             home = factory.Button("Win Home", row, UIStrings.HOME, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => HomeClicked?.Invoke());
             levels = factory.Button("Win Levels", row, UIStrings.LEVELS, ButtonStyle.Secondary, tuning.buttonFontSize,
@@ -296,6 +304,7 @@ namespace PackItPerfect.UI
             next.Root.gameObject.SetActive(!isLastLevel);
             replay.Root.gameObject.SetActive(!isLastLevel);
             home.Root.gameObject.SetActive(isLastLevel);
+            shop.Root.gameObject.SetActive(!isLastLevel && ShopAvailable);
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(card);
             UIMotion.Pop(animator, cardKey, card, 0f, tuning.cardPopDuration, tuning.popStartScale, tuning.reduceMotion);

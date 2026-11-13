@@ -31,6 +31,9 @@ namespace PackItPerfect.UI
         public event Action ResumeClicked;
         /// <summary>Restart clicked.</summary>
         public event Action RestartClicked;
+        /// <summary>Shop clicked.</summary>
+        public event Action ShopClicked;
+        UIButton shop;
         /// <summary>Home clicked.</summary>
         public event Action HomeClicked;
         /// <summary>Sound toggle clicked.</summary>
@@ -69,6 +72,10 @@ namespace PackItPerfect.UI
             UIFactory.FixedSize(restart.Root, tuning.pauseButtonHeight);
             factory.ButtonIcon(restart, "ui_restart");
 
+            shop = factory.Button("Pause Shop", card, UIStrings.SHOP, ButtonStyle.Accent, tuning.buttonFontSize,
+                () => ShopClicked?.Invoke());
+            UIFactory.FixedSize(shop.Root, tuning.pauseButtonHeight);
+
             var home = factory.Button("Pause Home", card, UIStrings.HOME, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => HomeClicked?.Invoke());
             UIFactory.FixedSize(home.Root, tuning.pauseButtonHeight);
@@ -101,8 +108,9 @@ namespace PackItPerfect.UI
         public bool IsVisible => root.activeSelf;
 
         /// <summary>Updates the toggle labels.</summary>
-        public void Refresh(bool muted, bool reduceMotion, int uiScalePercent = 100)
+        public void Refresh(bool muted, bool reduceMotion, int uiScalePercent = 100, bool shopAvailable = true)
         {
+            shop.Root.gameObject.SetActive(shopAvailable);
             uiSize.SetLabel(string.Format(UIStrings.UI_SIZE_FORMAT, uiScalePercent));
             sound.SetLabel(muted ? UIStrings.SOUND_OFF : UIStrings.SOUND_ON);
             motion.SetLabel(reduceMotion ? UIStrings.MOTION_REDUCED : UIStrings.MOTION_ON);

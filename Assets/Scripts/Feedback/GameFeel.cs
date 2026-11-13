@@ -33,6 +33,7 @@ namespace PackItPerfect
         Camera _camera;
         bool _tutorialFinished;
         int _placements;
+        bool _audioWarming = true;
         float _backdropSize = -1f;
         float _backdropAspect = -1f;
         Vector3 _backdropCentre;
@@ -118,6 +119,7 @@ namespace PackItPerfect
 
         void Update()
         {
+            if (_audioWarming) _audioWarming = _audio.WarmNext();
             if (_reduceMotion || _tutorialFinished || _game.CurrentLevelNumber != _tuning.tutorialLevel ||
                 _game.InputLocked || _game.IsWon || _game.IsInteracting || !_game.TryGetTutorialPath(out var from, out var to))
             {
@@ -185,7 +187,8 @@ namespace PackItPerfect
                 case UI.UICue.Star:
                     PlaySound(GameSound.Star, Mathf.Pow(Mathf.Max(1f, _audioTuning.starPitchStep), Mathf.Max(0, step)));
                     break;
-                case UI.UICue.Reward: PlaySound(GameSound.Reward); break;
+                case UI.UICue.Reward:
+                case UI.UICue.Purchase: PlaySound(GameSound.Reward); break;
                 case UI.UICue.Refused: PlaySound(GameSound.Locked); break;
                 case UI.UICue.Banner: PlaySound(GameSound.Banner); break;
                 case UI.UICue.Freeze: PlaySound(GameSound.Freeze); break;

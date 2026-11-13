@@ -133,11 +133,61 @@ namespace PackItPerfect.Meta
             if (improved)
             {
                 Changed?.Invoke();
+                StarsChanged?.Invoke();
             }
             return improved;
         }
 
         /// <summary>Raised when a booster count changes (spent or rewarded).</summary>
+        /// <summary>Why a shop purchase did or did not happen.</summary>
+        public enum PurchaseResult
+        {
+            /// <summary>One booster was added and its price taken.</summary>
+            Bought,
+            /// <summary>The booster has not unlocked yet.</summary>
+            Locked,
+            /// <summary>The booster has no price.</summary>
+            NotForSale,
+            /// <summary>Not enough stars in the balance.</summary>
+            NotEnoughStars,
+        }
+
+        /// <summary>Raised when the star balance changes (a shop purchase or a new best).</summary>
+        public event Action StarsChanged;
+
+        /// <summary>Stars earned so far that the shop has already taken.</summary>
+        public int StarsSpent => data.starsSpent;
+
+        /// <summary>Stars the player can spend: best stars over all levels minus what the shop took. Never negative.</summary>
+        public int StarBalance => Math.Max(0, TotalStars - data.starsSpent);
+
+        /// <summary>Price in stars of one booster; 0 or less means it is not sold.</summary>
+        public int ShopPrice(BoosterType type) => rules.ShopPrice(type);
+
+        /// <summary>Buys one booster with stars. Only unlocked boosters with a price can be bought.</summary>
+        public PurchaseResult TryBuy(BoosterType type)
+        {
+            int price = rules.ShopPrice(type);
+            if (price <= 0)
+            {
+                return PurchaseResult.NotForSale;
+            }
+            if (!IsBoosterUnlocked(type))
+            {
+                return PurchaseResult.Locked;
+            }
+            if (StarBalance < price)
+            {
+                return PurchaseResult.NotEnoughStars;
+            }
+            data.starsSpent += price;
+            data.boosters[(int)type]++;
+            store.Save(data);
+            StarsChanged?.Invoke();
+            BoostersChanged?.Invoke();
+            return PurchaseResult.Bought;
+        }
+
         public event Action BoostersChanged;
         /// <summary>The progression rules in force.</summary>
         public ProgressionRules Rules => rules;
@@ -266,6 +316,8 @@ namespace PackItPerfect.Meta
                 data.startingBoostersGranted = true;
             }
             data.boosters = boosters;
+            // A hand-edited or damaged save can never owe more stars than the player has earned.
+            data.starsSpent = Math.Max(0, Math.Min(data.starsSpent, TotalStars));
             data.version = ProgressData.CURRENT_VERSION;
         }
     }

@@ -45,6 +45,9 @@ namespace PackItPerfect.UI
         public event Action PlayClicked;
         /// <summary>"Levels" clicked.</summary>
         public event Action LevelsClicked;
+        /// <summary>"Shop" clicked.</summary>
+        public event Action ShopClicked;
+        readonly UIButton shop;
 
         /// <summary>Builds the (hidden) screen under <paramref name="parent"/>.</summary>
         public MainScreen(UIFactory factory, Transform parent, UITuning tuning)
@@ -90,6 +93,10 @@ namespace PackItPerfect.UI
             var levels = factory.Button("Main Levels", content, UIStrings.LEVELS, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => LevelsClicked?.Invoke());
             UIFactory.FixedSize(levels.Root, LEVELS_HEIGHT);
+
+            shop = factory.Button("Main Shop", content, UIStrings.SHOP, ButtonStyle.Accent, tuning.buttonFontSize,
+                () => ShopClicked?.Invoke());
+            UIFactory.FixedSize(shop.Root, LEVELS_HEIGHT);
 
             sound = factory.Button("Main Sound", content, UIStrings.SOUND_ON, ButtonStyle.Secondary, tuning.smallFontSize,
                 () => SoundClicked?.Invoke());
@@ -141,6 +148,7 @@ namespace PackItPerfect.UI
         public void Refresh(ProgressService progress)
         {
             uiSize.SetLabel(string.Format(UIStrings.UI_SIZE_FORMAT, progress.UIScalePercent));
+            shop.Root.gameObject.SetActive(progress.Rules.HasShop);
             sound.SetLabel(progress.Muted ? UIStrings.SOUND_OFF : UIStrings.SOUND_ON);
             motion.SetLabel(progress.ReduceMotion ? UIStrings.MOTION_REDUCED : UIStrings.MOTION_ON);
             stats.text = TmpText.Clean(string.Format(UIStrings.STATS_FORMAT,

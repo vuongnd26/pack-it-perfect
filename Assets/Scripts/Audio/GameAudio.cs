@@ -25,6 +25,7 @@ namespace PackItPerfect
         readonly System.Random _noise = new System.Random(721);
         readonly System.Random _spread = new System.Random(1187);
         int _nextVoice;
+        int _warm;
         bool _muted;
 
         /// <summary>Creates clips and a fixed bank of two-dimensional audio voices.</summary>
@@ -48,30 +49,59 @@ namespace PackItPerfect
             }
             for (int i = 0; i < _lastPlayed.Length; i++) _lastPlayed[i] = float.NegativeInfinity;
 
-            Set(GameSound.Pickup, tuning.pickup);
-            Set(GameSound.Place, tuning.place);
-            Set(GameSound.Rotate, tuning.rotate);
-            Set(GameSound.Invalid, tuning.invalid);
-            Set(GameSound.Zipper, tuning.zipper, rasp: true);
-            Set(GameSound.Tick, tuning.tick);
-            Set(GameSound.UI, tuning.ui);
-            Set(GameSound.Booster, tuning.booster);
-            Set(GameSound.Return, tuning.pieceReturn);
-            Set(GameSound.Undo, tuning.undo);
-            Set(GameSound.Hint, tuning.hint);
-            Set(GameSound.Freeze, tuning.freeze);
-            Set(GameSound.Locked, tuning.locked);
-            Set(GameSound.Banner, tuning.banner);
-            Set(GameSound.LevelStart, tuning.levelStart);
-            Set(GameSound.Star, tuning.star);
-            Set(GameSound.Reward, tuning.reward);
-            Set(GameSound.Lose, tuning.lose);
-            _clips[(int)GameSound.Win] = VictoryClip();
+            // No clip is synthesised here: building all of them at once froze the start-up on slower phones. The owner
+            // calls WarmNext once per frame; a sound needed earlier is built on the spot by Play.
         }
 
-        void Set(GameSound sound, AudioTuning.Tone tone, bool rasp = false)
+        AudioTuning.Tone ToneFor(GameSound sound)
         {
-            if (tone != null) _clips[(int)sound] = ToneClip(sound.ToString(), tone, rasp);
+            switch (sound)
+            {
+                case GameSound.Pickup: return _tuning.pickup;
+                case GameSound.Place: return _tuning.place;
+                case GameSound.Rotate: return _tuning.rotate;
+                case GameSound.Invalid: return _tuning.invalid;
+                case GameSound.Zipper: return _tuning.zipper;
+                case GameSound.Tick: return _tuning.tick;
+                case GameSound.UI: return _tuning.ui;
+                case GameSound.Booster: return _tuning.booster;
+                case GameSound.Return: return _tuning.pieceReturn;
+                case GameSound.Undo: return _tuning.undo;
+                case GameSound.Hint: return _tuning.hint;
+                case GameSound.Freeze: return _tuning.freeze;
+                case GameSound.Locked: return _tuning.locked;
+                case GameSound.Banner: return _tuning.banner;
+                case GameSound.LevelStart: return _tuning.levelStart;
+                case GameSound.Star: return _tuning.star;
+                case GameSound.Reward: return _tuning.reward;
+                case GameSound.Lose: return _tuning.lose;
+                default: return null;
+            }
+        }
+
+        void Build(int index)
+        {
+            var sound = (GameSound)index;
+            if (sound == GameSound.Win)
+            {
+                _clips[index] = VictoryClip();
+                return;
+            }
+            var tone = ToneFor(sound);
+            if (tone != null) _clips[index] = ToneClip(sound.ToString(), tone, sound == GameSound.Zipper);
+        }
+
+        /// <summary>Builds the next clip that does not exist yet. Call once per frame; returns false when everything is built.</summary>
+        public bool WarmNext()
+        {
+            while (_warm < _clips.Length)
+            {
+                int index = _warm++;
+                if (_clips[index] != null) continue;
+                Build(index);
+                return _warm < _clips.Length;
+            }
+            return false;
         }
 
         /// <summary>Mutes all categories and immediately stops any active sound.</summary>
@@ -89,7 +119,9 @@ namespace PackItPerfect
         public void Play(GameSound sound, float pitch = 1f, float volume = 1f, bool vary = false)
         {
             int index = (int)sound;
-            if (_muted || _root == null || index < 0 || index >= _clips.Length || _clips[index] == null) return;
+            if (_muted || _root == null || index < 0 || index >= _clips.Length) return;
+            if (_clips[index] == null) Build(index);
+            if (_clips[index] == null) return;
             float now = Time.unscaledTime;
             if (now - _lastPlayed[index] < _tuning.retriggerGuard) return;
             _lastPlayed[index] = now;

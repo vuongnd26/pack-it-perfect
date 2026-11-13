@@ -55,6 +55,7 @@ namespace PackItPerfect.UI
         WinScreen winScreen;
         LoseScreen loseScreen;
         PauseScreen pauseScreen;
+        ShopScreen shopScreen;
 
         UIState state;
         bool built;
@@ -92,6 +93,8 @@ namespace PackItPerfect.UI
         readonly object mainFadeKey = new object();
         readonly object selectFadeKey = new object();
         readonly object overlayFadeKey = new object();
+        bool shopOpen;
+        readonly object shopFadeKey = new object();
         bool lastInLevel;
         bool viewInsetsDirty = true;
 
@@ -137,6 +140,7 @@ namespace PackItPerfect.UI
         {
             // PackingGame.Awake has parsed levels.json by now (all Awakes run before any Start).
             rules = LoadRules();
+            WarmFont();
             // The Cozy Travel build keeps its own save; the 15-level build's progress file is never written here.
             progress = new ProgressService(saveStoreOverride ?? new JsonSaveStore(JsonSaveStore.CozyPath), game.LevelCount, rules);
             progress.BoostersChanged += OnBoostersChanged;
@@ -145,6 +149,22 @@ namespace PackItPerfect.UI
             built = true;
             ApplyPreferences();
             ShowState(UIState.Main);
+        }
+
+        // Level names, rule chips and banner copy come from levels.json: include them so no glyph is first built mid-game.
+        void WarmFont()
+        {
+            var texts = new List<string>();
+            for (int number = 1; number <= game.LevelCount; number++)
+            {
+                var info = game.GetLevelInfo(number);
+                if (info == null) continue;
+                texts.Add(info.Name);
+                texts.Add(info.BannerTitle);
+                texts.Add(info.BannerSubtitle);
+                if (info.RuleChips != null) texts.AddRange(info.RuleChips);
+            }
+            FontWarmup.Run(texts, typeof(UIStrings), typeof(GameTexts));
         }
 
         void OnDestroy()
@@ -252,6 +272,7 @@ namespace PackItPerfect.UI
             pauseScreen.ResumeClicked += ClosePause;
             pauseScreen.UISizeClicked += CycleUISize;
             pauseScreen.RestartClicked += OnPauseRestart;
+            pauseScreen.ShopClicked += OpenShop;
             pauseScreen.HomeClicked += () => ShowState(UIState.Main);
             pauseScreen.SoundClicked += () => SetPreferences(!progress.Muted, progress.ReduceMotion);
             pauseScreen.MotionClicked += () => SetPreferences(progress.Muted, !progress.ReduceMotion);
@@ -261,6 +282,8 @@ namespace PackItPerfect.UI
             winScreen.ReplayClicked += game.RestartLevel;
             winScreen.LevelsClicked += () => ShowState(UIState.LevelSelect);
             winScreen.HomeClicked += () => ShowState(UIState.Main);
+            winScreen.ShopClicked += OpenShop;
+            winScreen.ShopAvailable = rules.HasShop;
             winScreen.StarShown += index => Cue?.Invoke(UICue.Star, index);
             winScreen.RewardShown += () => Cue?.Invoke(UICue.Reward, 0);
 
@@ -277,10 +300,74 @@ namespace PackItPerfect.UI
             mainScreen.PlayClicked += OnPlayClicked;
             mainScreen.UISizeClicked += CycleUISize;
             mainScreen.LevelsClicked += () => ShowState(UIState.LevelSelect);
+            mainScreen.ShopClicked += OpenShop;
             mainScreen.SoundClicked += () => SetPreferences(!progress.Muted, progress.ReduceMotion);
             mainScreen.MotionClicked += () => SetPreferences(progress.Muted, !progress.ReduceMotion);
 
+            // Last child = drawn on top of every other screen, so it covers the menu, win card or pause card it was opened from.
+            shopScreen = new ShopScreen(factory, canvasRect, tuning, animator);
+            shopScreen.CloseClicked += CloseShop;
+            shopScreen.BuyClicked += OnShopBuy;
+
             UpdateSafeArea();
+        }
+
+        // ---------------------------------------------------------------- shop
+
+        void OpenShop()
+        {
+            if (!built || shopOpen || !rules.HasShop)
+            {
+                return;
+            }
+            shopOpen = true;
+            shopScreen.Show(progress);
+            UIMotion.FadeIn(animator, shopFadeKey, shopScreen.Group, tuning.screenFade, tuning.reduceMotion);
+            Focus(shopScreen.FirstFocus);
+        }
+
+        void CloseShop()
+        {
+            if (!shopOpen)
+            {
+                return;
+            }
+            shopOpen = false;
+            shopScreen.Hide();
+            // Main shows the star total and the Shop label state: bring it up to date.
+            mainScreen.Refresh(progress);
+            switch (state)
+            {
+                case UIState.Main: Focus(mainScreen.PlayButton); break;
+                case UIState.Won: Focus(winScreen.PrimaryButton); break;
+                case UIState.Playing: Focus(paused ? pauseScreen.ResumeButton : hud.FirstFocus); break;
+            }
+        }
+
+        void OnShopBuy(BoosterType type)
+        {
+            var result = progress.TryBuy(type);
+            string name = UIStrings.BoosterName(type);
+            switch (result)
+            {
+                case ProgressService.PurchaseResult.Bought:
+                    shopScreen.Refresh(progress);
+                    shopScreen.PlayBought(type);
+                    shopScreen.ShowMessage(string.Format(UIStrings.SHOP_BOUGHT_FORMAT, name), true);
+                    Cue?.Invoke(UICue.Purchase, 0);
+                    break;
+                case ProgressService.PurchaseResult.Locked:
+                    shopScreen.ShowMessage(string.Format(UIStrings.SHOP_LOCKED_FORMAT, rules.UnlockAfterLevel(type)), false);
+                    shopScreen.PlayRefused(type);
+                    Cue?.Invoke(UICue.Refused, 0);
+                    break;
+                case ProgressService.PurchaseResult.NotEnoughStars:
+                    shopScreen.ShowMessage(string.Format(UIStrings.SHOP_NEED_FORMAT,
+                        progress.ShopPrice(type) - progress.StarBalance), false);
+                    shopScreen.PlayRefused(type);
+                    Cue?.Invoke(UICue.Refused, 0);
+                    break;
+            }
         }
 
         // ---------------------------------------------------------------- flow
@@ -290,6 +377,8 @@ namespace PackItPerfect.UI
             var previous = state;
             state = next;
             paused = false;
+            shopOpen = false;
+            shopScreen.Hide();
             pauseScreen.Hide();
             bool inLevel = next == UIState.Playing || next == UIState.Won || next == UIState.Lost;
             // The opaque menus cover the board completely: do not make the device draw it underneath.
@@ -490,6 +579,11 @@ namespace PackItPerfect.UI
             {
                 return;
             }
+            if (shopOpen)
+            {
+                CloseShop();
+                return;
+            }
             switch (state)
             {
                 case UIState.LevelSelect:
@@ -525,7 +619,7 @@ namespace PackItPerfect.UI
             paused = true;
             game.SetInputLocked(true);
             hud.SetInteractable(false);
-            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent, rules.HasShop);
             pauseScreen.Show();
             UIMotion.FadeIn(animator, overlayFadeKey, pauseScreen.Group, tuning.screenFade, tuning.reduceMotion);
             Focus(pauseScreen.ResumeButton);
@@ -722,7 +816,7 @@ namespace PackItPerfect.UI
             progress.SetPreferences(muted, reduceMotion);
             ApplyPreferences();
             mainScreen.Refresh(progress);
-            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent, rules.HasShop);
         }
 
         void CycleUISize()
@@ -730,7 +824,7 @@ namespace PackItPerfect.UI
             progress.SetUIScalePercent(progress.UIScalePercent >= 150 ? 100 : progress.UIScalePercent + 25);
             ApplyPreferences();
             mainScreen.Refresh(progress);
-            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
+            pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent, rules.HasShop);
         }
 
         void ApplyPreferences()

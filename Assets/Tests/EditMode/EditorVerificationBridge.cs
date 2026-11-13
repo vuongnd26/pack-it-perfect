@@ -117,6 +117,17 @@ namespace PackItPerfect.Tests
                         }
                         Save(request.id, true, "New art imported as sprites; existing sprite import settings preserved.");
                         break;
+                    case "reimport-art":
+                        if (EditorApplication.isPlayingOrWillChangePlaymode)
+                            throw new InvalidOperationException("Stop Play before importing art.");
+                        int reimported = 0;
+                        foreach (string file in Directory.GetFiles("Assets/Resources", "*.png", SearchOption.AllDirectories))
+                        {
+                            AssetDatabase.ImportAsset(file.Replace('\\', '/'), ImportAssetOptions.ForceUpdate);
+                            reimported++;
+                        }
+                        Save(request.id, true, $"Re-imported {reimported} textures.");
+                        break;
                     case "editmode":
                     case "playmode":
                         if (EditorApplication.isPlayingOrWillChangePlaymode)

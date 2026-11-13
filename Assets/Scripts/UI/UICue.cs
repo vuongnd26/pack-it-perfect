@@ -17,5 +17,7 @@ namespace PackItPerfect.UI
         Freeze,
         /// <summary>The timer ran out.</summary>
         Lost,
+        /// <summary>A booster was bought in the shop.</summary>
+        Purchase,
     }
 }
