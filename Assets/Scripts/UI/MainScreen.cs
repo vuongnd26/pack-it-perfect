@@ -52,6 +52,8 @@ namespace PackItPerfect.UI
             var background = factory.Panel("Main Screen", parent, tuning.menuBackground, 0f, raycast: true);
             UIFactory.Stretch(background.rectTransform);
             root = background.gameObject;
+            UIFactory.Isolate(root);
+            Group = UIFactory.Group(root);
             factory.Backdrop(background.transform, "bg_menu");
             var safe = factory.SafeContent(background.transform);
             var content = UIFactory.CreateRect("Main Content", safe);
@@ -125,6 +127,9 @@ namespace PackItPerfect.UI
             boosterChips[(int)type] = chip.gameObject;
             boosterCounts[(int)type] = count;
         }
+
+        /// <summary>Canvas group of the whole screen (fade-in).</summary>
+        public CanvasGroup Group { get; }
 
         /// <summary>The Play button (first focus for gamepads).</summary>
         public UIButton PlayButton { get; }

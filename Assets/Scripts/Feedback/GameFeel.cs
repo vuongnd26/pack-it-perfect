@@ -32,9 +32,16 @@ namespace PackItPerfect
         SpriteRenderer _backdrop;
         Camera _camera;
         bool _tutorialFinished;
+        int _placements;
+        float _backdropSize = -1f;
+        float _backdropAspect = -1f;
+        Vector3 _backdropCentre;
         readonly System.Random _random = new System.Random();
 #if UNITY_ANDROID && !UNITY_EDITOR
         bool _hapticsUnavailable;
+        AndroidJavaObject _activity;
+        AndroidJavaObject _decorView;
+        AndroidJavaRunnable _hapticRunnable;
 #endif
 
         /// <summary>Serialized feel configuration also used by the board's runtime sprite cache.</summary>
@@ -62,6 +69,10 @@ namespace PackItPerfect
         /// <summary>Routes any additional UI or gameplay presentation sound through the shared mute-aware sound bank.</summary>
         public void PlaySound(GameSound sound) => _audio?.Play(sound);
 
+        /// <summary>Plays a sound at a chosen pitch and volume; <paramref name="vary"/> adds the natural pitch spread.</summary>
+        public void PlaySound(GameSound sound, float pitch, float volume = 1f, bool vary = false) =>
+            _audio?.Play(sound, pitch, volume, vary);
+
         void Awake()
         {
             _game = GetComponent<PackingGame>();
@@ -87,6 +98,9 @@ namespace PackItPerfect
             _game.ZipperStarted += OnZipper;
             _game.LevelCompleted += OnCompleted;
             _game.LevelWon += OnWon;
+            _game.PieceReturned += OnReturned;
+            _game.Undone += OnUndone;
+            _game.HintShown += OnHint;
         }
 
         void Start()
@@ -96,6 +110,7 @@ namespace PackItPerfect
             {
                 _ui.ButtonClicked += OnButton;
                 _ui.BoosterUsed += OnBooster;
+                _ui.Cue += OnCue;
                 _timer = _ui.Timer;
                 if (_timer != null) _timer.WarningTick += OnTick;
             }
@@ -103,7 +118,6 @@ namespace PackItPerfect
 
         void Update()
         {
-            _burst.Tick(Time.unscaledDeltaTime);
             if (_reduceMotion || _tutorialFinished || _game.CurrentLevelNumber != _tuning.tutorialLevel ||
                 _game.InputLocked || _game.IsWon || _game.IsInteracting || !_game.TryGetTutorialPath(out var from, out var to))
             {
@@ -119,11 +133,19 @@ namespace PackItPerfect
             if (_backdrop == null) return;
             if (_camera == null) _camera = Camera.main;
             if (_camera == null || !_camera.orthographic) return;
+            var position = _camera.transform.position;
+            if (Mathf.Approximately(_camera.orthographicSize, _backdropSize) &&
+                Mathf.Approximately(_camera.aspect, _backdropAspect) && position == _backdropCentre)
+            {
+                return; // the view did not change: leave the backdrop's transform alone
+            }
+            _backdropSize = _camera.orthographicSize;
+            _backdropAspect = _camera.aspect;
+            _backdropCentre = position;
             float viewHeight = _camera.orthographicSize * 2f;
             float viewWidth = viewHeight * _camera.aspect;
             var art = _backdrop.sprite.bounds.size;
             float scale = Mathf.Max(viewWidth / art.x, viewHeight / art.y);
-            var position = _camera.transform.position;
             _backdrop.transform.position = new Vector3(position.x, position.y, 0f);
             _backdrop.transform.localScale = new Vector3(scale, scale, 1f);
         }
@@ -134,29 +156,60 @@ namespace PackItPerfect
             _burst.Clear();
             _hand.Reset();
             _tutorialFinished = false;
+            _placements = 0;
             _game.ReduceMotion = _reduceMotion;
+            PlaySound(GameSound.LevelStart);
         }
 
-        void OnPickup(int id) => PlaySound(GameSound.Pickup);
-        void OnRotate(int id) => PlaySound(GameSound.Rotate);
+        void OnPickup(int id) => PlaySound(GameSound.Pickup, 1f, 1f, true);
+        void OnRotate(int id) => PlaySound(GameSound.Rotate, 1f, 1f, true);
         void OnButton(string id) => PlaySound(GameSound.UI);
         void OnBooster() => PlaySound(GameSound.Booster);
         void OnTick() => PlaySound(GameSound.Tick);
         void OnZipper() => PlaySound(GameSound.Zipper);
         void OnWon(int level, int stars) => PlaySound(GameSound.Win);
+        void OnUndone() => PlaySound(GameSound.Undo);
+        void OnHint(int id) => PlaySound(GameSound.Hint);
+
+        void OnReturned(int id, PieceView view)
+        {
+            PlaySound(GameSound.Return, 1f, 1f, true);
+            if (!_reduceMotion && view != null) _burst.Dust(view.RestCenter, view.Shape.MaxDimension * view.Scale);
+        }
+
+        // Interface moments that deserve a sound; the UI names the moment and never picks a clip.
+        void OnCue(UI.UICue cue, int step)
+        {
+            switch (cue)
+            {
+                case UI.UICue.Star:
+                    PlaySound(GameSound.Star, Mathf.Pow(Mathf.Max(1f, _audioTuning.starPitchStep), Mathf.Max(0, step)));
+                    break;
+                case UI.UICue.Reward: PlaySound(GameSound.Reward); break;
+                case UI.UICue.Refused: PlaySound(GameSound.Locked); break;
+                case UI.UICue.Banner: PlaySound(GameSound.Banner); break;
+                case UI.UICue.Freeze: PlaySound(GameSound.Freeze); break;
+                case UI.UICue.Lost: PlaySound(GameSound.Lose); break;
+            }
+        }
 
         void OnPlaced(int id, PieceView view)
         {
             _tutorialFinished = true;
             _hand.Hide();
-            PlaySound(GameSound.Place);
+            // The knock climbs in pitch as the container fills: progress you can hear.
+            PlaySound(GameSound.Place, 1f + _game.FillRatio * _audioTuning.placePitchRise, 1f, true);
             if (!_reduceMotion)
             {
                 view.StartBounce(_tuning.bounceDuration, _tuning.bounceAmount);
-                _burst.Sparkle(view.RestCenter);
+                _burst.Sparkle(view.RestCenter, view.Shape.MaxDimension);
             }
-            _game.Feedback?.Word(view.RestCenter + (Vector3)_tuning.praiseOffset,
-                GameTexts.PlacementPraise(_random.Next(GameTexts.PRAISE_COUNT)));
+            _placements++;
+            if (_placements % Mathf.Max(1, _tuning.praiseEvery) == 0)
+            {
+                _game.Feedback?.Word(view.RestCenter + (Vector3)_tuning.praiseOffset,
+                    GameTexts.PlacementPraise(_random.Next(GameTexts.PRAISE_COUNT)));
+            }
             LightHaptic();
         }
 
@@ -170,7 +223,8 @@ namespace PackItPerfect
         {
             // Before the delayed win screen appears; render above the lid and below praise/toasts.
             if (!_reduceMotion && _game.CurrentLevel != null)
-                _burst.Celebrate(new Vector3(0f, -_game.CurrentLevel.Board.Height / 2f, 0f));
+                _burst.Celebrate(new Vector3(0f, -_game.CurrentLevel.Board.Height / 2f, 0f),
+                    _game.CurrentLevel.Board.Width / 2f + 0.5f);
         }
 
         void LightHaptic()
@@ -179,27 +233,38 @@ namespace PackItPerfect
             if (!_tuning.haptics || _hapticsUnavailable) return;
             // Android's light system tactile feedback respects the OS setting and needs no VIBRATE permission.
             // Android View.performHapticFeedback returns false when feedback cannot be performed.
+            // The activity, its view and the callback are looked up once: doing all of it on every placement
+            // cost several JNI round trips and garbage each time.
             try
             {
-                using var player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                using var activity = player.GetStatic<AndroidJavaObject>("currentActivity");
-                activity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+                if (_activity == null)
                 {
-                    try
-                    {
-                        using var callbackPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                        using var callbackActivity = callbackPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                        using var window = callbackActivity.Call<AndroidJavaObject>("getWindow");
-                        using var view = window.Call<AndroidJavaObject>("getDecorView");
-                        const int VIRTUAL_KEY = 1;
-                        view.Call<bool>("performHapticFeedback", VIRTUAL_KEY);
-                    }
-                    catch (AndroidJavaException) { _hapticsUnavailable = true; }
-                }));
+                    using var player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                    _activity = player.GetStatic<AndroidJavaObject>("currentActivity");
+                    _hapticRunnable = RunHaptic;
+                }
+                _activity.Call("runOnUiThread", _hapticRunnable);
             }
             catch (AndroidJavaException) { _hapticsUnavailable = true; }
 #endif
         }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        void RunHaptic()
+        {
+            try
+            {
+                if (_decorView == null)
+                {
+                    using var window = _activity.Call<AndroidJavaObject>("getWindow");
+                    _decorView = window.Call<AndroidJavaObject>("getDecorView");
+                }
+                const int VIRTUAL_KEY = 1;
+                _decorView.Call<bool>("performHapticFeedback", VIRTUAL_KEY);
+            }
+            catch (AndroidJavaException) { _hapticsUnavailable = true; }
+        }
+#endif
 
         void OnDisable()
         {
@@ -220,13 +285,22 @@ namespace PackItPerfect
                 _game.ZipperStarted -= OnZipper;
                 _game.LevelCompleted -= OnCompleted;
                 _game.LevelWon -= OnWon;
+                _game.PieceReturned -= OnReturned;
+                _game.Undone -= OnUndone;
+                _game.HintShown -= OnHint;
             }
             if (_ui != null)
             {
                 _ui.ButtonClicked -= OnButton;
                 _ui.BoosterUsed -= OnBooster;
+                _ui.Cue -= OnCue;
             }
             if (_timer != null) _timer.WarningTick -= OnTick;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            _decorView?.Dispose();
+            _activity?.Dispose();
+#endif
+            _burst?.Dispose();
             _audio?.Dispose();
             if (_root != null) Destroy(_root.gameObject);
             _factory?.Dispose();

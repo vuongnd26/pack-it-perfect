@@ -4,16 +4,26 @@ using UnityEngine;
 namespace PackItPerfect
 {
     /// <summary>Semantic audio identifiers; UI and gameplay never select clips directly.</summary>
-    public enum GameSound { Pickup, Place, Rotate, Invalid, Zipper, Win, Tick, UI, Booster }
+    public enum GameSound
+    {
+        Pickup, Place, Rotate, Invalid, Zipper, Win, Tick, UI, Booster,
+        Return, Undo, Hint, Freeze, Locked, Banner, LevelStart, Star, Reward, Lose,
+    }
 
     /// <summary>Owns a bounded voice bank and original short procedural PCM clips; no downloads or imported audio.</summary>
     public sealed class GameAudio : IDisposable
     {
-        readonly AudioClip[] _clips = new AudioClip[(int)GameSound.Booster + 1];
+        const int SOUND_COUNT = (int)GameSound.Lose + 1;
+        const float MIN_PITCH = 0.5f;
+        const float MAX_PITCH = 2f;
+
+        readonly AudioClip[] _clips = new AudioClip[SOUND_COUNT];
+        readonly float[] _lastPlayed = new float[SOUND_COUNT];
         readonly AudioSource[] _voices;
         readonly GameObject _root;
         readonly AudioTuning _tuning;
         readonly System.Random _noise = new System.Random(721);
+        readonly System.Random _spread = new System.Random(1187);
         int _nextVoice;
         bool _muted;
 
@@ -30,18 +40,38 @@ namespace PackItPerfect
                 source.playOnAwake = false;
                 source.loop = false;
                 source.spatialBlend = 0f;
+                source.bypassEffects = true;
+                source.bypassListenerEffects = true;
+                source.bypassReverbZones = true;
                 source.volume = Mathf.Clamp01(tuning.volume);
                 _voices[i] = source;
             }
-            _clips[(int)GameSound.Pickup] = ToneClip("Pickup", tuning.pickup);
-            _clips[(int)GameSound.Place] = ToneClip("Place", tuning.place);
-            _clips[(int)GameSound.Rotate] = ToneClip("Rotate", tuning.rotate);
-            _clips[(int)GameSound.Invalid] = ToneClip("Invalid", tuning.invalid);
-            _clips[(int)GameSound.Zipper] = ToneClip("Zipper", tuning.zipper);
-            _clips[(int)GameSound.Tick] = ToneClip("Tick", tuning.tick);
-            _clips[(int)GameSound.UI] = ToneClip("UI", tuning.ui);
-            _clips[(int)GameSound.Booster] = ToneClip("Booster", tuning.booster);
+            for (int i = 0; i < _lastPlayed.Length; i++) _lastPlayed[i] = float.NegativeInfinity;
+
+            Set(GameSound.Pickup, tuning.pickup);
+            Set(GameSound.Place, tuning.place);
+            Set(GameSound.Rotate, tuning.rotate);
+            Set(GameSound.Invalid, tuning.invalid);
+            Set(GameSound.Zipper, tuning.zipper, rasp: true);
+            Set(GameSound.Tick, tuning.tick);
+            Set(GameSound.UI, tuning.ui);
+            Set(GameSound.Booster, tuning.booster);
+            Set(GameSound.Return, tuning.pieceReturn);
+            Set(GameSound.Undo, tuning.undo);
+            Set(GameSound.Hint, tuning.hint);
+            Set(GameSound.Freeze, tuning.freeze);
+            Set(GameSound.Locked, tuning.locked);
+            Set(GameSound.Banner, tuning.banner);
+            Set(GameSound.LevelStart, tuning.levelStart);
+            Set(GameSound.Star, tuning.star);
+            Set(GameSound.Reward, tuning.reward);
+            Set(GameSound.Lose, tuning.lose);
             _clips[(int)GameSound.Win] = VictoryClip();
+        }
+
+        void Set(GameSound sound, AudioTuning.Tone tone, bool rasp = false)
+        {
+            if (tone != null) _clips[(int)sound] = ToneClip(sound.ToString(), tone, rasp);
         }
 
         /// <summary>Mutes all categories and immediately stops any active sound.</summary>
@@ -52,15 +82,28 @@ namespace PackItPerfect
         }
 
         /// <summary>Plays one semantic event with bounded polyphony.</summary>
-        public void Play(GameSound sound)
+        /// <param name="sound">Which event.</param>
+        /// <param name="pitch">Playback pitch multiplier (1 = as synthesized).</param>
+        /// <param name="volume">Volume multiplier on top of the mix volume, 0..1.</param>
+        /// <param name="vary">True adds the small random pitch spread used for repeated gameplay sounds.</param>
+        public void Play(GameSound sound, float pitch = 1f, float volume = 1f, bool vary = false)
         {
-            if (_muted || _root == null || (int)sound < 0 || (int)sound >= _clips.Length) return;
+            int index = (int)sound;
+            if (_muted || _root == null || index < 0 || index >= _clips.Length || _clips[index] == null) return;
+            float now = Time.unscaledTime;
+            if (now - _lastPlayed[index] < _tuning.retriggerGuard) return;
+            _lastPlayed[index] = now;
+
             AudioSource voice = null;
             foreach (var source in _voices)
                 if (!source.isPlaying) { voice = source; break; }
             if (voice == null) { voice = _voices[_nextVoice]; _nextVoice = (_nextVoice + 1) % _voices.Length; }
+            if (vary && _tuning.pitchSpread > 0f)
+                pitch *= 1f + ((float)_spread.NextDouble() * 2f - 1f) * _tuning.pitchSpread;
             voice.Stop();
-            voice.clip = _clips[(int)sound];
+            voice.clip = _clips[index];
+            voice.pitch = Mathf.Clamp(pitch, MIN_PITCH, MAX_PITCH);
+            voice.volume = Mathf.Clamp01(_tuning.volume * volume);
             voice.Play();
         }
 
@@ -70,44 +113,71 @@ namespace PackItPerfect
             foreach (var source in _voices) if (source != null) source.Stop();
         }
 
-        AudioClip ToneClip(string name, AudioTuning.Tone tone)
+        AudioClip ToneClip(string name, AudioTuning.Tone tone, bool rasp)
         {
             int rate = Mathf.Clamp(_tuning.sampleRate, 8000, 48000);
             float duration = Mathf.Clamp(tone.duration, 0.01f, 2f);
             var samples = new float[Mathf.CeilToInt(duration * rate)];
-            double phase = 0d;
-            float noiseState = 0f;
-            for (int i = 0; i < samples.Length; i++)
-            {
-                float time = (float)i / rate, k = time / duration;
-                float frequency = Mathf.Lerp(tone.frequency, tone.endFrequency, k);
-                phase += Math.PI * 2d * Mathf.Clamp(frequency, 30f, rate * 0.4f) / rate;
-                float pure = (float)(Math.Sin(phase) + _tuning.harmonic * Math.Sin(phase * 2d));
-                noiseState = noiseState * 0.5f + ((float)_noise.NextDouble() * 2f - 1f) * 0.5f;
-                float envelope = Edge(time, duration) * (1f - k) * (1f - k);
-                float rasp = name == "Zipper" ? 0.55f + 0.45f * Mathf.Abs(Mathf.Sin((float)phase)) : 1f;
-                samples[i] = Mathf.Lerp(pure, noiseState, tone.noise) * tone.gain * envelope * rasp;
-            }
+            AddNote(samples, rate, tone, 0f, 1f, rasp);
+            if (tone.secondNoteDelay > 0f && tone.secondNoteDelay < duration)
+                AddNote(samples, rate, tone, tone.secondNoteDelay, Mathf.Max(0.1f, tone.secondNoteRatio), rasp);
             return MakeClip(name, samples, rate);
         }
 
+        // Adds one voice of the tone into the buffer, starting at startTime, with its frequencies scaled by ratio.
+        void AddNote(float[] samples, int rate, AudioTuning.Tone tone, float startTime, float ratio, bool rasp)
+        {
+            int start = Mathf.Clamp(Mathf.RoundToInt(startTime * rate), 0, samples.Length);
+            int count = samples.Length - start;
+            if (count <= 0) return;
+            float duration = (float)count / rate;
+            double phase = 0d, overtonePhase = 0d;
+            float noiseState = 0f;
+            float lowFrequency = Mathf.Max(30f, tone.frequency * ratio);
+            float highFrequency = Mathf.Max(30f, tone.endFrequency * ratio);
+            float nyquistGuard = rate * 0.4f;
+            for (int i = 0; i < count; i++)
+            {
+                float time = (float)i / rate, k = time / duration;
+                // Exponential glide: equal musical steps per unit time, so sweeps sound natural.
+                float frequency = Mathf.Min(nyquistGuard, lowFrequency * Mathf.Pow(highFrequency / lowFrequency, k));
+                double step = Math.PI * 2d * frequency / rate;
+                phase += step;
+                float pure = (float)(Math.Sin(phase) + _tuning.harmonic * Math.Sin(phase * 2d));
+                if (tone.overtone > 0f && tone.overtoneGain > 0f && frequency * tone.overtone < nyquistGuard)
+                {
+                    overtonePhase += step * tone.overtone;
+                    // The partial dies faster than the fundamental, like a struck bell.
+                    pure += tone.overtoneGain * (float)Math.Sin(overtonePhase) * (1f - k);
+                }
+                noiseState = noiseState * 0.5f + ((float)_noise.NextDouble() * 2f - 1f) * 0.5f;
+                float body = tone.decay > 0f ? Mathf.Exp(-tone.decay * k) * (1f - k) : (1f - k) * (1f - k);
+                float envelope = Edge(time, duration) * body;
+                float texture = rasp ? 0.55f + 0.45f * Mathf.Abs(Mathf.Sin((float)phase)) : 1f;
+                samples[start + i] += Mathf.Lerp(pure, noiseState, tone.noise) * tone.gain * envelope * texture;
+            }
+        }
+
+        // Notes start one after another and ring on, so the phrase ends as a full chord instead of chopped beeps.
         AudioClip VictoryClip()
         {
             int rate = Mathf.Clamp(_tuning.sampleRate, 8000, 48000);
             float step = Mathf.Clamp(_tuning.victoryNoteDuration, 0.04f, 0.4f);
+            float ring = Mathf.Clamp(_tuning.victoryRing, step, 2f);
             int count = Mathf.Clamp(_tuning.victoryNotes?.Length ?? 0, 1, 16);
-            int noteSamples = Mathf.CeilToInt(step * rate);
-            var samples = new float[noteSamples * count];
+            var samples = new float[Mathf.CeilToInt((step * (count - 1) + ring) * rate)];
+            int ringSamples = Mathf.CeilToInt(ring * rate);
             for (int note = 0; note < count; note++)
             {
                 int semitone = _tuning.victoryNotes != null && note < _tuning.victoryNotes.Length ? _tuning.victoryNotes[note] : 0;
                 float frequency = _tuning.victoryFrequency * Mathf.Pow(2f, semitone / 12f);
-                for (int i = 0; i < noteSamples; i++)
+                int offset = Mathf.RoundToInt(note * step * rate);
+                for (int i = 0; i < ringSamples && offset + i < samples.Length; i++)
                 {
-                    float time = (float)i / rate;
+                    float time = (float)i / rate, k = time / ring;
                     float phase = time * frequency * Mathf.PI * 2f;
-                    samples[note * noteSamples + i] = (Mathf.Sin(phase) + _tuning.harmonic * Mathf.Sin(phase * 2f)) *
-                        Edge(time, step) * (1f - time / step) * _tuning.victoryGain;
+                    float bell = Mathf.Sin(phase) + _tuning.harmonic * Mathf.Sin(phase * 2f) + 0.2f * Mathf.Sin(phase * 2.76f) * (1f - k);
+                    samples[offset + i] += bell * Edge(time, ring) * Mathf.Exp(-4f * k) * (1f - k) * _tuning.victoryGain;
                 }
             }
             return MakeClip("Victory", samples, rate);
@@ -121,6 +191,12 @@ namespace PackItPerfect
 
         static AudioClip MakeClip(string name, float[] samples, int rate)
         {
+            // Soft limiter: overlapping notes stay warm instead of clipping harshly.
+            for (int i = 0; i < samples.Length; i++)
+            {
+                float x = samples[i];
+                samples[i] = x / (1f + Mathf.Abs(x) * 0.6f);
+            }
             var clip = AudioClip.Create("Pack It " + name, samples.Length, 1, rate, false);
             clip.SetData(samples, 0);
             return clip;

@@ -46,6 +46,8 @@ namespace PackItPerfect.UI
             var dim = factory.Panel("Pause Screen", parent, tuning.overlay, 0f, raycast: true);
             UIFactory.Stretch(dim.rectTransform);
             root = dim.gameObject;
+            UIFactory.Isolate(root);
+            Group = UIFactory.Group(root);
             var safe = factory.SafeContent(dim.transform);
 
             var cardImage = factory.Panel("Card", safe, tuning.panel, tuning.cardRadius);
@@ -88,6 +90,9 @@ namespace PackItPerfect.UI
             UIFactory.ScrollWithinSafeArea(card, safe, tuning.pauseCardWidth, 1f, tuning.sideMargin);
             root.SetActive(false);
         }
+
+        /// <summary>Canvas group of the whole overlay (fade-in).</summary>
+        public CanvasGroup Group { get; }
 
         /// <summary>The Resume button (first focus for gamepads).</summary>
         public UIButton ResumeButton { get; }

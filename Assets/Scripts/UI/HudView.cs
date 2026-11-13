@@ -37,7 +37,12 @@ namespace PackItPerfect.UI
         readonly CanvasGroup toastGroup;
         readonly TextMeshProUGUI toastText;
         readonly object toastKey = new object();
+        readonly object toastPopKey = new object();
+        readonly object fillKey = new object();
+        readonly RectTransform toastRect;
+        readonly RectTransform safeRect;
         bool undoUsable = true;
+        int shownFillPercent = -1;
 
         /// <summary>Pause button clicked.</summary>
         public event Action PauseClicked;
@@ -55,8 +60,10 @@ namespace PackItPerfect.UI
             var rootRect = UIFactory.CreateRect("HUD", parent);
             UIFactory.Stretch(rootRect);
             root = rootRect.gameObject;
+            UIFactory.Isolate(root);
             interaction = root.AddComponent<CanvasGroup>();
             var safe = factory.SafeContent(rootRect);
+            safeRect = safe;
 
             var top = UIFactory.CreateRect("Top Band", safe);
             UIFactory.TopStrip(top, 0f, tuning.hudHeight, tuning.sideMargin);
@@ -120,6 +127,9 @@ namespace PackItPerfect.UI
 
             var toastImage = factory.Panel("Toast", safe, tuning.bannerBackground, TOAST_RADIUS);
             toast = toastImage.gameObject;
+            toastRect = toastImage.rectTransform;
+            // Its fade changes every frame: keep that off the HUD's own canvas.
+            UIFactory.Isolate(toast);
             toastGroup = toast.AddComponent<CanvasGroup>();
             toastGroup.blocksRaycasts = false;
             toastGroup.interactable = false;
@@ -151,8 +161,19 @@ namespace PackItPerfect.UI
         /// <summary>Displays board occupancy as a percentage. The game layer supplies a normalized 0..1 fraction.</summary>
         public void SetFill(float fraction)
         {
+            int percent = Mathf.RoundToInt(Mathf.Clamp01(fraction) * 100f);
+            if (percent == shownFillPercent && fillLabel.gameObject.activeSelf)
+            {
+                return;
+            }
+            bool grew = shownFillPercent >= 0 && percent > shownFillPercent;
+            shownFillPercent = percent;
             fillLabel.gameObject.SetActive(true);
-            fillLabel.text = TmpText.Clean(string.Format(UIStrings.FILL_FORMAT, Mathf.RoundToInt(Mathf.Clamp01(fraction) * 100f)));
+            fillLabel.text = TmpText.Clean(string.Format(UIStrings.FILL_FORMAT, percent));
+            if (grew)
+            {
+                UIMotion.Pulse(animator, fillKey, fillLabel.rectTransform, tuning.timerPulse, tuning.pulseAmount, tuning.reduceMotion);
+            }
         }
 
         /// <summary>Height of the dock plus its margin in reference pixels, above the safe-area bottom.</summary>
@@ -164,11 +185,23 @@ namespace PackItPerfect.UI
             if (!visible)
             {
                 animator.Cancel(toastKey);
+                animator.Cancel(toastPopKey);
+                animator.Cancel(fillKey);
+                fillLabel.rectTransform.localScale = Vector3.one;
                 toast.SetActive(false);
                 undoSlot.ResetMotion();
                 foreach (var slot in boosterSlots) slot.ResetMotion();
             }
             root.SetActive(visible);
+        }
+
+        /// <summary>
+        /// Shows or hides the booster dock. It keeps its place in the layout, so the board does not move; result cards
+        /// hide it so no half-covered buttons show under them.
+        /// </summary>
+        public void SetDockVisible(bool visible)
+        {
+            if (dock.gameObject.activeSelf != visible) dock.gameObject.SetActive(visible);
         }
 
         /// <summary>Keeps the HUD visible but excludes covered controls from pointer and navigation input.</summary>
@@ -181,6 +214,7 @@ namespace PackItPerfect.UI
         /// <summary>Shows a level's number, name and rule chips.</summary>
         public void Bind(LevelInfo info)
         {
+            shownFillPercent = -1;
             levelLabel.text = TmpText.Clean(string.Format(UIStrings.LEVEL_PILL_FORMAT, info?.Number ?? 0));
             nameLabel.text = TmpText.Clean(info?.Name);
             foreach (var chip in chips)
@@ -251,7 +285,13 @@ namespace PackItPerfect.UI
         public void ShowToast(string message)
         {
             toastText.text = TmpText.Clean(message);
+            // Never wider than the safe area (small phones, large UI size) and always above the dock, even when the
+            // dock has wrapped onto two rows.
+            float width = Mathf.Max(1f, Mathf.Min(tuning.toastWidth, safeRect.rect.width - tuning.sideMargin * 2f));
+            toastRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            toastRect.anchoredPosition = new Vector2(0f, BottomBandHeight + tuning.toastGap);
             toast.SetActive(true);
+            UIMotion.Pop(animator, toastPopKey, toastRect, 0f, tuning.toastPop, 0.85f, tuning.reduceMotion);
             animator.Play(toastKey, tuning.toastHold, tuning.toastFade, t => toastGroup.alpha = 1f - t,
                 () => toast.SetActive(false));
         }

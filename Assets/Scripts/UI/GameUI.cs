@@ -86,6 +86,15 @@ namespace PackItPerfect.UI
         /// <summary>A Hint, Auto Pack or Freeze was actually used. Audio hook for the booster sound.</summary>
         public event Action BoosterUsed;
 
+        /// <summary>An interface moment worth a sound (star, reward, refusal, banner, freeze, loss) and its step.</summary>
+        public event Action<UICue, int> Cue;
+
+        readonly object mainFadeKey = new object();
+        readonly object selectFadeKey = new object();
+        readonly object overlayFadeKey = new object();
+        bool lastInLevel;
+        bool viewInsetsDirty = true;
+
         /// <summary>The level countdown. Subscribe to <see cref="LevelTimer.WarningTick"/> to play the clock tick.</summary>
         public LevelTimer Timer => timer;
 
@@ -108,6 +117,8 @@ namespace PackItPerfect.UI
             game.AutoAdvanceOnWin = false;
             game.LoadOnStart = false;
             game.PointerBlocked = IsPointerOverUI;
+            // Rule messages use the HUD line: it wraps and always fits the safe area on every screen size.
+            game.ScreenToast = OnGameToast;
             game.LevelLoaded += OnLevelLoaded;
             game.FillChanged += OnFillChanged;
             game.HistoryChanged += OnHistoryChanged;
@@ -147,6 +158,7 @@ namespace PackItPerfect.UI
                 game.LevelWon -= OnLevelWon;
                 game.LevelCompleted -= OnLevelCompleted;
                 game.PointerBlocked = null;
+                game.ScreenToast = null;
             }
             if (progress != null)
             {
@@ -249,6 +261,8 @@ namespace PackItPerfect.UI
             winScreen.ReplayClicked += game.RestartLevel;
             winScreen.LevelsClicked += () => ShowState(UIState.LevelSelect);
             winScreen.HomeClicked += () => ShowState(UIState.Main);
+            winScreen.StarShown += index => Cue?.Invoke(UICue.Star, index);
+            winScreen.RewardShown += () => Cue?.Invoke(UICue.Reward, 0);
 
             loseScreen = new LoseScreen(factory, canvasRect, tuning, animator);
             loseScreen.TryAgainClicked += game.RestartLevel;
@@ -273,14 +287,29 @@ namespace PackItPerfect.UI
 
         void ShowState(UIState next)
         {
+            var previous = state;
             state = next;
             paused = false;
             pauseScreen.Hide();
             bool inLevel = next == UIState.Playing || next == UIState.Won || next == UIState.Lost;
+            // The opaque menus cover the board completely: do not make the device draw it underneath.
+            game.SetWorldVisible(inLevel);
+            lastInLevel = inLevel;
+            viewInsetsDirty = true;
             mainScreen.SetVisible(next == UIState.Main);
             levelSelect.SetVisible(next == UIState.LevelSelect);
+            if (next != previous)
+            {
+                if (next == UIState.Main)
+                    UIMotion.FadeIn(animator, mainFadeKey, mainScreen.Group, tuning.screenFade, tuning.reduceMotion);
+                else if (next == UIState.LevelSelect)
+                    UIMotion.FadeIn(animator, selectFadeKey, levelSelect.Group, tuning.screenFade, tuning.reduceMotion);
+                else if (next == UIState.Lost)
+                    UIMotion.FadeIn(animator, overlayFadeKey, loseScreen.Group, tuning.screenFade, tuning.reduceMotion);
+            }
             hud.SetVisible(inLevel);
             hud.SetInteractable(next == UIState.Playing && !game.IsWon);
+            hud.SetDockVisible(next == UIState.Playing);
             loseScreen.SetVisible(next == UIState.Lost);
             if (next != UIState.Won)
             {
@@ -367,6 +396,7 @@ namespace PackItPerfect.UI
                 timer.WarningSeconds = tuning.timerWarningSeconds;
                 timer.Start(info.TimerSeconds, tuning.timerStartDelay);
                 banner.Show(UIStrings.HARD_TITLE, UIStrings.HARD_SUBTITLE);
+                Cue?.Invoke(UICue.Banner, 0);
             }
             else
             {
@@ -374,6 +404,7 @@ namespace PackItPerfect.UI
                 if (info != null && !string.IsNullOrEmpty(info.BannerTitle))
                 {
                     banner.Show(info.BannerTitle, info.BannerSubtitle, isNew: true);
+                    Cue?.Invoke(UICue.Banner, 0);
                 }
                 else
                 {
@@ -400,6 +431,7 @@ namespace PackItPerfect.UI
             }
             timer.Stop();
             ShowState(UIState.Won);
+            UIMotion.FadeIn(animator, overlayFadeKey, winScreen.Group, tuning.screenFade, tuning.reduceMotion);
             var reward = lastRewardLevel == level ? lastReward : null;
             winScreen.Show(stars, level >= game.LevelCount, game.CurrentLevel?.Info?.Name ?? string.Empty, reward,
                 stars < ProgressService.MAX_STARS && game.AssistUsed, rules.NextMilestoneAfter(HighestPassed()),
@@ -412,6 +444,18 @@ namespace PackItPerfect.UI
             if (built)
             {
                 hud.Timer.SetSeconds(secondsLeft);
+                if (secondsLeft > 0 && secondsLeft <= tuning.timerDangerSeconds && !timer.IsFrozen)
+                {
+                    hud.Timer.Pulse(animator);
+                }
+            }
+        }
+
+        void OnGameToast(string message)
+        {
+            if (built && lastInLevel)
+            {
+                hud.ShowToast(message);
             }
         }
 
@@ -423,6 +467,7 @@ namespace PackItPerfect.UI
             }
             game.SetInputLocked(true);
             ShowState(UIState.Lost);
+            Cue?.Invoke(UICue.Lost, 0);
         }
 
         void OnApplicationPause(bool suspended)
@@ -482,6 +527,7 @@ namespace PackItPerfect.UI
             hud.SetInteractable(false);
             pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent);
             pauseScreen.Show();
+            UIMotion.FadeIn(animator, overlayFadeKey, pauseScreen.Group, tuning.screenFade, tuning.reduceMotion);
             Focus(pauseScreen.ResumeButton);
         }
 
@@ -522,6 +568,7 @@ namespace PackItPerfect.UI
             else
             {
                 hud.ShakeUndo();
+                Cue?.Invoke(UICue.Refused, 0);
             }
         }
 
@@ -585,12 +632,14 @@ namespace PackItPerfect.UI
         {
             hud.ShakeBooster(type);
             hud.ShowToast(message);
+            Cue?.Invoke(UICue.Refused, 0);
         }
 
         void Used(BoosterType type)
         {
             hud.BounceBooster(type);
             BoosterUsed?.Invoke();
+            if (type == BoosterType.Freeze) Cue?.Invoke(UICue.Freeze, 0);
         }
 
         void OnAutoPackFinished(bool packed)
@@ -690,6 +739,7 @@ namespace PackItPerfect.UI
             // The smaller logical viewport triggers chip wrapping and adaptive grid columns.
             canvasObject.GetComponent<CanvasScaler>().referenceResolution =
                 tuning.referenceResolution / (progress.UIScalePercent / 100f);
+            viewInsetsDirty = true;
             tuning.reduceMotion = progress.ReduceMotion;
             game.ReduceMotion = progress.ReduceMotion;
             if (tuning.reduceMotion) animator.FinishAll();
@@ -724,6 +774,7 @@ namespace PackItPerfect.UI
             }
             appliedSafeArea = safe;
             appliedScreen = screen;
+            viewInsetsDirty = true;
             var anchorMin = new Vector2(safe.xMin / screen.x, safe.yMin / screen.y);
             var anchorMax = new Vector2(safe.xMax / screen.x, safe.yMax / screen.y);
             foreach (var rect in factory.SafeRects)
@@ -738,6 +789,12 @@ namespace PackItPerfect.UI
         // Tells the board how much of the screen height the HUD bands take, so it fits between them.
         void UpdateViewInsets()
         {
+            // Menus hide the board and the HUD: nothing to fit until a level is on screen again.
+            if (!lastInLevel && !viewInsetsDirty)
+            {
+                return;
+            }
+            viewInsetsDirty = false;
             banner.FitBelowHUD(hud.TopBandHeight);
             float canvasHeight = canvasRect.rect.height;
             if (canvasHeight <= 0f || Screen.height <= 0)

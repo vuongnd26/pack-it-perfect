@@ -64,6 +64,8 @@ namespace PackItPerfect.UI
 
         void Update()
         {
+            // At rest (the usual case for every button on screen) this costs two comparisons and nothing else.
+            if (!pressed && amount <= 0f) return;
             if (tuning == null) return;
             if (button == null || !button.IsInteractable()) pressed = false;
             float target = pressed ? 1f : 0f;

@@ -49,6 +49,25 @@ namespace PackItPerfect
         [Tooltip("Scale of pieces resting in the tray. Prototype: 0.6.")]
         public float trayScale = 0.6f;
 
+        [Header("Piece motion (visual only; skipped under reduced motion)")]
+        [Tooltip("Seconds a dropped piece takes to settle into its cells.")]
+        public float snapSeconds = 0.08f;
+
+        [Tooltip("Seconds a piece takes to travel back to the tray (bad drop, tap to remove, undo, hint).")]
+        public float returnSeconds = 0.2f;
+
+        [Tooltip("Seconds the illustrated object takes to show a quarter turn.")]
+        public float rotateSeconds = 0.14f;
+
+        [Tooltip("Seconds each piece takes to pop into the tray when a level is dealt.")]
+        public float dealSeconds = 0.26f;
+
+        [Tooltip("Delay between consecutive pieces popping in when a level is dealt.")]
+        public float dealStagger = 0.035f;
+
+        [Tooltip("How fast the fill bar follows the real fill; higher is snappier. 0 = jump at once.")]
+        public float fillBarSpeed = 10f;
+
         [Tooltip("Gap kept on each side of a piece cell, in cells, so cells read as a grid inside the piece.")]
         public float pieceCellInset = 0.06f;
 

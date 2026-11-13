@@ -74,7 +74,13 @@ namespace PackItPerfect
         Vector2 grabOffset;
         bool ghostShown;
         Vector2Int ghostOrigin;
+        // What the ghost last drew: 0 = nothing yet, 1 = valid, 2 = invalid. Text and tint change only when this does.
+        int ghostDrawnState;
+        Vector2Int ghostDrawnOrigin;
         Pointer activePointer;
+        Action<string> screenToast;
+        bool worldVisible = true;
+        int worldCullingMask = -1;
 
         // One piece's state inside an Undo snapshot. Charges, time and assist use are deliberately not part of it.
         struct PieceState
@@ -124,6 +130,12 @@ namespace PackItPerfect
         public event Action InvalidAction;
         /// <summary>Raised as the zipper begins, after the lid lands.</summary>
         public event Action ZipperStarted;
+        /// <summary>Raised when a placed piece goes back to the tray by the player's choice (tap, or a board piece dropped badly).</summary>
+        public event Action<int, PieceView> PieceReturned;
+        /// <summary>Raised after an Undo restored the previous arrangement.</summary>
+        public event Action Undone;
+        /// <summary>Raised after a Hint was applied (piece id).</summary>
+        public event Action<int> HintShown;
         /// <summary>Raised when <see cref="CanUndo"/> may have changed.</summary>
         public event Action HistoryChanged;
         /// <summary>Raised when an Auto Pack request ends: true if a piece was packed (spend the charge), false if nothing happened.</summary>
@@ -220,6 +232,35 @@ namespace PackItPerfect
         }
 
         /// <summary>
+        /// Optional screen-space sink for rule toasts. When set, toasts go there (a HUD line that always fits the screen)
+        /// instead of the built-in world-space pill; floating words stay in the world. Null restores the built-in toast.
+        /// </summary>
+        public Action<string> ScreenToast
+        {
+            get => screenToast;
+            set
+            {
+                screenToast = value;
+                if (worldFeedback != null) worldFeedback.ToastSink = value;
+            }
+        }
+
+        /// <summary>Fill of the board right now, 0..1 (0 when no level is loaded).</summary>
+        public float FillRatio => level != null ? board.FillRatio : 0f;
+
+        /// <summary>
+        /// Shows or hides everything the game camera draws (board, pieces, backdrop). Full-screen menus hide it so the
+        /// device does not render a level nobody can see. Presentation only: no game state changes.
+        /// </summary>
+        public void SetWorldVisible(bool visible)
+        {
+            worldVisible = visible;
+            if (cam == null) return;
+            if (worldCullingMask == -1 && cam.cullingMask != 0) worldCullingMask = cam.cullingMask;
+            cam.cullingMask = visible ? (worldCullingMask == -1 ? ~0 : worldCullingMask) : 0;
+        }
+
+        /// <summary>
         /// When true (default), Start loads the serialized start level. The UI sets this false in its Awake so the app
         /// opens on the main menu. A <see cref="LoadLevel"/> call made before Start still loads that level in Start.
         /// </summary>
@@ -294,7 +335,7 @@ namespace PackItPerfect
             ClearHistory();
             foreach (int id in hint.Evicted)
             {
-                pieceViews[id].PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+                pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
             }
             int piece = hint.PieceId;
             shapes[piece] = hint.Shape;
@@ -304,6 +345,7 @@ namespace PackItPerfect
             view.StartWobble(tuning.hintWobbleDuration, tuning.hintWobbleCycles);
             OnBoardChanged();
             hintGlow.Show(hint.TargetCells);
+            HintShown?.Invoke(piece);
             return true;
         }
 
@@ -325,8 +367,9 @@ namespace PackItPerfect
             }
             var snapshot = history[history.Count - 1];
             history.RemoveAt(history.Count - 1);
-            Restore(snapshot);
+            Restore(snapshot, tuning.returnSeconds);
             HistoryChanged?.Invoke();
+            Undone?.Invoke();
             return true;
         }
 
@@ -370,6 +413,7 @@ namespace PackItPerfect
 
         void Awake()
         {
+            AppPerformance.Apply();
             feel = GetComponent<GameFeel>();
             if (feel == null) feel = gameObject.AddComponent<GameFeel>();
             if (levelsJson == null)
@@ -417,8 +461,10 @@ namespace PackItPerfect
             cam.orthographic = true;
             cam.backgroundColor = tuning.backgroundColor;
             factory = new SpriteFactory();
-            worldFeedback = new WorldFeedback(factory, transform, cam, tuning);
+            AppPerformance.DisableSceneLights();
+            worldFeedback = new WorldFeedback(factory, transform, cam, tuning) { ToastSink = screenToast };
             feedback ??= worldFeedback;
+            SetWorldVisible(worldVisible);
             if (loadOnStart)
             {
                 LoadLevelAt(Mathf.Clamp(startLevel, 1, LevelCount) - 1);
@@ -466,6 +512,7 @@ namespace PackItPerfect
             inputLocked = false;
             lidClosed = false;
             ghostShown = false;
+            ghostDrawnState = 0;
             feedback?.Clear();
 
             var data = levelsFile.levels[levelIndex];
@@ -479,7 +526,9 @@ namespace PackItPerfect
             board = loaded.Board;
             hints = new HintService(loaded);
             shapes = (PieceShape[])loaded.StartShapes.Clone();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.Log($"PackingGame: loaded level {data.number} \"{data.name}\"");
+#endif
 
             levelRoot = new GameObject($"Level {data.number}").transform;
             levelRoot.SetParent(transform, false);
@@ -512,6 +561,8 @@ namespace PackItPerfect
                     LevelLoader.ParseColor(loaded.Items[i].color), SpriteFactory.ORDER_PIECE, tuning, decor);
                 view.SetShape(shapes[i], piece.startTurns);
                 view.PlaceAt(tray.TopLeftFor(i, shapes[i]), tuning.trayScale);
+                view.ReduceMotion = reduceMotion;
+                view.StartPopIn(i * tuning.dealStagger, tuning.dealSeconds);
                 pieceViews[i] = view;
             }
             ghost = new PieceView(factory, levelRoot, "Ghost", tuning.ghostValidColor, SpriteFactory.ORDER_GHOST, tuning);
@@ -716,7 +767,7 @@ namespace PackItPerfect
             var view = pieceViews[activePiece];
             var shape = shapes[activePiece];
             // Keep the grabbed point of the piece under the pointer, measured at full scale and clamped to the piece bounds.
-            Vector2 local = (pressWorld - (Vector2)view.Root.position) / view.Scale;
+            Vector2 local = (pressWorld - (Vector2)view.RestTopLeft) / view.Scale;
             grabOffset = new Vector2(Mathf.Clamp(local.x, 0f, shape.Width), Mathf.Clamp(local.y, -shape.Height, 0f));
 
             dragStart = Capture(); // before the piece leaves the board: the whole gesture is one Undo step
@@ -726,9 +777,12 @@ namespace PackItPerfect
                 board.Remove(activePiece);
                 OnBoardChanged();
             }
-            view.PlaceAt(view.Root.position, 1f);
+            view.PlaceAt(view.RestTopLeft, 1f);
             view.SetSortingOrder(SpriteFactory.ORDER_DRAGGED);
             ghost.SetShape(shape);
+            ghostDrawnState = 0;
+            ghostShown = false;
+            ghost.SetVisible(false);
             state = InputState.Dragging;
             PiecePickedUp?.Invoke(activePiece);
         }
@@ -740,19 +794,36 @@ namespace PackItPerfect
             Vector2 topLeft = world - grabOffset;
             pieceViews[activePiece].PlaceAt(topLeft, 1f);
 
-            ghostShown = grid.IsNear(world, tuning.ghostHideDistance);
-            ghost.SetVisible(ghostShown);
+            bool near = grid.IsNear(world, tuning.ghostHideDistance);
+            if (near != ghostShown)
+            {
+                ghostShown = near;
+                ghost.SetVisible(near);
+                ghostDrawnState = 0;
+            }
             if (!ghostShown)
             {
                 return;
             }
-            ghostOrigin = grid.SnapOrigin(topLeft);
+            var origin = grid.SnapOrigin(topLeft);
+            if (ghostDrawnState != 0 && origin == ghostDrawnOrigin)
+            {
+                return; // same cell as last frame: nothing to recompute or redraw
+            }
+            ghostOrigin = origin;
+            ghostDrawnOrigin = origin;
             ghost.PlaceAt(grid.CellTopLeft(ghostOrigin), 1f);
             // Full check (bounds, blocked, overlap, zone, heavy): red when any fails.
             bool valid = board.CanPlace(activePiece, shapes[activePiece], ghostOrigin);
-            ghost.SetColor(valid ? tuning.ghostValidColor : tuning.ghostInvalidColor);
-            TmpText.SetText(placementMark, valid ? GameTexts.PLACEMENT_VALID : GameTexts.PLACEMENT_INVALID);
-            placementMark.transform.localPosition = new Vector3(shapes[activePiece].Width * 0.5f, 0.45f, 0f);
+            int drawState = valid ? 1 : 2;
+            if (drawState != ghostDrawnState)
+            {
+                // Regenerating the mark's text mesh every frame of a drag was a measurable cost on phones.
+                ghost.SetColor(valid ? tuning.ghostValidColor : tuning.ghostInvalidColor);
+                TmpText.SetText(placementMark, valid ? GameTexts.PLACEMENT_VALID : GameTexts.PLACEMENT_INVALID);
+                placementMark.transform.localPosition = new Vector3(shapes[activePiece].Width * 0.5f, 0.45f, 0f);
+            }
+            ghostDrawnState = drawState;
         }
 
         void EndPress()
@@ -770,8 +841,9 @@ namespace PackItPerfect
                 {
                     PushHistory(Capture());
                     board.Remove(id);
-                    view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+                    view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
                     OnBoardChanged();
+                    PieceReturned?.Invoke(id, view);
                 }
                 return;
             }
@@ -786,7 +858,7 @@ namespace PackItPerfect
                 var failure = board.CheckPlacement(id, shapes[id], ghostOrigin);
                 if (failure == PlacementFailure.None && board.Place(id, shapes[id], ghostOrigin))
                 {
-                    view.PlaceAt(grid.CellTopLeft(ghostOrigin), 1f);
+                    view.GlideTo(grid.CellTopLeft(ghostOrigin), 1f, tuning.snapSeconds);
                     PushHistoryIfChanged(before);
                     OnBoardChanged();
                     PiecePlaced?.Invoke(id, view);
@@ -795,7 +867,7 @@ namespace PackItPerfect
                 }
                 ToastPlacementFailure(id, failure);
             }
-            view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
             PushHistoryIfChanged(before); // a board piece dropped badly ends in the tray: Undo puts it back
             view.StartShake();
             InvalidAction?.Invoke();
@@ -809,7 +881,7 @@ namespace PackItPerfect
                 var view = pieceViews[activePiece];
                 ghost.SetVisible(false);
                 view.SetSortingOrder(SpriteFactory.ORDER_PIECE);
-                view.PlaceAt(tray.TopLeftFor(activePiece, shapes[activePiece]), tuning.trayScale);
+                view.GlideTo(tray.TopLeftFor(activePiece, shapes[activePiece]), tuning.trayScale, tuning.returnSeconds);
                 PushHistoryIfChanged(dragStart);
                 dragStart = null;
             }
@@ -830,7 +902,8 @@ namespace PackItPerfect
             shapes[id] = shapes[id].Rotated();
             view.TurnArtClockwise();
             view.SetShape(shapes[id]);
-            view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.rotateSeconds);
+            view.StartSpin(tuning.rotateSeconds);
             PieceRotated?.Invoke(id);
         }
 
@@ -966,7 +1039,7 @@ namespace PackItPerfect
 
         // Puts every piece back where the snapshot has it. Rule checks cannot fail: the snapshot was a legal board,
         // and every rule is independent of placement order.
-        void Restore(PieceState[] snapshot)
+        void Restore(PieceState[] snapshot, float glideSeconds = 0f)
         {
             for (int i = 0; i < snapshot.Length; i++)
             {
@@ -980,11 +1053,11 @@ namespace PackItPerfect
                 view.SetShape(saved.shape, saved.artTurns);
                 if (saved.placed && board.Place(i, saved.shape, saved.origin))
                 {
-                    view.PlaceAt(grid.CellTopLeft(saved.origin), 1f);
+                    view.GlideTo(grid.CellTopLeft(saved.origin), 1f, glideSeconds);
                 }
                 else
                 {
-                    view.PlaceAt(tray.TopLeftFor(i, saved.shape), tuning.trayScale);
+                    view.GlideTo(tray.TopLeftFor(i, saved.shape), tuning.trayScale, glideSeconds);
                 }
             }
             hintGlow.Clear();
@@ -1116,7 +1189,7 @@ namespace PackItPerfect
         {
             if (id == BoardModel.NO_PIECE || !board.IsPlaced(id)) return;
             board.Remove(id);
-            pieceViews[id].PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+            pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
         }
 
         void CancelAutoPack()

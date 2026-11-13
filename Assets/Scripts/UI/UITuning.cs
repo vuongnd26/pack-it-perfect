@@ -156,6 +156,14 @@ namespace PackItPerfect.UI
         [Tooltip("Skip scale pops (motion preference).")]
         public bool reduceMotion = false;
         public float popStartScale = 0.6f;
+        [Tooltip("Seconds a full screen or overlay takes to fade in.")]
+        public float screenFade = 0.16f;
+        [Tooltip("Seconds the toast line takes to pop in.")]
+        public float toastPop = 0.18f;
+        [Tooltip("Seconds of the clock's heartbeat pulse on each second in the danger zone.")]
+        public float timerPulse = 0.26f;
+        [Tooltip("Extra scale at the peak of the clock's pulse and the fill percentage's bump.")]
+        [Range(0f, 0.4f)] public float pulseAmount = 0.14f;
         public float bannerPopIn = 0.25f;
         public float bannerHold = 1.0f;
         public float bannerFadeOut = 0.25f;

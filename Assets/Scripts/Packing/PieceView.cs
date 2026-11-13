@@ -90,6 +90,20 @@ namespace PackItPerfect
         float bounceAmount;
         float restScale = 1f;
         bool bouncing;
+        // Visual-only travel towards the rest pose (snap into a cell, flight back to the tray).
+        bool gliding;
+        Vector3 glideFrom;
+        float glideFromScale;
+        float glideAge;
+        float glideDuration;
+        // Visual-only quarter-turn of the illustrated object after a rotation.
+        bool spinning;
+        float spinAge;
+        float spinDuration;
+        // Visual-only scale-in when a level is dealt.
+        bool popping;
+        float popAge;
+        float popDuration;
         /// <summary>Suppresses shake, wobble and placement bounce, including an animation already in progress.</summary>
         public bool ReduceMotion { get; set; }
 
@@ -106,11 +120,14 @@ namespace PackItPerfect
         /// <summary>Shape currently drawn.</summary>
         public PieceShape Shape { get; private set; }
 
-        /// <summary>Current uniform scale of the root.</summary>
-        public float Scale => Root.localScale.x;
+        /// <summary>Uniform scale of the piece at rest (a glide, bounce or pop only changes what is drawn).</summary>
+        public float Scale => restScale;
+
+        /// <summary>World position of the shape's top-left corner at rest (where a running glide will end).</summary>
+        public Vector3 RestTopLeft => restPosition;
 
         /// <summary>World position of the centre of the shape's bounding box at rest.</summary>
-        public Vector3 RestCenter => restPosition + new Vector3(Shape.Width / 2f, -Shape.Height / 2f, 0f) * Scale;
+        public Vector3 RestCenter => restPosition + new Vector3(Shape.Width / 2f, -Shape.Height / 2f, 0f) * restScale;
 
         /// <summary>Creates an empty view; call <see cref="SetShape"/> to draw.</summary>
         /// <param name="factory">Quad factory.</param>
@@ -209,7 +226,8 @@ namespace PackItPerfect
                     renderers.Add(objectRenderer);
                 }
                 objectRenderer.transform.localPosition = new Vector3(shape.Width / 2f, -shape.Height / 2f, 0f);
-                objectRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, -90f * (decor.art.SolutionTurns + artQuarterTurns));
+                spinning = false;
+                ApplyArtRotation(0f);
                 UpdateAdornments();
                 return;
             }
@@ -278,6 +296,14 @@ namespace PackItPerfect
 
         /// <summary>Advances only the illustrated object's orientation after the controller rotates its footprint.</summary>
         public void TurnArtClockwise() => artQuarterTurns = (artQuarterTurns + 1) % 4;
+
+        // extraDegrees > 0 shows the object part-way through its last clockwise quarter turn.
+        void ApplyArtRotation(float extraDegrees)
+        {
+            if (objectRenderer == null) return;
+            objectRenderer.transform.localRotation =
+                Quaternion.Euler(0f, 0f, -90f * (decor.art.SolutionTurns + artQuarterTurns) + extraDegrees);
+        }
 
         void UpdateAdornments()
         {
@@ -397,12 +423,67 @@ namespace PackItPerfect
             restPosition = topLeft;
             restScale = scale;
             bouncing = false;
+            gliding = false;
+            popping = false;
+            if (spinning)
+            {
+                spinning = false;
+                ApplyArtRotation(0f);
+            }
             shake.Stop();
             wobble.Stop();
             animating = false;
             Root.SetPositionAndRotation(topLeft, Quaternion.identity);
             Root.localScale = new Vector3(scale, scale, 1f);
             UpdateShadow();
+        }
+
+        /// <summary>
+        /// Like <see cref="PlaceAt"/>, but the drawn piece travels there over <paramref name="seconds"/> from where it is
+        /// shown now. The rest pose (<see cref="RestTopLeft"/>, <see cref="Scale"/>) changes at once, so rules, hit tests
+        /// and follow-up effects never wait for the motion. Instant under reduced motion.
+        /// </summary>
+        public void GlideTo(Vector3 topLeft, float scale, float seconds)
+        {
+            Vector3 from = Root.position;
+            float fromScale = Root.localScale.x;
+            bool keepSpin = spinning;
+            PlaceAt(topLeft, scale);
+            if (ReduceMotion || seconds <= 0f || ((from - topLeft).sqrMagnitude < 1e-6f && Mathf.Approximately(fromScale, scale)))
+            {
+                return;
+            }
+            spinning = keepSpin;
+            glideFrom = from;
+            glideFromScale = fromScale;
+            glideAge = 0f;
+            glideDuration = seconds;
+            gliding = true;
+            animating = true;
+            Root.SetPositionAndRotation(from, Quaternion.identity);
+            Root.localScale = new Vector3(fromScale, fromScale, 1f);
+        }
+
+        /// <summary>Shows the illustrated object turning its last clockwise quarter turn (legacy block pieces skip it).</summary>
+        public void StartSpin(float seconds)
+        {
+            if (ReduceMotion || seconds <= 0f || objectRenderer == null) return;
+            spinAge = 0f;
+            spinDuration = seconds;
+            spinning = true;
+            animating = true;
+            ApplyArtRotation(90f);
+        }
+
+        /// <summary>Scales the drawn piece in from nothing after <paramref name="delay"/> seconds (dealing a level).</summary>
+        public void StartPopIn(float delay, float seconds)
+        {
+            if (ReduceMotion || seconds <= 0f) return;
+            popAge = -Mathf.Max(0f, delay);
+            popDuration = seconds;
+            popping = true;
+            animating = true;
+            Root.localScale = Vector3.zero;
         }
 
         /// <summary>Starts a horizontal shake around the current rest position.</summary>
@@ -445,7 +526,36 @@ namespace PackItPerfect
             }
             float offset = shake.Tick(deltaTime);
             float angle = wobble.Tick(deltaTime);
-            float scale = restScale;
+            Vector3 basePosition = restPosition;
+            float baseScale = restScale;
+            if (gliding)
+            {
+                glideAge += deltaTime;
+                float g = Mathf.Clamp01(glideAge / glideDuration);
+                float eased = 1f - (1f - g) * (1f - g) * (1f - g);
+                basePosition = Vector3.LerpUnclamped(glideFrom, restPosition, eased);
+                baseScale = Mathf.LerpUnclamped(glideFromScale, restScale, eased);
+                gliding = g < 1f;
+            }
+            if (spinning)
+            {
+                spinAge += deltaTime;
+                float s = Mathf.Clamp01(spinAge / spinDuration);
+                float eased = 1f - (1f - s) * (1f - s);
+                spinning = s < 1f;
+                ApplyArtRotation(90f * (1f - eased));
+            }
+            float scale = baseScale;
+            if (popping)
+            {
+                popAge += deltaTime;
+                float p = Mathf.Clamp01(popAge / popDuration);
+                // Ease-out-back: a small overshoot so pieces land with a soft pop.
+                float u = p - 1f;
+                float eased = p <= 0f ? 0f : 1f + 2.70158f * u * u * u + 1.70158f * u * u;
+                scale *= eased;
+                popping = p < 1f;
+            }
             if (bouncing)
             {
                 bounceAge += deltaTime;
@@ -453,12 +563,12 @@ namespace PackItPerfect
                 scale *= 1f + Mathf.Sin(k * Mathf.PI) * (1f - k) * bounceAmount;
                 bouncing = k < 1f;
             }
-            animating = shake.Active || wobble.Active || bouncing;
+            animating = shake.Active || wobble.Active || bouncing || gliding || spinning || popping;
             Root.localScale = new Vector3(scale, scale, 1f);
             var rotation = Quaternion.Euler(0f, 0f, angle);
             var localCenter = new Vector3(Shape.Width / 2f, -Shape.Height / 2f, 0f);
-            Root.SetPositionAndRotation(restPosition + new Vector3(offset, 0f, 0f) +
-                localCenter * restScale - rotation * (localCenter * scale), rotation);
+            Root.SetPositionAndRotation(basePosition + new Vector3(offset, 0f, 0f) +
+                localCenter * baseScale - rotation * (localCenter * scale), rotation);
         }
     }
 }

@@ -70,6 +70,38 @@ namespace PackItPerfect
         readonly Dictionary<string, Sprite> art = new Dictionary<string, Sprite>();
         PieceArtCatalog pieceArtCatalog;
 
+        /// <summary>Resources path of the unlit sprite material every world sprite shares.</summary>
+        public const string SPRITE_MATERIAL = "Materials/PackSpriteUnlit";
+        const string UNLIT_SHADER = "Universal Render Pipeline/2D/Sprite-Unlit-Default";
+
+        static Material sharedUnlit;
+        static bool unlitResolved;
+
+        /// <summary>
+        /// Unlit sprite material shared by every world sprite, so the 2D renderer never runs its lighting passes for a
+        /// game that has no lights. Null (renderers keep their default material) when neither the asset nor the shader exists.
+        /// </summary>
+        public static Material SpriteMaterial
+        {
+            get
+            {
+                if (!unlitResolved || (sharedUnlit == null && !ReferenceEquals(sharedUnlit, null)))
+                {
+                    unlitResolved = true;
+                    sharedUnlit = Resources.Load<Material>(SPRITE_MATERIAL);
+                    if (sharedUnlit == null)
+                    {
+                        var shader = Shader.Find(UNLIT_SHADER);
+                        if (shader != null) sharedUnlit = new Material(shader) { name = "PackSpriteUnlit (runtime)" };
+                    }
+                }
+                return sharedUnlit;
+            }
+        }
+
+        /// <summary>The blurred disc texture (soft particles reuse it).</summary>
+        public Texture2D SoftTexture => softTexture;
+
         /// <summary>Creates the white square and circle sprites, each 1×1 unit.</summary>
         public SpriteFactory()
         {
@@ -189,6 +221,8 @@ namespace PackItPerfect
             go.transform.SetParent(parent, false);
             go.transform.localPosition = center;
             var renderer = go.AddComponent<SpriteRenderer>();
+            var material = SpriteMaterial;
+            if (material != null) renderer.sharedMaterial = material;
             renderer.sprite = source;
             renderer.color = color;
             renderer.sortingOrder = sortingOrder;
@@ -217,6 +251,8 @@ namespace PackItPerfect
             go.transform.SetParent(parent, false);
             go.transform.localPosition = center;
             var renderer = go.AddComponent<SpriteRenderer>();
+            var material = SpriteMaterial;
+            if (material != null) renderer.sharedMaterial = material;
             renderer.sprite = source;
             renderer.drawMode = SpriteDrawMode.Sliced;
             renderer.size = size;

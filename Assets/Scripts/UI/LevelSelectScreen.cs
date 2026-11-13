@@ -48,6 +48,8 @@ namespace PackItPerfect.UI
             var background = factory.Panel("Level Select", parent, tuning.menuBackground, 0f, raycast: true);
             UIFactory.Stretch(background.rectTransform);
             root = background.gameObject;
+            UIFactory.Isolate(root);
+            Group = UIFactory.Group(root);
             factory.Backdrop(background.transform, "bg_menu");
             var safe = factory.SafeContent(background.transform);
 
@@ -121,6 +123,9 @@ namespace PackItPerfect.UI
             }
             root.SetActive(false);
         }
+
+        /// <summary>Canvas group of the whole screen (fade-in).</summary>
+        public CanvasGroup Group { get; }
 
         /// <summary>The Home button.</summary>
         public UIButton HomeButton { get; }

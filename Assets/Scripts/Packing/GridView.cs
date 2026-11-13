@@ -33,6 +33,8 @@ namespace PackItPerfect
         readonly float fillBarWidth;
         readonly float fillBarCenterY;
         readonly float fillBarHeight;
+        float fillTarget;
+        float fillShown = -1f;
 
         /// <summary>World x of the grid's left edge.</summary>
         public float Left { get; }
@@ -287,6 +289,15 @@ namespace PackItPerfect
         /// <summary>Advances the container shake; call every frame.</summary>
         public void Tick(float deltaTime)
         {
+            if (!Mathf.Approximately(fillShown, fillTarget))
+            {
+                // Exponential approach: quick at first, soft at the end; frame-rate independent.
+                float next = ReduceMotion || tuning.fillBarSpeed <= 0f
+                    ? fillTarget
+                    : Mathf.Lerp(fillShown, fillTarget, 1f - Mathf.Exp(-tuning.fillBarSpeed * deltaTime));
+                if (Mathf.Abs(next - fillTarget) < 0.002f) next = fillTarget;
+                DrawFill(next);
+            }
             if (ReduceMotion)
             {
                 shake.Stop();
@@ -302,6 +313,14 @@ namespace PackItPerfect
         /// <summary>Sets the fill bar to <paramref name="ratio"/> (0..1) of its width, growing from the left.</summary>
         public void SetFill(float ratio)
         {
+            fillTarget = Mathf.Clamp01(ratio);
+            // The first value of a level (and every value under reduced motion) is drawn at once; later ones ease in Tick.
+            if (fillShown < 0f || ReduceMotion || tuning.fillBarSpeed <= 0f) DrawFill(fillTarget);
+        }
+
+        void DrawFill(float ratio)
+        {
+            fillShown = ratio;
             float width = fillBarWidth * Mathf.Clamp01(ratio);
             if (fillBarSliced)
             {

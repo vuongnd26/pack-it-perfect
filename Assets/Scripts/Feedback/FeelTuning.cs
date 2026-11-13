@@ -22,6 +22,14 @@ namespace PackItPerfect
         public Vector2 sparkleSize = new Vector2(0.16f, 0.055f);
         [Tooltip("Placement ray colour.")]
         public Color sparkleColor = new Color(1f, 0.85f, 0.36f);
+        [Tooltip("Diameter in cells of the soft glow under a landed 1-cell piece (bigger pieces scale it).")]
+        public float glowSize = 0.9f;
+        [Tooltip("Soft dust puffs when a piece goes back to the tray or a drop is refused.")]
+        [Range(1, 12)] public int dustCount = 5;
+        [Tooltip("Diameter in cells of one dust puff when it appears.")]
+        public float dustSize = 0.22f;
+        [Tooltip("Praise is shown on every Nth correct placement so it stays a treat, not noise (1 = always).")]
+        [Range(1, 6)] public int praiseEvery = 2;
         [Tooltip("Offset of praise from the placed item centre.")]
         public Vector2 praiseOffset = new Vector2(0f, 0.55f);
 
@@ -42,6 +50,8 @@ namespace PackItPerfect
         [Range(16, 300)] public int particleCapacity = 200;
         [Tooltip("Confetti pieces in the win burst (clamped to the capacity).")]
         [Range(1, 200)] public int confettiCount = 90;
+        [Tooltip("Extra confetti pieces shot inwards from each side of the container.")]
+        [Range(0, 50)] public int confettiSideCount = 26;
         [Tooltip("Half-angle in degrees of the upward confetti fountain.")]
         [Range(5f, 80f)] public float confettiSpread = 38f;
         [Tooltip("Seconds the confetti lasts.")]

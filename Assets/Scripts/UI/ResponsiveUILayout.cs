@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,6 +34,21 @@ namespace PackItPerfect.UI
         float lastHeight = -1f;
         int flowSignature;
         bool hasFlowLayout;
+        // Label of each flow child, looked up once per child instead of on every frame.
+        readonly Dictionary<Transform, TextMeshProUGUI> flowLabels = new Dictionary<Transform, TextMeshProUGUI>();
+        LayoutElement flowElement;
+        bool flowElementResolved;
+
+        TextMeshProUGUI LabelOf(Transform child)
+        {
+            if (!flowLabels.TryGetValue(child, out var label))
+            {
+                if (flowLabels.Count > 64) flowLabels.Clear(); // destroyed chips: start over rather than grow
+                label = child.GetComponentInChildren<TextMeshProUGUI>(true);
+                flowLabels[child] = label;
+            }
+            return label;
+        }
 
         /// <summary>Fits a scroll viewport inside its safe parent; content remains full size and scrolls rather than shrinking.</summary>
         public void ConfigureScroll(RectTransform safeArea, RectTransform scrollContent, ScrollRect scrollView,
@@ -110,9 +127,10 @@ namespace PackItPerfect.UI
                     signature = signature * 31 + child.GetHashCode();
                     signature = signature * 31 + (child.gameObject.activeSelf ? 1 : 0);
                     if (!measureText || !child.gameObject.activeSelf) continue;
-                    var label = child.GetComponentInChildren<TextMeshProUGUI>();
+                    var label = LabelOf(child);
                     if (label == null) continue;
-                    signature = signature * 31 + label.text.GetHashCode();
+                    // Strings are immutable: a changed text is always a different instance, so the reference is enough.
+                    signature = signature * 31 + RuntimeHelpers.GetHashCode(label.text);
                     signature = signature * 31 + label.fontSize.GetHashCode();
                 }
             }
@@ -127,7 +145,7 @@ namespace PackItPerfect.UI
             {
                 var child = (RectTransform)rect.GetChild(i);
                 if (!child.gameObject.activeSelf) continue;
-                var label = measureText ? child.GetComponentInChildren<TextMeshProUGUI>() : null;
+                var label = measureText ? LabelOf(child) : null;
                 float desiredWidth = label != null ? label.GetPreferredValues(label.text).x + padding * 2f : child.sizeDelta.x;
                 float childWidth = Mathf.Min(width, desiredWidth);
                 float childHeight = label != null
@@ -148,7 +166,12 @@ namespace PackItPerfect.UI
             CentreLine(first, rect.childCount, width - x + (x > 0f ? spacing : 0f));
             float height = y + lineHeight;
             if (!Mathf.Approximately(rect.sizeDelta.y, height)) rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            var element = rect.GetComponent<LayoutElement>();
+            if (!flowElementResolved)
+            {
+                flowElementResolved = true;
+                flowElement = rect.GetComponent<LayoutElement>();
+            }
+            var element = flowElement;
             if (element != null && !Mathf.Approximately(element.preferredHeight, height)) element.preferredHeight = height;
         }
 

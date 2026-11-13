@@ -29,6 +29,9 @@ namespace PackItPerfect.UI
         readonly GameObject tag;
         readonly object popKey = new object();
         readonly object fadeKey = new object();
+        float bandHeight;
+        float fittedTop = float.NaN;
+        float fittedWidth = float.NaN;
 
         /// <summary>Builds the (hidden) banner under <paramref name="parent"/>, just below the HUD band.</summary>
         public BannerView(UIFactory factory, Transform parent, UITuning tuning, UIAnimator animator)
@@ -36,6 +39,8 @@ namespace PackItPerfect.UI
             this.tuning = tuning;
             this.animator = animator;
             var safe = factory.SafeContent(parent);
+            UIFactory.Isolate(safe.gameObject);
+            bandHeight = tuning.hudHeight;
             var image = factory.Panel("Banner", safe, tuning.bannerBackground, tuning.cardRadius);
             card = image.rectTransform;
             UIFactory.Place(card, new Vector2(0.5f, 1f), new Vector2(0f, -(tuning.hudHeight + CARD_GAP)),
@@ -46,6 +51,14 @@ namespace PackItPerfect.UI
 
             title = factory.Text("Title", card, string.Empty, tuning.headingFontSize * TITLE_SIZE_SHARE, tuning.accent, FontStyles.Bold);
             subtitle = factory.Text("Subtitle", card, string.Empty, tuning.bodyFontSize - 8f, Color.white);
+            // Long titles and translated subtitles shrink inside the card instead of spilling out of it.
+            foreach (var label in new[] { title, subtitle })
+            {
+                label.enableAutoSizing = true;
+                label.fontSizeMax = label.fontSize;
+                label.fontSizeMin = label.fontSize * 0.55f;
+                label.overflowMode = TextOverflowModes.Truncate;
+            }
             var tagImage = factory.Panel("New Tag", card, tuning.accent, TAG_HEIGHT / 2f);
             UIFactory.Place(tagImage.rectTransform, new Vector2(0f, 1f), new Vector2(TAG_INSET, TAG_HEIGHT / 2f),
                 new Vector2(TAG_WIDTH, TAG_HEIGHT));
@@ -73,6 +86,8 @@ namespace PackItPerfect.UI
             UIFactory.Stretch(subtitle.rectTransform, PADDING, PADDING, PADDING, height * TITLE_HEIGHT_SHARE);
 
             card.gameObject.SetActive(true);
+            fittedTop = float.NaN;
+            FitBelowHUD(bandHeight);
             group.alpha = 1f;
             UIMotion.Pop(animator, popKey, card, 0f, tuning.bannerPopIn, tuning.popStartScale, tuning.reduceMotion);
             animator.Play(fadeKey, tuning.bannerPopIn + tuning.bannerHold, tuning.bannerFadeOut,
@@ -82,10 +97,17 @@ namespace PackItPerfect.UI
         /// <summary>Positions transient copy below the actual wrapped HUD and inside safe-area width.</summary>
         public void FitBelowHUD(float topBandHeight)
         {
+            bandHeight = topBandHeight;
+            if (!card.gameObject.activeSelf) return; // placed when it is next shown
             var safe = (RectTransform)card.parent;
-            card.anchoredPosition = new Vector2(0f, -(topBandHeight + CARD_GAP));
-            card.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,
-                Mathf.Max(1f, Mathf.Min(tuning.bannerWidth, safe.rect.width - tuning.sideMargin * 2f)));
+            float top = -(topBandHeight + CARD_GAP);
+            float width = Mathf.Max(1f, Mathf.Min(tuning.bannerWidth, safe.rect.width - tuning.sideMargin * 2f));
+            // Writing a RectTransform every frame re-meshes its canvas even when nothing moved.
+            if (Mathf.Approximately(top, fittedTop) && Mathf.Approximately(width, fittedWidth)) return;
+            fittedTop = top;
+            fittedWidth = width;
+            card.anchoredPosition = new Vector2(0f, top);
+            card.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
         }
 
         /// <summary>Hides the banner at once.</summary>

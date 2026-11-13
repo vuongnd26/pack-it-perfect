@@ -5,9 +5,25 @@ using UnityEngine;
 
 namespace PackItPerfect
 {
-    /// <summary>Owns two particle systems under the feedback root: a one-shot win fountain and small placement rays.</summary>
+    /// <summary>
+    /// Owns the particle systems under the feedback root: a win fountain with side cannons, small placement rays and a
+    /// soft puff used for landing glows and dust. Everything is built once; firing an effect allocates nothing.
+    /// </summary>
     public sealed class ConfettiBurst
     {
+        const float PUFF_GROWTH = 2.4f;
+        const float GLOW_SECONDS = 0.32f;
+        const float GLOW_ALPHA = 0.5f;
+        const float DUST_SECONDS = 0.4f;
+        const float DUST_ALPHA = 0.55f;
+        const float SIDE_UP_SPEED = 0.85f;
+        const float SIDE_IN_SPEED = 0.45f;
+        static readonly Color DustColor = new Color(1f, 0.97f, 0.9f, 1f);
+
+        readonly ParticleSystem _puff;
+        readonly Material _softMaterial;
+        readonly System.Random _random = new System.Random(4099);
+
         const int SORTING_ORDER = 49;
         const int MAX_GRADIENT_KEYS = 8;
         const float STANDARD_GRAVITY = 9.81f;
@@ -34,6 +50,46 @@ namespace PackItPerfect
             ConfigureConfetti();
             _sparkle = Create(parent, "Placement sparkle", material);
             ConfigureSparkle();
+
+            // Same shader as every sprite, but sampling the blurred disc so puffs have soft edges.
+            if (material != null)
+            {
+                _softMaterial = new Material(material) { name = "PackSoftParticle", mainTexture = factory.SoftTexture };
+            }
+            _puff = Create(parent, "Soft puff", _softMaterial != null ? _softMaterial : material);
+            _puff.GetComponent<ParticleSystemRenderer>().sortingOrder = SORTING_ORDER - 1;
+            ConfigurePuff();
+        }
+
+        void ConfigurePuff()
+        {
+            var main = _puff.main;
+            main.playOnAwake = false;
+            main.loop = false;
+            main.useUnscaledTime = true;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.maxParticles = 48;
+            main.startLifetime = DUST_SECONDS;
+            main.startSpeed = 0f;
+            main.startSize = 0.4f;
+            main.gravityModifier = 0f;
+
+            var emission = _puff.emission;
+            emission.enabled = false; // fired by Emit()
+            var shape = _puff.shape;
+            shape.enabled = false;
+
+            var grow = _puff.sizeOverLifetime;
+            grow.enabled = true;
+            grow.size = new ParticleSystem.MinMaxCurve(PUFF_GROWTH, AnimationCurve.EaseInOut(0f, 1f / PUFF_GROWTH, 1f, 1f));
+
+            var fade = _puff.colorOverLifetime;
+            fade.enabled = true;
+            var gradient = new Gradient();
+            gradient.SetKeys(
+                new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+                new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(0f, 1f) });
+            fade.color = new ParticleSystem.MinMaxGradient(gradient);
         }
 
         static ParticleSystem Create(Transform parent, string name, Material material)
@@ -160,31 +216,87 @@ namespace PackItPerfect
             return new ParticleSystem.MinMaxGradient(gradient);
         }
 
-        /// <summary>Small radial glints on a correct drop.</summary>
-        public void Sparkle(Vector3 position)
+        /// <summary>Small radial glints on a correct drop, over a soft glow the size of the piece.</summary>
+        /// <param name="position">Centre of the placed piece.</param>
+        /// <param name="size">Longest side of the piece in cells; scales the glow.</param>
+        public void Sparkle(Vector3 position, float size = 1f)
         {
             _sparkle.transform.position = position;
             _sparkle.Emit(Mathf.Clamp(_tuning.sparkleCount, 1, 16));
+            var glow = new ParticleSystem.EmitParams
+            {
+                position = position,
+                velocity = Vector3.zero,
+                startLifetime = GLOW_SECONDS,
+                startSize = Mathf.Clamp(size, 1f, 4f) * _tuning.glowSize,
+                startColor = WithAlpha(_tuning.sparkleColor, GLOW_ALPHA),
+            };
+            _puff.Emit(glow, 1);
         }
 
-        /// <summary>Fires the win burst: a colourful fountain from <paramref name="position"/> that falls under gravity.</summary>
-        public void Celebrate(Vector3 position)
+        /// <summary>A few soft dust puffs drifting outwards (piece back in the tray, wrong drop).</summary>
+        public void Dust(Vector3 position, float spread = 0.5f)
+        {
+            int count = Mathf.Clamp(_tuning.dustCount, 1, 12);
+            for (int i = 0; i < count; i++)
+            {
+                float angle = (i + (float)_random.NextDouble()) / count * Mathf.PI * 2f;
+                var direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle) * 0.55f, 0f);
+                var dust = new ParticleSystem.EmitParams
+                {
+                    position = position + direction * spread * 0.4f,
+                    velocity = direction * (0.5f + (float)_random.NextDouble() * 0.7f),
+                    startLifetime = DUST_SECONDS * (0.7f + (float)_random.NextDouble() * 0.5f),
+                    startSize = _tuning.dustSize * (0.7f + (float)_random.NextDouble() * 0.6f),
+                    startColor = WithAlpha(DustColor, DUST_ALPHA),
+                };
+                _puff.Emit(dust, 1);
+            }
+        }
+
+        /// <summary>
+        /// Fires the win burst: a colourful fountain from <paramref name="position"/> that falls under gravity, plus two
+        /// side cannons <paramref name="halfWidth"/> to the left and right shooting inwards.
+        /// </summary>
+        public void Celebrate(Vector3 position, float halfWidth = 0f)
         {
             _confetti.transform.position = position;
             _confetti.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             _confetti.Play(true);
+            int perSide = Mathf.Clamp(_tuning.confettiSideCount, 0, _tuning.particleCapacity / 4);
+            if (halfWidth <= 0f || perSide <= 0) return;
+            var colors = _tuning.confettiColors;
+            for (int side = -1; side <= 1; side += 2)
+            {
+                for (int i = 0; i < perSide; i++)
+                {
+                    float speed = Mathf.Lerp(_tuning.confettiSpeed.x, _tuning.confettiSpeed.y, (float)_random.NextDouble());
+                    float lean = SIDE_IN_SPEED * (0.4f + (float)_random.NextDouble());
+                    var shot = new ParticleSystem.EmitParams
+                    {
+                        position = position + new Vector3(side * halfWidth, 0f, 0f),
+                        velocity = new Vector3(-side * speed * lean, speed * SIDE_UP_SPEED, 0f),
+                    };
+                    if (colors != null && colors.Length > 0) shot.startColor = colors[_random.Next(colors.Length)];
+                    _confetti.Emit(shot, 1);
+                }
+            }
         }
+
+        static Color32 WithAlpha(Color color, float alpha) => new Color(color.r, color.g, color.b, color.a * alpha);
 
         /// <summary>Immediately removes effects on a new level or when motion reduction is enabled.</summary>
         public void Clear()
         {
             if (_confetti != null) _confetti.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             if (_sparkle != null) _sparkle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            if (_puff != null) _puff.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
-        /// <summary>Kept for the owner's update loop; the particle systems simulate themselves.</summary>
-        public void Tick(float deltaTime)
+        /// <summary>Destroys the material this instance created (the particle objects die with their parent).</summary>
+        public void Dispose()
         {
+            if (_softMaterial != null) Object.Destroy(_softMaterial);
         }
     }
 }

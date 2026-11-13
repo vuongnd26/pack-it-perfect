@@ -64,6 +64,16 @@ namespace PackItPerfect.UI
         readonly object[] starKeys;
         readonly object[] rewardKeys = { new object(), new object(), new object() };
         readonly object[] blockKeys = { new object(), new object(), new object() };
+        readonly object[] starCueKeys;
+        readonly object rewardCueKey = new object();
+
+        /// <summary>A filled star starts popping in (its 0-based index). Audio hook.</summary>
+        public event Action<int> StarShown;
+        /// <summary>The first reward or new-booster block starts popping in. Audio hook.</summary>
+        public event Action RewardShown;
+
+        /// <summary>Canvas group of the whole overlay (fade-in).</summary>
+        public CanvasGroup Group { get; }
 
         /// <summary>"Next level" clicked.</summary>
         public event Action NextClicked;
@@ -82,6 +92,8 @@ namespace PackItPerfect.UI
             var dim = factory.Panel("Win Screen", parent, tuning.winDim, 0f, raycast: true);
             UIFactory.Stretch(dim.rectTransform);
             root = dim.gameObject;
+            UIFactory.Isolate(root);
+            Group = UIFactory.Group(root);
             var safe = factory.SafeContent(dim.transform);
 
             var cardImage = factory.Panel("Card", safe, tuning.panel, tuning.cardRadius);
@@ -113,8 +125,10 @@ namespace PackItPerfect.UI
             starLayout.childForceExpandHeight = false;
             stars = new Graphic[starSlots];
             starKeys = new object[starSlots];
+            starCueKeys = new object[starSlots];
             for (int i = 0; i < starSlots; i++)
             {
+                starCueKeys[i] = new object();
                 Graphic star = factory.Art($"Star {i + 1}", starRow, "ui_star");
                 if (star == null)
                 {
@@ -212,6 +226,11 @@ namespace PackItPerfect.UI
             {
                 animator.Cancel(key);
             }
+            foreach (var key in starCueKeys)
+            {
+                animator.Cancel(key);
+            }
+            animator.Cancel(rewardCueKey);
             for (int i = 0; i < BoosterBundle.TYPE_COUNT; i++)
             {
                 animator.Cancel(rewardKeys[i]);
@@ -290,6 +309,8 @@ namespace PackItPerfect.UI
                 {
                     float delay = tuning.cardPopDuration + i * tuning.starPopStagger;
                     UIMotion.Pop(animator, starKeys[i], star.rectTransform, delay, tuning.starPopDuration, 0f, tuning.reduceMotion);
+                    int index = i;
+                    animator.Play(starCueKeys[i], delay, 0f, null, () => StarShown?.Invoke(index));
                     sequence = delay + tuning.starPopDuration * 0.5f;
                 }
                 else
@@ -300,6 +321,10 @@ namespace PackItPerfect.UI
             }
 
             sequence += POP_GAP;
+            if (hasReward || opened > 0)
+            {
+                animator.Play(rewardCueKey, sequence, 0f, null, () => RewardShown?.Invoke());
+            }
             for (int i = 0; i < BoosterBundle.TYPE_COUNT; i++)
             {
                 if (!rewardItems[i].gameObject.activeSelf)

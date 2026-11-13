@@ -26,6 +26,15 @@ namespace PackItPerfect
         readonly Camera cam;
         readonly PackingTuning tuning;
         readonly List<FloatingWord> words = new List<FloatingWord>();
+        // Word pills are reused: building a pill (three sprites and a text mesh) on every placement cost a visible hitch.
+        readonly Stack<PillLabel> wordPool = new Stack<PillLabel>();
+        const float VIEW_EDGE_MARGIN = 0.15f;
+
+        /// <summary>
+        /// When set, <see cref="Toast"/> hands the message to this sink (a screen-space line that always fits the display)
+        /// instead of drawing the world-space pill.
+        /// </summary>
+        public System.Action<string> ToastSink { get; set; }
         PillLabel toast;
         float toastAge;
         bool toastShowing;
@@ -46,6 +55,11 @@ namespace PackItPerfect
         /// <inheritdoc/>
         public void Toast(string message)
         {
+            if (ToastSink != null)
+            {
+                ToastSink(message);
+                return;
+            }
             if (toast == null)
             {
                 toast = new PillLabel(factory, parent, "Toast", tuning.toastTextSize, tuning.toastHeight, tuning.toastPaddingX,
@@ -62,10 +76,16 @@ namespace PackItPerfect
         /// <inheritdoc/>
         public void Word(Vector3 worldPosition, string word)
         {
-            var pill = new PillLabel(factory, parent, "Word", tuning.wordTextSize, tuning.wordHeight, tuning.wordPaddingX,
-                tuning.wordBackColor, tuning.wordTextColor, SpriteFactory.ORDER_WORD);
+            var pill = wordPool.Count > 0
+                ? wordPool.Pop()
+                : new PillLabel(factory, parent, "Word", tuning.wordTextSize, tuning.wordHeight, tuning.wordPaddingX,
+                    tuning.wordBackColor, tuning.wordTextColor, SpriteFactory.ORDER_WORD);
+            pill.SetVisible(true);
             pill.SetText(word);
+            pill.SetAlpha(1f);
+            worldPosition = KeepInView(worldPosition, pill.Width, tuning.wordHeight, tuning.wordRise);
             pill.Root.position = worldPosition;
+            pill.Root.localScale = Vector3.one;
             words.Add(new FloatingWord { pill = pill, start = worldPosition });
         }
 
@@ -74,7 +94,7 @@ namespace PackItPerfect
         {
             foreach (var w in words)
             {
-                w.pill.Destroy();
+                Recycle(w.pill);
             }
             words.Clear();
             toastShowing = false;
@@ -110,15 +130,43 @@ namespace PackItPerfect
                 float k = tuning.wordDuration > 0f ? w.age / tuning.wordDuration : 1f;
                 if (k >= 1f)
                 {
-                    w.pill.Destroy();
+                    Recycle(w.pill);
                     words.RemoveAt(i);
                     continue;
                 }
                 float eased = 1f - (1f - k) * (1f - k);
                 w.pill.Root.position = w.start + new Vector3(0f, (ReduceMotion ? 0f : tuning.wordRise * eased), 0f);
+                if (!ReduceMotion)
+                {
+                    // Quick pop on appear, then settle to full size.
+                    float pop = Mathf.Clamp01(k / 0.18f);
+                    float scale = 1f + 0.25f * Mathf.Sin(pop * Mathf.PI) * (1f - pop);
+                    w.pill.Root.localScale = new Vector3(scale, scale, 1f);
+                }
                 // Full opacity for the first half, then fade out.
                 w.pill.SetAlpha(Mathf.Clamp01(2f - 2f * k));
             }
+        }
+
+        void Recycle(PillLabel pill)
+        {
+            pill.SetVisible(false);
+            wordPool.Push(pill);
+        }
+
+        // Moves a word's start point so the whole pill, including its rise, stays inside what the camera shows.
+        Vector3 KeepInView(Vector3 position, float width, float height, float rise)
+        {
+            if (cam == null || !cam.orthographic) return position;
+            var centre = cam.transform.position;
+            float halfHeight = cam.orthographicSize;
+            float halfWidth = halfHeight * cam.aspect;
+            float roomX = halfWidth - width / 2f - VIEW_EDGE_MARGIN;
+            float roomUp = halfHeight - height / 2f - VIEW_EDGE_MARGIN - Mathf.Max(0f, rise);
+            float roomDown = halfHeight - height / 2f - VIEW_EDGE_MARGIN;
+            position.x = roomX > 0f ? Mathf.Clamp(position.x, centre.x - roomX, centre.x + roomX) : centre.x;
+            position.y = Mathf.Clamp(position.y, centre.y - roomDown, Mathf.Max(centre.y - roomDown, centre.y + roomUp));
+            return position;
         }
 
         void PlaceToast()
@@ -129,6 +177,9 @@ namespace PackItPerfect
             }
             float viewHeight = cam.orthographicSize * 2f;
             float scale = tuning.toastReferenceViewHeight > 0f ? viewHeight / tuning.toastReferenceViewHeight : 1f;
+            // A long message on a narrow view shrinks to fit rather than running off both edges.
+            float viewWidth = viewHeight * cam.aspect;
+            if (toast.Width > 0f) scale = Mathf.Min(scale, (viewWidth - 2f * VIEW_EDGE_MARGIN) / toast.Width);
             var c = cam.transform.position;
             float y = c.y - cam.orthographicSize + (tuning.toastBottomMargin + tuning.toastHeight / 2f) * scale;
             toast.Root.position = new Vector3(c.x, y, 0f);

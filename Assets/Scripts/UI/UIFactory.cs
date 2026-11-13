@@ -101,6 +101,24 @@ namespace PackItPerfect.UI
             return rect;
         }
 
+        /// <summary>
+        /// Gives <paramref name="target"/> its own nested canvas (with a raycaster so its buttons still work). Graphics
+        /// below it rebuild and batch on their own, so an animation in one part of the UI never re-meshes the rest.
+        /// </summary>
+        public static void Isolate(GameObject target)
+        {
+            if (target.GetComponent<Canvas>() != null) return;
+            target.AddComponent<Canvas>();
+            target.AddComponent<GraphicRaycaster>();
+        }
+
+        /// <summary>Returns the object's <see cref="CanvasGroup"/>, adding one if needed (used to fade whole screens).</summary>
+        public static CanvasGroup Group(GameObject target)
+        {
+            var group = target.GetComponent<CanvasGroup>();
+            return group != null ? group : target.AddComponent<CanvasGroup>();
+        }
+
         /// <summary>Stretches <paramref name="rect"/> over its parent with the given insets.</summary>
         public static void Stretch(RectTransform rect, float left = 0f, float bottom = 0f, float right = 0f, float top = 0f)
         {

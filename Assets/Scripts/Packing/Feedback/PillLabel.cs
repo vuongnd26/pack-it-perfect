@@ -18,6 +18,9 @@ namespace PackItPerfect
         readonly float height;
         readonly float paddingX;
 
+        /// <summary>Full width of the pill in local units (text + padding), as of the last <see cref="SetText"/>.</summary>
+        public float Width { get; private set; }
+
         /// <summary>Root transform; position = pill centre.</summary>
         public Transform Root { get; }
 
@@ -52,6 +55,7 @@ namespace PackItPerfect
             float textWidth = TmpText.SetText(text, message);
             float straight = textWidth + 2f * paddingX - height;
             straight = Mathf.Max(0f, straight);
+            Width = straight + height;
             body.transform.localScale = new Vector3(straight, height, 1f);
             leftCap.transform.localPosition = new Vector3(-straight / 2f, 0f, 0f);
             rightCap.transform.localPosition = new Vector3(straight / 2f, 0f, 0f);

@@ -103,6 +103,62 @@ namespace PackItPerfect.Tests
         }
 
         [UnityTest]
+        public IEnumerator FullMotionAndSound_PlayThroughLevel_SettlesOnRestPoseAndCuesEveryStar()
+        {
+            // Arrange: every other test runs muted with reduced motion; this one turns the whole presentation on.
+            cameraRoot.AddComponent<AudioListener>(); // the test camera has none, and sound is on here
+            ui.SetPreferences(muted: false, reduceMotion: false);
+            int starCues = 0;
+            int returned = 0;
+            int undone = 0;
+            ui.Cue += (cue, step) => { if (cue == UICue.Star) starCues++; };
+            game.PieceReturned += (id, view) => returned++;
+            game.Undone += () => undone++;
+            LogAssert.Expect(LogType.Log, new System.Text.RegularExpressions.Regex("^PackingGame: loaded level 1 "));
+            game.LoadLevel(1);
+            yield return null;
+            var level = game.CurrentLevel;
+            var views = Field<PieceView[]>(game, "pieceViews");
+            var grid = Field<GridView>(game, "grid");
+
+            // Act: place the first piece, tap it back to the tray, undo that, then finish the level.
+            RotateToReference(0, level.SolutionShapes[0]);
+            DragTo(0, level.SolutionOrigins[0]);
+            yield return null;
+            var first = level.SolutionShapes[0].FirstCell;
+            Vector2 placedCell = camera.WorldToScreenPoint(grid.CellTopLeft(level.SolutionOrigins[0]) +
+                new Vector3(first.x + 0.5f, -first.y - 0.5f, 0f));
+            Invoke("BeginPress", placedCell);
+            Invoke("EndPress");
+            yield return null;
+            Assert.That(level.Board.IsPlaced(0), Is.False, "Tapping a placed piece returns it to the tray.");
+            Assert.That(game.RequestUndo(), Is.True);
+            yield return null;
+            Assert.That(level.Board.IsPlaced(0), Is.True, "Undo puts the piece back.");
+            for (int piece = 1; piece < level.SolutionShapes.Length; piece++)
+            {
+                RotateToReference(piece, level.SolutionShapes[piece]);
+                yield return null;
+                DragTo(piece, level.SolutionOrigins[piece]);
+                yield return null;
+            }
+            yield return new WaitForSecondsRealtime(3f);
+
+            // Assert
+            Assert.That(game.IsWon, Is.True);
+            Assert.That(returned, Is.EqualTo(1));
+            Assert.That(undone, Is.EqualTo(1));
+            Assert.That(starCues, Is.EqualTo(ProgressService.MAX_STARS), "One cue per star on an unassisted win.");
+            foreach (var view in views)
+            {
+                Assert.That(Vector3.Distance(view.Root.position, view.RestTopLeft), Is.LessThan(0.001f),
+                    "Every glide, bounce and pop ends exactly on the rest pose.");
+                Assert.That(view.Root.localScale.x, Is.EqualTo(view.Scale).Within(0.001f));
+            }
+            LogAssert.NoUnexpectedReceived();
+        }
+
+        [UnityTest]
         public IEnumerator AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged()
         {
             game.LoadLevel(1);
@@ -444,7 +500,8 @@ namespace PackItPerfect.Tests
             var shape = Field<PieceShape[]>(game, "shapes")[piece];
             var view = Field<PieceView[]>(game, "pieceViews")[piece];
             var first = shape.FirstCell;
-            Vector3 world = view.Root.position + new Vector3(first.x + 0.5f, -first.y - 0.5f, 0f) * view.Scale;
+            // The rest pose, not the drawn one: a piece may still be gliding or popping in.
+            Vector3 world = view.RestTopLeft + new Vector3(first.x + 0.5f, -first.y - 0.5f, 0f) * view.Scale;
             return camera.WorldToScreenPoint(world);
         }
 

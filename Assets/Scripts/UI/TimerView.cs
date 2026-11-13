@@ -22,6 +22,7 @@ namespace PackItPerfect.UI
         readonly GameObject clockIcon;
         readonly GameObject freezeIcon;
         readonly bool illustrated;
+        readonly object pulseKey = new object();
         int lastSeconds;
         int lastFrozenSeconds = -1;
 
@@ -68,7 +69,15 @@ namespace PackItPerfect.UI
         public bool IsFrozen { get; private set; }
 
         /// <summary>Shows or hides the pill.</summary>
-        public void SetVisible(bool visible) => pill.gameObject.SetActive(visible);
+        public void SetVisible(bool visible)
+        {
+            if (!visible) pill.rectTransform.localScale = Vector3.one;
+            pill.gameObject.SetActive(visible);
+        }
+
+        /// <summary>One heartbeat of the pill: call on each second in the danger zone.</summary>
+        public void Pulse(UIAnimator animator) =>
+            UIMotion.Pulse(animator, pulseKey, pill.rectTransform, tuning.timerPulse, tuning.pulseAmount, tuning.reduceMotion);
 
         /// <summary>Shows <paramref name="seconds"/> left; red background at or below <see cref="UITuning.timerDangerSeconds"/>.</summary>
         public void SetSeconds(int seconds)
