@@ -25,3 +25,33 @@ framework:
 # here. `/project-settings --local <key>=<value>` writes there; `/project-settings <key>=<value>`
 # edits this file. See `.claude/docs/config-resolution.md` for the full
 # precedence order.
+
+engine:
+  name: "Unity"
+  version: "6000.6.8f1"
+  language: "C#"
+  rendering: "URP"
+  physics: "PhysX"
+  path: "/home/vuongnd/Unity/Hub/Editor/6000.6.8f1/Editor/Unity"
+
+specialists:
+  code: "unity-specialist"
+  shader: "unity-shader-specialist"
+  ui: "unity-ui-specialist"
+  additional: ["unity-dots-specialist", "unity-addressables-specialist"]
+
+naming:
+  classes: PascalCase
+  variables: camelCase
+  constants: SCREAMING_SNAKE   # UNVERIFIED — not sourceable from
+                               # docs/engine-reference/unity/; confirm before relying on it
+  signals: PascalCase `On<Event>`
+  files: PascalCase
+  scenes: PascalCase
+
+commands:
+  # TODO: build and run are not set. The project targets Android, and no
+  # Android command-line player-build flag is sourceable from
+  # docs/engine-reference/unity/. Set them via /project-settings.
+  test: '"/home/vuongnd/Unity/Hub/Editor/6000.6.8f1/Editor/Unity" -batchmode -runTests -projectPath . -testPlatform EditMode -testResults test-results/editmode.xml'
+  smoke: '"/home/vuongnd/Unity/Hub/Editor/6000.6.8f1/Editor/Unity" -batchmode -quit -projectPath . -logFile -'

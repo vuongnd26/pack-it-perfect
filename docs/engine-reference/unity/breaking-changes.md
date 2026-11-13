@@ -152,3 +152,57 @@ When upgrading from 2022 LTS to Unity 6.3 LTS:
 **Sources:**
 - https://docs.unity3d.com/6000.0/Documentation/Manual/upgrade-guides.html
 - https://docs.unity3d.com/Packages/com.unity.entities@1.3/manual/upgrade-guide.html
+
+
+---
+
+## 6.3 → 6.6
+
+**Last verified:** 2026-11-12
+**Sources:** https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity64 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity65 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity66 (Unity's "What's new" pages).
+**Coverage limit:** NOT SOURCEABLE — a complete breaking-change list for 6.4–6.6 is not stated on
+these pages; they defer to the "Upgrade to Unity 6.x" guides and release notes, which were not
+read. Treat this as a floor, not the full list. The last 4,641 characters of the 6.5 page were
+not read.
+
+### 6.4
+- **PVRTC removed** — cannot be targeted on texture import; use ASTC or ETC.
+- **URP Compatibility Mode fully removed** for custom render passes; the `URP_COMPATIBILITY_MODE`
+  define is gone. Use Render Graph.
+- **Build Profiles platform list hidden by default** for new projects (disable **Hide Classic
+  Platforms** in Project Settings > Editor > Build Profiles to show it).
+- **`com.unity.modules.physics` can be disabled**; keep it enabled if you use local volumes.
+- **New warning** when a class in a `[SerializeReference]` field (or an ancestor) lacks `[Serializable]`.
+- **`InstanceID` → `EntityId`** begins (InstanceID methods marked deprecated). Do not cast
+  `EntityId` to/from `int`, hash it, parse it from a string, or sort it for creation order.
+
+### 6.5
+- **`EntityId` replaces `InstanceID`** (64-bit struct): the obsolete integer APIs now fail to
+  compile, including `Object.GetInstanceID`, `Resources.InstanceIDToObject`, `Selection.instanceIDs`.
+- **Removed obsolete APIs:** `GameObject.rigidbody`, `GameObject.camera`, `Component.renderer`,
+  `GameObject.AddComponent(string)` — use `GetComponent<T>` / `AddComponent<T>`.
+- **2D:** `LowLevelPhysics2D` renamed `PhysicsCore2D`, namespace `UnityEngine.LowLevelPhysics2D` →
+  `Unity.U2D.Physics`.
+- **Android:** minimum API level is now 26; x86-64 removed; Gradle 9.1.0 / AGP 9.0.0 (custom Gradle
+  templates and third-party plug-ins may need manual changes); `proguard-android.txt` unsupported
+  (use `proguard-android-optimize.txt`); plug-ins must declare a unique namespace; **Hide Navigation
+  Bar** replaced by Insets (`Screen.fullScreen` has no effect on Android; `unity.launch-fullscreen`
+  manifest entry replaced by `unity.requested-visible-insets` / `unity.system-bars-behavior`).
+- **Texture Read/Write** no longer enabled automatically at build time (Particle System Shape and
+  Terrain Paint Detail need it set manually, else warning and build failure).
+- **iOS/tvOS/macOS:** ReplayKit API removed.
+- **Unity.Mathematics** now built in (no package install).
+
+### 6.6
+- **New projects: Enter Play Mode Settings default to "Reload Scene only"** (previously Reload
+  Domain and Scene). Static state is no longer reset on entering Play Mode — see best-practices.
+- **Scripting symbols `UNITY_64` and `DEVELOPMENT_BUILD` deprecated.** NOT SOURCEABLE — the
+  replacement symbols are not stated on the What's-new page.
+- **Mesh Read/Write** no longer enabled at build time (Particle System Shape module, Terrain Detail
+  Mesh, Mesh Collider need it set manually, else warning and build failure).
+- **Android:** OpenGL ES 3.0 removed (minimum ES 3.1); Legacy and Round icons removed (Adaptive only);
+  `-androidChainedSignalHandlerBehavior` `legacy` option removed.
+- **Graph Toolkit:** `port.DataType` is `typeof(Untyped)` instead of `null` for data-less ports.
+- New projects use `Library/DataStore` instead of `Library/Artifacts`.
+- `PlayerSettings.SetManagedCodeVariant` / `ManagedCodeVariant` added; may require upgrade steps
+  (NOT SOURCEABLE — steps not listed).

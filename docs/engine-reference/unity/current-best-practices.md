@@ -373,3 +373,43 @@ Debug.Log($"Player {playerName} scored {score} points");
 - https://docs.unity3d.com/6000.0/Documentation/Manual/BestPracticeGuides.html
 - https://docs.unity3d.com/Packages/com.unity.entities@1.3/manual/index.html
 - https://docs.unity3d.com/Packages/com.unity.inputsystem@1.11/manual/index.html
+
+
+---
+
+## 6.3 → 6.6
+
+**Last verified:** 2026-11-12
+**Sources:** https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity64 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity65 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity66.
+**Coverage limit:** features as described on the What's-new pages only; no API usage was verified
+against the scripting reference. Items most relevant to a 2D URP Android project are listed.
+
+- **Play Mode without domain reload (6.6 default for new projects).** The 6.6 page recommends
+  keeping domain reload off and resetting static state explicitly, using the
+  `AutoStaticsCleanup` / `NoAutoStaticsCleanup` attributes (6.5+) and the Project Auditor Roslyn
+  analyzer (`UAL` warnings on the Domain Reload page). This project's existing scenes were created
+  before 6.6 defaults — check **Enter Play Mode Settings** before assuming either behavior.
+- **Lifecycle attributes (6.5):** `Unity.Scripting.LifecycleManagement` — `OnCodeLoaded`,
+  `OnCodeInitializing`, `OnCodeDeinitializing`, `OnCodeUnloading`, and
+  `OnEnteringPlayMode` / `OnExitingPlayMode` / `OnEnteringEditMode` / `OnExitingEditMode`; the older
+  `EditorApplication.playModeStateChanged` still works.
+- **2D (URP):** custom C# render passes injected into the URP frame (6.4); `SpriteAtlasManager.CreateSpriteAtlas`
+  for runtime atlases (6.4); `Light2DProvider` / `ShadowShape2DProvider`, `RenderSprite` /
+  `RenderSpriteInstanced` (render sprites without GameObjects, works with 2D lights, sprite masks and
+  the SRP Batcher) (6.5); 2D Profiler modules (2D Animation, Tilemap, 2D Graphics) (6.5/6.6).
+- **Mobile URP (6.5):** on-tile post-processing on all platforms (HDR, tone mapping, color grading,
+  vignette in one tile pass); **Tile-Only Mode** in the URP Renderer validates settings for
+  tile-based GPUs.
+- **Input System (6.4):** `OnMouseDown` / `OnMouseDrag` / `OnMouseUp` work with the Input System package.
+  The pages state no Input System breaking changes for 6.5 or 6.6.
+- **Android (6.5/6.6):** ThinLTO build setting for non-development builds; foldable support via
+  `AndroidApplication.currentFoldingFeatures`; Profileable Shell build setting (6.6); gamepad rumble
+  through Input System Gamepad Haptics APIs (6.6). NOT SOURCEABLE — handheld haptics (vibration) APIs
+  are not covered by these pages.
+- **Project Auditor** is built into the Editor from 6.4, with a URP Settings Analyzer (6.6).
+- **Testing (6.6):** the Performance Testing package is a core package (`Unity.PerformanceTesting`).
+  NOT SOURCEABLE — Test Framework changes (this project uses com.unity.test-framework 1.8.0) are not
+  covered.
+- **Burst** (6.6) and **Unity.Mathematics** (6.5) are built in; no package install needed.
+- **Serialization (6.6):** `[SerializeField]` on `Dictionary<TKey, TValue>` is supported in
+  MonoBehaviour, ScriptableObject and nested `[Serializable]` types.

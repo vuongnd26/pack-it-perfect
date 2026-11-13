@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Unity 6.3 LTS |
-| **Installed at pin time** | NOT DETERMINED — `/setup-engine` §3 probes the installed editor and records the result here. |
-| **Release Date** | December 2025 |
-| **Latest editor on the pinned line** | 6000.3.26f1 (Oct 8, 2026) |
-| **Project Pinned** | 2026-02-13 |
-| **Last Docs Verified** | 2026-10-17 (release timeline, newer releases, latest 6.3 LTS editor); 2026-02-13 (rest of directory) |
+| **Engine Version** | Unity 6.6 (6000.6.8f1) |
+| **Installed at pin time** | 6000.6.8f1 — matches the pin (probed `/home/vuongnd/Unity/Hub/Editor/6000.6.8f1/Editor/Unity`, the only editor installed; `ProjectSettings/ProjectVersion.txt` also reads 6000.6.8f1). |
+| **Release Date** | 6.6: September 2026 (6.3 LTS: December 2025) |
+| **Latest editor on the 6.3 LTS line** | 6000.3.26f1 (Oct 8, 2026) |
+| **Project Pinned** | 2026-11-12 (was Unity 6.3 LTS, pinned 2026-02-13) |
+| **Last Docs Verified** | 2026-11-12 (6.3 → 6.6 changes in breaking-changes.md, deprecated-apis.md, current-best-practices.md); 2026-10-17 (release timeline, newer releases, latest 6.3 LTS editor); 2026-02-13 (rest of directory) |
 | **LLM Knowledge Cutoff** | May 2025 |
 
 ## Knowledge Gap Warning
@@ -37,10 +37,14 @@ version-qualified claim** — `NOT DETERMINED` means the gap is unknown, not abs
 
 ## Newer Releases After the Pin (6.4 to 6.7)
 
-**The pin does not change: it stays Unity 6.3 LTS, the newest LTS.** These are
-Supported Update releases that shipped after it. Nothing else in this directory
-covers their APIs, so treat any 6.4+ API as unconfirmed until checked against
-Unity's docs for that release. 6.0 LTS support ended in October 2026.
+**The project is pinned to 6.6 (6000.6.8f1) since 2026-11-12 — a deliberate
+choice to match the installed editor and existing project; 6.3 LTS remains the
+newest LTS.** These are Supported Update releases that shipped after it. The
+`## 6.3 → 6.6` sections of `breaking-changes.md`, `deprecated-apis.md` and
+`current-best-practices.md` cover only what Unity's "What's new" pages for
+6.4–6.6 state; the upgrade guides and release notes were not read, so treat any
+6.4+ API not listed there as unconfirmed until checked against Unity's docs for
+that release. 6.0 LTS support ended in October 2026.
 
 | Version | Release | Status (2026-10-17) | Key Theme |
 |---------|---------|---------------------|-----------|
@@ -62,9 +66,8 @@ supported "until the next release - in this case 6.7 - arrives" and that it
 "brings you one step closer to the 6.7 LTS". Editor versions and release dates
 come from Unity's release API
 https://services.api.unity.com/unity/editor/release/v1/releases (6.3 LTS first
-editor 6000.3.0f1 on Dec 3, 2025; latest 6000.3.26f1 on Oct 8, 2026). Upgrading
-the pin is a decision for when 6.7 LTS ships and `/setup-engine` re-pins; until
-then new projects stay on 6.3 LTS.
+editor 6000.3.0f1 on Dec 3, 2025; latest 6000.3.26f1 on Oct 8, 2026). Moving
+the pin to 6.7 LTS is a decision for when it ships, via `/setup-engine upgrade`.
 
 ## Unity 6 Releases Before the Cutoff
 

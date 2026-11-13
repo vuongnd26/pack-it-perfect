@@ -154,3 +154,29 @@ rootVisualElement.Q<Label>("score-label").text = "Score: 100";
 **Sources:**
 - https://docs.unity3d.com/6000.0/Documentation/Manual/deprecated-features.html
 - https://docs.unity3d.com/Packages/com.unity.inputsystem@1.11/manual/Migration.html
+
+
+---
+
+## 6.3 → 6.6
+
+**Last verified:** 2026-11-12
+**Sources:** https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity64 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity65 · https://docs.unity.com/en-us/engine/6000.6/manual/whats-new/unity66.
+**Coverage limit:** only what the What's-new pages state; the upgrade guides were not read.
+
+| Don't use | Use instead | Notes |
+|-----------|-------------|-------|
+| `Object.GetInstanceID()`, `Resources.InstanceIDToObject`, `Selection.instanceIDs` | `EntityId` | Deprecated 6.4, compile errors in 6.5. `EntityId` is not an `int`. |
+| `GameObject.rigidbody`, `GameObject.camera`, `Component.renderer` | `GetComponent<T>()` | Removed 6.5 |
+| `GameObject.AddComponent(string)` | `AddComponent<T>()` | Removed 6.5 |
+| `UnityEngine.LowLevelPhysics2D` / `LowLevelPhysics2D` | `Unity.U2D.Physics` / `PhysicsCore2D` | Renamed 6.5 |
+| URP Compatibility Mode / `URP_COMPATIBILITY_MODE` | Render Graph custom passes | Removed 6.4 |
+| PVRTC textures | ASTC or ETC | Removed 6.4 |
+| Built-In Render Pipeline | URP | Deprecated 6.5; supported through the 6.7 LTS lifecycle |
+| Dynamic batching | — | Deprecated 6.5, obsolete in 6.6 (replacement NOT SOURCEABLE) |
+| `AndroidAssetPacks.RequestToUseMobileDataAsync` | `AndroidAssetPacks.ShowConfirmationDialogAsync` | Deprecated 6.5 |
+| **Hide Navigation Bar** player setting, `unity.launch-fullscreen` | Insets (`unity.requested-visible-insets`, `unity.system-bars-behavior`) | 6.5, Android |
+| OpenGL ES 3.0, Legacy/Round Android icons | ES 3.1 minimum, Adaptive icons | Removed 6.6 |
+| `UNITY_64`, `DEVELOPMENT_BUILD` symbols | NOT SOURCEABLE | Deprecated 6.6; replacement not stated |
+| Progressive CPU Light Baker | Compute Light Baker or Progressive GPU Light Baker | Deprecated 6.6 |
+| Managed ECS components, Entities Hierarchy window, Entities Journaling | Unmanaged structs with `UnityObjectRef<T>`; see 6.6 page | Deprecated 6.5/6.6 (not used by this project) |
