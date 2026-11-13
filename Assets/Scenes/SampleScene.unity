@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 102125083}
   - component: {fileID: 102125082}
+  - component: {fileID: 102125084}
   m_Layer: 0
   m_Name: PackingGame
   m_TagString: Untagged
@@ -178,6 +179,63 @@ MonoBehaviour:
     zipperToothSize: 0.09
     zipperToothSpacing: 0.18
     zipperPullSize: 0.32
+    autoAdvanceOnWin: 1
+    levelLimits:
+      minWidth: 4
+      minHeight: 3
+      maxWidth: 7
+      maxHeight: 7
+      minPieces: 3
+      maxPieces: 13
+    iconSizeOnBlock: 1.2
+    iconSizeOnCell: 0.82
+    badgeSize: 0.36
+    badgeMargin: 0.03
+    badgeEmojiScale: 0.62
+    zoneBadgeColor: {r: 1, g: 1, b: 1, a: 0.92}
+    heavyBadgeColor: {r: 0.18039216, g: 0.18039216, b: 0.22745098, a: 1}
+    uprightBadgeColor: {r: 0.9490196, g: 0.75686276, b: 0.30588236, a: 1}
+    pairBadgeColor: {r: 0.9411765, g: 0.5529412, b: 0.70980394, a: 1}
+    zoneDividerColor: {r: 0.3137255, g: 0.23529412, b: 0.15686275, a: 0.55}
+    zoneDividerWidth: 0.06
+    zoneDividerDashesPerCell: 3
+    zoneDividerDashFill: 0.6
+    zoneLabelSize: 0.26
+    zoneLabelColor: {r: 0.23529412, g: 0.15686275, b: 0.078431375, a: 0.7}
+    outlineColor: {r: 0.23529412, g: 0.15686275, b: 0.078431375, a: 0.13}
+    outlineIconAlpha: 0.32
+    outlinePlacedOpacity: 0
+    wobbleAngle: 10
+    wobbleDuration: 0.45
+    wobbleCycles: 3
+    hintGlowDuration: 2
+    hintGlowPulsesPerSecond: 2
+    hintGlowColor: {r: 1, g: 1, b: 1, a: 1}
+    hintGlowMinAlpha: 0.25
+    hintGlowMaxAlpha: 0.9
+    hintGlowFillAlpha: 0.45
+    hintGlowBorderWidth: 0.07
+    hintGlowInset: 0.08
+    hintGlowDashesPerCell: 3
+    hintGlowDashFill: 0.6
+    hintWobbleDuration: 1.2
+    hintWobbleCycles: 4
+    toastDuration: 1.7
+    toastFadeDuration: 0.3
+    toastReferenceViewHeight: 12
+    toastTextSize: 0.42
+    toastHeight: 0.8
+    toastPaddingX: 0.35
+    toastBottomMargin: 0.5
+    toastBackColor: {r: 0.13333334, g: 0.13333334, b: 0.16862746, a: 0.92}
+    toastTextColor: {r: 1, g: 1, b: 1, a: 1}
+    wordDuration: 1
+    wordRise: 0.6
+    wordTextSize: 0.36
+    wordHeight: 0.6
+    wordPaddingX: 0.22
+    wordBackColor: {r: 0.8784314, g: 0.30980393, b: 0.54901963, a: 0.95}
+    wordTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &102125083
 Transform:
   m_ObjectHideFlags: 0
@@ -193,6 +251,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &102125084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102125081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce2240fd049811eb29dc85c9d6d3a620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PackItPerfect.UI.GameUI
+  tuning:
+    referenceResolution: {x: 1080, y: 1920}
+    matchWidthOrHeight: 0.5
+    canvasSortingOrder: 10
+    ink: {r: 0.11764706, g: 0.16470589, b: 0.22745098, a: 1}
+    panel: {r: 1, g: 1, b: 1, a: 1}
+    primary: {r: 0.24705882, g: 0.7137255, b: 0.54509807, a: 1}
+    primaryShadow: {r: 0.17254902, g: 0.5411765, b: 0.40784314, a: 1}
+    danger: {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 1}
+    dangerShadow: {r: 0.65882355, g: 0.19607843, b: 0.18431373, a: 1}
+    accent: {r: 0.9490196, g: 0.75686276, b: 0.30588236, a: 1}
+    accentShadow: {r: 0.7882353, g: 0.6039216, b: 0.18039216, a: 1}
+    secondaryShadow: {r: 0.827451, g: 0.85490197, b: 0.8901961, a: 1}
+    muted: {r: 0.33333334, g: 0.39607844, b: 0.47843137, a: 1}
+    overlay: {r: 0.039215688, g: 0.0627451, b: 0.09411765, a: 0.8}
+    menuBackground: {r: 1, g: 0.972549, b: 0.93333334, a: 1}
+    bannerBackground: {r: 0.11764706, g: 0.16470589, b: 0.22745098, a: 0.92}
+    cornerRadius: 36
+    cardRadius: 48
+    buttonShadowDepth: 10
+    sideMargin: 32
+    titleFontSize: 120
+    headingFontSize: 88
+    bodyFontSize: 46
+    buttonFontSize: 60
+    smallFontSize: 40
+    chipFontSize: 34
+    hudHeight: 320
+    hudRowHeight: 120
+    hudButtonSize: 120
+    levelPillWidth: 420
+    timerPillWidth: 230
+    fillPillWidth: 170
+    chipHeight: 64
+    bottomBarHeight: 140
+    bottomBarMargin: 32
+    timerStartDelay: 1.3
+    timerDangerSeconds: 10
+    timerWarningSeconds: 5
+    reduceMotion: 0
+    popStartScale: 0.6
+    bannerPopIn: 0.25
+    bannerHold: 1
+    bannerFadeOut: 0.25
+    cardPopDuration: 0.25
+    starPopDuration: 0.35
+    starPopStagger: 0.15
+    emptyStarAlpha: 0.2
+    levelSelectColumns: 3
+    levelCellSize: {x: 280, y: 250}
+    levelCellSpacing: {x: 40, y: 40}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

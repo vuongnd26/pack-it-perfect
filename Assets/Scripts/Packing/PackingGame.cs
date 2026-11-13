@@ -36,6 +36,9 @@ namespace PackItPerfect
 
         [SerializeField] PackingTuning tuning = new PackingTuning();
 
+        GameFeel feel;
+        PatternSpriteCache patterns;
+        bool reduceMotion;
         Camera cam;
         SpriteFactory factory;
         LevelsFile levelsFile;
@@ -71,6 +74,11 @@ namespace PackItPerfect
         Vector2Int ghostOrigin;
         Pointer activePointer;
 
+        const float MAX_VIEW_INSET = 0.45f;
+        bool loadOnStart = true;
+        float viewInsetTop;
+        float viewInsetBottom;
+
         // ---------------------------------------------------------------- public API (UI wave)
 
         /// <summary>Raised after a level is built and shown (also on restart). Carries the level's data, rules and <see cref="LevelInfo"/>.</summary>
@@ -81,6 +89,47 @@ namespace PackItPerfect
 
         /// <summary>Raised once per win, after the lid has closed: (level number, stars). Stars = 3, or 2 if Hint was used.</summary>
         public event Action<int, int> LevelWon;
+
+        /// <summary>Raised immediately at an accepted winning drop, before lid animation; safe persistence hook.</summary>
+        public event Action<int, int> LevelCompleted;
+        /// <summary>Raised when a piece starts being dragged (piece id).</summary>
+        public event Action<int> PiecePickedUp;
+        /// <summary>Raised on accepted placement (piece id, current view).</summary>
+        public event Action<int, PieceView> PiecePlaced;
+        /// <summary>Raised after a tray piece rotates.</summary>
+        public event Action<int> PieceRotated;
+        /// <summary>Raised on an invalid drop, forbidden rotation or failed completion rule.</summary>
+        public event Action InvalidAction;
+        /// <summary>Raised as the zipper begins, after the lid lands.</summary>
+        public event Action ZipperStarted;
+        /// <summary>True while the player is pressing or dragging a piece.</summary>
+        public bool IsInteracting => state == InputState.Pressing || state == InputState.Dragging;
+
+        /// <summary>Applies motion reduction to current and future gameplay presentation.</summary>
+        public bool ReduceMotion
+        {
+            get => reduceMotion;
+            set
+            {
+                reduceMotion = value;
+                if (grid != null) grid.ReduceMotion = value;
+                if (lid != null) lid.ReduceMotion = value;
+                if (worldFeedback != null) worldFeedback.ReduceMotion = value;
+                if (pieceViews != null)
+                    foreach (var view in pieceViews) view.ReduceMotion = value;
+            }
+        }
+
+        /// <summary>Gets the tutorial's current tray anchor and first solution anchor without moving any item.</summary>
+        public bool TryGetTutorialPath(out Vector3 from, out Vector3 to)
+        {
+            from = to = Vector3.zero;
+            if (level == null || pieceViews == null || pieceViews.Length == 0 || board.IsPlaced(0)) return false;
+            var shape = level.SolutionShapes[0];
+            from = pieceViews[0].RestCenter;
+            to = grid.CellTopLeft(level.SolutionOrigins[0]) + new Vector3(shape.Width / 2f, -shape.Height / 2f);
+            return true;
+        }
 
         /// <summary>1-based number of the current level (the last one requested if it failed to load).</summary>
         public int CurrentLevelNumber => levelIndex + 1;
@@ -121,6 +170,37 @@ namespace PackItPerfect
             {
                 feedback?.Clear();
                 feedback = value ?? worldFeedback;
+            }
+        }
+
+        /// <summary>
+        /// When true (default), Start loads the serialized start level. The UI sets this false in its Awake so the app
+        /// opens on the main menu. A <see cref="LoadLevel"/> call made before Start still loads that level in Start.
+        /// </summary>
+        public bool LoadOnStart
+        {
+            get => loadOnStart;
+            set => loadOnStart = value;
+        }
+
+        /// <summary>
+        /// Asked when a pointer press begins; return true to ignore that press (e.g. it landed on a screen-space UI button).
+        /// Null = never blocked. Only the start of a press is checked: a drag that began on the board continues over the UI.
+        /// </summary>
+        public Func<bool> PointerBlocked { get; set; }
+
+        /// <summary>
+        /// Reserves screen space the board must stay out of (HUD bands), as fractions of the screen height measured from
+        /// the top and bottom edges, each clamped to [0, 0.45]. Re-fits the camera at once when a level is showing.
+        /// </summary>
+        public void SetViewInsets(float topFraction, float bottomFraction)
+        {
+            viewInsetTop = Mathf.Clamp(topFraction, 0f, MAX_VIEW_INSET);
+            viewInsetBottom = Mathf.Clamp(bottomFraction, 0f, MAX_VIEW_INSET);
+            lastScreenSize = Vector2Int.zero;
+            if (level != null && cam != null)
+            {
+                FitCamera();
             }
         }
 
@@ -189,6 +269,8 @@ namespace PackItPerfect
 
         void Awake()
         {
+            feel = GetComponent<GameFeel>();
+            if (feel == null) feel = gameObject.AddComponent<GameFeel>();
             if (levelsJson == null)
             {
                 Debug.LogError("PackingGame: assign Assets/Data/Levels/levels.json to 'Levels Json'.");
@@ -236,11 +318,15 @@ namespace PackItPerfect
             factory = new SpriteFactory();
             worldFeedback = new WorldFeedback(factory, transform, cam, tuning);
             feedback ??= worldFeedback;
-            LoadLevelAt(Mathf.Clamp(startLevel, 1, LevelCount) - 1);
+            if (loadOnStart)
+            {
+                LoadLevelAt(Mathf.Clamp(startLevel, 1, LevelCount) - 1);
+            }
         }
 
         void OnDestroy()
         {
+            patterns?.Dispose();
             factory?.Dispose();
         }
 
@@ -252,8 +338,10 @@ namespace PackItPerfect
             }
             if (factory == null)
             {
-                // Called before Start (e.g. by a UI script's Start): Start loads this level instead of startLevel.
+                // Called before Start (e.g. by a UI script's Start): Start loads this level instead of startLevel,
+                // even when LoadOnStart is false.
                 startLevel = index + 1;
+                loadOnStart = true;
                 return;
             }
             int count = levelsFile.levels.Length;
@@ -261,8 +349,11 @@ namespace PackItPerfect
             StopAllCoroutines();
             if (levelRoot != null)
             {
+                levelRoot.gameObject.SetActive(false);
                 Destroy(levelRoot.gameObject);
             }
+            patterns?.Dispose();
+            patterns = new PatternSpriteCache(feel.Tuning);
             level = null;
             hints = null;
             state = InputState.Idle;
@@ -287,7 +378,7 @@ namespace PackItPerfect
             levelRoot = new GameObject($"Level {data.number}").transform;
             levelRoot.SetParent(transform, false);
 
-            grid = new GridView(factory, levelRoot, loaded, tuning);
+            grid = new GridView(factory, levelRoot, loaded, tuning, feel.Tuning);
             outlines = new OutlineView(factory, grid, loaded, tuning);
             hintGlow = new HintGlowView(factory, grid, tuning);
             float trayWidth = Mathf.Max(grid.FrameRect.width, tuning.minTrayWidth);
@@ -300,6 +391,9 @@ namespace PackItPerfect
                 var piece = data.pieces[i];
                 var decor = new PieceDecor
                 {
+                    patterns = patterns,
+                    pattern = loaded.Items[i].pattern,
+                    outlineColor = feel.Tuning.outlineColor,
                     icon = factory.GetIcon(piece.item),
                     zoneIcon = loaded.ZoneOf(i)?.icon,
                     heavy = piece.heavy,
@@ -315,6 +409,7 @@ namespace PackItPerfect
             ghost = new PieceView(factory, levelRoot, "Ghost", tuning.ghostValidColor, SpriteFactory.ORDER_GHOST, tuning);
             ghost.SetVisible(false);
 
+            ReduceMotion = reduceMotion;
             lastScreenSize = Vector2Int.zero;
             FitCamera();
             OnBoardChanged();
@@ -323,7 +418,9 @@ namespace PackItPerfect
 
         void Update()
         {
-            HandleKeyboard();
+#if UNITY_EDITOR
+            if (AutoAdvanceOnWin) HandleKeyboard();
+#endif
             if (level == null)
             {
                 worldFeedback?.Tick(Time.deltaTime);
@@ -386,9 +483,18 @@ namespace PackItPerfect
             float xMax = Mathf.Max(content.xMax, trayBounds.xMax);
             float yMin = Mathf.Min(content.yMin, trayBounds.yMin);
             float yMax = Mathf.Max(content.yMax, trayBounds.yMax);
-            float halfHeight = Mathf.Max((yMax - yMin) / 2f, (xMax - xMin) / 2f / cam.aspect);
-            cam.orthographicSize = halfHeight + tuning.screenMargin;
-            cam.transform.position = new Vector3((xMin + xMax) / 2f, (yMin + yMax) / 2f, cam.transform.position.z);
+            // The content fits in the band left between the top and bottom view insets (fractions of the view height);
+            // with no insets this is the same fit as before.
+            float usable = 1f - viewInsetTop - viewInsetBottom;
+            float halfContentHeight = (yMax - yMin) / 2f;
+            float halfContentWidth = (xMax - xMin) / 2f;
+            float size = Mathf.Max((halfContentHeight + tuning.screenMargin) / usable,
+                halfContentWidth / cam.aspect + tuning.screenMargin);
+            cam.orthographicSize = size;
+            // Shift the camera so the content centre sits in the middle of the usable band, not of the screen.
+            float bandCentre = viewInsetBottom + usable / 2f;
+            float centreY = (yMin + yMax) / 2f + (0.5f - bandCentre) * 2f * size;
+            cam.transform.position = new Vector3((xMin + xMax) / 2f, centreY, cam.transform.position.z);
         }
 
         // ---------------------------------------------------------------- pointer
@@ -421,6 +527,10 @@ namespace PackItPerfect
 
             if (pointer.press.wasPressedThisFrame)
             {
+                if (PointerBlocked != null && PointerBlocked())
+                {
+                    return; // the press landed on the UI
+                }
                 activePointer = pointer;
                 BeginPress(screen);
             }
@@ -482,6 +592,7 @@ namespace PackItPerfect
             view.SetSortingOrder(SpriteFactory.ORDER_DRAGGED);
             ghost.SetShape(shape);
             state = InputState.Dragging;
+            PiecePickedUp?.Invoke(activePiece);
         }
 
         void UpdateDrag(Vector2 world)
@@ -532,6 +643,7 @@ namespace PackItPerfect
                 {
                     view.PlaceAt(grid.CellTopLeft(ghostOrigin), 1f);
                     OnBoardChanged();
+                    PiecePlaced?.Invoke(id, view);
                     OnPiecePlaced(id);
                     return;
                 }
@@ -539,6 +651,7 @@ namespace PackItPerfect
             }
             view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
             view.StartShake();
+            InvalidAction?.Invoke();
         }
 
         // Input lock during a press: a dragged piece goes back to the tray without a shake (it was already off the board).
@@ -561,11 +674,13 @@ namespace PackItPerfect
             {
                 view.StartWobble(tuning.wobbleDuration, tuning.wobbleCycles);
                 feedback?.Toast(GameTexts.UPRIGHT_VIOLATION);
+                InvalidAction?.Invoke();
                 return;
             }
             shapes[id] = shapes[id].Rotated();
             view.SetShape(shapes[id]);
             view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
+            PieceRotated?.Invoke(id);
         }
 
         // Toast only when the drop failed for exactly one rule reason; geometry failures just shake.
@@ -601,11 +716,17 @@ namespace PackItPerfect
             if (!violation.IsViolation)
             {
                 state = InputState.Won;
-                StartCoroutine(CloseLid(StarCalculator.StarsFor(hints.Used)));
+                int stars = StarCalculator.StarsFor(hints.Used);
+                var completed = level;
+                LevelCompleted?.Invoke(completed.Info.Number, stars);
+                // A completion subscriber may navigate immediately; never close the replacement level's lid.
+                if (ReferenceEquals(level, completed) && state == InputState.Won)
+                    StartCoroutine(CloseLid(stars));
                 return;
             }
 
             // Every piece is in but a rule fails at completion: only pairs are checked here.
+            InvalidAction?.Invoke();
             grid.StartShake();
             for (int i = 0; i < pieceViews.Length; i++)
             {
@@ -628,7 +749,7 @@ namespace PackItPerfect
         IEnumerator CloseLid(int stars)
         {
             int number = level.Info.Number;
-            yield return lid.Close();
+            yield return lid.Close(() => ZipperStarted?.Invoke());
             lidClosed = true;
             LevelWon?.Invoke(number, stars);
         }

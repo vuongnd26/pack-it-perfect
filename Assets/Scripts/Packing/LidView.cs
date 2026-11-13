@@ -62,13 +62,18 @@ namespace PackItPerfect
             root.gameObject.SetActive(false);
         }
 
+        /// <summary>Skips the slide and zipper travel when accessibility motion reduction is enabled.</summary>
+        public bool ReduceMotion { get; set; }
+
         /// <summary>Slides the lid down over the grid, then zips it shut. Ends when both are done.</summary>
-        public IEnumerator Close()
+        /// <param name="zipperStarted">Optional semantic callback when the lid has landed and zipper travel begins.</param>
+        public IEnumerator Close(System.Action zipperStarted = null)
         {
             root.gameObject.SetActive(true);
             float elapsed = 0f;
             while (elapsed < tuning.lidSlideDuration)
             {
+                if (ReduceMotion) break;
                 elapsed += Time.deltaTime;
                 float k = Mathf.Clamp01(elapsed / tuning.lidSlideDuration);
                 float eased = 1f - (1f - k) * (1f - k) * (1f - k); // ease-out cubic
@@ -76,10 +81,12 @@ namespace PackItPerfect
                 yield return null;
             }
             root.position = closedPosition;
+            zipperStarted?.Invoke();
 
             elapsed = 0f;
             while (elapsed < tuning.zipperDuration)
             {
+                if (ReduceMotion) break;
                 elapsed += Time.deltaTime;
                 SetZip(Mathf.Clamp01(elapsed / tuning.zipperDuration));
                 yield return null;

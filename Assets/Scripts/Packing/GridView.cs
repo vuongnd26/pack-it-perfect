@@ -44,7 +44,7 @@ namespace PackItPerfect
         public Transform Root => root;
 
         /// <summary>Builds the container visuals for <paramref name="level"/> under <paramref name="parent"/>.</summary>
-        public GridView(SpriteFactory factory, Transform parent, LoadedLevel level, PackingTuning tuning)
+        public GridView(SpriteFactory factory, Transform parent, LoadedLevel level, PackingTuning tuning, FeelTuning feel = null)
         {
             board = level.Board;
             this.tuning = tuning;
@@ -62,6 +62,31 @@ namespace PackItPerfect
             Color lineColor = LevelLoader.ParseColor(theme.line);
             Color blockColor = LevelLoader.ParseColor(theme.block);
 
+            float attachmentBottom = FrameRect.yMin;
+            float attachmentTop = FrameRect.yMax;
+            if (feel != null)
+            {
+                float stroke = feel.outlineWidth;
+                factory.CreateQuad(root, "Container outline", FrameRect.center, FrameRect.size + Vector2.one * stroke * 2f,
+                    feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                if (theme.handle)
+                {
+                    float y = FrameRect.yMax + feel.handleSize.y / 2f;
+                    factory.CreateQuad(root, "Handle grip", new Vector2(0f, y + feel.handleSize.y / 2f),
+                        new Vector2(feel.handleSize.x, feel.handleStroke), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                    foreach (float side in new[] { -1f, 1f })
+                        factory.CreateQuad(root, "Handle stem", new Vector2(side * feel.handleSize.x / 2f, y),
+                            new Vector2(feel.handleStroke, feel.handleSize.y), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                    attachmentTop = FrameRect.yMax + feel.handleSize.y + feel.handleStroke;
+                }
+                if (theme.wheels)
+                {
+                    foreach (float side in new[] { -1f, 1f })
+                        factory.CreateQuad(root, "Wheel", new Vector2(side * (FrameRect.width / 2f - feel.wheelInset),
+                            FrameRect.yMin - feel.wheelSize.y / 2f), feel.wheelSize, feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                    attachmentBottom -= feel.wheelSize.y;
+                }
+            }
             factory.CreateQuad(root, "Frame", FrameRect.center, FrameRect.size, frameColor, SpriteFactory.ORDER_FRAME);
             var gridCenter = new Vector2(Left + board.Width / 2f, Top - board.Height / 2f);
             factory.CreateQuad(root, "Lining", gridCenter, new Vector2(board.Width, board.Height), liningColor, SpriteFactory.ORDER_LINING);
@@ -105,7 +130,8 @@ namespace PackItPerfect
             SetFill(0f);
 
             float contentTop = fillBarCenterY + fillBarHeight / 2f;
-            ContentRect = new Rect(FrameRect.xMin, FrameRect.yMin, FrameRect.width, contentTop - FrameRect.yMin);
+            contentTop = Mathf.Max(contentTop, attachmentTop);
+            ContentRect = new Rect(FrameRect.xMin, attachmentBottom, FrameRect.width, contentTop - attachmentBottom);
         }
 
         // Zone tint per cell, a divider wherever neighbouring cells change zone, and an "icon name" label
@@ -189,12 +215,24 @@ namespace PackItPerfect
         /// <summary>World position of the centre of <paramref name="cell"/> (at rest).</summary>
         public Vector3 CellCenter(Vector2Int cell) => new Vector3(Left + cell.x + 0.5f, Top - cell.y - 0.5f, 0f);
 
+        /// <summary>When true, cancels and suppresses container shake.</summary>
+        public bool ReduceMotion { get; set; }
+
         /// <summary>Shakes the whole container sideways (pairs not touching).</summary>
-        public void StartShake() => shake.Start(tuning.shakeDuration, tuning.shakeAmplitude, tuning.shakeCycles);
+        public void StartShake()
+        {
+            if (!ReduceMotion) shake.Start(tuning.shakeDuration, tuning.shakeAmplitude, tuning.shakeCycles);
+        }
 
         /// <summary>Advances the container shake; call every frame.</summary>
         public void Tick(float deltaTime)
         {
+            if (ReduceMotion)
+            {
+                shake.Stop();
+                root.localPosition = Vector3.zero;
+                return;
+            }
             if (shake.Active)
             {
                 root.localPosition = new Vector3(shake.Tick(deltaTime), 0f, 0f);

@@ -23,10 +23,14 @@ Out of scope: monetization, KPIs, reference-game positioning (blank in the GDD, 
 | 003 | Obstacle rules | Logic | Complete | N/A |
 | 004 | Outline imprints | Visual/Feel | Complete | N/A |
 | 005 | Hint booster and star rule | Logic | Complete | N/A |
-| 006 | Timer mode and lose screen | UI | Ready | N/A |
-| 007 | Progression and meta screens | UI | Ready | N/A |
-| 008 | Tutorial hand and placement juice | Visual/Feel | Ready | N/A |
-| 009 | Art and audio pass | Visual/Feel | Ready | N/A |
+| 006 | Timer mode and lose screen | UI | In Progress — Editor verified; audio listening pending | N/A |
+| 007 | Progression and meta screens | UI | In Progress — Editor verified; device lifecycle pending | N/A |
+| 008 | Tutorial hand and placement juice | Visual/Feel | In Progress — implemented; haptics/feel sign-off pending | N/A |
+| 009 | Art and audio pass | Visual/Feel | In Progress — implemented; listening/art sign-off pending | N/A |
+
+### Editor milestone — 2026-11-12
+
+All 15 reference solutions passed both the compiled model and simulated controller drag/drop path. Runtime menus, mandatory timers, progression, stars, save reload, tutorial, patterns, placement effects and generated audio routing are implemented. This is **not** a device-release sign-off or APK delivery. See `production/qa/pack-it-perfect-editor-verification-2026-11-12.md` for exact evidence, known gaps and remaining checks. No commit or push was authorized for this wave.
 
 ## Decisions (closed 2026-11-12)
 

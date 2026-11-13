@@ -1,12 +1,12 @@
 # Story 006: Timer mode and lose screen
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: In Progress
 > **Layer**: Feature
 > **Type**: UI
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -28,14 +28,14 @@
 
 *From `design/game-brief.md` (Điều kiện thua, Hẹn giờ), scoped to this story:*
 
-- [ ] A countdown shows only on levels 5, 10 and 15: 5 = 30 s, 10 = 45 s, 15 = 75 s.
-- [ ] Those levels show the banner, verbatim: `"Hard level! Pack before the taxi leaves"`.
-- [ ] The clock turns red with 10 seconds left. A tick sound plays with 5 seconds left.
-- [ ] Winning stops the clock.
-- [ ] When time runs out the player loses. The lose screen reads, verbatim: `"Out of time! The taxi is leaving and the trunk won't close."`
-- [ ] The lose screen has two buttons: `"Try again"` and `"Install to keep packing"`.
-- [ ] `"Try again"` restarts the same level with a full clock.
-- [ ] The timer is always on for levels 5, 10 and 15, with no mode switch. Every other level has no clock and no lose state.
+- [x] A countdown shows only on levels 5, 10 and 15: 5 = 30 s, 10 = 45 s, 15 = 75 s.
+- [x] Those levels show the banner, verbatim: `"Hard level! Pack before the taxi leaves"`.
+- [ ] The clock turns red with 10 seconds left. A tick sound plays with 5 seconds left. **Red state observed; five warning events and Tick clip routing verified; listening check pending.**
+- [x] Winning stops the clock.
+- [x] When time runs out the player loses. The lose screen reads, verbatim: `"Out of time! The taxi is leaving and the trunk won't close."`
+- [x] The lose screen has two buttons: `"Try again"` and `"Install to keep packing"`.
+- [x] `"Try again"` restarts the same level with a full clock.
+- [x] The timer is always on for levels 5, 10 and 15, with no mode switch. Every other level has no clock and no lose state.
 
 ---
 
@@ -76,7 +76,11 @@ N/A — no qa-lead specs at this tier; implement against the Acceptance Criteria
 **Story Type**: UI
 **Required evidence**: a retained screenshot of the timer in its red state and of the lose screen, in `production/qa/evidence/`.
 
-**Status**: [ ] Not yet created
+**Status**: Retained and observed in Unity Play Mode on 2026-11-12; audio listening remains pending.
+
+- `production/qa/evidence/story-006-timer-mode/timer-red.png`
+- `production/qa/evidence/story-006-timer-mode/lose-screen.png`
+- Execution details and limitations: `production/qa/pack-it-perfect-editor-verification-2026-11-12.md`.
 
 ---
 

@@ -1,12 +1,12 @@
 # Story 008: Tutorial hand and placement juice
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: In Progress
 > **Layer**: Presentation
 > **Type**: Visual/Feel
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -28,10 +28,10 @@
 
 *From `design/game-brief.md` (Cơ chế chính, Progression & Meta, Art & Audio), scoped to this story:*
 
-- [ ] Level 1 shows a tutorial hand that drags an item from the tray into the grid.
+- [x] Level 1 shows a tutorial hand that drags an item from the tray into the grid.
 - [ ] Every correct placement plays a bounce, a light burst and a light haptic.
-- [ ] Every correct placement shows one praise word picked at random from this closed list only: `"Snug!"`, `"Nice fit!"`, `"Click!"`, `"Perfect!"`, `"Neat!"`.
-- [ ] Completing a level shows confetti.
+- [x] Every correct placement shows one praise word picked at random from this closed list only: `"Snug!"`, `"Nice fit!"`, `"Click!"`, `"Perfect!"`, `"Neat!"`.
+- [x] Completing a level shows confetti.
 - [ ] A wrong drop shakes the item and gives haptic feedback if the device supports it.
 - [ ] No praise word outside the list appears anywhere.
 
@@ -54,8 +54,9 @@
 
 ## Files
 
-- Assets/Scripts/Feedback/PraiseText.cs
-- Assets/Scripts/Feedback/PlacementFeedback.cs
+- Assets/Scripts/Feedback/GameFeel.cs
+- Assets/Scripts/Feedback/FeelTuning.cs
+- Assets/Scripts/Packing/Feedback/WorldFeedback.cs
 - Assets/Scripts/Feedback/TutorialHand.cs
 - Assets/Scripts/Feedback/ConfettiBurst.cs
 
@@ -72,7 +73,12 @@ N/A — no qa-lead specs at this tier; implement against the Acceptance Criteria
 **Story Type**: Visual/Feel
 **Required evidence**: a retained screenshot of the tutorial hand, a praise word and the confetti, in `production/qa/evidence/` + sign-off in `production/qa/evidence/story-008-tutorial-and-juice-evidence.md`.
 
-**Status**: [ ] Not yet created
+**Status**: Screenshots retained; final feel sign-off and Android haptics remain pending. Reduced-motion preference suppresses decorative movement.
+
+- `production/qa/evidence/story-008-tutorial-and-juice/level01-tutorial.png`
+- `production/qa/evidence/story-008-tutorial-and-juice/placement-praise.png`
+- `production/qa/evidence/story-008-tutorial-and-juice/confetti-completion.png`
+- Evidence scope: `production/qa/evidence/story-008-tutorial-and-juice-evidence.md`.
 
 ---
 

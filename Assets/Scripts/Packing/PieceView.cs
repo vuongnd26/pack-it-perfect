@@ -12,6 +12,12 @@ namespace PackItPerfect
     /// <summary>What a piece shows on top of its cells: item icon and rule badges. Null for the ghost.</summary>
     public sealed class PieceDecor
     {
+        /// <summary>Shared runtime pattern cache, or null for plain ghosts and outline imprints.</summary>
+        public PatternSpriteCache patterns;
+        /// <summary>Pattern key from item data.</summary>
+        public string pattern;
+        /// <summary>Exterior outline colour for decorated pieces.</summary>
+        public Color outlineColor;
         /// <summary>Item icon, or null.</summary>
         public Sprite icon;
         /// <summary>Icon opacity (1 for pieces, lower for outline imprints).</summary>
@@ -27,8 +33,8 @@ namespace PackItPerfect
     }
 
     /// <summary>
-    /// Draws a <see cref="PieceShape"/> as inset cells plus bridge quads between neighbouring cells,
-    /// so the piece reads as one solid shape, with an upright item icon and rule badges on top.
+    /// Draws decorated pieces with shared patterned surfaces and dark exterior borders. Plain ghosts and imprints
+    /// retain inset cells and bridge quads. Item icons and rule badges stay upright above either representation.
     /// The root sits at the shape's top-left corner; cell (x, y) is centred at local (x + 0.5, −(y + 0.5)), one unit per cell.
     /// Also used for the ghost preview and outline imprints.
     /// </summary>
@@ -61,6 +67,16 @@ namespace PackItPerfect
         readonly List<Badge> badges = new List<Badge>();
         readonly ShakeMotion shake = new ShakeMotion();
         readonly ShakeMotion wobble = new ShakeMotion();
+        readonly PieceDecor decor;
+        SpriteRenderer border;
+        float bounceAge;
+        float bounceDuration;
+        float bounceAmount;
+        float restScale = 1f;
+        bool bouncing;
+        /// <summary>Suppresses shake, wobble and placement bounce, including an animation already in progress.</summary>
+        public bool ReduceMotion { get; set; }
+
         Color color;
         float opacity = 1f;
         readonly float iconAlpha = 1f;
@@ -93,6 +109,7 @@ namespace PackItPerfect
         {
             this.factory = factory;
             this.tuning = tuning;
+            this.decor = decor;
             this.color = color;
             this.sortingOrder = sortingOrder;
             Root = new GameObject(name).transform;
@@ -145,27 +162,47 @@ namespace PackItPerfect
             renderers.Clear();
             Shape = shape;
 
-            float inset = tuning.pieceCellInset;
-            float inner = 1f - 2f * inset;
-            float bridge = 2f * inset;
-            var right = new Vector2Int(1, 0);
-            var down = new Vector2Int(0, 1);
-            foreach (var c in shape.Cells)
+            if (border != null)
             {
-                AddQuad(new Vector2(c.x + 0.5f, -(c.y + 0.5f)), new Vector2(inner, inner));
-                bool hasRight = shape.Contains(c + right);
-                bool hasDown = shape.Contains(c + down);
-                if (hasRight)
+                border.gameObject.SetActive(false);
+                Object.Destroy(border.gameObject);
+                border = null;
+            }
+            if (decor?.patterns != null)
+            {
+                var surface = decor.patterns.Get(shape, decor.pattern, tuning.pieceCellInset);
+                var center = new Vector2(shape.Width / 2f, -shape.Height / 2f);
+                renderers.Add(factory.CreateSprite(Root, "Pattern body", surface.Body, center,
+                    Vector2.one * shape.MaxDimension, CellColor, sortingOrder));
+                var edgeColor = decor.outlineColor;
+                edgeColor.a *= color.a * opacity;
+                border = factory.CreateSprite(Root, "Exterior border", surface.Border, center,
+                    Vector2.one * shape.MaxDimension, edgeColor, sortingOrder);
+            }
+            else
+            {
+                float inset = tuning.pieceCellInset;
+                float inner = 1f - 2f * inset;
+                float bridge = 2f * inset;
+                var right = new Vector2Int(1, 0);
+                var down = new Vector2Int(0, 1);
+                foreach (var c in shape.Cells)
                 {
-                    AddQuad(new Vector2(c.x + 1f, -(c.y + 0.5f)), new Vector2(bridge, inner));
-                }
-                if (hasDown)
-                {
-                    AddQuad(new Vector2(c.x + 0.5f, -(c.y + 1f)), new Vector2(inner, bridge));
-                }
-                if (hasRight && hasDown && shape.Contains(c + right + down))
-                {
-                    AddQuad(new Vector2(c.x + 1f, -(c.y + 1f)), new Vector2(bridge, bridge));
+                    AddQuad(new Vector2(c.x + 0.5f, -(c.y + 0.5f)), new Vector2(inner, inner));
+                    bool hasRight = shape.Contains(c + right);
+                    bool hasDown = shape.Contains(c + down);
+                    if (hasRight)
+                    {
+                        AddQuad(new Vector2(c.x + 1f, -(c.y + 0.5f)), new Vector2(bridge, inner));
+                    }
+                    if (hasDown)
+                    {
+                        AddQuad(new Vector2(c.x + 0.5f, -(c.y + 1f)), new Vector2(inner, bridge));
+                    }
+                    if (hasRight && hasDown && shape.Contains(c + right + down))
+                    {
+                        AddQuad(new Vector2(c.x + 1f, -(c.y + 1f)), new Vector2(bridge, bridge));
+                    }
                 }
             }
 
@@ -196,10 +233,19 @@ namespace PackItPerfect
 
         Color CellColor => new Color(color.r, color.g, color.b, color.a * opacity);
 
+        void UpdateBorderColor()
+        {
+            if (border == null) return;
+            var tint = decor.outlineColor;
+            tint.a *= color.a * opacity;
+            border.color = tint;
+        }
+
         /// <summary>Tints every cell quad (not the icon or badges).</summary>
         public void SetColor(Color newColor)
         {
             color = newColor;
+            UpdateBorderColor();
             foreach (var r in renderers)
             {
                 r.color = CellColor;
@@ -210,6 +256,7 @@ namespace PackItPerfect
         public void SetOpacity(float value)
         {
             opacity = Mathf.Clamp01(value);
+            UpdateBorderColor();
             foreach (var r in renderers)
             {
                 r.color = CellColor;
@@ -231,6 +278,7 @@ namespace PackItPerfect
         public void SetSortingOrder(int order)
         {
             sortingOrder = order;
+            if (border != null) border.sortingOrder = order;
             foreach (var r in renderers)
             {
                 r.sortingOrder = order;
@@ -253,6 +301,8 @@ namespace PackItPerfect
         public void PlaceAt(Vector3 topLeft, float scale)
         {
             restPosition = topLeft;
+            restScale = scale;
+            bouncing = false;
             shake.Stop();
             wobble.Stop();
             animating = false;
@@ -263,6 +313,7 @@ namespace PackItPerfect
         /// <summary>Starts a horizontal shake around the current rest position.</summary>
         public void StartShake()
         {
+            if (ReduceMotion) return;
             shake.Start(tuning.shakeDuration, tuning.shakeAmplitude, tuning.shakeCycles);
             animating = true;
         }
@@ -272,24 +323,47 @@ namespace PackItPerfect
         /// <param name="cycles">Full left-right swings.</param>
         public void StartWobble(float seconds, float cycles)
         {
+            if (ReduceMotion) return;
             wobble.Start(seconds, tuning.wobbleAngle, cycles);
             animating = true;
         }
 
-        /// <summary>Advances the shake and wobble; call every frame.</summary>
+        /// <summary>Starts a centre-anchored visual bounce without changing the logical placement.</summary>
+        public void StartBounce(float seconds, float amount)
+        {
+            if (ReduceMotion) return;
+            bounceAge = 0f;
+            bounceDuration = Mathf.Max(0.01f, seconds);
+            bounceAmount = Mathf.Clamp(amount, 0f, 0.2f);
+            bouncing = true;
+            animating = true;
+        }
+
+        /// <summary>Advances shake, wobble and bounce; call every frame.</summary>
         public void TickShake(float deltaTime)
         {
-            if (!animating)
+            if (!animating) return;
+            if (ReduceMotion)
             {
+                PlaceAt(restPosition, restScale);
                 return;
             }
             float offset = shake.Tick(deltaTime);
             float angle = wobble.Tick(deltaTime);
-            animating = shake.Active || wobble.Active;
-
+            float scale = restScale;
+            if (bouncing)
+            {
+                bounceAge += deltaTime;
+                float k = Mathf.Clamp01(bounceAge / bounceDuration);
+                scale *= 1f + Mathf.Sin(k * Mathf.PI) * (1f - k) * bounceAmount;
+                bouncing = k < 1f;
+            }
+            animating = shake.Active || wobble.Active || bouncing;
+            Root.localScale = new Vector3(scale, scale, 1f);
             var rotation = Quaternion.Euler(0f, 0f, angle);
-            var center = new Vector3(Shape.Width / 2f, -Shape.Height / 2f, 0f) * Scale;
-            Root.SetPositionAndRotation(restPosition + new Vector3(offset, 0f, 0f) + center - rotation * center, rotation);
+            var localCenter = new Vector3(Shape.Width / 2f, -Shape.Height / 2f, 0f);
+            Root.SetPositionAndRotation(restPosition + new Vector3(offset, 0f, 0f) +
+                localCenter * restScale - rotation * (localCenter * scale), rotation);
         }
     }
 }

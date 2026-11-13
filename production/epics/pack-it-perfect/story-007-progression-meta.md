@@ -1,12 +1,12 @@
 # Story 007: Progression and meta screens
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: In Progress
 > **Layer**: Feature
 > **Type**: UI
 > **Estimate**: M
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -28,12 +28,12 @@
 
 *From `design/game-brief.md` (Progression & Meta), scoped to this story:*
 
-- [ ] The 15 levels unlock in order: level N+1 opens after level N is won.
-- [ ] A level-select screen lists all 15 levels with a lock state and the best stars earned on each, and any unlocked level can be replayed.
-- [ ] Each level keeps its best star result (2 or 3). A worse replay never lowers it.
-- [ ] The main screen shows the total stars (sum of the best stars) and the number of levels passed.
-- [ ] Progress and stars survive closing and reopening the app.
-- [ ] After a win, the player can go to the next level or back to level select.
+- [x] The 15 levels unlock in order: level N+1 opens after level N is won.
+- [x] A level-select screen lists all 15 levels with a lock state and the best stars earned on each, and any unlocked level can be replayed.
+- [x] Each level keeps its best star result (2 or 3). A worse replay never lowers it.
+- [x] The main screen shows the total stars (sum of the best stars) and the number of levels passed.
+- [ ] Progress and stars survive closing and reopening the app. **JSON store recreation and Editor Play restart verified; Android process restart not tested.**
+- [x] After a win, the player can go to the next level or back to level select.
 
 ---
 
@@ -41,7 +41,10 @@
 
 - Put saving behind an interface (for example `ISaveStore`) with a JSON file under the persistent data path, so it stays testable. Do not call storage from UI code.
 - "Levels passed" means levels won at least once.
-- The UI toolkit choice (UI Toolkit or UGUI) is left to `/dev-story` with the `unity-ui-specialist`. Record it here once chosen.
+- Implemented with UGUI + TextMesh Pro and InputSystemUIInputModule, built at runtime in `Assets/Scenes/SampleScene.unity`; no separate Main scene is required.
+- Wins persist on the final valid drop, before the lid animation. Delayed presentation cannot reopen a menu after Home.
+- HUD interaction is disabled below result overlays. Keyboard/controller navigation receives an initial selected button.
+- Saved sound and reduced-motion preferences are exposed on the main screen.
 
 ---
 
@@ -59,7 +62,10 @@
 - Assets/Scripts/Meta/JsonSaveStore.cs
 - Assets/Scripts/UI/MainScreen.cs
 - Assets/Scripts/UI/LevelSelectScreen.cs
-- Assets/Scenes/Main.unity
+- Assets/Scripts/Meta/ProgressService.cs
+- Assets/Scripts/UI/GameUI.cs
+- Assets/Scripts/UI/WinScreen.cs
+- Assets/Scenes/SampleScene.unity
 
 ---
 
@@ -74,7 +80,14 @@ N/A — no qa-lead specs at this tier; implement against the Acceptance Criteria
 **Story Type**: UI
 **Required evidence**: a retained screenshot of the main screen and the level-select screen, in `production/qa/evidence/`.
 
-**Status**: [ ] Not yet created
+**Status**: Retained and observed in Unity Play Mode on 2026-11-12; Android lifecycle check pending.
+
+- Main: `production/qa/evidence/story-007-progression-meta/main-720-clean.png`
+- Level select: `production/qa/evidence/story-007-progression-meta/levels-720-clean.png`
+- Fresh locked progress: `production/qa/evidence/story-007-progression-meta/level-select-locked.png`
+- Hint result: `production/qa/evidence/story-007-progression-meta/win-hint-two-stars.png`
+- Actual final-level controller-simulated win: `production/qa/evidence/story-007-progression-meta/end-card-controller-win.png`
+- Details, earlier capture exclusions and limitations: `production/qa/pack-it-perfect-editor-verification-2026-11-12.md`.
 
 ---
 

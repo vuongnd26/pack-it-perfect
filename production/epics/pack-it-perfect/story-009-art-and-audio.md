@@ -1,12 +1,12 @@
 # Story 009: Art and audio pass
 
 > **Epic**: pack-it-perfect
-> **Status**: Ready
+> **Status**: In Progress
 > **Layer**: Presentation
 > **Type**: Visual/Feel
 > **Estimate**: L
 > **Manifest Version**: N/A (minimal — no control manifest)
-> **Last Updated**: [set by /dev-story when implementation begins]
+> **Last Updated**: 2026-11-12
 
 ## Context
 
@@ -56,11 +56,13 @@
 
 ## Files
 
-- Assets/Art/Items/ (sprites, patterns, icons)
-- Assets/Art/Containers/
-- Assets/Fonts/Fredoka
-- Assets/Audio/Sfx/
-- Assets/Audio/Music/
+- Assets/Scripts/Packing/PatternSpriteCache.cs (runtime patterned bodies and borders)
+- Assets/Scripts/Packing/{PieceView,GridView,LidView}.cs
+- Assets/Scripts/Audio/{GameAudio,AudioTuning}.cs (original procedural SFX and victory phrase)
+- Assets/Scripts/Feedback/GameFeel.cs (event routing)
+- Assets/Resources/Fonts/Fredoka SDF.asset
+- Assets/Fonts/OFL-Fredoka.txt
+- Assets/Art/EmojiSource/OFL-NotoEmoji.txt
 
 ---
 
@@ -75,7 +77,13 @@ N/A — no qa-lead specs at this tier; implement against the Acceptance Criteria
 **Story Type**: Visual/Feel
 **Required evidence**: retained screenshots of at least 3 levels with different containers, in `production/qa/evidence/` + sign-off in `production/qa/evidence/story-009-art-and-audio-evidence.md`.
 
-**Status**: [ ] Not yet created
+**Status**: Art observed in Play Mode; sound generation/routing checked, but listening, fidelity approval and final lead sign-off remain pending.
+
+- `production/qa/evidence/story-009-art-and-audio/level07-basket.png`
+- `production/qa/evidence/story-009-art-and-audio/level13-cabinet.png`
+- `production/qa/evidence/story-009-art-and-audio/level15-suitcase.png`
+- Additional portrait samples: `level15-480x800.png`, `level15-1440x2960.png` in the same folder.
+- Evidence and licence notes: `production/qa/evidence/story-009-art-and-audio-evidence.md`.
 
 ---
 

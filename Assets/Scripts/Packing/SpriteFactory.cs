@@ -1,4 +1,5 @@
-// Runtime-generated placeholder visuals (final art is story 009), plus the item icon sprites from Resources/Icons.
+// Shared runtime sprite primitives for packing and procedural presentation, plus existing item icon assets.
+// PatternSpriteCache owns the level-bounded patterned piece surfaces (story 009).
 // Stories: production/epics/pack-it-perfect/story-001-core-packing-loop.md, story-003 (zones, badges),
 // story-004 (outlines), story-005 (hint glow).
 

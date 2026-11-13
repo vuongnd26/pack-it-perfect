@@ -29,6 +29,19 @@ namespace PackItPerfect
         /// <summary>Badge icon of paired pieces.</summary>
         public const string PAIR_ICON = "🔗";
 
+        /// <summary>Number of approved placement-praise strings; the vocabulary is closed by the brief.</summary>
+        public const int PRAISE_COUNT = 5;
+
+        /// <summary>Returns one approved praise string without exposing a mutable static array.</summary>
+        public static string PlacementPraise(int index) => index switch
+        {
+            0 => "Snug!",
+            1 => "Nice fit!",
+            2 => "Click!",
+            3 => "Perfect!",
+            _ => "Neat!",
+        };
+
         const string ZONE_VIOLATION_FORMAT = "{0} goes on the {1} side";
         const string PAIR_VIOLATION_FORMAT = "Pairs must touch – move the {0}s together";
 

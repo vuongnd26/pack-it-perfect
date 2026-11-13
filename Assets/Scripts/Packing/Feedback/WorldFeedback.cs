@@ -81,6 +81,9 @@ namespace PackItPerfect
             toast?.SetVisible(false);
         }
 
+        /// <summary>Suppresses floating-word travel; text still appears and fades.</summary>
+        public bool ReduceMotion { get; set; }
+
         /// <summary>Ages the toast (hold, then fade) and the words (rise and fade).</summary>
         public void Tick(float deltaTime)
         {
@@ -112,7 +115,7 @@ namespace PackItPerfect
                     continue;
                 }
                 float eased = 1f - (1f - k) * (1f - k);
-                w.pill.Root.position = w.start + new Vector3(0f, tuning.wordRise * eased, 0f);
+                w.pill.Root.position = w.start + new Vector3(0f, (ReduceMotion ? 0f : tuning.wordRise * eased), 0f);
                 // Full opacity for the first half, then fade out.
                 w.pill.SetAlpha(Mathf.Clamp01(2f - 2f * k));
             }
