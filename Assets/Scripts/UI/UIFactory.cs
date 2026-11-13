@@ -1,4 +1,4 @@
-// Runtime UGUI builders: rounded 9-sliced sprite, panels, TextMeshPro labels and 3D-style buttons.
+// Runtime UGUI builders: rounded 9-sliced sprites, panels, TextMeshPro labels and glossy press-in buttons.
 // No prefabs or assets: everything here is created in code and destroyed in Dispose.
 // Stories: production/epics/pack-it-perfect/story-006-timer-mode.md, story-007-progression-meta.md
 
@@ -40,7 +40,7 @@ namespace PackItPerfect.UI
         /// <summary>The UGUI button (on the root).</summary>
         public Button Button { get; }
 
-        /// <summary>Coloured face (the shadow is the root's own image).</summary>
+        /// <summary>Coloured face (the darker base lip sits behind it).</summary>
         public Image Face { get; }
 
         /// <summary>Label, stretched over the face.</summary>
@@ -60,6 +60,7 @@ namespace PackItPerfect.UI
     /// <summary>Creates the UI elements and owns the generated rounded-rect sprite.</summary>
     public sealed class UIFactory : IDisposable
     {
+        const string ART_FOLDER = "Art/";
         const int TEXTURE_SIZE = 128;
         const float CORNER_PIXELS = 48f;
         const float SPRITE_PIXELS_PER_UNIT = 100f;
@@ -74,6 +75,8 @@ namespace PackItPerfect.UI
         readonly List<RectTransform> safeRects = new List<RectTransform>();
         Texture2D texture;
         Sprite rounded;
+        Texture2D glossTexture;
+        Sprite gloss;
 
         /// <summary>Raised with the button's id on every click, before its action. Audio hook for UI click sounds (story 009).</summary>
         public event Action<string> ButtonClicked;
@@ -83,6 +86,7 @@ namespace PackItPerfect.UI
         {
             this.tuning = tuning;
             CreateRoundedSprite();
+            CreateGlossSprite();
         }
 
         /// <summary>Rects created by <see cref="SafeContent"/>; the owner fits them to <c>Screen.safeArea</c>.</summary>
@@ -148,6 +152,73 @@ namespace PackItPerfect.UI
             return image;
         }
 
+        /// <summary>Illustrated sprite Resources/Art/[name], or null when missing.</summary>
+        public static Sprite LoadArt(string name) => Resources.Load<Sprite>(ART_FOLDER + name);
+
+        /// <summary>
+        /// Adds a full-screen illustrated background behind the other children of <paramref name="parent"/>.
+        /// It always covers the parent, cropping the art's sides or ends on other aspect ratios. No-op if the art is missing.
+        /// </summary>
+        public void Backdrop(Transform parent, string artName)
+        {
+            var sprite = LoadArt(artName);
+            if (sprite == null)
+            {
+                return;
+            }
+            var rect = CreateRect("Backdrop", parent);
+            rect.SetAsFirstSibling();
+            var image = rect.gameObject.AddComponent<Image>();
+            image.sprite = sprite;
+            image.raycastTarget = false;
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
+            var fitter = rect.gameObject.AddComponent<AspectRatioFitter>();
+            fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            fitter.aspectRatio = sprite.rect.width / sprite.rect.height;
+        }
+
+        /// <summary>Creates an image showing illustrated art at its own aspect ratio, or returns null if the art is missing.</summary>
+        public Image Art(string name, Transform parent, string artName)
+        {
+            var sprite = LoadArt(artName);
+            if (sprite == null)
+            {
+                return null;
+            }
+            var rect = CreateRect(name, parent);
+            var image = rect.gameObject.AddComponent<Image>();
+            image.sprite = sprite;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+            return image;
+        }
+
+        /// <summary>Applies the illustrated nine-slice card border, keeping all existing layout and input behaviour.</summary>
+        public void StyleCard(Image image)
+        {
+            var sprite = LoadArt("ui_card");
+            if (sprite == null) return;
+            image.sprite = sprite;
+            image.type = Image.Type.Sliced;
+            image.pixelsPerUnitMultiplier = 1f;
+            image.color = Color.white;
+        }
+
+        /// <summary>Adds an illustrated button icon; the separate text label remains available to navigation/accessibility.</summary>
+        public void ButtonIcon(UIButton button, string artName, bool iconOnly = false)
+        {
+            var image = Art("Illustrated Icon", button.Face.transform, artName);
+            if (image == null) return;
+            if (iconOnly)
+            {
+                Stretch(image.rectTransform, 24f, 24f, 24f, 24f);
+                button.Label.gameObject.SetActive(false);
+                return;
+            }
+            Place(image.rectTransform, new Vector2(0f, 0.5f), new Vector2(24f, 0f), new Vector2(66f, 74f));
+            Stretch(button.Label.rectTransform, 92f, 0f, BUTTON_LABEL_PADDING, 0f);
+        }
+
         /// <summary>Gives <paramref name="image"/> rounded corners of <paramref name="radius"/> reference pixels (0 = square).</summary>
         public void SetRadius(Image image, float radius)
         {
@@ -157,7 +228,12 @@ namespace PackItPerfect.UI
                 image.type = Image.Type.Simple;
                 return;
             }
-            image.sprite = rounded;
+            Slice(image, rounded, radius);
+        }
+
+        static void Slice(Image image, Sprite sprite, float radius)
+        {
+            image.sprite = sprite;
             image.type = Image.Type.Sliced;
             image.fillCenter = true;
             image.pixelsPerUnitMultiplier = CORNER_PIXELS / radius;
@@ -181,20 +257,32 @@ namespace PackItPerfect.UI
         }
 
         /// <summary>
-        /// Creates a rounded button: a darker shadow band under a coloured face, a bold auto-sized label, and a press tint.
+        /// Creates a chunky rounded button: a darker base lip under a coloured face with a light top edge and a dark
+        /// bottom edge, a bold auto-sized label, and a press-in (scale down + sink) animation.
         /// Size it through <see cref="UIButton.Root"/>.
         /// </summary>
         /// <param name="id">GameObject name and the id passed to <see cref="ButtonClicked"/>.</param>
         public UIButton Button(string id, Transform parent, string label, ButtonStyle style, float fontSize, Action onClick)
         {
+            // Root: invisible hit area that keeps its layout rect while the visual scales about its centre.
             var root = CreateRect(id, parent);
-            var shadow = root.gameObject.AddComponent<Image>();
-            shadow.color = ShadowOf(style);
-            shadow.raycastTarget = true;
-            SetRadius(shadow, tuning.cornerRadius);
+            var hit = root.gameObject.AddComponent<Image>();
+            hit.color = Color.clear;
+            hit.raycastTarget = true;
 
-            var face = Panel("Face", root, FaceOf(style), tuning.cornerRadius);
+            var visual = CreateRect("Visual", root);
+            Stretch(visual);
+
+            var shadow = Panel("Base", visual, ShadowOf(style), tuning.cornerRadius);
+            Stretch(shadow.rectTransform);
+
+            var face = Panel("Face", visual, FaceOf(style), tuning.cornerRadius);
             Stretch(face.rectTransform, 0f, tuning.buttonShadowDepth, 0f, 0f);
+
+            var sheen = CreateRect("Gloss", face.transform).gameObject.AddComponent<Image>();
+            sheen.raycastTarget = false;
+            Slice(sheen, gloss, tuning.cornerRadius);
+            Stretch(sheen.rectTransform);
 
             var text = Text("Label", face.transform, label, fontSize, TextOf(style), FontStyles.Bold);
             Stretch(text.rectTransform, BUTTON_LABEL_PADDING, 0f, BUTTON_LABEL_PADDING, 0f);
@@ -217,6 +305,7 @@ namespace PackItPerfect.UI
                 ButtonClicked?.Invoke(id);
                 onClick?.Invoke();
             });
+            root.gameObject.AddComponent<ButtonPressScale>().Init(button, visual, face.rectTransform, tuning);
             return new UIButton(root, button, face, text);
         }
 
@@ -232,6 +321,16 @@ namespace PackItPerfect.UI
             {
                 UnityEngine.Object.Destroy(texture);
                 texture = null;
+            }
+            if (gloss != null)
+            {
+                UnityEngine.Object.Destroy(gloss);
+                gloss = null;
+            }
+            if (glossTexture != null)
+            {
+                UnityEngine.Object.Destroy(glossTexture);
+                glossTexture = null;
             }
         }
 
@@ -285,6 +384,46 @@ namespace PackItPerfect.UI
                 SPRITE_PIXELS_PER_UNIT, 0, SpriteMeshType.FullRect, border);
             rounded.name = "UI Rounded Rect";
             rounded.hideFlags = HideFlags.DontSave;
+        }
+
+        // Same rounded shape as an overlay: white fading down from the top edge, black fading up from the bottom edge.
+        // Both bands live in the 9-slice borders, so they keep their thickness on any button size.
+        void CreateGlossSprite()
+        {
+            glossTexture = new Texture2D(TEXTURE_SIZE, TEXTURE_SIZE, TextureFormat.RGBA32, false)
+            {
+                name = "UI Button Gloss",
+                filterMode = FilterMode.Bilinear,
+                wrapMode = TextureWrapMode.Clamp,
+                hideFlags = HideFlags.DontSave,
+            };
+            var pixels = new Color32[TEXTURE_SIZE * TEXTURE_SIZE];
+            for (int y = 0; y < TEXTURE_SIZE; y++)
+            {
+                for (int x = 0; x < TEXTURE_SIZE; x++)
+                {
+                    float px = x + 0.5f;
+                    float py = y + 0.5f;
+                    float cx = Mathf.Clamp(px, CORNER_PIXELS, TEXTURE_SIZE - CORNER_PIXELS);
+                    float cy = Mathf.Clamp(py, CORNER_PIXELS, TEXTURE_SIZE - CORNER_PIXELS);
+                    float distance = Vector2.Distance(new Vector2(px, py), new Vector2(cx, cy));
+                    float mask = Mathf.Clamp01(CORNER_PIXELS - distance + 0.5f);
+                    float top = Mathf.Clamp01((py - (TEXTURE_SIZE - CORNER_PIXELS)) / CORNER_PIXELS);
+                    float bottom = Mathf.Clamp01((CORNER_PIXELS - py) / CORNER_PIXELS);
+                    bool light = top > 0f;
+                    float band = light ? top : bottom;
+                    float alpha = mask * band * band * (light ? tuning.buttonGlossAlpha : tuning.buttonShadeAlpha);
+                    byte value = light ? (byte)255 : (byte)0;
+                    pixels[y * TEXTURE_SIZE + x] = new Color32(value, value, value, (byte)Mathf.RoundToInt(alpha * 255f));
+                }
+            }
+            glossTexture.SetPixels32(pixels);
+            glossTexture.Apply(false, true);
+            var border = new Vector4(CORNER_PIXELS, CORNER_PIXELS, CORNER_PIXELS, CORNER_PIXELS);
+            gloss = Sprite.Create(glossTexture, new Rect(0f, 0f, TEXTURE_SIZE, TEXTURE_SIZE), new Vector2(0.5f, 0.5f),
+                SPRITE_PIXELS_PER_UNIT, 0, SpriteMeshType.FullRect, border);
+            gloss.name = "UI Button Gloss";
+            gloss.hideFlags = HideFlags.DontSave;
         }
     }
 }

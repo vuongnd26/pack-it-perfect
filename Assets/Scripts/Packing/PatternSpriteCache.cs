@@ -33,7 +33,7 @@ namespace PackItPerfect
             string id = key.ToString();
             if (_surfaces.TryGetValue(id, out var found)) return found;
 
-            int ppc = Mathf.Clamp(_tuning.pixelsPerCell, 16, 48);
+            int ppc = Mathf.Clamp(_tuning.pixelsPerCell, 16, 96);
             int width = shape.Width * ppc, height = shape.Height * ppc;
             var body = new Color32[width * height];
             var border = new Color32[body.Length];
@@ -51,7 +51,13 @@ namespace PackItPerfect
                         border[index] = new Color32(255, 255, 255, 255);
                     else
                     {
-                        float shade = Mark(pattern, sx, sy) ? 1f - Mathf.Clamp01(_tuning.patternContrast) : 1f;
+                        // Puffy bevel: full brightness along top edges, a darker band along bottom edges.
+                        float bevel = _tuning.bevelWidth;
+                        float body0 = edge + stroke;
+                        float lit = !InsideInset(shape, sx, sy - bevel, body0) ? 1f
+                            : !InsideInset(shape, sx, sy + bevel, body0) ? 1f - _tuning.bevelShade
+                            : 1f - _tuning.bevelShade * 0.35f;
+                        float shade = lit * (Mark(pattern, sx, sy) ? 1f - Mathf.Clamp01(_tuning.patternContrast) : 1f);
                         byte value = (byte)(shade * 255f);
                         body[index] = new Color32(value, value, value, 255);
                     }

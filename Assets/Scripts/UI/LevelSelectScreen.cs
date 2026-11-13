@@ -26,6 +26,8 @@ namespace PackItPerfect.UI
         readonly GameObject root;
         readonly UIButton[] cells;
         readonly TextMeshProUGUI[] starLabels;
+        readonly Image[,] starIcons;
+        readonly Image[] lockIcons;
         readonly StringBuilder builder = new StringBuilder();
 
         /// <summary>An unlocked level was clicked (1-based number).</summary>
@@ -40,6 +42,7 @@ namespace PackItPerfect.UI
             var background = factory.Panel("Level Select", parent, tuning.menuBackground, 0f, raycast: true);
             UIFactory.Stretch(background.rectTransform);
             root = background.gameObject;
+            factory.Backdrop(background.transform, "bg_menu");
             var safe = factory.SafeContent(background.transform);
 
             var home = factory.Button("Select Home", safe, UIStrings.HOME, ButtonStyle.Secondary, tuning.bodyFontSize,
@@ -71,6 +74,8 @@ namespace PackItPerfect.UI
 
             cells = new UIButton[levelCount];
             starLabels = new TextMeshProUGUI[levelCount];
+            starIcons = new Image[levelCount, ProgressService.MAX_STARS];
+            lockIcons = new Image[levelCount];
             float cellHeight = tuning.levelCellSize.y - tuning.buttonShadowDepth;
             for (int i = 0; i < levelCount; i++)
             {
@@ -86,6 +91,17 @@ namespace PackItPerfect.UI
                 starsRect.pivot = new Vector2(0.5f, 0f);
                 starsRect.anchoredPosition = new Vector2(0f, cellHeight * 0.08f);
                 starsRect.sizeDelta = new Vector2(0f, cellHeight * STARS_HEIGHT_SHARE);
+                for (int s = 0; s < ProgressService.MAX_STARS; s++)
+                {
+                    var icon = factory.Art($"Star {s + 1}", cell.Face.transform, "ui_star");
+                    if (icon != null)
+                        UIFactory.Place(icon.rectTransform, new Vector2(0.5f, 0f), new Vector2((s - 1) * 64f, 24f), new Vector2(62f, 62f));
+                    starIcons[i, s] = icon;
+                }
+                var lockIcon = factory.Art("Lock", cell.Face.transform, "ui_lock");
+                if (lockIcon != null)
+                    UIFactory.Place(lockIcon.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 20f), new Vector2(70f, 70f));
+                lockIcons[i] = lockIcon;
                 cells[i] = cell;
                 starLabels[i] = stars;
             }
@@ -110,7 +126,18 @@ namespace PackItPerfect.UI
                 bool unlocked = progress.IsUnlocked(level);
                 cells[i].Interactable = unlocked;
                 cells[i].Label.color = unlocked ? tuning.ink : tuning.muted;
-                starLabels[i].text = TmpText.Clean(unlocked ? Stars(progress.BestStars(level)) : UIStrings.LOCK);
+                bool illustrated = starIcons[i, 0] != null && lockIcons[i] != null;
+                starLabels[i].text = illustrated ? string.Empty : TmpText.Clean(unlocked ? Stars(progress.BestStars(level)) : UIStrings.LOCK);
+                for (int s = 0; s < ProgressService.MAX_STARS; s++)
+                {
+                    var icon = starIcons[i, s];
+                    if (icon == null) continue;
+                    icon.gameObject.SetActive(unlocked);
+                    icon.color = new Color(1f, 1f, 1f, s < progress.BestStars(level) ? 1f : tuning.emptyStarAlpha);
+                }
+                if (lockIcons[i] != null) lockIcons[i].gameObject.SetActive(!unlocked);
+                cells[i].Face.color = !unlocked ? new Color32(0xEE, 0xE2, 0xCC, 0xFF)
+                    : level == progress.NextLevelToPlay ? new Color32(0xD1, 0xF1, 0xDF, 0xFF) : tuning.panel;
             }
         }
 

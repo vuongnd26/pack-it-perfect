@@ -12,6 +12,8 @@ namespace PackItPerfect
     /// <summary>What a piece shows on top of its cells: item icon and rule badges. Null for the ghost.</summary>
     public sealed class PieceDecor
     {
+        /// <summary>Whole-object artwork; replaces both the patterned block and its small icon when present.</summary>
+        public PieceArt art;
         /// <summary>Shared runtime pattern cache, or null for plain ghosts and outline imprints.</summary>
         public PatternSpriteCache patterns;
         /// <summary>Pattern key from item data.</summary>
@@ -33,8 +35,8 @@ namespace PackItPerfect
     }
 
     /// <summary>
-    /// Draws decorated pieces with shared patterned surfaces and dark exterior borders. Plain ghosts and imprints
-    /// retain inset cells and bridge quads. Item icons and rule badges stay upright above either representation.
+    /// Draws whole illustrated objects, with patterned surfaces and small icons as the legacy fallback.
+    /// Plain ghosts retain inset cells and bridge quads. Rule badges stay upright while the object rotates.
     /// The root sits at the shape's top-left corner; cell (x, y) is centred at local (x + 0.5, −(y + 0.5)), one unit per cell.
     /// Also used for the ghost preview and outline imprints.
     /// </summary>
@@ -69,6 +71,9 @@ namespace PackItPerfect
         readonly ShakeMotion wobble = new ShakeMotion();
         readonly PieceDecor decor;
         SpriteRenderer border;
+        SpriteRenderer objectRenderer;
+        int artQuarterTurns;
+        readonly SpriteRenderer shadow;
         float bounceAge;
         float bounceDuration;
         float bounceAmount;
@@ -120,7 +125,14 @@ namespace PackItPerfect
             }
 
             iconAlpha = decor.iconAlpha;
-            if (decor.icon != null)
+            if (decor.patterns != null)
+            {
+                // Real pieces only: ghosts and outline imprints cast no shadow.
+                shadow = factory.CreateSoftOval(Root, "Shadow", Vector2.zero, Vector2.one, tuning.pieceShadowColor,
+                    SpriteFactory.ORDER_PIECE_SHADOW);
+                shadow.enabled = false;
+            }
+            if (decor.art == null && decor.icon != null)
             {
                 icon = factory.CreateSprite(Root, "Icon", decor.icon, Vector2.zero, Vector2.one, new Color(1f, 1f, 1f, decor.iconAlpha),
                     sortingOrder + ICON_ORDER_OFFSET);
@@ -151,9 +163,27 @@ namespace PackItPerfect
             badges.Add(new Badge(circle, text, corner));
         }
 
-        /// <summary>Redraws the cells for <paramref name="shape"/> and moves the icon and badges to suit it.</summary>
-        public void SetShape(PieceShape shape)
+        /// <summary>Updates the footprint and draws the whole object, or legacy cells when no artwork is bound.</summary>
+        /// <param name="shape">The existing logical footprint; never changed by this view.</param>
+        /// <param name="quarterTurnsFromSolution">Explicit visual orientation. Pass zero after Hint; null preserves it.</param>
+        public void SetShape(PieceShape shape, int? quarterTurnsFromSolution = null)
         {
+            if (quarterTurnsFromSolution.HasValue) artQuarterTurns = quarterTurnsFromSolution.Value;
+            if (decor?.art != null)
+            {
+                Shape = shape;
+                if (objectRenderer == null)
+                {
+                    objectRenderer = factory.CreateSprite(Root, "Whole object", decor.art.Sprite, Vector2.zero,
+                        Vector2.one * decor.art.AuthoredShape.MaxDimension, ObjectColor, sortingOrder);
+                    objectRenderer.flipX = decor.art.Mirrored;
+                    renderers.Add(objectRenderer);
+                }
+                objectRenderer.transform.localPosition = new Vector3(shape.Width / 2f, -shape.Height / 2f, 0f);
+                objectRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, -90f * (decor.art.SolutionTurns + artQuarterTurns));
+                UpdateAdornments();
+                return;
+            }
             foreach (var r in renderers)
             {
                 r.gameObject.SetActive(false);
@@ -214,7 +244,17 @@ namespace PackItPerfect
                 SpriteFactory.FitSprite(icon, onBlock ? tuning.iconSizeOnBlock : tuning.iconSizeOnCell);
             }
 
-            var first = shape.FirstCell;
+            UpdateAdornments();
+        }
+
+        /// <summary>Advances only the illustrated object's orientation after the controller rotates its footprint.</summary>
+        public void TurnArtClockwise() => artQuarterTurns = (artQuarterTurns + 1) % 4;
+
+        void UpdateAdornments()
+        {
+            UpdateShadow();
+
+            var first = Shape.FirstCell;
             float half = tuning.badgeSize / 2f + tuning.badgeMargin;
             foreach (var badge in badges)
             {
@@ -231,7 +271,25 @@ namespace PackItPerfect
             renderers.Add(factory.CreateQuad(Root, "Cell", center, size, CellColor, sortingOrder));
         }
 
-        Color CellColor => new Color(color.r, color.g, color.b, color.a * opacity);
+        Color CellColor => decor?.art != null ? ObjectColor : new Color(color.r, color.g, color.b, color.a * opacity);
+        Color ObjectColor => new Color(1f, 1f, 1f, color.a * opacity);
+
+        // Ground shadow: shown in the tray (scaled down) and while dragged (lifted: lower and smaller).
+        // A piece resting at full scale is seated inside the container and casts none.
+        void UpdateShadow()
+        {
+            if (shadow == null || Shape == null) return;
+            bool lifted = sortingOrder >= SpriteFactory.ORDER_DRAGGED;
+            shadow.enabled = lifted || restScale < 1f;
+            float size = lifted ? tuning.pieceShadowLiftedScale : 1f;
+            float drop = lifted ? tuning.pieceShadowLiftedDrop : tuning.pieceShadowDrop;
+            shadow.transform.localPosition = new Vector3(Shape.Width / 2f, -Shape.Height - drop, 0f);
+            shadow.transform.localScale = new Vector3(Shape.Width * tuning.pieceShadowWidthScale * size,
+                tuning.pieceShadowHeight * size, 1f);
+            var tint = tuning.pieceShadowColor;
+            tint.a *= opacity;
+            shadow.color = tint;
+        }
 
         void UpdateBorderColor()
         {
@@ -257,6 +315,7 @@ namespace PackItPerfect
         {
             opacity = Mathf.Clamp01(value);
             UpdateBorderColor();
+            UpdateShadow();
             foreach (var r in renderers)
             {
                 r.color = CellColor;
@@ -278,6 +337,7 @@ namespace PackItPerfect
         public void SetSortingOrder(int order)
         {
             sortingOrder = order;
+            UpdateShadow();
             if (border != null) border.sortingOrder = order;
             foreach (var r in renderers)
             {
@@ -308,6 +368,7 @@ namespace PackItPerfect
             animating = false;
             Root.SetPositionAndRotation(topLeft, Quaternion.identity);
             Root.localScale = new Vector3(scale, scale, 1f);
+            UpdateShadow();
         }
 
         /// <summary>Starts a horizontal shake around the current rest position.</summary>

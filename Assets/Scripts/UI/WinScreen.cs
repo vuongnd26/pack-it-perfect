@@ -7,6 +7,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PackItPerfect.UI
 {
@@ -38,7 +39,7 @@ namespace PackItPerfect.UI
         readonly RectTransform card;
         readonly TextMeshProUGUI title;
         readonly TextMeshProUGUI note;
-        readonly TextMeshProUGUI[] stars;
+        readonly Graphic[] stars;
         readonly UIButton next;
         readonly UIButton replay;
         readonly UIButton home;
@@ -66,20 +67,29 @@ namespace PackItPerfect.UI
             var safe = factory.SafeContent(dim.transform);
 
             var cardImage = factory.Panel("Card", safe, tuning.panel, tuning.cardRadius);
+            factory.StyleCard(cardImage);
             card = cardImage.rectTransform;
             UIFactory.Place(card, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(CARD_WIDTH, CARD_HEIGHT));
             var top = new Vector2(0.5f, 1f);
 
+            var ribbon = factory.Art("Ribbon", card, "ui_ribbon");
+            if (ribbon != null)
+                UIFactory.Place(ribbon.rectTransform, top, new Vector2(0f, -24f), new Vector2(CARD_WIDTH + 80f, 196f));
             title = factory.Text("Title", card, UIStrings.WIN_TITLE, tuning.headingFontSize, tuning.ink, FontStyles.Bold);
             UIFactory.Place(title.rectTransform, top, new Vector2(0f, -TITLE_TOP), new Vector2(CONTENT_WIDTH, TITLE_HEIGHT));
 
-            stars = new TextMeshProUGUI[starSlots];
+            stars = new Graphic[starSlots];
             starKeys = new object[starSlots];
             float firstX = -(starSlots - 1) * STAR_SPACING / 2f;
             for (int i = 0; i < starSlots; i++)
             {
-                var star = factory.Text($"Star {i + 1}", card, UIStrings.STAR, STAR_FONT_SIZE, Color.white);
-                star.textWrappingMode = TextWrappingModes.NoWrap;
+                Graphic star = factory.Art($"Star {i + 1}", card, "ui_star");
+                if (star == null)
+                {
+                    var fallback = factory.Text($"Star {i + 1}", card, UIStrings.STAR, STAR_FONT_SIZE, Color.white);
+                    fallback.textWrappingMode = TextWrappingModes.NoWrap;
+                    star = fallback;
+                }
                 UIFactory.Place(star.rectTransform, top, new Vector2(firstX + i * STAR_SPACING, -STARS_TOP),
                     Vector2.one * STAR_SIZE);
                 star.rectTransform.pivot = new Vector2(0.5f, 0.5f);

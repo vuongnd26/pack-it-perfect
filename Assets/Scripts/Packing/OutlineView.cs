@@ -32,8 +32,10 @@ namespace PackItPerfect
                 {
                     continue;
                 }
-                var decor = new PieceDecor { icon = factory.GetIcon(pieces[i].item), iconAlpha = tuning.outlineIconAlpha };
-                var view = new PieceView(factory, grid.Root, $"Outline {pieces[i].letter}", tuning.outlineColor,
+                var art = factory.GetPieceArt(level.Data.number, pieces[i].letter);
+                var decor = new PieceDecor { art = art, icon = factory.GetIcon(pieces[i].item), iconAlpha = tuning.outlineIconAlpha };
+                var imprintColor = art != null ? new Color(1f, 1f, 1f, tuning.outlineIconAlpha) : tuning.outlineColor;
+                var view = new PieceView(factory, grid.Root, $"Outline {pieces[i].letter}", imprintColor,
                     SpriteFactory.ORDER_OUTLINE, tuning, decor);
                 view.SetShape(level.SolutionShapes[i]);
                 view.PlaceAt(grid.CellTopLeft(level.SolutionOrigins[i]), 1f);

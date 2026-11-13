@@ -32,22 +32,24 @@ namespace PackItPerfect
         [Min(0.1f)] public float tutorialPeriod = 2.4f;
         [Tooltip("Fraction of the cycle spent travelling; remainder holds at the target.")]
         [Range(0.1f, 1f)] public float tutorialTravelFraction = 0.7f;
-        [Tooltip("Scale of the procedural pointing hand.")]
-        public float handSize = 0.48f;
+        [Tooltip("Scale of the pointing hand.")]
+        public float handSize = 0.6f;
         [Tooltip("Hand fill colour.")]
         public Color handColor = new Color(1f, 0.92f, 0.76f);
 
         [Header("Celebration")]
-        [Tooltip("Maximum reusable sprites across confetti and placement rays.")]
-        [Range(16, 96)] public int particleCapacity = 64;
-        [Tooltip("Confetti pieces emitted per win (clamped to pool size).")]
-        [Range(1, 80)] public int confettiCount = 48;
+        [Tooltip("Maximum live particles in the confetti system.")]
+        [Range(16, 300)] public int particleCapacity = 200;
+        [Tooltip("Confetti pieces in the win burst (clamped to the capacity).")]
+        [Range(1, 200)] public int confettiCount = 90;
+        [Tooltip("Half-angle in degrees of the upward confetti fountain.")]
+        [Range(5f, 80f)] public float confettiSpread = 38f;
         [Tooltip("Seconds the confetti lasts.")]
-        [Min(0.01f)] public float confettiDuration = 1.8f;
-        [Tooltip("Initial horizontal/vertical confetti speed.")]
-        public Vector2 confettiSpeed = new Vector2(3.5f, 5f);
+        [Min(0.01f)] public float confettiDuration = 2.4f;
+        [Tooltip("Launch speed range of the confetti burst: x = slowest, y = fastest.")]
+        public Vector2 confettiSpeed = new Vector2(3.5f, 9f);
         [Tooltip("Downward confetti acceleration.")]
-        public float confettiGravity = 5f;
+        public float confettiGravity = 9f;
         [Tooltip("Confetti rectangle size.")]
         public Vector2 confettiSize = new Vector2(0.12f, 0.23f);
         [Tooltip("Maximum angular speed in degrees per second.")]
@@ -58,13 +60,17 @@ namespace PackItPerfect
 
         [Header("Surface and exterior outlines")]
         [Tooltip("Texture resolution per cell; shared per shape and pattern for the current level.")]
-        [Range(16, 48)] public int pixelsPerCell = 32;
+        [Range(16, 96)] public int pixelsPerCell = 72;
         [Tooltip("Dark exterior border thickness in cell units.")]
         [Range(0.02f, 0.12f)] public float outlineWidth = 0.055f;
         [Tooltip("Exterior piece and container outline colour.")]
         public Color outlineColor = new Color(0.16f, 0.14f, 0.21f);
         [Tooltip("Fractional darkening of surface patterns.")]
         [Range(0f, 0.4f)] public float patternContrast = 0.14f;
+        [Tooltip("Width in cells of the light top edge and dark bottom edge that make pieces look puffy.")]
+        [Range(0f, 0.2f)] public float bevelWidth = 0.09f;
+        [Tooltip("How much darker the bottom edge is than the top edge.")]
+        [Range(0f, 0.5f)] public float bevelShade = 0.22f;
         [Tooltip("Pattern repeats in one cell.")]
         [Range(1, 6)] public int patternRepeats = 3;
         [Tooltip("Container handle width and height.")]

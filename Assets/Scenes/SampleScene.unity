@@ -168,9 +168,9 @@ MonoBehaviour:
     fillBarGap: 0.45
     fillBarBackColor: {r: 0, g: 0, b: 0, a: 0.15}
     fillBarColor: {r: 0.24705882, g: 0.7137255, b: 0.54509807, a: 1}
-    trayGap: 0.7
-    traySlotSpacing: 0.35
-    minTrayWidth: 6
+    trayGap: 0.5
+    traySlotSpacing: 0.28
+    minTrayWidth: 9
     screenMargin: 0.5
     backgroundColor: {r: 1, g: 0.972549, b: 0.93333334, a: 1}
     lidSlideDuration: 0.55
@@ -236,6 +236,12 @@ MonoBehaviour:
     wordPaddingX: 0.22
     wordBackColor: {r: 0.8784314, g: 0.30980393, b: 0.54901963, a: 0.95}
     wordTextColor: {r: 1, g: 1, b: 1, a: 1}
+    pieceShadowColor: {r: 0.1, g: 0.08, b: 0.14, a: 0.3}
+    pieceShadowWidthScale: 0.95
+    pieceShadowHeight: 0.7
+    pieceShadowDrop: 0.04
+    pieceShadowLiftedDrop: 0.32
+    pieceShadowLiftedScale: 0.88
 --- !u!4 &102125083
 Transform:
   m_ObjectHideFlags: 0
@@ -282,7 +288,12 @@ MonoBehaviour:
     bannerBackground: {r: 0.11764706, g: 0.16470589, b: 0.22745098, a: 0.92}
     cornerRadius: 36
     cardRadius: 48
-    buttonShadowDepth: 10
+    buttonShadowDepth: 14
+    buttonGlossAlpha: 0.34
+    buttonShadeAlpha: 0.2
+    buttonPressScale: 0.94
+    buttonPressDuration: 0.07
+    buttonPressSink: 0.7
     sideMargin: 32
     titleFontSize: 120
     headingFontSize: 88

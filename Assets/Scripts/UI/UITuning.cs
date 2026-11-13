@@ -45,7 +45,17 @@ namespace PackItPerfect.UI
         public float cornerRadius = 36f;
         public float cardRadius = 48f;
         [Tooltip("Depth of the darker band under buttons.")]
-        public float buttonShadowDepth = 10f;
+        public float buttonShadowDepth = 14f;
+        [Tooltip("Opacity of the light band along the top edge of a button face.")]
+        [Range(0f, 1f)] public float buttonGlossAlpha = 0.34f;
+        [Tooltip("Opacity of the dark band along the bottom edge of a button face.")]
+        [Range(0f, 1f)] public float buttonShadeAlpha = 0.2f;
+        [Tooltip("Scale of a button while it is held down.")]
+        [Range(0.8f, 1f)] public float buttonPressScale = 0.94f;
+        [Tooltip("Seconds a button takes to press in or spring back.")]
+        public float buttonPressDuration = 0.07f;
+        [Tooltip("Share of the shadow depth the face sinks while pressed.")]
+        [Range(0f, 1f)] public float buttonPressSink = 0.7f;
         public float sideMargin = 32f;
 
         [Header("Font sizes")]

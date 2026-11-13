@@ -19,6 +19,8 @@ namespace PackItPerfect
         [Tooltip("Initial motion preference; expose via settings UI using ReduceMotion.")]
         [SerializeField] bool _reduceMotion;
 
+        const int BACKDROP_ORDER = -100;
+
         PackingGame _game;
         UI.GameUI _ui;
         LevelTimer _timer;
@@ -27,6 +29,8 @@ namespace PackItPerfect
         Transform _root;
         TutorialHand _hand;
         ConfettiBurst _burst;
+        SpriteRenderer _backdrop;
+        Camera _camera;
         bool _tutorialFinished;
         readonly System.Random _random = new System.Random();
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -67,6 +71,11 @@ namespace PackItPerfect
             _root.SetParent(transform, false);
             _hand = new TutorialHand(_factory, _root, _tuning);
             _burst = new ConfettiBurst(_factory, _root, _tuning);
+            var backdropArt = _factory.GetArt("bg_game");
+            if (backdropArt != null)
+            {
+                _backdrop = _factory.CreateSprite(_root, "Backdrop", backdropArt, Vector2.zero, Vector2.one, Color.white, BACKDROP_ORDER);
+            }
             _audio = new GameAudio(transform, _audioTuning);
             _audio.Muted = _muted;
             _game.ReduceMotion = _reduceMotion;
@@ -101,6 +110,21 @@ namespace PackItPerfect
                 return;
             }
             _hand.Tick(Time.unscaledDeltaTime, from, to);
+        }
+
+        // The camera refits per level; keep the illustrated backdrop covering whatever it shows.
+        void LateUpdate()
+        {
+            if (_backdrop == null) return;
+            if (_camera == null) _camera = Camera.main;
+            if (_camera == null || !_camera.orthographic) return;
+            float viewHeight = _camera.orthographicSize * 2f;
+            float viewWidth = viewHeight * _camera.aspect;
+            var art = _backdrop.sprite.bounds.size;
+            float scale = Mathf.Max(viewWidth / art.x, viewHeight / art.y);
+            var position = _camera.transform.position;
+            _backdrop.transform.position = new Vector3(position.x, position.y, 0f);
+            _backdrop.transform.localScale = new Vector3(scale, scale, 1f);
         }
 
         void OnLoaded(LoadedLevel level)

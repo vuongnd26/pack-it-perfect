@@ -13,16 +13,18 @@ namespace PackItPerfect.UI
     public sealed class MainScreen
     {
         const float CONTENT_WIDTH = 900f;
-        const float TITLE_Y = 540f;
+        const float LOGO_Y = 535f;
+        const float LOGO_HEIGHT = 640f;
         const float TITLE_HEIGHT = 300f;
-        const float TAGLINE_Y = 330f;
-        const float TAGLINE_HEIGHT = 150f;
-        const float STATS_Y = 150f;
+        const float TAGLINE_Y = 130f;
+        const float TAGLINE_HEIGHT = 120f;
+        const float STATS_Y = -10f;
         const float STATS_HEIGHT = 130f;
-        const float PLAY_Y = -90f;
-        const float PLAY_HEIGHT = 180f;
-        const float LEVELS_Y = -310f;
+        const float PLAY_Y = -210f;
+        const float PLAY_HEIGHT = 190f;
+        const float LEVELS_Y = -410f;
         const float LEVELS_HEIGHT = 150f;
+        const float PREFS_Y = -590f;
 
         readonly GameObject root;
         readonly TextMeshProUGUI stats;
@@ -45,13 +47,23 @@ namespace PackItPerfect.UI
             var background = factory.Panel("Main Screen", parent, tuning.menuBackground, 0f, raycast: true);
             UIFactory.Stretch(background.rectTransform);
             root = background.gameObject;
+            factory.Backdrop(background.transform, "bg_menu");
             var safe = factory.SafeContent(background.transform);
             var centre = new Vector2(0.5f, 0.5f);
 
-            var title = factory.Text("Title", safe, UIStrings.TITLE, tuning.titleFontSize, tuning.ink, FontStyles.Bold);
-            UIFactory.Place(title.rectTransform, centre, new Vector2(0f, TITLE_Y), new Vector2(CONTENT_WIDTH, TITLE_HEIGHT));
+            // Illustrated logo (suitcase + lettering); plain title text if the art is missing.
+            var logo = factory.Art("Logo", safe, "logo");
+            if (logo != null)
+            {
+                UIFactory.Place(logo.rectTransform, centre, new Vector2(0f, LOGO_Y), new Vector2(CONTENT_WIDTH, LOGO_HEIGHT));
+            }
+            else
+            {
+                var title = factory.Text("Title", safe, UIStrings.TITLE, tuning.titleFontSize, tuning.ink, FontStyles.Bold);
+                UIFactory.Place(title.rectTransform, centre, new Vector2(0f, LOGO_Y), new Vector2(CONTENT_WIDTH, TITLE_HEIGHT));
+            }
 
-            var tagline = factory.Text("Tagline", safe, UIStrings.TAGLINE, tuning.bodyFontSize, tuning.muted);
+            var tagline = factory.Text("Tagline", safe, UIStrings.TAGLINE, tuning.bodyFontSize, tuning.ink);
             UIFactory.Place(tagline.rectTransform, centre, new Vector2(0f, TAGLINE_Y), new Vector2(CONTENT_WIDTH, TAGLINE_HEIGHT));
 
             var statsCard = factory.Panel("Stats", safe, tuning.panel, STATS_HEIGHT / 2f);
@@ -73,10 +85,10 @@ namespace PackItPerfect.UI
 
             sound = factory.Button("Main Sound", safe, UIStrings.SOUND_ON, ButtonStyle.Secondary, tuning.smallFontSize,
                 () => SoundClicked?.Invoke());
-            UIFactory.Place(sound.Root, centre, new Vector2(-230f, -530f), new Vector2(440f, 110f));
+            UIFactory.Place(sound.Root, centre, new Vector2(-230f, PREFS_Y), new Vector2(440f, 120f));
             motion = factory.Button("Main Motion", safe, UIStrings.MOTION_ON, ButtonStyle.Secondary, tuning.smallFontSize,
                 () => MotionClicked?.Invoke());
-            UIFactory.Place(motion.Root, centre, new Vector2(230f, -530f), new Vector2(440f, 110f));
+            UIFactory.Place(motion.Root, centre, new Vector2(230f, PREFS_Y), new Vector2(440f, 120f));
 
             root.SetActive(false);
         }

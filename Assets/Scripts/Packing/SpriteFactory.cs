@@ -28,10 +28,14 @@ namespace PackItPerfect
         public const int ORDER_BLOCKED = 5;
         /// <summary>Sorting order of the fill bar background (the fill is one above).</summary>
         public const int ORDER_FILL_BAR = 6;
+        /// <summary>Sorting order of the soft shadow the frame casts onto the lining.</summary>
+        public const int ORDER_INNER_SHADOW = 7;
         /// <summary>Sorting order of zone labels.</summary>
         public const int ORDER_ZONE_LABEL = 8;
         /// <summary>Sorting order of outline imprints (their icon is one above).</summary>
         public const int ORDER_OUTLINE = 9;
+        /// <summary>Sorting order of the soft ground shadow under tray and dragged pieces.</summary>
+        public const int ORDER_PIECE_SHADOW = 11;
         /// <summary>Sorting order of resting pieces (icon +1, badge circle +2, badge emoji +3).</summary>
         public const int ORDER_PIECE = 12;
         /// <summary>Sorting order of the hint glow.</summary>
@@ -49,15 +53,22 @@ namespace PackItPerfect
 
         /// <summary>Folder under Resources holding one icon sprite per item id.</summary>
         public const string ICON_FOLDER = "Icons/";
+        /// <summary>Folder under Resources holding the illustrated art (frame, hand, backgrounds...).</summary>
+        public const string ART_FOLDER = "Art/";
 
         const int TEXTURE_SIZE = 4;
         const int CIRCLE_TEXTURE_SIZE = 64;
+        const int SOFT_TEXTURE_SIZE = 64;
 
         readonly Texture2D texture;
         readonly Sprite sprite;
         readonly Texture2D circleTexture;
         readonly Sprite circleSprite;
+        readonly Texture2D softTexture;
+        readonly Sprite softSprite;
         readonly Dictionary<string, Sprite> icons = new Dictionary<string, Sprite>();
+        readonly Dictionary<string, Sprite> art = new Dictionary<string, Sprite>();
+        PieceArtCatalog pieceArtCatalog;
 
         /// <summary>Creates the white square and circle sprites, each 1×1 unit.</summary>
         public SpriteFactory()
@@ -101,6 +112,30 @@ namespace PackItPerfect
             circleSprite = Sprite.Create(circleTexture, new Rect(0, 0, CIRCLE_TEXTURE_SIZE, CIRCLE_TEXTURE_SIZE),
                 new Vector2(0.5f, 0.5f), CIRCLE_TEXTURE_SIZE, 0, SpriteMeshType.FullRect);
             circleSprite.name = "PackingCircle";
+
+            // Blurred disc: alpha eases from 1 at the centre to 0 at the rim (ground shadows).
+            softTexture = new Texture2D(SOFT_TEXTURE_SIZE, SOFT_TEXTURE_SIZE, TextureFormat.RGBA32, false)
+            {
+                name = "PackingSoftDisc",
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Bilinear,
+            };
+            var softPixels = new Color32[SOFT_TEXTURE_SIZE * SOFT_TEXTURE_SIZE];
+            float softRadius = SOFT_TEXTURE_SIZE / 2f;
+            for (int y = 0; y < SOFT_TEXTURE_SIZE; y++)
+            {
+                for (int x = 0; x < SOFT_TEXTURE_SIZE; x++)
+                {
+                    float d = new Vector2(x + 0.5f - softRadius, y + 0.5f - softRadius).magnitude / softRadius;
+                    float a = Mathf.SmoothStep(1f, 0f, Mathf.Clamp01(d));
+                    softPixels[y * SOFT_TEXTURE_SIZE + x] = new Color32(255, 255, 255, (byte)(a * 255f));
+                }
+            }
+            softTexture.SetPixels32(softPixels);
+            softTexture.Apply(false, true);
+            softSprite = Sprite.Create(softTexture, new Rect(0, 0, SOFT_TEXTURE_SIZE, SOFT_TEXTURE_SIZE),
+                new Vector2(0.5f, 0.5f), SOFT_TEXTURE_SIZE, 0, SpriteMeshType.FullRect);
+            softSprite.name = "PackingSoftDisc";
         }
 
         /// <summary>Creates a solid rectangle as a child of <paramref name="parent"/>.</summary>
@@ -116,6 +151,10 @@ namespace PackItPerfect
         /// <summary>Creates a solid disc of <paramref name="diameter"/> as a child of <paramref name="parent"/>.</summary>
         public SpriteRenderer CreateCircle(Transform parent, string name, Vector2 center, float diameter, Color color, int sortingOrder) =>
             CreateSprite(parent, name, circleSprite, center, new Vector2(diameter, diameter), color, sortingOrder);
+
+        /// <summary>Creates a blurred oval of <paramref name="size"/> (soft drop shadow) as a child of <paramref name="parent"/>.</summary>
+        public SpriteRenderer CreateSoftOval(Transform parent, string name, Vector2 center, Vector2 size, Color color, int sortingOrder) =>
+            CreateSprite(parent, name, softSprite, center, size, color, sortingOrder);
 
         /// <summary>
         /// Creates a line from <paramref name="from"/> to <paramref name="to"/> (local, axis-aligned) as
@@ -153,7 +192,7 @@ namespace PackItPerfect
             renderer.sprite = source;
             renderer.color = color;
             renderer.sortingOrder = sortingOrder;
-            if (source == sprite || source == circleSprite)
+            if (source == sprite || source == circleSprite || source == softSprite)
             {
                 go.transform.localScale = new Vector3(size.x, size.y, 1f);
             }
@@ -162,6 +201,46 @@ namespace PackItPerfect
                 FitSprite(renderer, size.x);
             }
             return renderer;
+        }
+
+        /// <summary>
+        /// Creates a 9-sliced renderer of exactly <paramref name="size"/> local units (corners keep their drawn size).
+        /// Falls back to a solid rectangle when <paramref name="source"/> is null.
+        /// </summary>
+        public SpriteRenderer CreateSliced(Transform parent, string name, Sprite source, Vector2 center, Vector2 size, Color color, int sortingOrder)
+        {
+            if (source == null)
+            {
+                return CreateQuad(parent, name, center, size, color, sortingOrder);
+            }
+            var go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = center;
+            var renderer = go.AddComponent<SpriteRenderer>();
+            renderer.sprite = source;
+            renderer.drawMode = SpriteDrawMode.Sliced;
+            renderer.size = size;
+            renderer.color = color;
+            renderer.sortingOrder = sortingOrder;
+            return renderer;
+        }
+
+        /// <summary>Illustrated sprite Resources/Art/[name]. Cached; returns null (callers fall back to flat shapes) if missing.</summary>
+        public Sprite GetArt(string name)
+        {
+            if (!art.TryGetValue(name, out var found))
+            {
+                found = Resources.Load<Sprite>(ART_FOLDER + name);
+                art[name] = found;
+            }
+            return found;
+        }
+
+        /// <summary>Resolves the presentation-only whole-object binding for a level's piece.</summary>
+        public PieceArt GetPieceArt(int levelNumber, string letter)
+        {
+            pieceArtCatalog ??= new PieceArtCatalog(this);
+            return pieceArtCatalog.Get(levelNumber, letter);
         }
 
         /// <summary>Scales a renderer uniformly so the larger side of its sprite is <paramref name="size"/> local units.</summary>
@@ -205,7 +284,10 @@ namespace PackItPerfect
             Object.Destroy(texture);
             Object.Destroy(circleSprite);
             Object.Destroy(circleTexture);
+            Object.Destroy(softSprite);
+            Object.Destroy(softTexture);
             icons.Clear();
+            art.Clear();
         }
     }
 }

@@ -51,10 +51,14 @@ namespace PackItPerfect.UI
             var safe = factory.SafeContent(dim.transform);
 
             var cardImage = factory.Panel("Card", safe, tuning.panel, tuning.cardRadius);
+            factory.StyleCard(cardImage);
             card = cardImage.rectTransform;
             UIFactory.Place(card, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(CARD_WIDTH, CARD_HEIGHT));
             var top = new Vector2(0.5f, 1f);
 
+            var clock = factory.Art("Timeout Clock", card, "ui_clock");
+            if (clock != null)
+                UIFactory.Place(clock.rectTransform, top, new Vector2(0f, 130f), new Vector2(180f, 180f));
             var title = factory.Text("Title", card, UIStrings.LOSE_TITLE, tuning.headingFontSize, tuning.danger, FontStyles.Bold);
             UIFactory.Place(title.rectTransform, top, new Vector2(0f, -TITLE_TOP), new Vector2(BUTTON_WIDTH, TITLE_HEIGHT));
 

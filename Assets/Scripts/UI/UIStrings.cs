@@ -33,6 +33,10 @@ namespace PackItPerfect.UI
         public const string TIMER_FORMAT = "⏱ {0}s";
         /// <summary>Hint button (GDD verbatim, "Booster").</summary>
         public const string HINT = GameTexts.HINT_BUTTON;
+        /// <summary>Hint label when the lightbulb is rendered as illustrated art instead of an emoji.</summary>
+        public const string HINT_LABEL = "Hint";
+        /// <summary>Seconds label beside the illustrated clock.</summary>
+        public const string SECONDS_FORMAT = "{0}s";
         /// <summary>Restart button.</summary>
         public const string RESTART = "Restart";
 

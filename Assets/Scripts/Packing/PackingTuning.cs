@@ -66,13 +66,13 @@ namespace PackItPerfect
 
         [Header("Tray")]
         [Tooltip("Space between the frame and the tray, in cells.")]
-        public float trayGap = 0.7f;
+        public float trayGap = 0.5f;
 
         [Tooltip("Space between tray slots and between tray rows, in cells.")]
-        public float traySlotSpacing = 0.35f;
+        public float traySlotSpacing = 0.28f;
 
         [Tooltip("Minimum tray width, in cells; the tray is at least as wide as the frame.")]
-        public float minTrayWidth = 6f;
+        public float minTrayWidth = 9f;
 
         [Header("Camera")]
         [Tooltip("Space kept between the content and the screen edge, in cells.")]
@@ -262,6 +262,25 @@ namespace PackItPerfect
 
         [Tooltip("Word text colour.")]
         public Color wordTextColor = Color.white;
+
+        [Header("Piece shadow")]
+        [Tooltip("Soft oval under tray and dragged pieces (alpha = strength).")]
+        public Color pieceShadowColor = new Color(0.1f, 0.08f, 0.14f, 0.3f);
+
+        [Tooltip("Shadow width as a share of the piece width.")]
+        public float pieceShadowWidthScale = 0.95f;
+
+        [Tooltip("Shadow height in cells.")]
+        public float pieceShadowHeight = 0.7f;
+
+        [Tooltip("Cells the shadow centre sits below the piece's bottom edge at rest in the tray.")]
+        public float pieceShadowDrop = 0.04f;
+
+        [Tooltip("Cells the shadow centre sits below a dragged (lifted) piece.")]
+        public float pieceShadowLiftedDrop = 0.32f;
+
+        [Tooltip("Shadow size multiplier while the piece is lifted.")]
+        public float pieceShadowLiftedScale = 0.88f;
     }
 
     /// <summary>Grid size and piece count a level must stay within (brief "Progression & Meta": 4x3 to 7x7, 3–13 items).</summary>

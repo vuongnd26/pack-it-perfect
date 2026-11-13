@@ -54,6 +54,7 @@ namespace PackItPerfect.UI
             var home = factory.Button("HUD Home", top, UIStrings.HOME_ICON, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => HomeClicked?.Invoke());
             UIFactory.Place(home.Root, new Vector2(0f, 1f), new Vector2(0f, -rowTop), Vector2.one * tuning.hudButtonSize);
+            factory.ButtonIcon(home, "ui_home", iconOnly: true);
 
             var levelPill = factory.Panel("Level Pill", top, tuning.ink, tuning.hudRowHeight / 2f);
             UIFactory.Place(levelPill.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -rowTop),
@@ -100,12 +101,14 @@ namespace PackItPerfect.UI
             bottom.anchoredPosition = new Vector2(0f, tuning.bottomBarMargin);
             bottom.sizeDelta = new Vector2(-2f * tuning.sideMargin, tuning.bottomBarHeight);
 
-            var hint = factory.Button("HUD Hint", bottom, UIStrings.HINT, ButtonStyle.Accent, tuning.buttonFontSize,
+            var hint = factory.Button("HUD Hint", bottom, UIStrings.HINT_LABEL, ButtonStyle.Accent, tuning.buttonFontSize,
                 () => HintClicked?.Invoke());
             HalfWidth(hint.Root, left: true);
             var restart = factory.Button("HUD Restart", bottom, UIStrings.RESTART, ButtonStyle.Secondary, tuning.buttonFontSize,
                 () => RestartClicked?.Invoke());
             HalfWidth(restart.Root, left: false);
+            factory.ButtonIcon(hint, "ui_hint");
+            factory.ButtonIcon(restart, "ui_restart");
             HintButton = hint;
 
             root.SetActive(false);

@@ -245,7 +245,7 @@ namespace PackItPerfect
             int piece = hint.PieceId;
             shapes[piece] = hint.Shape;
             var view = pieceViews[piece];
-            view.SetShape(hint.Shape);
+            view.SetShape(hint.Shape, 0);
             view.PlaceAt(tray.TopLeftFor(piece, hint.Shape), tuning.trayScale);
             view.StartWobble(tuning.hintWobbleDuration, tuning.hintWobbleCycles);
             OnBoardChanged();
@@ -391,6 +391,7 @@ namespace PackItPerfect
                 var piece = data.pieces[i];
                 var decor = new PieceDecor
                 {
+                    art = factory.GetPieceArt(data.number, piece.letter),
                     patterns = patterns,
                     pattern = loaded.Items[i].pattern,
                     outlineColor = feel.Tuning.outlineColor,
@@ -402,7 +403,7 @@ namespace PackItPerfect
                 };
                 var view = new PieceView(factory, levelRoot, $"Piece {piece.letter}",
                     LevelLoader.ParseColor(loaded.Items[i].color), SpriteFactory.ORDER_PIECE, tuning, decor);
-                view.SetShape(shapes[i]);
+                view.SetShape(shapes[i], piece.startTurns);
                 view.PlaceAt(tray.TopLeftFor(i, shapes[i]), tuning.trayScale);
                 pieceViews[i] = view;
             }
@@ -678,10 +679,15 @@ namespace PackItPerfect
                 return;
             }
             shapes[id] = shapes[id].Rotated();
+            view.TurnArtClockwise();
             view.SetShape(shapes[id]);
             view.PlaceAt(tray.TopLeftFor(id, shapes[id]), tuning.trayScale);
             PieceRotated?.Invoke(id);
         }
+
+        // Presentation names follow the illustration without mutating shared item definitions or rule data.
+        string PresentationName(int id) =>
+            factory.GetPieceArt(level.Data.number, level.Data.pieces[id].letter)?.DisplayName ?? level.Items[id].displayName;
 
         // Toast only when the drop failed for exactly one rule reason; geometry failures just shake.
         void ToastPlacementFailure(int id, PlacementFailure failure)
@@ -695,7 +701,7 @@ namespace PackItPerfect
                 var zone = level.ZoneOf(id);
                 if (zone != null)
                 {
-                    feedback?.Toast(GameTexts.ZoneViolation(level.Items[id].displayName, zone.name));
+                    feedback?.Toast(GameTexts.ZoneViolation(PresentationName(id), zone.name));
                 }
             }
         }
@@ -734,7 +740,7 @@ namespace PackItPerfect
             }
             if (violation.rule is PairRule)
             {
-                feedback?.Toast(GameTexts.PairViolation(level.Items[violation.pieceId].displayName));
+                feedback?.Toast(GameTexts.PairViolation(PresentationName(violation.pieceId)));
             }
         }
 

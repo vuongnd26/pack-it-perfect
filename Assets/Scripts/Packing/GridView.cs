@@ -19,7 +19,16 @@ namespace PackItPerfect
         readonly PackingTuning tuning;
         readonly Transform root;
         readonly ShakeMotion shake = new ShakeMotion();
+        const float FRAME_ART_OUTLINE = 0.07f;   // ink outline drawn around the frame art, in cells
+        const float HANDLE_ASPECT = 224f / 512f;  // handle art height / width
+        const float HANDLE_WIDTH_SCALE = 1.25f;
+        const float HANDLE_TUCK = 0.12f;          // how far the handle brackets sit behind the frame
+        const float WHEEL_SCALE = 1.5f;
+        const float WHEEL_TUCK = 0.12f;
+        const float BAR_ABOVE_HANDLE = 0.22f;
+
         readonly SpriteRenderer fillBar;
+        readonly bool fillBarSliced;
         readonly float fillBarLeft;
         readonly float fillBarWidth;
         readonly float fillBarCenterY;
@@ -64,32 +73,66 @@ namespace PackItPerfect
 
             float attachmentBottom = FrameRect.yMin;
             float attachmentTop = FrameRect.yMax;
+            var frameArt = factory.GetArt("frame");
             if (feel != null)
             {
                 float stroke = feel.outlineWidth;
-                factory.CreateQuad(root, "Container outline", FrameRect.center, FrameRect.size + Vector2.one * stroke * 2f,
-                    feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                if (frameArt == null)
+                {
+                    factory.CreateQuad(root, "Container outline", FrameRect.center, FrameRect.size + Vector2.one * stroke * 2f,
+                        feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                }
                 if (theme.handle)
                 {
-                    float y = FrameRect.yMax + feel.handleSize.y / 2f;
-                    factory.CreateQuad(root, "Handle grip", new Vector2(0f, y + feel.handleSize.y / 2f),
-                        new Vector2(feel.handleSize.x, feel.handleStroke), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
-                    foreach (float side in new[] { -1f, 1f })
-                        factory.CreateQuad(root, "Handle stem", new Vector2(side * feel.handleSize.x / 2f, y),
-                            new Vector2(feel.handleStroke, feel.handleSize.y), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
-                    attachmentTop = FrameRect.yMax + feel.handleSize.y + feel.handleStroke;
+                    var handleArt = factory.GetArt("handle");
+                    if (handleArt != null)
+                    {
+                        float width = feel.handleSize.x * HANDLE_WIDTH_SCALE;
+                        float height = width * HANDLE_ASPECT;
+                        factory.CreateSprite(root, "Handle", handleArt,
+                            new Vector2(0f, FrameRect.yMax - HANDLE_TUCK + height / 2f), new Vector2(width, width), Color.white,
+                            SpriteFactory.ORDER_FRAME - 1);
+                        attachmentTop = FrameRect.yMax - HANDLE_TUCK + height;
+                    }
+                    else
+                    {
+                        float y = FrameRect.yMax + feel.handleSize.y / 2f;
+                        factory.CreateQuad(root, "Handle grip", new Vector2(0f, y + feel.handleSize.y / 2f),
+                            new Vector2(feel.handleSize.x, feel.handleStroke), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                        foreach (float side in new[] { -1f, 1f })
+                            factory.CreateQuad(root, "Handle stem", new Vector2(side * feel.handleSize.x / 2f, y),
+                                new Vector2(feel.handleStroke, feel.handleSize.y), feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                        attachmentTop = FrameRect.yMax + feel.handleSize.y + feel.handleStroke;
+                    }
                 }
                 if (theme.wheels)
                 {
+                    var wheelArt = factory.GetArt("wheel");
+                    float diameter = wheelArt != null ? feel.wheelSize.y * WHEEL_SCALE : feel.wheelSize.y;
+                    float centerY = wheelArt != null ? FrameRect.yMin + WHEEL_TUCK - diameter / 2f : FrameRect.yMin - diameter / 2f;
                     foreach (float side in new[] { -1f, 1f })
-                        factory.CreateQuad(root, "Wheel", new Vector2(side * (FrameRect.width / 2f - feel.wheelInset),
-                            FrameRect.yMin - feel.wheelSize.y / 2f), feel.wheelSize, feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
-                    attachmentBottom -= feel.wheelSize.y;
+                    {
+                        var center = new Vector2(side * (FrameRect.width / 2f - feel.wheelInset), centerY);
+                        if (wheelArt != null)
+                            factory.CreateSprite(root, "Wheel", wheelArt, center, Vector2.one * diameter, Color.white, SpriteFactory.ORDER_FRAME - 1);
+                        else
+                            factory.CreateQuad(root, "Wheel", center, feel.wheelSize, feel.outlineColor, SpriteFactory.ORDER_FRAME - 1);
+                    }
+                    attachmentBottom = centerY - diameter / 2f;
                 }
             }
-            factory.CreateQuad(root, "Frame", FrameRect.center, FrameRect.size, frameColor, SpriteFactory.ORDER_FRAME);
+            // Illustrated frame: rounded, outlined, with corner guards; tinted by the level's theme colour.
+            factory.CreateSliced(root, "Frame", frameArt, FrameRect.center,
+                frameArt != null ? FrameRect.size + Vector2.one * FRAME_ART_OUTLINE * 2f : FrameRect.size, frameColor, SpriteFactory.ORDER_FRAME);
             var gridCenter = new Vector2(Left + board.Width / 2f, Top - board.Height / 2f);
             factory.CreateQuad(root, "Lining", gridCenter, new Vector2(board.Width, board.Height), liningColor, SpriteFactory.ORDER_LINING);
+            var insetArt = factory.GetArt("inset");
+            if (insetArt != null)
+            {
+                // The frame casts a soft shadow onto the lining, so the container reads as a recessed box.
+                factory.CreateSliced(root, "Lining shadow", insetArt, gridCenter, new Vector2(board.Width, board.Height), Color.white,
+                    SpriteFactory.ORDER_INNER_SHADOW);
+            }
 
             if (level.Rules.Zones != null)
             {
@@ -114,8 +157,12 @@ namespace PackItPerfect
                 {
                     if (board.IsBlocked(new Vector2Int(x, y)))
                     {
-                        factory.CreateQuad(root, "Blocked", new Vector2(Left + x + 0.5f, Top - y - 0.5f),
-                            new Vector2(blockedSize, blockedSize), blockColor, SpriteFactory.ORDER_BLOCKED);
+                        var blockedCenter = new Vector2(Left + x + 0.5f, Top - y - 0.5f);
+                        var blockedArt = factory.GetArt("blocked");
+                        if (blockedArt != null)
+                            factory.CreateSprite(root, "Blocked", blockedArt, blockedCenter, Vector2.one * blockedSize, blockColor, SpriteFactory.ORDER_BLOCKED);
+                        else
+                            factory.CreateQuad(root, "Blocked", blockedCenter, new Vector2(blockedSize, blockedSize), blockColor, SpriteFactory.ORDER_BLOCKED);
                     }
                 }
             }
@@ -123,10 +170,23 @@ namespace PackItPerfect
             fillBarLeft = FrameRect.xMin;
             fillBarWidth = FrameRect.width;
             fillBarHeight = tuning.fillBarHeight;
-            fillBarCenterY = FrameRect.yMax + tuning.fillBarGap + fillBarHeight / 2f;
-            factory.CreateQuad(root, "FillBarBack", new Vector2(FrameRect.center.x, fillBarCenterY),
-                new Vector2(fillBarWidth, fillBarHeight), tuning.fillBarBackColor, SpriteFactory.ORDER_FILL_BAR);
-            fillBar = factory.CreateQuad(root, "FillBar", Vector2.zero, Vector2.zero, tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+            fillBarCenterY = Mathf.Max(FrameRect.yMax + tuning.fillBarGap, attachmentTop + BAR_ABOVE_HANDLE) + fillBarHeight / 2f;
+            var barBack = factory.GetArt("bar_back");
+            var barFill = factory.GetArt("bar_fill");
+            fillBarSliced = barBack != null && barFill != null;
+            if (fillBarSliced)
+            {
+                factory.CreateSliced(root, "FillBarBack", barBack, new Vector2(FrameRect.center.x, fillBarCenterY),
+                    new Vector2(fillBarWidth, fillBarHeight), Color.white, SpriteFactory.ORDER_FILL_BAR);
+                fillBar = factory.CreateSliced(root, "FillBar", barFill, Vector2.zero, new Vector2(fillBarHeight, fillBarHeight),
+                    tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+            }
+            else
+            {
+                factory.CreateQuad(root, "FillBarBack", new Vector2(FrameRect.center.x, fillBarCenterY),
+                    new Vector2(fillBarWidth, fillBarHeight), tuning.fillBarBackColor, SpriteFactory.ORDER_FILL_BAR);
+                fillBar = factory.CreateQuad(root, "FillBar", Vector2.zero, Vector2.zero, tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+            }
             SetFill(0f);
 
             float contentTop = fillBarCenterY + fillBarHeight / 2f;
@@ -243,6 +303,15 @@ namespace PackItPerfect
         public void SetFill(float ratio)
         {
             float width = fillBarWidth * Mathf.Clamp01(ratio);
+            if (fillBarSliced)
+            {
+                // A rounded bar cannot be narrower than its own caps: hide it at zero, otherwise keep at least one cap pair.
+                fillBar.enabled = width > 0f;
+                width = Mathf.Max(width, fillBarHeight);
+                fillBar.size = new Vector2(width, fillBarHeight);
+                fillBar.transform.localPosition = new Vector3(fillBarLeft + width / 2f, fillBarCenterY, 0f);
+                return;
+            }
             fillBar.transform.localPosition = new Vector3(fillBarLeft + width / 2f, fillBarCenterY, 0f);
             fillBar.transform.localScale = new Vector3(width, fillBarHeight, 1f);
         }

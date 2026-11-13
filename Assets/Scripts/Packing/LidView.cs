@@ -13,6 +13,8 @@ namespace PackItPerfect
     /// </summary>
     public sealed class LidView
     {
+        const float LID_ART_OUTLINE = 0.07f; // ink outline drawn around the lid art, in cells
+
         readonly PackingTuning tuning;
         readonly Transform root;
         readonly Vector3 openPosition;
@@ -41,7 +43,9 @@ namespace PackItPerfect
             Color stripeColor = LevelLoader.ParseColor(theme.rim);
             Color toothColor = LevelLoader.ParseColor(theme.lining);
 
-            factory.CreateQuad(root, "LidBody", Vector2.zero, frameRect.size, lidColor, SpriteFactory.ORDER_LID);
+            var lidArt = factory.GetArt("frame");
+            factory.CreateSliced(root, "LidBody", lidArt, Vector2.zero,
+                lidArt != null ? frameRect.size + Vector2.one * LID_ART_OUTLINE * 2f : frameRect.size, lidColor, SpriteFactory.ORDER_LID);
             stripeWidth = frameRect.width - 2f * tuning.framePadding;
             stripeLeft = -stripeWidth / 2f;
             factory.CreateQuad(root, "ZipperStripe", Vector2.zero, new Vector2(stripeWidth, tuning.zipperHeight), stripeColor, SpriteFactory.ORDER_LID + 1);
