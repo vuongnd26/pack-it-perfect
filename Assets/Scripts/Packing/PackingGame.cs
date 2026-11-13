@@ -538,7 +538,7 @@ namespace PackItPerfect
             grid = new GridView(factory, levelRoot, loaded, tuning, feel.Tuning);
             outlines = new OutlineView(factory, grid, loaded, tuning);
             hintGlow = new HintGlowView(factory, grid, tuning);
-            float trayWidth = Mathf.Max(grid.FrameRect.width, tuning.minTrayWidth);
+            float trayWidth = TrayWidthFor(shapes, grid.FrameRect.width);
             tray = new TrayView(shapes, grid.FrameRect.yMin - tuning.trayGap, trayWidth, tuning);
             lid = new LidView(factory, levelRoot, grid.FrameRect, data.theme, tuning);
 
@@ -636,6 +636,17 @@ namespace PackItPerfect
             {
                 RequestHint();
             }
+        }
+
+        // Tray width: wide enough for the pieces in about two rows, never narrower than the container and never wider
+        // than the tuned maximum. A small level with a few pieces then fills the screen instead of shrinking to a
+        // nine-cell tray with empty space around it.
+        float TrayWidthFor(PieceShape[] pieces, float frameWidth)
+        {
+            float total = 0f;
+            foreach (var shape in pieces) total += shape.MaxDimension * tuning.trayScale + tuning.traySlotSpacing;
+            float twoRows = Mathf.Ceil(total / 2f) + tuning.traySlotSpacing;
+            return Mathf.Clamp(twoRows, frameWidth, Mathf.Max(frameWidth, tuning.minTrayWidth));
         }
 
         // Fits fill bar + frame + tray inside the view; recomputed only when the screen size changes.

@@ -239,6 +239,22 @@ namespace PackItPerfect.Tests
         }
 
         [UnityTest]
+        public IEnumerator ArtShowcase_PhoneResolution_RetainsLevelCaptures()
+        {
+            // Retained visual evidence of the illustrated pieces at a common phone size (art sign-off material).
+            SetGameViewSize(1080, 2400);
+            for (int frame = 0; frame < 8; frame++) yield return null;
+            foreach (int number in new[] { 1, 2, 3, 6, 9, 11, 12, 14, 15, 18, 20 })
+            {
+                LogAssert.Expect(LogType.Log, new System.Text.RegularExpressions.Regex($"^PackingGame: loaded level {number} "));
+                game.LoadLevel(number);
+                for (int frame = 0; frame < 6; frame++) yield return null;
+                yield return Capture($"showcase-level-{number:00}");
+            }
+            LogAssert.NoUnexpectedReceived();
+        }
+
+        [UnityTest]
         public IEnumerator AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged()
         {
             game.LoadLevel(1);

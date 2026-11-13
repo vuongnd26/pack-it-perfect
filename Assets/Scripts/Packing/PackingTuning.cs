@@ -118,7 +118,7 @@ namespace PackItPerfect
         public float traySlotSpacing = 0.28f;
 
         [Tooltip("Minimum tray width, in cells; the tray is at least as wide as the frame.")]
-        public float minTrayWidth = 9f;
+        public float minTrayWidth = 9f; // the widest the tray grows; small levels use a narrower tray (see PackingGame.TrayWidthFor)
 
         [Header("Camera")]
         [Tooltip("Space kept between the content and the screen edge, in cells.")]

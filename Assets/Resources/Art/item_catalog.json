@@ -30,37 +30,136 @@
       ]
     },
     {
-      "id": "makeup",
-      "display_name": "Makeup compact",
-      "sprite": "Items/makeup",
+      "id": "sock_travel",
+      "display_name": "Travel sock",
+      "sprite": "Items/sock_travel",
+      "cells": [
+        "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "sock_folded",
+      "display_name": "Rolled socks",
+      "sprite": "Items/sock_folded",
       "cells": [
         "XX",
         "XX"
       ]
     },
     {
-      "id": "lunchbox",
-      "display_name": "Bento box",
-      "sprite": "Items/lunchbox",
+      "id": "sock_scrunched",
+      "display_name": "Scrunched socks",
+      "sprite": "Items/sock_scrunched",
       "cells": [
+        ".X.",
+        "XXX",
+        "..X"
+      ]
+    },
+    {
+      "id": "sock_t",
+      "display_name": "Knee sock",
+      "sprite": "Items/sock_t",
+      "cells": [
+        "X.",
         "XX",
+        "X."
+      ]
+    },
+    {
+      "id": "sock_straight",
+      "display_name": "Rolled-flat sock",
+      "sprite": "Items/sock_straight",
+      "cells": [
+        "XXX"
+      ]
+    },
+    {
+      "id": "perfume",
+      "display_name": "Perfume atomizer",
+      "sprite": "Items/perfume",
+      "cells": [
+        "X.",
         "XX"
       ]
     },
     {
-      "id": "camera_case",
-      "display_name": "Instant camera",
-      "sprite": "Items/camera_case",
+      "id": "perfume_upright",
+      "display_name": "Perfume bottle",
+      "sprite": "Items/perfume_upright",
       "cells": [
-        "XX",
+        ".X",
         "XX"
       ]
     },
     {
-      "id": "book",
-      "display_name": "Pocket journal",
-      "sprite": "Items/book",
+      "id": "atomizer_short",
+      "display_name": "Travel atomizer",
+      "sprite": "Items/atomizer_short",
       "cells": [
+        "XX",
+        "X."
+      ]
+    },
+    {
+      "id": "atomizer_f",
+      "display_name": "Perfume atomizer",
+      "sprite": "Items/atomizer_f",
+      "cells": [
+        ".XX",
+        "XX.",
+        ".X."
+      ]
+    },
+    {
+      "id": "shampoo_pump",
+      "display_name": "Shampoo dispenser",
+      "sprite": "Items/shampoo_pump",
+      "cells": [
+        "XX",
+        "X.",
+        "X."
+      ]
+    },
+    {
+      "id": "shampoo_w",
+      "display_name": "Shampoo bottle",
+      "sprite": "Items/shampoo_w",
+      "cells": [
+        "X..",
+        "XX.",
+        ".XX"
+      ]
+    },
+    {
+      "id": "pump_long",
+      "display_name": "Tall pump bottle",
+      "sprite": "Items/pump_long",
+      "cells": [
+        "XX",
+        ".X",
+        ".X"
+      ]
+    },
+    {
+      "id": "pump_t",
+      "display_name": "Pump dispenser",
+      "sprite": "Items/pump_t",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "bottle_tall",
+      "display_name": "Travel bottle",
+      "sprite": "Items/bottle_tall",
+      "cells": [
+        "X.",
+        "X.",
+        "X.",
         "XX"
       ]
     },
@@ -81,67 +180,6 @@
       ]
     },
     {
-      "id": "sushi_roll",
-      "display_name": "Sushi roll",
-      "sprite": "Items/sushi_roll",
-      "cells": [
-        "XXX"
-      ]
-    },
-    {
-      "id": "biscuit",
-      "display_name": "Biscuit pack",
-      "sprite": "Items/biscuit",
-      "cells": [
-        "XX"
-      ]
-    },
-    {
-      "id": "umbrella",
-      "display_name": "Open umbrella",
-      "sprite": "Items/umbrella",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
-      "id": "cap",
-      "display_name": "Baseball cap",
-      "sprite": "Items/cap",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
-      "id": "fried_egg",
-      "display_name": "Broccoli omelette",
-      "sprite": "Items/fried_egg",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
-      "id": "sandwich",
-      "display_name": "Sandwich",
-      "sprite": "Items/sandwich",
-      "cells": [
-        "X.",
-        "XX"
-      ]
-    },
-    {
-      "id": "toy_drill",
-      "display_name": "Toy drill",
-      "sprite": "Items/toy_drill",
-      "cells": [
-        "XX",
-        "X."
-      ]
-    },
-    {
       "id": "toothbrush",
       "display_name": "Travel toothbrush",
       "sprite": "Items/toothbrush",
@@ -153,12 +191,12 @@
       ]
     },
     {
-      "id": "perfume",
-      "display_name": "Perfume atomizer",
-      "sprite": "Items/perfume",
+      "id": "jar_t",
+      "display_name": "Glass food jar",
+      "sprite": "Items/jar_t",
       "cells": [
-        "X.",
-        "XX"
+        "XXX",
+        ".X."
       ]
     },
     {
@@ -172,51 +210,49 @@
       ]
     },
     {
-      "id": "sneaker",
-      "display_name": "High-top sneaker",
-      "sprite": "Items/sneaker",
+      "id": "wine_glass",
+      "display_name": "Crystal goblet",
+      "sprite": "Items/wine_glass",
       "cells": [
-        "X.",
+        "X",
+        "X"
+      ]
+    },
+    {
+      "id": "vase",
+      "display_name": "Ceramic vase",
+      "sprite": "Items/vase",
+      "cells": [
+        "X",
+        "X",
+        "X"
+      ]
+    },
+    {
+      "id": "snow_globe",
+      "display_name": "Travel snow globe",
+      "sprite": "Items/snow_globe",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "tea_set",
+      "display_name": "Cup and saucer",
+      "sprite": "Items/tea_set",
+      "cells": [
         "X.",
         "XX"
       ]
     },
     {
-      "id": "scarf_s",
-      "display_name": "Folded scarf",
-      "sprite": "Items/scarf_s",
+      "id": "teapot",
+      "display_name": "Porcelain teapot",
+      "sprite": "Items/teapot",
       "cells": [
-        "XX.",
-        ".XX"
-      ]
-    },
-    {
-      "id": "headphones",
-      "display_name": "Travel headphones",
-      "sprite": "Items/headphones",
-      "cells": [
-        "X.X",
-        "XXX"
-      ]
-    },
-    {
-      "id": "scarf_w",
-      "display_name": "Zigzag scarf",
-      "sprite": "Items/scarf_w",
-      "cells": [
-        "X..",
-        "XX.",
-        ".XX"
-      ]
-    },
-    {
-      "id": "plant_f",
-      "display_name": "Travel plant",
-      "sprite": "Items/plant_f",
-      "cells": [
-        ".XX",
-        "XX.",
-        ".X."
+        "XX",
+        "XX"
       ]
     },
     {
@@ -230,10 +266,38 @@
       ]
     },
     {
-      "id": "toy_dinosaur",
-      "display_name": "Toy dinosaur",
-      "sprite": "Items/toy_dinosaur",
+      "id": "towel_p",
+      "display_name": "Folded towel",
+      "sprite": "Items/towel_p",
       "cells": [
+        "XXX",
+        ".XX"
+      ]
+    },
+    {
+      "id": "hoodie_p",
+      "display_name": "Folded hoodie",
+      "sprite": "Items/hoodie_p",
+      "cells": [
+        "XXX",
+        ".XX"
+      ]
+    },
+    {
+      "id": "scarf_s",
+      "display_name": "Folded scarf",
+      "sprite": "Items/scarf_s",
+      "cells": [
+        "XX.",
+        ".XX"
+      ]
+    },
+    {
+      "id": "scarf_w",
+      "display_name": "Zigzag scarf",
+      "sprite": "Items/scarf_w",
+      "cells": [
+        "X..",
         "XX.",
         ".XX"
       ]
@@ -242,15 +306,6 @@
       "id": "oven_mitt",
       "display_name": "Oven mitt",
       "sprite": "Items/oven_mitt",
-      "cells": [
-        "X.",
-        "XX"
-      ]
-    },
-    {
-      "id": "trainer",
-      "display_name": "Trainer",
-      "sprite": "Items/trainer",
       "cells": [
         "X.",
         "XX"
@@ -271,6 +326,88 @@
       "sprite": "Items/plush_long",
       "cells": [
         "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "slipper_folded",
+      "display_name": "Packable slipper",
+      "sprite": "Items/slipper_folded",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "slipper_straight",
+      "display_name": "Packable slipper",
+      "sprite": "Items/slipper_straight",
+      "cells": [
+        "XXX"
+      ]
+    },
+    {
+      "id": "trainer",
+      "display_name": "Trainer",
+      "sprite": "Items/trainer",
+      "cells": [
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "sneaker",
+      "display_name": "High-top sneaker",
+      "sprite": "Items/sneaker",
+      "cells": [
+        "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "hiking_boot",
+      "display_name": "Hiking boot",
+      "sprite": "Items/hiking_boot",
+      "cells": [
+        "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "cap",
+      "display_name": "Baseball cap",
+      "sprite": "Items/cap",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "headphones",
+      "display_name": "Travel headphones",
+      "sprite": "Items/headphones",
+      "cells": [
+        "X.X",
+        "XXX"
+      ]
+    },
+    {
+      "id": "umbrella",
+      "display_name": "Open umbrella",
+      "sprite": "Items/umbrella",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "sandwich",
+      "display_name": "Sandwich",
+      "sprite": "Items/sandwich",
+      "cells": [
         "X.",
         "XX"
       ]
@@ -359,16 +496,6 @@
       ]
     },
     {
-      "id": "potato_sack",
-      "display_name": "Potato sack",
-      "sprite": "Items/potato_sack",
-      "cells": [
-        "X..",
-        "XX.",
-        ".XX"
-      ]
-    },
-    {
       "id": "leek",
       "display_name": "Bent leek",
       "sprite": "Items/leek",
@@ -380,46 +507,9 @@
       ]
     },
     {
-      "id": "jar_t",
-      "display_name": "Glass food jar",
-      "sprite": "Items/jar_t",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
-      "id": "pump_t",
-      "display_name": "Pump dispenser",
-      "sprite": "Items/pump_t",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
-      "id": "bath_brush",
-      "display_name": "Long bath brush",
-      "sprite": "Items/bath_brush",
-      "cells": [
-        "...X",
-        "XXXX"
-      ]
-    },
-    {
-      "id": "atomizer_f",
-      "display_name": "Perfume atomizer",
-      "sprite": "Items/atomizer_f",
-      "cells": [
-        ".XX",
-        "XX.",
-        ".X."
-      ]
-    },
-    {
-      "id": "shampoo_w",
-      "display_name": "Shampoo bottle",
-      "sprite": "Items/shampoo_w",
+      "id": "potato_sack",
+      "display_name": "Potato sack",
+      "sprite": "Items/potato_sack",
       "cells": [
         "X..",
         "XX.",
@@ -427,96 +517,54 @@
       ]
     },
     {
-      "id": "pump_long",
-      "display_name": "Tall pump bottle",
-      "sprite": "Items/pump_long",
-      "cells": [
-        "XX",
-        ".X",
-        ".X"
-      ]
-    },
-    {
-      "id": "bottle_tall",
-      "display_name": "Travel bottle",
-      "sprite": "Items/bottle_tall",
-      "cells": [
-        "X.",
-        "X.",
-        "X.",
-        "XX"
-      ]
-    },
-    {
-      "id": "towel_p",
-      "display_name": "Folded towel",
-      "sprite": "Items/towel_p",
-      "cells": [
-        "XXX",
-        ".XX"
-      ]
-    },
-    {
-      "id": "hoodie_p",
-      "display_name": "Folded hoodie",
-      "sprite": "Items/hoodie_p",
-      "cells": [
-        "XXX",
-        ".XX"
-      ]
-    },
-    {
-      "id": "sock_folded",
-      "display_name": "Cozy sock",
-      "sprite": "Items/sock_folded",
-      "cells": [
-        "XX",
-        "XX"
-      ]
-    },
-    {
-      "id": "sock_scrunched",
-      "display_name": "Cozy sock",
-      "sprite": "Items/sock_scrunched",
-      "cells": [
-        ".X.",
-        "XXX",
-        "..X"
-      ]
-    },
-    {
-      "id": "sock_t",
-      "display_name": "Cozy sock",
-      "sprite": "Items/sock_t",
-      "cells": [
-        "X.",
-        "XX",
-        "X."
-      ]
-    },
-    {
-      "id": "sock_straight",
-      "display_name": "Cozy sock",
-      "sprite": "Items/sock_straight",
+      "id": "sushi_roll",
+      "display_name": "Sushi roll",
+      "sprite": "Items/sushi_roll",
       "cells": [
         "XXX"
       ]
     },
     {
-      "id": "slipper_folded",
-      "display_name": "Packable slipper",
-      "sprite": "Items/slipper_folded",
+      "id": "biscuit",
+      "display_name": "Biscuit pack",
+      "sprite": "Items/biscuit",
+      "cells": [
+        "XX"
+      ]
+    },
+    {
+      "id": "fried_egg",
+      "display_name": "Broccoli omelette",
+      "sprite": "Items/fried_egg",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "lunchbox",
+      "display_name": "Bento box",
+      "sprite": "Items/lunchbox",
       "cells": [
         "XX",
         "XX"
       ]
     },
     {
-      "id": "slipper_straight",
-      "display_name": "Packable slipper",
-      "sprite": "Items/slipper_straight",
+      "id": "book",
+      "display_name": "Pocket journal",
+      "sprite": "Items/book",
       "cells": [
-        "XXX"
+        "XX"
+      ]
+    },
+    {
+      "id": "book_stack",
+      "display_name": "Stack of journals",
+      "sprite": "Items/book_stack",
+      "cells": [
+        "XX",
+        "XX"
       ]
     },
     {
@@ -536,118 +584,6 @@
       ]
     },
     {
-      "id": "wrench_z",
-      "display_name": "Cranked wrench",
-      "sprite": "Items/wrench_z",
-      "cells": [
-        "XX.",
-        ".X.",
-        ".XX"
-      ]
-    },
-    {
-      "id": "sock_travel",
-      "display_name": "Cozy sock",
-      "sprite": "Items/sock_travel",
-      "cells": [
-        "X.",
-        "X.",
-        "XX"
-      ]
-    },
-    {
-      "id": "atomizer_short",
-      "display_name": "Travel atomizer",
-      "sprite": "Items/atomizer_short",
-      "cells": [
-        "XX",
-        "X."
-      ]
-    },
-    {
-      "id": "perfume_upright",
-      "display_name": "Perfume atomizer",
-      "sprite": "Items/perfume_upright",
-      "cells": [
-        ".X",
-        "XX"
-      ]
-    },
-    {
-      "id": "shampoo_pump",
-      "display_name": "Shampoo dispenser",
-      "sprite": "Items/shampoo_pump",
-      "cells": [
-        "XX",
-        "X.",
-        "X."
-      ]
-    },
-    {
-      "id": "book_stack",
-      "display_name": "Stack of journals",
-      "sprite": "Items/book_stack",
-      "cells": [
-        "XX",
-        "XX"
-      ]
-    },
-    {
-      "id": "teapot",
-      "display_name": "Porcelain teapot",
-      "sprite": "Items/teapot",
-      "cells": [
-        "XX",
-        "XX"
-      ]
-    },
-    {
-      "id": "wine_glass",
-      "display_name": "Crystal goblet",
-      "sprite": "Items/wine_glass",
-      "cells": [
-        "X",
-        "X"
-      ]
-    },
-    {
-      "id": "vase",
-      "display_name": "Ceramic vase",
-      "sprite": "Items/vase",
-      "cells": [
-        "X",
-        "X",
-        "X"
-      ]
-    },
-    {
-      "id": "snow_globe",
-      "display_name": "Travel snow globe",
-      "sprite": "Items/snow_globe",
-      "cells": [
-        "XX",
-        "XX"
-      ]
-    },
-    {
-      "id": "tea_set",
-      "display_name": "Cup and saucer",
-      "sprite": "Items/tea_set",
-      "cells": [
-        "X.",
-        "XX"
-      ]
-    },
-    {
-      "id": "hand_mirror",
-      "display_name": "Hand mirror",
-      "sprite": "Items/hand_mirror",
-      "cells": [
-        "XXX",
-        ".X."
-      ]
-    },
-    {
       "id": "dumbbell",
       "display_name": "Travel dumbbell",
       "sprite": "Items/dumbbell",
@@ -656,13 +592,13 @@
       ]
     },
     {
-      "id": "hiking_boot",
-      "display_name": "Hiking boot",
-      "sprite": "Items/hiking_boot",
+      "id": "wrench_z",
+      "display_name": "Cranked wrench",
+      "sprite": "Items/wrench_z",
       "cells": [
-        "X.",
-        "X.",
-        "XX"
+        "XX.",
+        ".X.",
+        ".XX"
       ]
     },
     {
@@ -681,6 +617,106 @@
       "cells": [
         "XX",
         "X."
+      ]
+    },
+    {
+      "id": "toy_drill",
+      "display_name": "Toy drill",
+      "sprite": "Items/toy_drill",
+      "cells": [
+        "XX",
+        "X."
+      ]
+    },
+    {
+      "id": "toy_dinosaur",
+      "display_name": "Toy dinosaur",
+      "sprite": "Items/toy_dinosaur",
+      "cells": [
+        "XX.",
+        ".XX"
+      ]
+    },
+    {
+      "id": "hand_mirror",
+      "display_name": "Hand mirror",
+      "sprite": "Items/hand_mirror",
+      "cells": [
+        "XXX",
+        ".X."
+      ]
+    },
+    {
+      "id": "makeup",
+      "display_name": "Makeup compact",
+      "sprite": "Items/makeup",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "bath_brush",
+      "display_name": "Long bath brush",
+      "sprite": "Items/bath_brush",
+      "cells": [
+        "...X",
+        "XXXX"
+      ]
+    },
+    {
+      "id": "shaker",
+      "display_name": "Protein shaker",
+      "sprite": "Items/shaker",
+      "cells": [
+        "XX",
+        "XX"
+      ]
+    },
+    {
+      "id": "snorkel",
+      "display_name": "Snorkel",
+      "sprite": "Items/snorkel",
+      "cells": [
+        "X.",
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "desk_lamp",
+      "display_name": "Desk lamp",
+      "sprite": "Items/desk_lamp",
+      "cells": [
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "watering_can",
+      "display_name": "Watering can",
+      "sprite": "Items/watering_can",
+      "cells": [
+        "X.",
+        "XX"
+      ]
+    },
+    {
+      "id": "poster_tube",
+      "display_name": "Rolled poster",
+      "sprite": "Items/poster_tube",
+      "cells": [
+        "XXX"
+      ]
+    },
+    {
+      "id": "camp_lantern",
+      "display_name": "Camp lantern",
+      "sprite": "Items/camp_lantern",
+      "cells": [
+        ".XX",
+        "XX.",
+        ".X."
       ]
     }
   ],
@@ -709,7 +745,7 @@
     {
       "level": 2,
       "piece": "A",
-      "art_id": "sock_long",
+      "art_id": "snorkel",
       "solution_turns": 2,
       "mirrored": true
     },
@@ -905,7 +941,7 @@
     {
       "level": 6,
       "piece": "C",
-      "art_id": "camera_case",
+      "art_id": "shaker",
       "solution_turns": 0,
       "mirrored": false
     },
@@ -1045,7 +1081,7 @@
     {
       "level": 9,
       "piece": "D",
-      "art_id": "croissant",
+      "art_id": "desk_lamp",
       "solution_turns": 1,
       "mirrored": false
     },
@@ -1059,7 +1095,7 @@
     {
       "level": 9,
       "piece": "F",
-      "art_id": "sandwich",
+      "art_id": "watering_can",
       "solution_turns": 0,
       "mirrored": false
     },
@@ -1080,7 +1116,7 @@
     {
       "level": 9,
       "piece": "I",
-      "art_id": "baguette",
+      "art_id": "poster_tube",
       "solution_turns": 0,
       "mirrored": false
     },
@@ -1157,7 +1193,7 @@
     {
       "level": 11,
       "piece": "B",
-      "art_id": "plant_f",
+      "art_id": "camp_lantern",
       "solution_turns": 0,
       "mirrored": false
     },

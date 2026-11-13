@@ -98,6 +98,10 @@ namespace PackItPerfect.UI
                 var cell = factory.Button($"Level {level}", gridRect, level.ToString(), ButtonStyle.Secondary,
                     tuning.headingFontSize * NUMBER_FONT_SHARE, () => LevelChosen?.Invoke(level));
                 UIFactory.Stretch(cell.Label.rectTransform, 8f, cellHeight * NUMBER_BOTTOM_SHARE, 8f, 0f);
+                // A locked level keeps the warm card look (the grey disabled tint made the grid look broken).
+                var palette = cell.Button.colors;
+                palette.disabledColor = new Color(0.92f, 0.88f, 0.82f, 1f);
+                cell.Button.colors = palette;
                 var stars = factory.Text("Stars", cell.Face.transform, string.Empty, tuning.smallFontSize + 4f, Color.white);
                 stars.textWrappingMode = TextWrappingModes.NoWrap;
                 var starsRect = stars.rectTransform;
@@ -156,7 +160,7 @@ namespace PackItPerfect.UI
                 }
                 if (lockIcons[i] != null) lockIcons[i].gameObject.SetActive(!unlocked);
                 giftMarkers[i].SetActive(!progress.IsPassed(level) && !progress.Rules.MilestoneReward(level).IsEmpty);
-                cells[i].Face.color = !unlocked ? new Color32(0xEE, 0xE2, 0xCC, 0xFF)
+                cells[i].Face.color = !unlocked ? new Color32(0xF7, 0xEE, 0xDC, 0xFF)
                     : level == progress.NextLevelToPlay ? new Color32(0xD1, 0xF1, 0xDF, 0xFF) : tuning.panel;
             }
         }

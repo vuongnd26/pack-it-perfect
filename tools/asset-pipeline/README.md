@@ -12,7 +12,7 @@ node tools/asset-pipeline/item-art-build.js /path/to/art-runtime /path/to/new-st
 # Review/diff staged images and catalog, then copy intended changes into Assets/Resources/Art.
 ```
 
-The generator draws the complete object in the footprint, with continuous surfaces, stitching/materials, outlines, light and shade. There is no separate coloured puzzle block below a small item icon. Shape assignments are explicit per level/letter, with context-specific food, clothing, toiletries, heavy objects, upright bottles, and paired folding poses. It verifies all 163 bindings against the current level map, allowing artwork reflection and clockwise quarter turns only. The current catalog contains 74 referenced illustrations across all 20 levels. Levels 16–20 take their assignments from `tools/level-design/cozy-assignments.json`; the original 112 bindings remain unchanged.
+The generator draws the complete object in the footprint, with continuous surfaces, stitching/materials, outlines, light and shade. There is no separate coloured puzzle block below a small item icon. Shape assignments are explicit per level/letter, with context-specific food, clothing, toiletries, heavy objects, upright bottles, and paired folding poses. It verifies all 163 bindings against the current level map, allowing artwork reflection and clockwise quarter turns only. The current catalog contains 78 referenced illustrations across all 20 levels. Every object shares one lighting model (top-left key light, bottom contact shade, rim highlight) and a material finish (cloth weave, paper grain, metal reflection or glass highlight); knitwear is drawn with cuffs, heels and toes inside the L footprints. Context swaps on 2026-11-14: snorkel (beach bag), protein shaker (gym bag), desk lamp, watering can and rolled poster (moving box), camp lantern (camping backpack). Levels 16–20 take their assignments from `tools/level-design/cozy-assignments.json`; the original 112 bindings remain unchanged.
 
 PNG import contract: Sprite/Single, FullRect, centered pivot, 128 pixels per unit, alpha transparency, no mipmaps, Bilinear/Clamp, uncompressed, non-readable. Each authored cell is 100 SVG units rendered to 128 pixels. The drawing is inset 5 SVG units around its bounding rectangle, keeping the dark stroke inside the occupied footprint. SVG stroke width is 5 units and contour rounding radius is 14 units. These are art proportions, not gameplay constants.
 
@@ -57,7 +57,7 @@ UI PNG import contract: Sprite/Single, FullRect, centered pivot, 100 pixels per 
 
 ## Tray presentation
 
-The saved SampleScene and `PackingTuning` defaults use a minimum tray width of 9 cells, a frame-to-tray gap of 0.5 cells, and slot/row spacing of 0.28 cells. The wider, closer tray reduces vertical stacking of long whole-object silhouettes. These are presentation layout values; piece footprints, start rotations, placement rules and reference solutions are unchanged.
+The tray is as wide as its pieces need for about two rows, clamped between the container width and `minTrayWidth` (9 cells, the saved SampleScene value), so small levels fill the screen. The saved SampleScene and `PackingTuning` defaults also use a frame-to-tray gap of 0.5 cells, and slot/row spacing of 0.28 cells. The wider, closer tray reduces vertical stacking of long whole-object silhouettes. These are presentation layout values; piece footprints, start rotations, placement rules and reference solutions are unchanged.
 
 ## Verification record
 
