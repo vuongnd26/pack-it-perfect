@@ -54,6 +54,8 @@ namespace PackItPerfect
         TMPro.TextMeshPro placementMark;
         GridView grid;
         TrayView tray;
+        Func<int, bool> isInTray;
+        int selectedPiece = -1;
         LidView lid;
         OutlineView outlines;
         HintGlowView hintGlow;
@@ -113,6 +115,35 @@ namespace PackItPerfect
 
         /// <summary>Raised after a level is built and shown (also on restart). Carries the level's data, rules and <see cref="LevelInfo"/>.</summary>
         public event Action<LoadedLevel> LevelLoaded;
+
+        /// <summary>Raised on load, page change and remaining-item changes; read the tray properties to refresh the pager.</summary>
+        public event Action TrayPagesChanged;
+
+        /// <summary>Raised on press/start drag and selection clear (piece id, or -1 on end, cancel, page or navigation).</summary>
+        public event Action<int> SelectedPieceChanged;
+
+        /// <summary>Zero-based visible tray page, or zero before a level loads.</summary>
+        public int TrayPage => tray != null ? tray.Page : 0;
+
+        /// <summary>Stable tray page count, or zero before a level loads.</summary>
+        public int TrayPageCount => level != null && tray != null ? tray.PageCount : 0;
+
+        /// <summary>Stable home page for a piece, or -1 for an invalid id or unloaded level.</summary>
+        public int TrayPageFor(int pieceId) => level != null && tray != null ? tray.PageFor(pieceId) : -1;
+
+        /// <summary>
+        /// Changes the visible page without history, assist or save effects. Returns true only for an actual change;
+        /// invalid/current pages and pressed, dragged, busy, locked or won states are rejected.
+        /// </summary>
+        public bool SetTrayPage(int page)
+        {
+            if (level == null || tray == null || inputLocked || busy || state != InputState.Idle) return false;
+            return ChangeTrayPage(page);
+        }
+
+        /// <summary>Illustration-aware presentation name, or empty for an invalid piece id or unloaded level.</summary>
+        public string GetPieceDisplayName(int pieceId) => level != null && pieceId >= 0 && pieceId < shapes.Length
+            ? PresentationName(pieceId) : string.Empty;
 
         /// <summary>Raised whenever the filled share of fillable cells changes, 0..1 (also 0 on level load).</summary>
         public event Action<float> FillChanged;
@@ -335,15 +366,16 @@ namespace PackItPerfect
                 return false;
             }
             ClearHistory();
+            RevealTrayPiece(hint.PieceId);
             foreach (int id in hint.Evicted)
             {
-                pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
+                pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tray.Scale, tuning.returnSeconds);
             }
             int piece = hint.PieceId;
             shapes[piece] = hint.Shape;
             var view = pieceViews[piece];
             view.SetShape(hint.Shape, 0);
-            view.PlaceAt(tray.TopLeftFor(piece, hint.Shape), tuning.trayScale);
+            view.PlaceAt(tray.TopLeftFor(piece, hint.Shape), tray.Scale);
             view.StartWobble(tuning.hintWobbleDuration, tuning.hintWobbleCycles);
             OnBoardChanged();
             hintGlow.Show(hint.TargetCells);
@@ -369,6 +401,15 @@ namespace PackItPerfect
             }
             var snapshot = history[history.Count - 1];
             history.RemoveAt(history.Count - 1);
+            // Only Undo reveals returned pieces; cancellation/assist snapshot restores must not jump pages.
+            for (int i = 0; i < snapshot.Length; i++)
+            {
+                if (board.IsPlaced(i) && !snapshot[i].placed)
+                {
+                    RevealTrayPiece(i);
+                    break;
+                }
+            }
             Restore(snapshot, tuning.returnSeconds);
             HistoryChanged?.Invoke();
             Undone?.Invoke();
@@ -409,6 +450,8 @@ namespace PackItPerfect
                 CancelPress();
             }
             inputLocked = locked;
+            if (locked) SelectPiece(-1);
+            TrayPagesChanged?.Invoke();
         }
 
         // ---------------------------------------------------------------- lifecycle
@@ -416,6 +459,7 @@ namespace PackItPerfect
         void Awake()
         {
             AppPerformance.Apply();
+            isInTray = IsPieceInTray;
             feel = GetComponent<GameFeel>();
             if (feel == null) feel = gameObject.AddComponent<GameFeel>();
             if (levelsJson == null)
@@ -494,6 +538,7 @@ namespace PackItPerfect
                 return;
             }
             CancelAutoPack();
+            SelectPiece(-1);
             int count = levelsFile.levels.Length;
             levelIndex = ((index % count) + count) % count;
             StopAllCoroutines();
@@ -538,8 +583,7 @@ namespace PackItPerfect
             grid = new GridView(factory, levelRoot, loaded, tuning, feel.Tuning);
             outlines = new OutlineView(factory, grid, loaded, tuning);
             hintGlow = new HintGlowView(factory, grid, tuning);
-            float trayWidth = TrayWidthFor(shapes, grid.FrameRect.width);
-            tray = new TrayView(shapes, grid.FrameRect.yMin - tuning.trayGap, trayWidth, tuning);
+            tray = BuildTray();
             lid = new LidView(factory, levelRoot, grid.FrameRect, data.theme, tuning);
 
             pieceViews = new PieceView[shapes.Length];
@@ -562,9 +606,10 @@ namespace PackItPerfect
                 var view = new PieceView(factory, levelRoot, $"Piece {piece.letter}",
                     LevelLoader.ParseColor(loaded.Items[i].color), SpriteFactory.ORDER_PIECE, tuning, decor);
                 view.SetShape(shapes[i], piece.startTurns);
-                view.PlaceAt(tray.TopLeftFor(i, shapes[i]), tuning.trayScale);
+                view.PlaceAt(tray.TopLeftFor(i, shapes[i]), tray.Scale);
                 view.ReduceMotion = reduceMotion;
-                view.StartPopIn(i * tuning.dealStagger, tuning.dealSeconds);
+                if (tray.IsOnVisiblePage(i)) view.StartPopIn(i * tuning.dealStagger, tuning.dealSeconds);
+                view.SetPageVisible(tray.IsOnVisiblePage(i));
                 pieceViews[i] = view;
             }
             ghost = new PieceView(factory, levelRoot, "Ghost", tuning.ghostValidColor, SpriteFactory.ORDER_GHOST, tuning);
@@ -638,18 +683,60 @@ namespace PackItPerfect
             }
         }
 
-        // Tray width: wide enough for the pieces in about two rows, never narrower than the container and never wider
-        // than the tuned maximum. A small level with a few pieces then fills the screen instead of shrinking to a
-        // nine-cell tray with empty space around it.
-        float TrayWidthFor(PieceShape[] pieces, float frameWidth)
+        bool IsPieceInTray(int id) => !board.IsPlaced(id);
+
+        void SelectPiece(int id, bool force = false)
         {
-            float total = 0f;
-            foreach (var shape in pieces) total += shape.MaxDimension * tuning.trayScale + tuning.traySlotSpacing;
-            float twoRows = Mathf.Ceil(total / 2f) + tuning.traySlotSpacing;
-            return Mathf.Clamp(twoRows, frameWidth, Mathf.Max(frameWidth, tuning.minTrayWidth));
+            if (!force && selectedPiece == id) return;
+            selectedPiece = id;
+            SelectedPieceChanged?.Invoke(id);
         }
 
-        // Fits fill bar + frame + tray inside the view; recomputed only when the screen size changes.
+        bool ChangeTrayPage(int page)
+        {
+            if (!tray.SetPage(page)) return false;
+            SelectPiece(-1);
+            RefreshPieceVisibility();
+            TrayPagesChanged?.Invoke();
+            return true;
+        }
+
+        void RevealTrayPiece(int id)
+        {
+            int page = tray.PageFor(id);
+            if (page >= 0) ChangeTrayPage(page);
+        }
+
+        void RefreshPieceVisibility()
+        {
+            if (pieceViews == null || tray == null || board == null || pieceViews.Length != board.PieceCount) return;
+            for (int i = 0; i < pieceViews.Length; i++)
+            {
+                if (pieceViews[i] == null) return; // level still being built
+                bool held = (state == InputState.Pressing || state == InputState.Dragging) && i == activePiece;
+                pieceViews[i].SetPageVisible(board.IsPlaced(i) || held || tray.IsOnVisiblePage(i));
+            }
+        }
+
+        // The tray takes the room left under the container when the container fills the screen width: its items shrink
+        // from trayScale towards trayMinScale until all of them fit on one screen.
+        TrayView BuildTray()
+        {
+            Rect content = grid.ContentRect;
+            float top = grid.FrameRect.yMin - tuning.trayGap;
+            float width = grid.FrameRect.width;
+            float usable = 1f - viewInsetTop - viewInsetBottom;
+            float usableWidth = 1f - viewInsetLeft - viewInsetRight;
+            float aspect = cam != null ? cam.aspect : (float)Screen.width / Mathf.Max(1, Screen.height);
+            float widthFitSize = (content.width / 2f / aspect + tuning.screenMargin) / usableWidth;
+            float room = widthFitSize * 2f * usable - 2f * tuning.screenMargin - (content.yMax - top);
+            float scale = TrayPagination.FitScale(shapes, width, tuning.trayMinScale, tuning.trayScale,
+                tuning.traySlotSpacing, room, tuning.traySortBySize);
+            return new TrayView(shapes, top, width, tuning, scale);
+        }
+
+        // Fits the container and the tray between the HUD bands. A new screen size or HUD height lays the tray out
+        // again; placing, returning and rotating items never does.
         void FitCamera()
         {
             var screenSize = new Vector2Int(Screen.width, Screen.height);
@@ -658,6 +745,17 @@ namespace PackItPerfect
                 return;
             }
             lastScreenSize = screenSize;
+
+            var fitted = BuildTray();
+            if (!Mathf.Approximately(fitted.Scale, tray.Scale) && pieceViews != null && state == InputState.Idle && !busy)
+            {
+                tray = fitted;
+                for (int i = 0; i < pieceViews.Length; i++)
+                {
+                    if (pieceViews[i] == null || board.IsPlaced(i)) continue;
+                    pieceViews[i].PlaceAt(tray.TopLeftFor(i, shapes[i]), tray.Scale);
+                }
+            }
 
             Rect content = grid.ContentRect;
             Rect trayBounds = tray.Bounds;
@@ -679,6 +777,8 @@ namespace PackItPerfect
             float centreY = (yMin + yMax) / 2f + (0.5f - bandCentre) * 2f * size;
             float centreX = (xMin + xMax) / 2f + (0.5f - viewInsetLeft - usableWidth / 2f) * 2f * size * cam.aspect;
             cam.transform.position = new Vector3(centreX, centreY, cam.transform.position.z);
+            float worldPerPixel = size * 2f / Mathf.Max(1, Screen.height);
+            foreach (var view in pieceViews) view.UpdateBadgeSizing(worldPerPixel);
         }
 
         // ---------------------------------------------------------------- pointer
@@ -734,13 +834,13 @@ namespace PackItPerfect
         void BeginPress(Vector2 screen)
         {
             Vector2 world = ScreenToWorld(screen);
-            int trayPiece = tray.HitTest(world, i => !board.IsPlaced(i));
+            int trayPiece = tray.HitTest(world, isInTray);
             int gridPiece = board.PieceAt(grid.WorldToCell(world));
             if (trayPiece < 0 && gridPiece == BoardModel.NO_PIECE && activePointer is Touchscreen)
             {
                 float padding = Mathf.Min(tuning.touchHitMaxCells,
                     tuning.touchHitPaddingPixels * cam.orthographicSize * 2f / Mathf.Max(1, Screen.height));
-                trayPiece = tray.HitTestExpanded(world, i => !board.IsPlaced(i), padding);
+                trayPiece = tray.HitTestExpanded(world, isInTray, padding);
             }
             if (trayPiece < 0 && gridPiece == BoardModel.NO_PIECE)
             {
@@ -751,6 +851,8 @@ namespace PackItPerfect
             pressScreen = screen;
             pressWorld = world;
             state = InputState.Pressing;
+            SelectPiece(activePiece);
+            TrayPagesChanged?.Invoke();
         }
 
         void MovePress(Vector2 screen)
@@ -804,6 +906,7 @@ namespace PackItPerfect
             ghostShown = false;
             ghost.SetVisible(false);
             state = InputState.Dragging;
+            SelectPiece(activePiece, true);
             PiecePickedUp?.Invoke(activePiece);
         }
 
@@ -848,6 +951,8 @@ namespace PackItPerfect
 
         void EndPress()
         {
+            if (!IsInteracting) return;
+            SelectPiece(-1);
             int id = activePiece;
             var view = pieceViews[id];
             if (state == InputState.Pressing)
@@ -861,10 +966,12 @@ namespace PackItPerfect
                 {
                     PushHistory(Capture());
                     board.Remove(id);
-                    view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
+                    RevealTrayPiece(id);
+                    view.GlideTo(tray.TopLeftFor(id, shapes[id]), tray.Scale, tuning.returnSeconds);
                     OnBoardChanged();
                     PieceReturned?.Invoke(id, view);
                 }
+                TrayPagesChanged?.Invoke();
                 return;
             }
             var before = dragStart;
@@ -887,25 +994,32 @@ namespace PackItPerfect
                 }
                 ToastPlacementFailure(id, failure);
             }
-            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
+            RevealTrayPiece(id);
+            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tray.Scale, tuning.returnSeconds);
             PushHistoryIfChanged(before); // a board piece dropped badly ends in the tray: Undo puts it back
             view.StartShake();
+            RefreshPieceVisibility();
+            TrayPagesChanged?.Invoke();
             InvalidAction?.Invoke();
         }
 
         // Input lock during a press: a dragged piece goes back to the tray without a shake (it was already off the board).
         void CancelPress()
         {
+            SelectPiece(-1);
             if (state == InputState.Dragging)
             {
                 var view = pieceViews[activePiece];
                 ghost.SetVisible(false);
                 view.SetSortingOrder(SpriteFactory.ORDER_PIECE);
-                view.GlideTo(tray.TopLeftFor(activePiece, shapes[activePiece]), tuning.trayScale, tuning.returnSeconds);
+                RevealTrayPiece(activePiece);
+                view.GlideTo(tray.TopLeftFor(activePiece, shapes[activePiece]), tray.Scale, tuning.returnSeconds);
                 PushHistoryIfChanged(dragStart);
                 dragStart = null;
             }
             state = InputState.Idle;
+            RefreshPieceVisibility();
+            TrayPagesChanged?.Invoke();
         }
 
         void RotateInTray(int id)
@@ -922,7 +1036,7 @@ namespace PackItPerfect
             shapes[id] = shapes[id].Rotated();
             view.TurnArtClockwise();
             view.SetShape(shapes[id]);
-            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.rotateSeconds);
+            view.GlideTo(tray.TopLeftFor(id, shapes[id]), tray.Scale, tuning.rotateSeconds);
             view.StartSpin(tuning.rotateSeconds);
             PieceRotated?.Invoke(id);
         }
@@ -1077,7 +1191,7 @@ namespace PackItPerfect
                 }
                 else
                 {
-                    view.GlideTo(tray.TopLeftFor(i, saved.shape), tuning.trayScale, glideSeconds);
+                    view.GlideTo(tray.TopLeftFor(i, saved.shape), tray.Scale, glideSeconds);
                 }
             }
             hintGlow.Clear();
@@ -1165,8 +1279,10 @@ namespace PackItPerfect
                 yield break;
             }
 
+            RevealTrayPiece(piece);
             var view = pieceViews[piece];
             view.SetShape(target.shape, target.turnsFromSolution);
+            SelectPiece(piece);
             Vector3 from = tray.TopLeftFor(piece, target.shape);
             Vector3 to = grid.CellTopLeft(target.origin);
             view.SetSortingOrder(SpriteFactory.ORDER_DRAGGED);
@@ -1178,7 +1294,7 @@ namespace PackItPerfect
                 float k = Mathf.SmoothStep(0f, 1f, t / duration);
                 // A small arc: the piece rises out of the tray, then settles into its cells.
                 var position = Vector3.Lerp(from, to, k) + Vector3.up * Mathf.Sin(k * Mathf.PI) * 0.6f;
-                view.PlaceAt(position, Mathf.Lerp(tuning.trayScale, 1f, k));
+                view.PlaceAt(position, Mathf.Lerp(tray.Scale, 1f, k));
                 yield return null;
             }
             view.SetSortingOrder(SpriteFactory.ORDER_PIECE);
@@ -1209,7 +1325,7 @@ namespace PackItPerfect
         {
             if (id == BoardModel.NO_PIECE || !board.IsPlaced(id)) return;
             board.Remove(id);
-            pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tuning.trayScale, tuning.returnSeconds);
+            pieceViews[id].GlideTo(tray.TopLeftFor(id, shapes[id]), tray.Scale, tuning.returnSeconds);
         }
 
         void CancelAutoPack()
@@ -1231,6 +1347,7 @@ namespace PackItPerfect
             autoPackStart = null;
             autoPackCoroutine = null;
             busy = false;
+            SelectPiece(-1);
             AutoPackFinished?.Invoke(placed);
             HistoryChanged?.Invoke();
         }
@@ -1241,6 +1358,8 @@ namespace PackItPerfect
             grid.SetFill(board.FillRatio);
             outlines.Refresh(board);
             FillChanged?.Invoke(board.FillRatio);
+            RefreshPieceVisibility();
+            TrayPagesChanged?.Invoke();
         }
 
         IEnumerator CloseLid(int stars)

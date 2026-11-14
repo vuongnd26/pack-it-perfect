@@ -12,7 +12,7 @@ namespace PackItPerfect
         [Header("Presentation")]
         [Tooltip("Placement, tutorial, particles and surface styling.")]
         [SerializeField] FeelTuning _tuning = new FeelTuning();
-        [Tooltip("Original procedural sound synthesis and mix.")]
+        [Tooltip("Sourced sound effects, procedural fallback tones and mix.")]
         [SerializeField] AudioTuning _audioTuning = new AudioTuning();
         [Tooltip("Initial audio preference; expose via settings UI using Muted.")]
         [SerializeField] bool _muted;

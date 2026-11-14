@@ -1,0 +1,1161 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_long",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_short",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_sport",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_travel",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_folded",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_scrunched",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_t",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Socks/3D/socks_3d.png",
+      "source_sha256": "6087c12587efdc65ddb4906227f715facf881f1f3ba4167c812ed25ffcf2ab71",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        170,
+        222
+      ],
+      "item_id": "sock_straight",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/socks.png",
+      "sha256": "0ce7a901ca4c84c7026e6b2b4517fb8d66929dfb227f1993da9080ea7733dbda"
+    },
+    {
+      "item_id": "perfume",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "perfume_upright",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "atomizer_short",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "atomizer_f",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lotion%20bottle/3D/lotion_bottle_3d.png",
+      "source_sha256": "a065d7c9d54740af0e36614c88f193f82411fcfe595f41076238f89ccd5d1b1c",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "item_id": "shampoo_pump",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/lotion_bottle.png",
+      "sha256": "5969a0f3676b31d7c9a764d133e91133755f67644ffe48c4c5a4d3c76fc57352"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lotion%20bottle/3D/lotion_bottle_3d.png",
+      "source_sha256": "a065d7c9d54740af0e36614c88f193f82411fcfe595f41076238f89ccd5d1b1c",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "item_id": "shampoo_w",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/lotion_bottle.png",
+      "sha256": "5969a0f3676b31d7c9a764d133e91133755f67644ffe48c4c5a4d3c76fc57352"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lotion%20bottle/3D/lotion_bottle_3d.png",
+      "source_sha256": "a065d7c9d54740af0e36614c88f193f82411fcfe595f41076238f89ccd5d1b1c",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "item_id": "pump_long",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/lotion_bottle.png",
+      "sha256": "5969a0f3676b31d7c9a764d133e91133755f67644ffe48c4c5a4d3c76fc57352"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lotion%20bottle/3D/lotion_bottle_3d.png",
+      "source_sha256": "a065d7c9d54740af0e36614c88f193f82411fcfe595f41076238f89ccd5d1b1c",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "item_id": "pump_t",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/lotion_bottle.png",
+      "sha256": "5969a0f3676b31d7c9a764d133e91133755f67644ffe48c4c5a4d3c76fc57352"
+    },
+    {
+      "item_id": "bottle_tall",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "thermos",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "toothpaste",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Toothbrush/3D/toothbrush_3d.png",
+      "source_sha256": "8e6a2aed26ed9f8265dde8cf739ae5d04de7dd9a71ab867c223749152cb80cfe",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        211,
+        224
+      ],
+      "item_id": "toothbrush",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/toothbrush.png",
+      "sha256": "567f04f04c911928fc318a79f2d50157c446ea2cf3a30410a58d10d195ce3166"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Jar/3D/jar_3d.png",
+      "source_sha256": "b21208b7402603f4520ce8e188b369ccafa1b8a183d268d6b70dfcb447d326be",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        179,
+        225
+      ],
+      "item_id": "jar_t",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/jar.png",
+      "sha256": "f23f63c6e2abd5c51917f92cbcde772b3d7ea4cf2c70bf577730e65e050c3176"
+    },
+    {
+      "item_id": "milk_carton",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Wine%20glass/3D/wine_glass_3d.png",
+      "source_sha256": "cb3ae7ba64b9418565e025ac58eec4c0719c03ee73e281685fca0abfcdf8c189",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        160,
+        224
+      ],
+      "item_id": "wine_glass",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/wine_glass.png",
+      "sha256": "7a87a0ab748e3779b74cba7b8148b41fedca12d321793abfa492b69c0ec616d9"
+    },
+    {
+      "item_id": "vase",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "snow_globe",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "tea_set",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Teapot/3D/teapot_3d.png",
+      "source_sha256": "2784c6fdf222b0304e9a09bb7e53f9ec8183e7dcac58cbaf79b1cfbde1455d8d",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        200
+      ],
+      "item_id": "teapot",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/teapot.png",
+      "sha256": "e6b411dc363ada6da768eeb74a78d7739b1d9d1f6ed4fd5e1750090efab6037a"
+    },
+    {
+      "item_id": "pillow_v",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "towel_p",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "hoodie_p",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Scarf/3D/scarf_3d.png",
+      "source_sha256": "f04c375910a91e6c6108837b75b5b105225638324c2c922eaf43f1ba7701a626",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        222
+      ],
+      "item_id": "scarf_s",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/scarf.png",
+      "sha256": "4e0424c9e3da7adeaccebf3ee95e6a79e87fad9dc527869b62d616687a69da81"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Scarf/3D/scarf_3d.png",
+      "source_sha256": "f04c375910a91e6c6108837b75b5b105225638324c2c922eaf43f1ba7701a626",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        222
+      ],
+      "item_id": "scarf_w",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/scarf.png",
+      "sha256": "4e0424c9e3da7adeaccebf3ee95e6a79e87fad9dc527869b62d616687a69da81"
+    },
+    {
+      "item_id": "oven_mitt",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Teddy%20bear/3D/teddy_bear_3d.png",
+      "source_sha256": "149fc51d489ec22d2054576293a1135d5c86efcd7cbc262b55cdb94d569d0a23",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        226,
+        225
+      ],
+      "item_id": "plush",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/teddy_bear.png",
+      "sha256": "d670daf7f7a279cfc47fc2d281e4dc0c3509f634d407e8888e215e7e63656588"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Teddy%20bear/3D/teddy_bear_3d.png",
+      "source_sha256": "149fc51d489ec22d2054576293a1135d5c86efcd7cbc262b55cdb94d569d0a23",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        226,
+        225
+      ],
+      "item_id": "plush_long",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/teddy_bear.png",
+      "sha256": "d670daf7f7a279cfc47fc2d281e4dc0c3509f634d407e8888e215e7e63656588"
+    },
+    {
+      "item_id": "slipper_folded",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "slipper_straight",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Running%20shoe/3D/running_shoe_3d.png",
+      "source_sha256": "33cdf4673e2a909e096dd6301ba50903e0d3507429bb4bc8e219211a825ca2c6",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        225,
+        224
+      ],
+      "item_id": "trainer",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/running_shoe.png",
+      "sha256": "8af2d20f9d3b36fdfe52dd9afb066e65d373abbfe3e4eb170f37e5be9483e726"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Running%20shoe/3D/running_shoe_3d.png",
+      "source_sha256": "33cdf4673e2a909e096dd6301ba50903e0d3507429bb4bc8e219211a825ca2c6",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        225,
+        224
+      ],
+      "item_id": "sneaker",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/running_shoe.png",
+      "sha256": "8af2d20f9d3b36fdfe52dd9afb066e65d373abbfe3e4eb170f37e5be9483e726"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Hiking%20boot/3D/hiking_boot_3d.png",
+      "source_sha256": "cdcf337be36e1430398611d610344134dc1a4ce8901b566729ad6f36683446a6",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        170
+      ],
+      "item_id": "hiking_boot",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/hiking_boot.png",
+      "sha256": "1710936e28fab366cce8ab2fb6a141875d750abd5756d7104490d0fea1aa07c0"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Billed%20cap/3D/billed_cap_3d.png",
+      "source_sha256": "c0bca67c099cd4199af0eeeebfae76721d96f84353b0020e9cd76438d6f69909",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        226,
+        151
+      ],
+      "item_id": "cap",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/billed_cap.png",
+      "sha256": "63ce2d6232e8c39990c662d0a8efeb9c34d25aa51990d6b61966d8f968cdffbf"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Headphone/3D/headphone_3d.png",
+      "source_sha256": "e7c26d433340b1706f20c733558da412cbf70b1a95048d51a80eb0ed2c0a02c9",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        207,
+        224
+      ],
+      "item_id": "headphones",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/headphone.png",
+      "sha256": "62b6909a4a90cbbe52f81aebaadd96b41f52c803d95d0072a9312e5f494d8a91"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Umbrella/3D/umbrella_3d.png",
+      "source_sha256": "2c5f9e611931a759211f0d1879a229f577936c5830ec88cbbc5626f3706e79a4",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "item_id": "umbrella",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/umbrella.png",
+      "sha256": "7f520d5d76a1e4bbfe798cce7ff473d54071e983815dd227036b09f3e28f38dd"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sandwich/3D/sandwich_3d.png",
+      "source_sha256": "1fe904d9e97d7d42e66a717ee445a58f32f7d330caa2d574fc100c324cd277c0",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        208
+      ],
+      "item_id": "sandwich",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/sandwich.png",
+      "sha256": "03d6c83ac9f80e1b9b4ccae07ace5c6e3257bcb7d7a6eb04436d6c7e82721f35"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Croissant/3D/croissant_3d.png",
+      "source_sha256": "e597c363b47377aaf24d96bce84ea47c1450b7c31ba6d4152bf344d747f16ba4",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        222,
+        224
+      ],
+      "item_id": "croissant",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/croissant.png",
+      "sha256": "32358a7a7129e85715df94d67be092c7c6f9a1a1723a19fe356027ca33fd84d1"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Shrimp/3D/shrimp_3d.png",
+      "source_sha256": "8eb4957b0e2605afc8e9798eb0ff24ef462e380e048ef9608238a9ca08307fd5",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        225,
+        214
+      ],
+      "item_id": "prawn",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/shrimp.png",
+      "sha256": "8ed296c4d452dc02e64a764e03769bcdc32e91faa0b8b6dc3f1ba1af768aff51"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Broccoli/3D/broccoli_3d.png",
+      "source_sha256": "692ef3447f34a427fee05f69581c75ed212ad702127d2e838ad63589d5151ad4",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        212,
+        224
+      ],
+      "item_id": "broccoli",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/broccoli.png",
+      "sha256": "e29b1850002863b0f8165aa4e4a0ae7ca7e49ef0b1fa206c29ae3aa2cbf5228a"
+    },
+    {
+      "item_id": "sausage",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bread/3D/bread_3d.png",
+      "source_sha256": "648d935809d028ce4b583a77a2206d11c54ff981d392703c7fb68dd5c90f0315",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        216
+      ],
+      "item_id": "baguette_v",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/bread.png",
+      "sha256": "d90afb129b6d15ac0526fa46a07cddce3e0d6df39ca1e1d7a6f869e8d8c9babf"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Baguette%20bread/3D/baguette_bread_3d.png",
+      "source_sha256": "d03898f1c2cc6638aac2d7c1bf14a26d3f3d39703d935eb0b8116be1416a5659",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        190,
+        190
+      ],
+      "item_id": "baguette",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/baguette_bread.png",
+      "sha256": "6c93ed1843fd890f040129a219c8e6bfb996ad1d0b2f6f5e87f68fc6977d206f"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Carrot/3D/carrot_3d.png",
+      "source_sha256": "add5179377b74ccfb6dc4bcf603aeb80fd8de23e1411bb63ce72db1286cea6a8",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        220
+      ],
+      "item_id": "carrot",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/carrot.png",
+      "sha256": "0c1c98aa15089166318d93deecc934d36c236eee53bcc65d8dc0a20e98dc7dba"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bell%20pepper/3D/bell_pepper_3d.png",
+      "source_sha256": "59535d7144cd2ef2f60f58f24181656abf3cc11807d4affa30f2db57f231ee72",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        208,
+        224
+      ],
+      "item_id": "pepper",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/bell_pepper.png",
+      "sha256": "f1f0b4f7da320babd173ce082471cc4ec406386123b4381de514a658a4b49722"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cheese%20wedge/3D/cheese_wedge_3d.png",
+      "source_sha256": "66966a3b1f27f802260988cde7ab2419525300e9747bcb92657c3f544e0568d7",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        200,
+        221
+      ],
+      "item_id": "cheese_u",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/cheese_wedge.png",
+      "sha256": "e65aca55afc3585ab37ec0c57d352d429450d55234c15a2696293f1fd7481e15"
+    },
+    {
+      "item_id": "leek",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Potato/3D/potato_3d.png",
+      "source_sha256": "0994a09ce69d258dedba2264ff5ef8ee4c3cffe72306f5a202fa7acf96ae1e18",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        200,
+        223
+      ],
+      "item_id": "potato_sack",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/potato.png",
+      "sha256": "8d969450426a6c58f5875691a112a01ccc88f4e1db31be743e4878714969097a"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sushi/3D/sushi_3d.png",
+      "source_sha256": "5992070c8e4af0af12643e16999606b891bfd5b49b0f8aa33e9bf9e7bba5ed68",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        225,
+        192
+      ],
+      "item_id": "sushi_roll",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/sushi.png",
+      "sha256": "8cb7e2455d7656a455c5447bc840ba3246d9f0c3880ef18fdaff20b0d9ece8c2"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cookie/3D/cookie_3d.png",
+      "source_sha256": "d3c5f5e2864d3178bf2033074c0cf679b067192fa9b5e1aa136267c7ac95d376",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "item_id": "biscuit",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/cookie.png",
+      "sha256": "0738a9abf9cc950ec5064f0e6ec1238f1628bdb1f65e13298ae664a50eead24a"
+    },
+    {
+      "item_id": "fried_egg",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bento%20box/3D/bento_box_3d.png",
+      "source_sha256": "7578704a1f66d8f5bf47c4be398bd3f33c6cbce2c3900703a3eec460994d4946",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        170
+      ],
+      "item_id": "lunchbox",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/bento_box.png",
+      "sha256": "c42666bdea278da70eebf499e9899d9a894e142377b84ea0e47166912f1d367b"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Closed%20book/3D/closed_book_3d.png",
+      "source_sha256": "77ceecd9e23d277c145b70465287bb9cd9e119cb1352d53bfb10ed3e9fdcaf70",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        176,
+        225
+      ],
+      "item_id": "book",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/closed_book.png",
+      "sha256": "a8ff35d4174dc99dd63953f7192101dd32150c6380dd39cc2318443a02fbff86"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Books/3D/books_3d.png",
+      "source_sha256": "36f75eaa1e1a849fc950f43962b447c206d96244858468240a6a81beaa97f7be",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        207
+      ],
+      "item_id": "book_stack",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/books.png",
+      "sha256": "6e6b6bc94493de4c01af82102347497a5c526203fe25b09c7b5a0b2a4e33a7c9"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Telescope/3D/telescope_3d.png",
+      "source_sha256": "b4b243dae2a73f8b3da3d6b5089494baa5ee93709497241373443dddbb490551",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        223,
+        222
+      ],
+      "item_id": "telescope",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/telescope.png",
+      "sha256": "195018457bd7a15cea3c72cb9bb517840bccbf2ad9ad9b25333ae884fbf70c4f"
+    },
+    {
+      "item_id": "powerbank",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "dumbbell",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Wrench/3D/wrench_3d.png",
+      "source_sha256": "0a87edecc4a5f6c4e7dcf19d688044fe2c1ac7402929a35ac0e269a62d56f607",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "item_id": "wrench_z",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/wrench.png",
+      "sha256": "76fae627396e0819421555f6da09b682ab42d834bfcd3ea4f3855b0d879eb3f1"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Toolbox/3D/toolbox_3d.png",
+      "source_sha256": "904e3e9b5e16bfd6473ea1303ac6a60b2100ebb2078ccfcfe4ea7598bfd21052",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        228,
+        193
+      ],
+      "item_id": "toolbox",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/toolbox.png",
+      "sha256": "09ff7df021adbb487973db2a5baf1ba4f765caa05390828056a4a0086b31f5c3"
+    },
+    {
+      "item_id": "iron_l",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "toy_drill",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/T-rex/3D/t-rex_3d.png",
+      "source_sha256": "1de0ccae0a8079e61ed36e76fe6fce4b7be760da28841265b1eee56ef02a42b7",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        208
+      ],
+      "item_id": "toy_dinosaur",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/t-rex.png",
+      "sha256": "cf8efa5c324b6b3039e5302627b6eaf5f016a5016c8c3f22f54bb5d744319794"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Mirror/3D/mirror_3d.png",
+      "source_sha256": "7d3522d8a521298bc218f106e92ca58c1241810e4d72dcd24e03cccefbf9ffd8",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        166,
+        222
+      ],
+      "item_id": "hand_mirror",
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/Items/mirror.png",
+      "sha256": "4917efe53ef1b26f88117edf8cdc96f465b0429245286852e1fe99142abfdbe8"
+    },
+    {
+      "item_id": "makeup",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "bath_brush",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "shaker",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "snorkel",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "desk_lamp",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "watering_can",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "poster_tube",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "item_id": "camp_lantern",
+      "status": "unresolved",
+      "reason": "No same-identity art selected; legacy image retained."
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Light%20bulb/3D/light_bulb_3d.png",
+      "source_sha256": "df7b09aa18301507e6fb8c279df66d9afa465b6fed3e63d2efa84dacebdbbf79",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        138,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_hint.png",
+      "sha256": "f67b0e0ffab2f5b197c1dcc907f957c9ef8b7005f165f76420bb7ade5ac0aaa5"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Luggage/3D/luggage_3d.png",
+      "source_sha256": "4af3bc650c55c2f94a95146a7e92d2c5c969324fb4e19badf977f467a497856b",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_autopack.png",
+      "sha256": "c92e83e6b4cc451ec26116e27dbfe33d47d08813ca03a32255cecfcc900fc93a"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Snowflake/3D/snowflake_3d.png",
+      "source_sha256": "82f12779eb8658ebd4bae02c8136c4588bea55cdf60536d4d88f5eb530e7cb90",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        214,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_freeze.png",
+      "sha256": "2c9208ffaee27e1506514dbd1103729efc0ab303d93563b7e8c8bed3fbff00dd"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Star/3D/star_3d.png",
+      "source_sha256": "b935cdf502b69054bc2b08e7ba4e4eaba6499564a2041dd77d6291e21bf8cfe8",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_star.png",
+      "sha256": "94ee6255e177da2c5309b1679256c2c617ba3f8676f78e3221e2a44ae87b490f"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Locked/3D/locked_3d.png",
+      "source_sha256": "8c8e9209b8420ac7caf8c94fde6586044d9b91e85728aaaf4b98c2482761ea16",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        178,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_lock.png",
+      "sha256": "3f4210efa70959e6bad87d6df6e20242071434a4c2c04d1046314b1cd787bd2b"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/House/3D/house_3d.png",
+      "source_sha256": "0279b073321551b55c86a10dc2fff5bf66c8dec895672004da43482c5a1de87c",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        216
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_home.png",
+      "sha256": "104df110f6db81d58e78b22de7b46dbd91ad3a2c4a437c47b2351991c74b4731"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Wrapped%20gift/3D/wrapped_gift_3d.png",
+      "source_sha256": "fc9c446401c9fb347f4e9f47e6023247208126047d9ec32059d5e14e127fb562",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        210,
+        223
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_chest.png",
+      "sha256": "a13d7c3a7101a83245d366520e2b984775988905337a88a5354a5cbbaa053462"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Stopwatch/3D/stopwatch_3d.png",
+      "source_sha256": "8dc8f855072855723fde9ef8d6ce5b25db19102222b4a838bceea1e442bd78cf",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        177,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_clock.png",
+      "sha256": "44755a583dbf1c6c57353e0c2dfa8c51e0391df6843450da3b62cadda85e699d"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Balance%20scale/3D/balance_scale_3d.png",
+      "source_sha256": "442cfa3f13a9052484475e388e021f248fc39d20a8a7f36b30ea70adcad0d217",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_heavy.png",
+      "sha256": "ea5bbd690614cdb1138382dde870d6a16ce82c1ac9209e4218b89a5f625635c7"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Up%20arrow/3D/up_arrow_3d.png",
+      "source_sha256": "4f01db9cddb09aaf01741dd39695aa71dff1d3871f2537e9ccfa68f8bc3047c8",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_upright.png",
+      "sha256": "b39271c7479dba67db8d3b5a9351ce1ea4de75e9eebe3432a66c6cc5d2ede35a"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Link/3D/link_3d.png",
+      "source_sha256": "5183597c8e1b092dadb3c88607c9b1405c1bea3b82219edc50caa4a8590fd8a8",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        224,
+        223
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_pair.png",
+      "sha256": "fdcbcd1db1ffb440b3524591e126149d9ef8550f51dc628f77f1107e5b5b2ff4"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Wine%20glass/3D/wine_glass_3d.png",
+      "source_sha256": "cb3ae7ba64b9418565e025ac58eec4c0719c03ee73e281685fca0abfcdf8c189",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        160,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/ui_fragile.png",
+      "sha256": "7a87a0ab748e3779b74cba7b8148b41fedca12d321793abfa492b69c0ec616d9"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Luggage/3D/luggage_3d.png",
+      "source_sha256": "4af3bc650c55c2f94a95146a7e92d2c5c969324fb4e19badf977f467a497856b",
+      "license": "MIT",
+      "source_revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "transform": "alpha bounding-box crop only; no resampling or redrawing",
+      "dimensions": [
+        144,
+        224
+      ],
+      "status": "sourced",
+      "destination": "Assets/Resources/Art/Sourced/UI/logo_luggage.png",
+      "sha256": "c92e83e6b4cc451ec26116e27dbfe33d47d08813ca03a32255cecfcc900fc93a"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-pack",
+      "entry": "PNG/Grey/Default/button_square_depth_gloss.png",
+      "archive_sha256": "a8a14a234911eb648c062622915c93e79e94e97cb7f9f375a70f6617f1174318",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/UI/piece_tile.png",
+      "sha256": "b9e1329884734f7b8802f84dafaa1f280a8ba5f0ab4b398bab4a80a0d90ddf3b"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-pack",
+      "entry": "PNG/Grey/Default/button_rectangle_depth_gloss.png",
+      "archive_sha256": "a8a14a234911eb648c062622915c93e79e94e97cb7f9f375a70f6617f1174318",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/UI/button.png",
+      "sha256": "2c87de0c067e93fdda3adcbfe6ca78c9cd35d6f524b45b2fdb4fb394f457973d"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-pack",
+      "entry": "PNG/Grey/Default/button_rectangle_flat.png",
+      "archive_sha256": "a8a14a234911eb648c062622915c93e79e94e97cb7f9f375a70f6617f1174318",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/UI/panel.png",
+      "sha256": "c91ee37858be6035143a8ae26588741e9350e5f42aed548e3ee00910092239e8"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/particle-pack",
+      "entry": "PNG (Transparent)/star_01.png",
+      "archive_sha256": "b631d4b07f7002549fdcf155f01141ad482f79f3440e4e301eed49ce5f1d8958",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/VFX/star.png",
+      "sha256": "3ba3999c944a0767677449412d306c1f230daa1743b31f929533cf77a22ecf5d"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/particle-pack",
+      "entry": "PNG (Transparent)/smoke_01.png",
+      "archive_sha256": "b631d4b07f7002549fdcf155f01141ad482f79f3440e4e301eed49ce5f1d8958",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/VFX/puff.png",
+      "sha256": "e8724c219e8d35859167fc0a7e207e13c72ccf0c29704909b9bb3d3dc71c6cf7"
+    },
+    {
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/particle-pack",
+      "entry": "PNG (Transparent)/spark_01.png",
+      "archive_sha256": "b631d4b07f7002549fdcf155f01141ad482f79f3440e4e301eed49ce5f1d8958",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Art/Sourced/VFX/spark.png",
+      "sha256": "5902da3a324cad0a4b5a88ce1e3c9cc18fee50922c358ce93d8c9f1ad7708f0a"
+    },
+    {
+      "event": "UI",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/click1.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/UI.ogg",
+      "sha256": "59175ac17cd49a68dd736285738441287636112a84a6f7ce0d89921bda5a5360"
+    },
+    {
+      "event": "Pickup",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/rollover2.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Pickup.ogg",
+      "sha256": "d0bc0fcba496d73df1da8c145e5330df75f87ab5a4f33a9b71461b006b5c338e"
+    },
+    {
+      "event": "Place",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/click3.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Place.ogg",
+      "sha256": "e3e7fc7ccd9c5cfdf77bffa05aee10d4973812076c76dc889ba2b16ea434127f"
+    },
+    {
+      "event": "Rotate",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/switch2.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Rotate.ogg",
+      "sha256": "aa8ad6e4745e87c84c24a0335e0e0f8629ccbbc474ccfd544fe07d7f3a1b2280"
+    },
+    {
+      "event": "Return",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/switch1.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Return.ogg",
+      "sha256": "efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19"
+    },
+    {
+      "event": "Undo",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/switch3.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Undo.ogg",
+      "sha256": "75d87dc60b7d29df838530af8c9e28205102234e07b5f1e849aa3d95c3922bd0"
+    },
+    {
+      "event": "Locked",
+      "status": "sourced",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "entry": "Audio/click5.ogg",
+      "archive_sha256": "946fc23a63d535d693eb31b2eabb80c8c28d6351e2186b344ceb71b2cb1d5eb6",
+      "license": "CC0-1.0",
+      "destination": "Assets/Resources/Audio/Sourced/Locked.ogg",
+      "sha256": "52d41e0bb012731bf2a391d53ffb52265ef21589c7701e66b391d5e36a65b293"
+    }
+  ]
+}

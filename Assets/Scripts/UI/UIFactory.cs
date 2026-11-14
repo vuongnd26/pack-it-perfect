@@ -236,7 +236,8 @@ namespace PackItPerfect.UI
         }
 
         /// <summary>Illustrated sprite Resources/Art/[name], or null when missing.</summary>
-        public static Sprite LoadArt(string name) => Resources.Load<Sprite>(ART_FOLDER + name);
+        public static Sprite LoadArt(string name) =>
+            Resources.Load<Sprite>(ART_FOLDER + "Sourced/UI/" + name) ?? Resources.Load<Sprite>(ART_FOLDER + name);
 
         /// <summary>
         /// Adds a full-screen illustrated background behind the other children of <paramref name="parent"/>.
@@ -328,6 +329,9 @@ namespace PackItPerfect.UI
         {
             var rect = CreateRect(name, parent);
             var label = rect.gameObject.AddComponent<TextMeshProUGUI>();
+            // Labels can be created under a hidden info row. Their Awake has not run when layout measures them.
+            label.font = TMP_Settings.defaultFontAsset;
+            if (label.font != null) label.fontSharedMaterial = label.font.material;
             label.fontSize = fontSize;
             label.color = color;
             label.fontStyle = style;

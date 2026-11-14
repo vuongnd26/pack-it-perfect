@@ -261,3 +261,13 @@ Timer giữ ~5,5–6,2 giây/món như màn 15 (75 giây / 13 món).
 - Menu có scroll và grid chọn màn thích ứng; chip luật wrap; HUD hiện phần trăm. Tùy chọn **Text & controls 100/125/150%** lưu riêng, phóng cả chữ lẫn hit area bằng canvas scale và reflow. Preview thả có `OK`/`X` ngoài màu để không chỉ dựa đỏ/xanh.
 - Catalog art: 163 bindings, 74 hình cho 20 màn; 19 icon/surface UI. Không sửa hình học hoặc timer level trong đợt UX này.
 - Preview ngang/ngắn còn thu nhỏ bàn quá mức; chưa đạt duyệt UX hoặc release-ready. Notch/safe-area mô phỏng, cảm ứng thật, performance/audio và art/feel sign-off vẫn là cổng riêng.
+
+### Readability B — bố cục mobile (14/11/2026)
+
+- Khay luôn tối đa **hai hàng**; nhiều món hơn thì thêm **trang**, chuyển bằng nút `<` `>` (không vuốt). Trang của mỗi món cố định từ lúc tải màn, xoay hay đặt món không đổi trang. Món ở trang ẩn không nhận chạm.
+- Tự mở đúng trang khi: Hint chỉ một món, Auto Pack chọn món, món bị trả về khay (chạm, thả sai, hủy kéo), Undo đưa món về khay. Đổi trang không tính là nước đi, không vào Undo, không ảnh hưởng sao hay lượt booster.
+- Camera chỉ fit bàn + khung khay hai hàng, nên đổi trang hay đặt món không làm bàn co giãn.
+- Booster dock: ô có icon, tên (42 ref px, không tự co dưới 80%), số lượt trên nền đậm trơn; khóa hiện `Lv N`. UI hẹp (cỡ chữ lớn) thì icon nằm trên tên, vẫn một hàng.
+- Dòng thông tin dưới chip luật: tên màn, hoặc tên món đang cầm kèm luật của nó bằng chữ.
+- Dấu luật trên món có cỡ tối thiểu theo pixel màn hình; không đủ chỗ thì gộp thành `+N`.
+- Art: bỏ nhiễu/chi tiết vụn, giữ nguyên silhouette và binding. Luật chơi, màn, timer không đổi.

@@ -266,7 +266,9 @@ namespace PackItPerfect
         {
             if (!art.TryGetValue(name, out var found))
             {
-                found = Resources.Load<Sprite>(ART_FOLDER + name);
+                found = name.StartsWith("ui_", System.StringComparison.Ordinal)
+                    ? Resources.Load<Sprite>(ART_FOLDER + "Sourced/UI/" + name) : null;
+                found = found != null ? found : Resources.Load<Sprite>(ART_FOLDER + name);
                 art[name] = found;
             }
             return found;

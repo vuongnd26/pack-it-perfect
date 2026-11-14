@@ -3,7 +3,8 @@
 //   Library/CozyWorkbench/request.json  {"id": 7, "action": "shot", "arg": "01-main"}
 //   Library/CozyWorkbench/result.json   {"id": 7, "ok": true, "message": "...", "playing": true, ...}
 // There is no network listener and no way to run arbitrary code or shell commands: unknown actions are refused.
-// Actions: status | clear | refresh | play | stop | level <n> | restart | hint | autopack | undo | shot <name>
+// Actions: status | clear | refresh | play | stop | level <n> | restart | hint | autopack | undo | shot <name> |
+//          apply-tuning (copies the readability tuning defaults into SampleScene's serialized tuning and saves it)
 
 using System;
 using System.Collections.Generic;
@@ -167,9 +168,61 @@ namespace PackItPerfect.EditorTools
                     return Playing().RequestUndo() ? "undone" : "nothing to undo";
                 case "shot":
                     return Shot(arg);
+                case "apply-tuning":
+                    return ApplyTuning();
                 default:
                     throw new InvalidOperationException($"Unknown action '{action}'.");
             }
+        }
+
+        const string SCENE_PATH = "Assets/Scenes/SampleScene.unity";
+        static readonly string[] PackingFields =
+        {
+            "trayScale", "traySlotSpacing", "trayGap", "screenMargin", "badgeSize", "zoneLabelSize",
+            "badgeMinimumScreenPixels", "badgeMarkerGap", "trayMinScale",
+        };
+        static readonly string[] UIFields =
+        {
+            "chipFontSize", "hudButtonSize", "hudPillHeight", "hudNameHeight", "hudNameFontSize", "chipHeight",
+            "timerPillWidth", "bottomBarMargin", "dockSpacing", "badgeSize", "badgeFontSize", "dockLabelFontSize",
+            "lockLabelFontSize", "toastFontSize", "toastHeight", "dockTileHeight", "dockTileMinWidth", "dockTileMaxWidth",
+            "dockIconSize", "dockTileCompactHeight", "badgeRise", "pagerHeight", "pagerButtonWidth", "pagerWidth", "pagerFontSize", "pagerGap",
+        };
+
+        // The scene keeps its own copy of the tuning, so new code defaults do not reach the build until they are copied
+        // here. Only the listed fields change; the values come from the classes' defaults, not from this file.
+        static string ApplyTuning()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
+            var scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();
+            if (scene.path != SCENE_PATH) throw new InvalidOperationException($"Open {SCENE_PATH} first (active: {scene.path}).");
+            if (scene.isDirty) throw new InvalidOperationException("The scene has unsaved changes; save or discard them first.");
+            var game = UnityEngine.Object.FindFirstObjectByType<PackingGame>();
+            var ui = UnityEngine.Object.FindFirstObjectByType<PackItPerfect.UI.GameUI>();
+            if (game == null || ui == null) throw new InvalidOperationException("PackingGame or GameUI missing in the scene.");
+            int changed = Copy(game, new PackingTuning(), PackingFields) + Copy(ui, new PackItPerfect.UI.UITuning(), UIFields);
+            if (changed == 0) return "tuning already current";
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
+            if (!UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Scene save failed.");
+            return $"{changed} tuning values updated and scene saved";
+        }
+
+        static int Copy(UnityEngine.Object target, object defaults, string[] fields)
+        {
+            var serialized = new SerializedObject(target);
+            int changed = 0;
+            foreach (string field in fields)
+            {
+                var property = serialized.FindProperty("tuning." + field);
+                var source = defaults.GetType().GetField(field);
+                if (property == null || source == null) throw new InvalidOperationException($"No tuning field '{field}'.");
+                float value = (float)source.GetValue(defaults);
+                if (Mathf.Approximately(property.floatValue, value)) continue;
+                property.floatValue = value;
+                changed++;
+            }
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            return changed;
         }
 
         static PackingGame Playing()

@@ -1,0 +1,1 @@
+level=15; screen=1080x2400; cellPixels=135.508; cameraSize=8.8556

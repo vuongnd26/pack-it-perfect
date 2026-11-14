@@ -23,6 +23,7 @@ namespace PackItPerfect.UI
         readonly UIButton sound;
         readonly UIButton motion;
         readonly UIButton uiSize;
+        readonly TextMeshProUGUI levelRules;
         /// <summary>Requests the next readable interface size.</summary>
         public event Action UISizeClicked;
         readonly object popKey = new object();
@@ -62,6 +63,11 @@ namespace PackItPerfect.UI
 
             var title = factory.Text("Title", card, UIStrings.PAUSED_TITLE, tuning.headingFontSize, tuning.ink, FontStyles.Bold);
             UIFactory.FixedSize(title.rectTransform, TITLE_HEIGHT);
+
+            levelRules = factory.Text("Level Rules", card, string.Empty, tuning.smallFontSize, tuning.ink,
+                FontStyles.Normal, TextAlignmentOptions.TopLeft);
+            levelRules.textWrappingMode = TextWrappingModes.Normal;
+            levelRules.gameObject.SetActive(false);
 
             ResumeButton = factory.Button("Pause Resume", card, UIStrings.RESUME, ButtonStyle.Primary, tuning.buttonFontSize + 8f,
                 () => ResumeClicked?.Invoke());
@@ -106,6 +112,31 @@ namespace PackItPerfect.UI
 
         /// <summary>True while the overlay is shown.</summary>
         public bool IsVisible => root.activeSelf;
+
+        /// <summary>Complete rule explanations derived from the current level, also available after notices fade.</summary>
+        public void BindRules(LevelData level)
+        {
+            levelRules.gameObject.SetActive(level != null);
+            if (level == null) return;
+            var lines = new System.Collections.Generic.List<string> { "Drag to pack. Tap an item to turn it." };
+            if (level.timerSeconds > 0) lines.Add("Pack every item before the timer runs out.");
+            bool heavy = false, upright = false, paired = false, fragile = false, outline = false, zoned = false;
+            foreach (var piece in level.pieces)
+            {
+                heavy |= piece.heavy; upright |= piece.upright; paired |= piece.pair >= 0;
+                fragile |= piece.fragile; outline |= piece.outline; zoned |= !string.IsNullOrEmpty(piece.zone);
+            }
+            if (zoned) lines.Add("Zones: keep each item inside its marked zone.");
+            if (heavy) lines.Add("Heavy: at least one square must touch the bottom row.");
+            if (upright) lines.Add("Upright: these items cannot be turned.");
+            if (paired) lines.Add("Pairs: matching items must touch along an edge.");
+            if (fragile) lines.Add("Fragile: do not share an edge with heavy items.");
+            if (outline) lines.Add("Outlines show where matching items fit.");
+            lines.Add("Hold an item to read its name and rules above the board.");
+            levelRules.text = TmpText.Clean(string.Join("\n", lines));
+            // TMP supplies preferred height after the scroll viewport assigns the actual width, including large UI.
+            LayoutRebuilder.MarkLayoutForRebuild(card);
+        }
 
         /// <summary>Updates the toggle labels.</summary>
         public void Refresh(bool muted, bool reduceMotion, int uiScalePercent = 100, bool shopAvailable = true)

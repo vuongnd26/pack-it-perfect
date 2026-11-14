@@ -173,26 +173,28 @@ namespace PackItPerfect
             fillBarWidth = FrameRect.width;
             fillBarHeight = tuning.fillBarHeight;
             fillBarCenterY = Mathf.Max(FrameRect.yMax + tuning.fillBarGap, attachmentTop + BAR_ABOVE_HANDLE) + fillBarHeight / 2f;
-            var barBack = factory.GetArt("bar_back");
-            var barFill = factory.GetArt("bar_fill");
-            fillBarSliced = barBack != null && barFill != null;
-            if (fillBarSliced)
+            if (tuning.showFillBar)
             {
-                factory.CreateSliced(root, "FillBarBack", barBack, new Vector2(FrameRect.center.x, fillBarCenterY),
-                    new Vector2(fillBarWidth, fillBarHeight), Color.white, SpriteFactory.ORDER_FILL_BAR);
-                fillBar = factory.CreateSliced(root, "FillBar", barFill, Vector2.zero, new Vector2(fillBarHeight, fillBarHeight),
-                    tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
-            }
-            else
-            {
-                factory.CreateQuad(root, "FillBarBack", new Vector2(FrameRect.center.x, fillBarCenterY),
-                    new Vector2(fillBarWidth, fillBarHeight), tuning.fillBarBackColor, SpriteFactory.ORDER_FILL_BAR);
-                fillBar = factory.CreateQuad(root, "FillBar", Vector2.zero, Vector2.zero, tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+                var barBack = factory.GetArt("bar_back");
+                var barFill = factory.GetArt("bar_fill");
+                fillBarSliced = barBack != null && barFill != null;
+                if (fillBarSliced)
+                {
+                    factory.CreateSliced(root, "FillBarBack", barBack, new Vector2(FrameRect.center.x, fillBarCenterY),
+                        new Vector2(fillBarWidth, fillBarHeight), Color.white, SpriteFactory.ORDER_FILL_BAR);
+                    fillBar = factory.CreateSliced(root, "FillBar", barFill, Vector2.zero, new Vector2(fillBarHeight, fillBarHeight),
+                        tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+                }
+                else
+                {
+                    factory.CreateQuad(root, "FillBarBack", new Vector2(FrameRect.center.x, fillBarCenterY),
+                        new Vector2(fillBarWidth, fillBarHeight), tuning.fillBarBackColor, SpriteFactory.ORDER_FILL_BAR);
+                    fillBar = factory.CreateQuad(root, "FillBar", Vector2.zero, Vector2.zero, tuning.fillBarColor, SpriteFactory.ORDER_FILL_BAR + 1);
+                }
             }
             SetFill(0f);
 
-            float contentTop = fillBarCenterY + fillBarHeight / 2f;
-            contentTop = Mathf.Max(contentTop, attachmentTop);
+            float contentTop = tuning.showFillBar ? Mathf.Max(fillBarCenterY + fillBarHeight / 2f, attachmentTop) : attachmentTop;
             ContentRect = new Rect(FrameRect.xMin, attachmentBottom, FrameRect.width, contentTop - attachmentBottom);
         }
 
@@ -321,6 +323,7 @@ namespace PackItPerfect
         void DrawFill(float ratio)
         {
             fillShown = ratio;
+            if (fillBar == null) return;
             float width = fillBarWidth * Mathf.Clamp01(ratio);
             if (fillBarSliced)
             {

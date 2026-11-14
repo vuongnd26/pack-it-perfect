@@ -593,6 +593,9 @@ namespace PackItPerfect.Tests
 
         Vector2 TrayGrabScreen(int piece)
         {
+            // The tray shows two rows per page: turn to the piece's page the way a player would, through the game API.
+            int page = game.TrayPageFor(piece);
+            if (page != game.TrayPage) Assert.That(game.SetTrayPage(page), Is.True, $"Could not open tray page {page}.");
             var shape = Field<PieceShape[]>(game, "shapes")[piece];
             var view = Field<PieceView[]>(game, "pieceViews")[piece];
             var first = shape.FirstCell;

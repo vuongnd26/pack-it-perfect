@@ -25,6 +25,7 @@ namespace PackItPerfect.Tests
         {
             public int id;
             public string action;
+            public string[] testNames;
         }
 
         [Serializable]
@@ -144,6 +145,7 @@ namespace PackItPerfect.Tests
                         runner.Execute(new ExecutionSettings(new Filter
                         {
                             testMode = playMode ? TestMode.PlayMode : TestMode.EditMode,
+                            testNames = request.testNames,
                             assemblyNames = new[] { playMode ? "PackItPerfect.PlayMode.Tests" : typeof(EditorVerificationBridge).Assembly.GetName().Name }
                         }));
                         return;

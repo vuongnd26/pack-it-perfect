@@ -96,6 +96,7 @@ namespace PackItPerfect.UI
         bool shopOpen;
         readonly object shopFadeKey = new object();
         bool lastInLevel;
+        readonly System.Text.StringBuilder traitBuilder = new System.Text.StringBuilder();
         bool viewInsetsDirty = true;
 
         /// <summary>The level countdown. Subscribe to <see cref="LevelTimer.WarningTick"/> to play the clock tick.</summary>
@@ -128,6 +129,7 @@ namespace PackItPerfect.UI
             game.AutoPackFinished += OnAutoPackFinished;
             game.LevelWon += OnLevelWon;
             game.LevelCompleted += OnLevelCompleted;
+            game.SelectedPieceChanged += OnSelectedPieceChanged;
 
             timer = new LevelTimer(tuning.timerWarningSeconds);
             timer.SecondTick += OnTimerSecond;
@@ -177,6 +179,7 @@ namespace PackItPerfect.UI
                 game.AutoPackFinished -= OnAutoPackFinished;
                 game.LevelWon -= OnLevelWon;
                 game.LevelCompleted -= OnLevelCompleted;
+                game.SelectedPieceChanged -= OnSelectedPieceChanged;
                 game.PointerBlocked = null;
                 game.ScreenToast = null;
             }
@@ -265,8 +268,9 @@ namespace PackItPerfect.UI
             hud.PauseClicked += OpenPause;
             hud.UndoClicked += OnUndoClicked;
             hud.BoosterClicked += OnBoosterClicked;
+            hud.RulesClicked += OpenPause;
 
-            banner = new BannerView(factory, canvasRect, tuning, animator);
+            banner = new BannerView(factory, hud.NoticeHost, tuning, animator, hud.SetNoticeVisible);
 
             pauseScreen = new PauseScreen(factory, canvasRect, tuning, animator);
             pauseScreen.ResumeClicked += ClosePause;
@@ -399,6 +403,7 @@ namespace PackItPerfect.UI
             hud.SetVisible(inLevel);
             hud.SetInteractable(next == UIState.Playing && !game.IsWon);
             hud.SetDockVisible(next == UIState.Playing);
+            hud.SetItemInfo(null);
             loseScreen.SetVisible(next == UIState.Lost);
             if (next != UIState.Won)
             {
@@ -620,6 +625,7 @@ namespace PackItPerfect.UI
             game.SetInputLocked(true);
             hud.SetInteractable(false);
             pauseScreen.Refresh(progress.Muted, progress.ReduceMotion, progress.UIScalePercent, rules.HasShop);
+            pauseScreen.BindRules(game.CurrentLevel?.Data);
             pauseScreen.Show();
             UIMotion.FadeIn(animator, overlayFadeKey, pauseScreen.Group, tuning.screenFade, tuning.reduceMotion);
             Focus(pauseScreen.ResumeButton);
@@ -747,6 +753,34 @@ namespace PackItPerfect.UI
             {
                 Used(BoosterType.AutoPack);
             }
+        }
+
+        // Names the held item and its rules in words, so the small markers on the piece are never the only explanation.
+        void OnSelectedPieceChanged(int piece)
+        {
+            if (!built) return;
+            var level = game.CurrentLevel;
+            if (piece < 0 || level == null || piece >= level.Data.pieces.Length)
+            {
+                hud.SetItemInfo(null);
+                return;
+            }
+            var data = level.Data.pieces[piece];
+            traitBuilder.Clear();
+            var zone = level.ZoneOf(piece);
+            if (zone != null) AddTrait(string.Format(UIStrings.TRAIT_ZONE_FORMAT, zone.icon, zone.name));
+            if (data.heavy) AddTrait(UIStrings.TRAIT_HEAVY);
+            if (data.fragile) AddTrait(UIStrings.TRAIT_FRAGILE);
+            if (data.upright) AddTrait(UIStrings.TRAIT_UPRIGHT);
+            if (data.pair >= 0) AddTrait(UIStrings.TRAIT_PAIR);
+            string name = game.GetPieceDisplayName(piece);
+            hud.SetItemInfo(traitBuilder.Length > 0 ? string.Format(UIStrings.ITEM_INFO_FORMAT, name, traitBuilder) : name);
+        }
+
+        void AddTrait(string trait)
+        {
+            if (traitBuilder.Length > 0) traitBuilder.Append(UIStrings.ITEM_TRAIT_SEPARATOR);
+            traitBuilder.Append(trait);
         }
 
         void OnFillChanged(float fraction)
@@ -889,7 +923,6 @@ namespace PackItPerfect.UI
                 return;
             }
             viewInsetsDirty = false;
-            banner.FitBelowHUD(hud.TopBandHeight);
             float canvasHeight = canvasRect.rect.height;
             if (canvasHeight <= 0f || Screen.height <= 0)
             {

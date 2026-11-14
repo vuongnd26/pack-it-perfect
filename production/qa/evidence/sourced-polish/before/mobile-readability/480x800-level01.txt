@@ -1,0 +1,1 @@
+level=1; screen=480x800; cellPixels=94.862; cameraSize=4.2167

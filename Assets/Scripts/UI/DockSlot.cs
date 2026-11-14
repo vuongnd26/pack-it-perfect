@@ -1,6 +1,6 @@
-// One round slot of the booster dock: icon (art or text fallback), count badge, lock overlay with "Lv N", disabled look,
-// plus bounce / badge-pop / shake feedback. Presentation only: it raises a click callback and never touches charges.
-// Implements: design/game-brief.md "Nâng cấp Cozy Travel" (booster dock).
+// One tile of the booster dock: large icon on the left, the action's name on the right at a fixed readable size, and a
+// plain high-contrast count pill on the top edge. Presentation only: it raises a click callback and never touches charges.
+// Implements: design/game-brief.md "Nâng cấp Cozy Travel" (booster dock), "Readability B" (dock tiles).
 
 using System;
 using TMPro;
@@ -9,144 +9,157 @@ using UnityEngine.UI;
 
 namespace PackItPerfect.UI
 {
-    /// <summary>A round dock button with an optional count badge and a lock overlay.</summary>
+    /// <summary>A dock tile with an optional count pill and a locked look that keeps its name readable.</summary>
     public sealed class DockSlot
     {
-        const float ICON_INSET = 24f;
-        const float LOCK_ICON_OFFSET = 16f;
-        const float LOCK_LABEL_OFFSET = -26f;
-        const float LOCK_LABEL_HEIGHT = 36f;
+        const float PADDING = 8f;
+        const float LABEL_GAP = 6f;
+        const float COMPACT_MIN_FONT_SHARE = 0.8f;
+        const float BADGE_PADDING = 22f;
+        const float BADGE_RIGHT = 6f;
+        const float LOCK_SIZE = 44f;
         const float SHAKE_CYCLES = 2f;
-        const float DISABLED_ICON_ALPHA_SHARE = 1f;
-        static readonly Color GreyBadge = new Color(0.7f, 0.7f, 0.7f, 1f);
+        const float UNUSABLE_ICON_ALPHA = 0.4f;
 
         readonly UITuning tuning;
         readonly UIAnimator animator;
         readonly RectTransform visual;
         readonly Graphic icon;
         readonly Color iconColor;
-        readonly Color faceColor;
         readonly RectTransform badge;
         readonly Image badgeImage;
-        readonly bool badgeIsArt;
         readonly TextMeshProUGUI badgeText;
-        readonly GameObject lockVeil;
-        readonly TextMeshProUGUI lockLabel;
+        readonly GameObject lockIcon;
+        readonly RectTransform lockRect;
+        bool laidOut;
         readonly object bounceKey = new object();
         readonly object shakeKey = new object();
         readonly object badgeKey = new object();
         int shownCount = -1;
         bool locked;
+        bool usable = true;
+        bool compact;
+        readonly bool hasBadge;
 
-        /// <summary>Builds the slot under <paramref name="parent"/>; a layout group places <see cref="Button"/>'s root.</summary>
+        /// <summary>Builds the tile under <paramref name="parent"/>; the owner places and sizes <see cref="Button"/>'s root.</summary>
         /// <param name="id">Button id for the click-sound hook.</param>
         /// <param name="artName">Resources/Art icon name.</param>
-        /// <param name="fallbackText">Text shown when the art is missing.</param>
+        /// <param name="name">Action name shown beside the icon.</param>
         /// <param name="hasBadge">False for Undo (unlimited, no count).</param>
         public DockSlot(UIFactory factory, Transform parent, UITuning tuning, UIAnimator animator, string id,
-            string artName, string fallbackText, bool hasBadge, Action onClick)
+            string artName, string name, bool hasBadge, Action onClick)
         {
             this.tuning = tuning;
             this.animator = animator;
-            float size = tuning.dockSlotSize;
-            Button = factory.RoundButton(id, parent, fallbackText, ButtonStyle.Secondary, tuning.dockLabelFontSize, size, onClick);
-            Button.Root.sizeDelta = new Vector2(size, size);
-            Button.Label.gameObject.SetActive(false);
+            this.hasBadge = hasBadge;
+            Button = factory.Button(id, parent, name, ButtonStyle.Secondary, tuning.dockLabelFontSize, onClick,
+                tuning.cornerRadius * 0.8f);
             visual = (RectTransform)Button.Face.transform.parent;
-            faceColor = Button.Face.color;
             var face = Button.Face.transform;
 
-            icon = factory.Icon("Icon", face, artName, fallbackText, tuning.dockLabelFontSize, tuning.ink);
-            bool illustrated = icon is Image;
-            UIFactory.Stretch(icon.rectTransform, ICON_INSET, illustrated ? tuning.dockLabelFontSize + 12f : ICON_INSET,
-                ICON_INSET, ICON_INSET);
+            icon = factory.Icon("Icon", face, artName, string.Empty, tuning.dockLabelFontSize, tuning.ink);
             iconColor = icon.color;
-            // Names stay visible even when the icon exists; fallback text already supplies the name otherwise.
-            if (illustrated)
-            {
-                Button.Label.gameObject.SetActive(true);
-                UIFactory.TopStrip(Button.Label.rectTransform, size - tuning.buttonShadowDepth - tuning.dockLabelFontSize - 8f,
-                    tuning.dockLabelFontSize + 4f, 4f);
-                Button.Label.fontSizeMin = tuning.dockLabelFontSize;
-                Button.Label.fontSizeMax = tuning.dockLabelFontSize;
-            }
 
-            float radius = Mathf.Max(1f, (size - tuning.buttonShadowDepth) / 2f);
-            if (hasBadge)
-            {
-                var art = factory.Art("Badge", face, "ui_badge");
-                badgeIsArt = art != null;
-                badgeImage = art != null ? art : factory.Panel("Badge", face, tuning.badgeColor, tuning.badgeSize / 2f);
-                badge = badgeImage.rectTransform;
-                UIFactory.Place(badge, Vector2.one, tuning.badgeOffset, new Vector2(tuning.badgeSize, tuning.badgeSize));
-                badge.pivot = new Vector2(0.5f, 0.5f);
-                badge.anchoredPosition = new Vector2(tuning.badgeOffset.x - tuning.badgeSize / 2f,
-                    tuning.badgeOffset.y - tuning.badgeSize / 2f);
-                badgeText = factory.Text("Count", badge, string.Empty, tuning.badgeFontSize,
-                    badgeIsArt ? tuning.ink : Color.white, FontStyles.Bold);
-                badgeText.textWrappingMode = TextWrappingModes.NoWrap;
-                badgeText.enableAutoSizing = true;
-                badgeText.fontSizeMax = tuning.badgeFontSize;
-                badgeText.fontSizeMin = tuning.badgeFontSize * 0.6f;
-                UIFactory.Stretch(badgeText.rectTransform, 4f, 0f, 4f, 0f);
-            }
+            // The name never auto-shrinks: it wraps to a second line ("Auto Pack") instead.
+            var label = Button.Label;
+            label.enableAutoSizing = false;
+            label.fontSize = tuning.dockLabelFontSize;
+            label.textWrappingMode = TextWrappingModes.Normal;
+            label.overflowMode = TextOverflowModes.Overflow;
+            label.lineSpacing = -26f;
 
-            var veil = factory.Panel("Lock Veil", face, tuning.dockLockVeil, radius);
-            UIFactory.Stretch(veil.rectTransform);
-            lockVeil = veil.gameObject;
-            var lockArt = factory.Art("Lock Icon", veil.transform, "ui_lock");
+            var lockArt = factory.Art("Lock", face, "ui_lock");
             if (lockArt != null)
             {
-                UIFactory.Place(lockArt.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, LOCK_ICON_OFFSET),
-                    Vector2.one * tuning.lockIconSize);
-                lockArt.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                lockRect = lockArt.rectTransform;
+                lockIcon = lockArt.gameObject;
+                lockIcon.SetActive(false);
             }
-            lockLabel = factory.Text("Lock Level", veil.transform, string.Empty, tuning.lockLabelFontSize, Color.white, FontStyles.Bold);
-            lockLabel.textWrappingMode = TextWrappingModes.NoWrap;
-            UIFactory.Place(lockLabel.rectTransform, new Vector2(0.5f, 0.5f),
-                new Vector2(0f, lockArt != null ? LOCK_LABEL_OFFSET : 0f), new Vector2(size, LOCK_LABEL_HEIGHT));
-            lockLabel.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            lockVeil.SetActive(false);
+
+            if (hasBadge)
+            {
+                // Sits on the root, not the face, so the pressed tint and the unusable look never dim the number.
+                badgeImage = factory.Panel("Badge", Button.Root, tuning.ink, tuning.badgeSize / 2f);
+                badge = badgeImage.rectTransform;
+                badge.anchorMin = badge.anchorMax = new Vector2(1f, 1f);
+                badge.pivot = new Vector2(1f, 1f);
+                badge.anchoredPosition = new Vector2(BADGE_RIGHT, tuning.badgeRise);
+                badgeText = factory.Text("Count", badge, string.Empty, tuning.badgeFontSize, Color.white, FontStyles.Bold);
+                badgeText.textWrappingMode = TextWrappingModes.NoWrap;
+                UIFactory.Stretch(badgeText.rectTransform);
+            }
+            SetCompact(false);
         }
 
-        /// <summary>The slot's button (focus target).</summary>
+        /// <summary>
+        /// Wide tiles put the name beside the icon; compact tiles (four narrow columns at a large UI size) put the icon
+        /// above the name, so the dock stays one row instead of doubling its height.
+        /// </summary>
+        public void SetCompact(bool isCompact)
+        {
+            if (laidOut && compact == isCompact) return;
+            laidOut = true;
+            compact = isCompact;
+            var label = Button.Label;
+            float badgeClearance = hasBadge ? Mathf.Max(0f, tuning.badgeSize - tuning.badgeRise - 30f) : 0f;
+            if (compact)
+            {
+                UIFactory.Place(icon.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -PADDING), Vector2.one * tuning.dockIconSize);
+                label.alignment = TextAlignmentOptions.Center;
+                label.enableAutoSizing = true;
+                label.fontSizeMax = tuning.dockLabelFontSize;
+                label.fontSizeMin = tuning.dockLabelFontSize * COMPACT_MIN_FONT_SHARE;
+                UIFactory.Stretch(label.rectTransform, 4f, 0f, 4f, PADDING + tuning.dockIconSize);
+                if (lockRect != null)
+                    UIFactory.Place(lockRect, new Vector2(0f, 1f), new Vector2(PADDING, -PADDING), Vector2.one * LOCK_SIZE);
+            }
+            else
+            {
+                UIFactory.Place(icon.rectTransform, new Vector2(0f, 0.5f), new Vector2(PADDING, 0f), Vector2.one * tuning.dockIconSize);
+                label.alignment = TextAlignmentOptions.Left;
+                // Full size whenever the words fit on one or two lines; a slightly narrower tile (tall phones) may
+                // shrink a long single word a little rather than break it mid-word.
+                label.enableAutoSizing = true;
+                label.fontSizeMax = tuning.dockLabelFontSize;
+                label.fontSizeMin = tuning.dockLabelFontSize * COMPACT_MIN_FONT_SHARE;
+                UIFactory.Stretch(label.rectTransform, PADDING + tuning.dockIconSize + LABEL_GAP, 0f, PADDING, badgeClearance);
+                if (lockRect != null)
+                    UIFactory.Place(lockRect, new Vector2(0f, 0f), new Vector2(2f, 2f), Vector2.one * LOCK_SIZE);
+            }
+        }
+
+        /// <summary>The tile's button (focus target).</summary>
         public UIButton Button { get; }
 
-        /// <summary>Shows or hides the slot (a layout group recentres the rest).</summary>
+        /// <summary>Shows or hides the tile (the dock lays the rest out again).</summary>
         public void SetVisible(bool visible) => Button.Root.gameObject.SetActive(visible);
 
-        /// <summary>True while the slot is shown.</summary>
+        /// <summary>True while the tile is shown.</summary>
         public bool IsVisible => Button.Root.gameObject.activeSelf;
 
-        /// <summary>Shows the lock overlay with "Lv N" (the level whose first clear opens it), or removes it.</summary>
+        /// <summary>Locked: a padlock on the icon and "Lv N" in the pill (the level whose first clear opens it). The name stays.</summary>
         public void SetLocked(bool isLocked, int unlockLevel)
         {
             locked = isLocked;
-            // The lock explanation replaces the action label instead of drawing both on top of each other.
-            Button.Label.gameObject.SetActive(!isLocked && icon is Image);
-            lockVeil.SetActive(isLocked);
-            if (isLocked)
+            if (lockIcon != null) lockIcon.SetActive(isLocked);
+            if (isLocked && badge != null)
             {
-                lockLabel.text = TmpText.Clean(string.Format(UIStrings.LOCK_LEVEL_FORMAT, unlockLevel));
+                shownCount = -1;
+                SetBadge(string.Format(UIStrings.LOCK_LEVEL_FORMAT, unlockLevel), tuning.badgeEmptyColor);
             }
-            if (badge != null)
-            {
-                badge.gameObject.SetActive(!isLocked);
-            }
+            ApplyLook();
         }
 
-        /// <summary>Updates the count badge; pops it when the number changes after the first set.</summary>
+        /// <summary>Updates the count pill; pops it when the number changes after the first set.</summary>
         public void SetCount(int count)
         {
-            if (badge == null || count == shownCount)
+            if (badge == null || locked || count == shownCount)
             {
                 return;
             }
             bool animate = shownCount >= 0 && !tuning.reduceMotion;
             shownCount = count;
-            badgeText.text = TmpText.Clean(count > 99 ? UIStrings.BADGE_OVERFLOW : count.ToString());
-            badgeImage.color = count > 0 ? (badgeIsArt ? Color.white : tuning.badgeColor)
-                : (badgeIsArt ? GreyBadge : tuning.badgeEmptyColor);
+            SetBadge(count > 99 ? UIStrings.BADGE_OVERFLOW : count.ToString(), count > 0 ? tuning.ink : tuning.badgeEmptyColor);
             if (animate)
             {
                 UIMotion.Pop(animator, badgeKey, badge, 0f, tuning.badgePopDuration, tuning.badgePopStart, false);
@@ -158,15 +171,29 @@ namespace PackItPerfect.UI
             }
         }
 
-        /// <summary>Normal look when usable, dimmed when not (the button still accepts taps to explain why).</summary>
-        public void SetUsable(bool usable)
+        void SetBadge(string text, Color color)
         {
-            bool dim = !usable && !locked;
-            Button.Face.color = dim ? Multiply(faceColor, tuning.dockDisabledTint) : faceColor;
-            icon.color = dim ? Multiply(iconColor, tuning.dockDisabledTint) : iconColor;
+            badgeText.text = TmpText.Clean(text);
+            badgeImage.color = color;
+            // The pill grows with its text; the number itself never shrinks.
+            float width = Mathf.Max(tuning.badgeSize, badgeText.GetPreferredValues(badgeText.text).x + BADGE_PADDING * 2f);
+            badge.sizeDelta = new Vector2(width, tuning.badgeSize);
         }
 
-        /// <summary>Quick scale bounce after the slot's action ran. Skipped under reduced motion.</summary>
+        /// <summary>Normal look when usable; a faded icon when not. Name and count stay at full contrast either way.</summary>
+        public void SetUsable(bool isUsable)
+        {
+            usable = isUsable;
+            ApplyLook();
+        }
+
+        void ApplyLook()
+        {
+            bool faded = locked || !usable;
+            icon.color = faded ? new Color(iconColor.r, iconColor.g, iconColor.b, iconColor.a * UNUSABLE_ICON_ALPHA) : iconColor;
+        }
+
+        /// <summary>Quick scale bounce after the tile's action ran. Skipped under reduced motion.</summary>
         public void PlayUse()
         {
             if (tuning.reduceMotion)
@@ -205,7 +232,5 @@ namespace PackItPerfect.UI
             visual.anchoredPosition = Vector2.zero;
             if (badge != null) badge.localScale = Vector3.one;
         }
-
-        static Color Multiply(Color a, Color b) => new Color(a.r * b.r, a.g * b.g, a.b * b.b, a.a * b.a * DISABLED_ICON_ALPHA_SHARE);
     }
 }

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="20" result="Failed(Child)" total="20" passed="19" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:01:05Z" duration="57.2100139">
+  <test-suite type="TestSuite" id="1190" name="Pack It Perfect" fullname="Pack It Perfect" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:01:05Z" duration="57.210014" total="20" passed="19" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1214" name="PackItPerfect.PlayMode.Tests.dll" fullname="/home/vuongnd/Workspace/pack-it-perfect/Library/ScriptAssemblies/PackItPerfect.PlayMode.Tests.dll" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:01:05Z" duration="57.207947" total="20" passed="19" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="47142" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1215" name="PackItPerfect" fullname="PackItPerfect" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:01:05Z" duration="57.202346" total="20" passed="19" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1216" name="Tests" fullname="PackItPerfect.Tests" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:01:05Z" duration="57.194431" total="20" passed="19" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1191" name="MobileReadabilityTests" fullname="PackItPerfect.Tests.MobileReadabilityTests" classname="PackItPerfect.Tests.MobileReadabilityTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:00:09Z" duration="1.682602" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1192" name="CrowdedLevels_ReadabilityBaseline_RetainsRenderedMetrics" fullname="PackItPerfect.Tests.MobileReadabilityTests.CrowdedLevels_ReadabilityBaseline_RetainsRenderedMetrics" methodname="CrowdedLevels_ReadabilityBaseline_RetainsRenderedMetrics" classname="PackItPerfect.Tests.MobileReadabilityTests" runstate="Runnable" seed="1103784960" result="Passed" start-time="2026-11-14 04:00:07Z" end-time="2026-11-14 04:00:09Z" duration="1.342420" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 15 "World tour suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 15 "World tour suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+]]></output>
+            </test-case>
+            <test-case id="1193" name="UnlockedDock_SmallPortrait_NameAndCountMeetRenderedFontFloor" fullname="PackItPerfect.Tests.MobileReadabilityTests.UnlockedDock_SmallPortrait_NameAndCountMeetRenderedFontFloor" methodname="UnlockedDock_SmallPortrait_NameAndCountMeetRenderedFontFloor" classname="PackItPerfect.Tests.MobileReadabilityTests" runstate="Runnable" seed="708832569" result="Failed" start-time="2026-11-14 04:00:09Z" end-time="2026-11-14 04:00:09Z" duration="0.331099" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  HUD Hint
+  Expected: not null
+  But was:  null
+]]></message>
+                <stack-trace><![CDATA[at PackItPerfect.Tests.MobileReadabilityTests+<UnlockedDock_SmallPortrait_NameAndCountMeetRenderedFontFloor>d__14.MoveNext () [0x00110] in /home/vuongnd/Workspace/pack-it-perfect/Assets/Tests/PlayMode/MobileReadabilityTests.cs:111
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__8.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@ba1d06c8c02f/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:52
+]]></stack-trace>
+              </failure>
+              <output><![CDATA[PackingGame: loaded level 20 "Grand voyage trunk"
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1194" name="PackingFlowTests" fullname="PackItPerfect.Tests.PackingFlowTests" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-11-14 04:00:09Z" end-time="2026-11-14 04:01:04Z" duration="54.543098" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1195" name="AllTwentyLevels_ControllerDragReplay_WinsWithoutAssists" fullname="PackItPerfect.Tests.PackingFlowTests.AllTwentyLevels_ControllerDragReplay_WinsWithoutAssists" methodname="AllTwentyLevels_ControllerDragReplay_WinsWithoutAssists" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1051475058" result="Passed" start-time="2026-11-14 04:00:09Z" end-time="2026-11-14 04:00:41Z" duration="31.500254" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 2 "Beach bag"
+PackingGame: loaded level 3 "Bento box"
+PackingGame: loaded level 4 "Fridge shelf"
+PackingGame: loaded level 5 "Car trunk"
+PackingGame: loaded level 6 "Gym bag"
+PackingGame: loaded level 7 "Picnic basket"
+PackingGame: loaded level 8 "Wardrobe drawer"
+PackingGame: loaded level 9 "Moving box"
+PackingGame: loaded level 10 "Holiday suitcase"
+PackingGame: loaded level 11 "Camping backpack"
+PackingGame: loaded level 12 "Grocery bag"
+PackingGame: loaded level 13 "Bathroom cabinet"
+PackingGame: loaded level 14 "Road trip trunk"
+PackingGame: loaded level 15 "World tour suitcase"
+PackingGame: loaded level 16 "Gift hamper"
+PackingGame: loaded level 17 "Housewarming crate"
+PackingGame: loaded level 18 "Honeymoon suitcase"
+PackingGame: loaded level 19 "Antique market box"
+PackingGame: loaded level 20 "Grand voyage trunk"
+]]></output>
+            </test-case>
+            <test-case id="1204" name="ApplicationPause_LocksInputAndPreservesClockUntilExplicitResume" fullname="PackItPerfect.Tests.PackingFlowTests.ApplicationPause_LocksInputAndPreservesClockUntilExplicitResume" methodname="ApplicationPause_LocksInputAndPreservesClockUntilExplicitResume" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1859029461" result="Passed" start-time="2026-11-14 04:00:41Z" end-time="2026-11-14 04:00:41Z" duration="0.102546" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 5 "Car trunk"
+]]></output>
+            </test-case>
+            <test-case id="1200" name="ArtShowcase_PhoneResolution_RetainsLevelCaptures" fullname="PackItPerfect.Tests.PackingFlowTests.ArtShowcase_PhoneResolution_RetainsLevelCaptures" methodname="ArtShowcase_PhoneResolution_RetainsLevelCaptures" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="116091267" result="Passed" start-time="2026-11-14 04:00:41Z" end-time="2026-11-14 04:00:42Z" duration="1.674403" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 2 "Beach bag"
+PackingGame: loaded level 3 "Bento box"
+PackingGame: loaded level 6 "Gym bag"
+PackingGame: loaded level 9 "Moving box"
+PackingGame: loaded level 11 "Camping backpack"
+PackingGame: loaded level 12 "Grocery bag"
+PackingGame: loaded level 14 "Road trip trunk"
+PackingGame: loaded level 15 "World tour suitcase"
+PackingGame: loaded level 18 "Honeymoon suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+]]></output>
+            </test-case>
+            <test-case id="1202" name="AutoPack_CancelledDuringFlight_PreservesShapeAndCompletesOnce" fullname="PackItPerfect.Tests.PackingFlowTests.AutoPack_CancelledDuringFlight_PreservesShapeAndCompletesOnce" methodname="AutoPack_CancelledDuringFlight_PreservesShapeAndCompletesOnce" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1210193643" result="Passed" start-time="2026-11-14 04:00:42Z" end-time="2026-11-14 04:00:43Z" duration="0.098410" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 2 "Beach bag"
+]]></output>
+            </test-case>
+            <test-case id="1205" name="AutoPack_CancelWithPlacedPiece_PreservesPlacementAndUndo" fullname="PackItPerfect.Tests.PackingFlowTests.AutoPack_CancelWithPlacedPiece_PreservesPlacementAndUndo" methodname="AutoPack_CancelWithPlacedPiece_PreservesPlacementAndUndo" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1118031729" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.082382" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 2 "Beach bag"
+]]></output>
+            </test-case>
+            <test-case id="1207" name="AutoPack_ImmediateUICompletion_ConsumesExactlyOneCharge" fullname="PackItPerfect.Tests.PackingFlowTests.AutoPack_ImmediateUICompletion_ConsumesExactlyOneCharge" methodname="AutoPack_ImmediateUICompletion_ConsumesExactlyOneCharge" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="125738989" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.105953" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+]]></output>
+            </test-case>
+            <test-case id="1206" name="AutoPack_NavigationDuringFlight_DoesNotCommitIntoReplacementLevel" fullname="PackItPerfect.Tests.PackingFlowTests.AutoPack_NavigationDuringFlight_DoesNotCommitIntoReplacementLevel" methodname="AutoPack_NavigationDuringFlight_DoesNotCommitIntoReplacementLevel" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="59569426" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.087818" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 2 "Beach bag"
+PackingGame: loaded level 3 "Bento box"
+]]></output>
+            </test-case>
+            <test-case id="1201" name="AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged" fullname="PackItPerfect.Tests.PackingFlowTests.AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged" methodname="AutoPack_SearchBudgetExhausted_LeavesBoardAndAssistStateUnchanged" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1332513000" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.080009" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+]]></output>
+            </test-case>
+            <test-case id="1203" name="CombinedPlacementFailure_ShowsHighestPriorityRule" fullname="PackItPerfect.Tests.PackingFlowTests.CombinedPlacementFailure_ShowsHighestPriorityRule" methodname="CombinedPlacementFailure_ShowsHighestPriorityRule" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1487935666" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.079528" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 16 "Gift hamper"
+]]></output>
+            </test-case>
+            <test-case id="1208" name="ConfigureSaveStore_AfterInitialization_RejectsReplacement" fullname="PackItPerfect.Tests.PackingFlowTests.ConfigureSaveStore_AfterInitialization_RejectsReplacement" methodname="ConfigureSaveStore_AfterInitialization_RejectsReplacement" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1660173103" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:43Z" duration="0.093337" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1210" name="FirstWin_LargeUI_KeepsContinueButtonInsideViewport" fullname="PackItPerfect.Tests.PackingFlowTests.FirstWin_LargeUI_KeepsContinueButtonInsideViewport" methodname="FirstWin_LargeUI_KeepsContinueButtonInsideViewport" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1520287118" result="Passed" start-time="2026-11-14 04:00:43Z" end-time="2026-11-14 04:00:45Z" duration="1.845512" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+]]></output>
+            </test-case>
+            <test-case id="1196" name="FullMotionAndSound_PlayThroughLevel_SettlesOnRestPoseAndCuesEveryStar" fullname="PackItPerfect.Tests.PackingFlowTests.FullMotionAndSound_PlayThroughLevel_SettlesOnRestPoseAndCuesEveryStar" methodname="FullMotionAndSound_PlayThroughLevel_SettlesOnRestPoseAndCuesEveryStar" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1545593977" result="Passed" start-time="2026-11-14 04:00:45Z" end-time="2026-11-14 04:00:48Z" duration="3.158061" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+]]></output>
+            </test-case>
+            <test-case id="1209" name="MobileScreens_ResolutionMatrix_RetainsIsolatedRuntimeCaptures" fullname="PackItPerfect.Tests.PackingFlowTests.MobileScreens_ResolutionMatrix_RetainsIsolatedRuntimeCaptures" methodname="MobileScreens_ResolutionMatrix_RetainsIsolatedRuntimeCaptures" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="234686387" result="Passed" start-time="2026-11-14 04:00:48Z" end-time="2026-11-14 04:01:02Z" duration="13.901279" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 1 "Weekend suitcase"
+]]></output>
+            </test-case>
+            <test-case id="1211" name="SafeArea_ChangesWithoutResolution_RefitsBoardAndHUD" fullname="PackItPerfect.Tests.PackingFlowTests.SafeArea_ChangesWithoutResolution_RefitsBoardAndHUD" methodname="SafeArea_ChangesWithoutResolution_RefitsBoardAndHUD" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1240087285" result="Passed" start-time="2026-11-14 04:01:02Z" end-time="2026-11-14 04:01:02Z" duration="0.357461" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 20 "Grand voyage trunk"
+]]></output>
+            </test-case>
+            <test-case id="1197" name="Shop_BuyFromMainScreen_SpendsStarsAndCloseReturnsToMain" fullname="PackItPerfect.Tests.PackingFlowTests.Shop_BuyFromMainScreen_SpendsStarsAndCloseReturnsToMain" methodname="Shop_BuyFromMainScreen_SpendsStarsAndCloseReturnsToMain" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1516055583" result="Passed" start-time="2026-11-14 04:01:02Z" end-time="2026-11-14 04:01:02Z" duration="0.165212" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1199" name="Shop_LargeUIOnSmallScreens_KeepsEveryButtonInsideViewport" fullname="PackItPerfect.Tests.PackingFlowTests.Shop_LargeUIOnSmallScreens_KeepsEveryButtonInsideViewport" methodname="Shop_LargeUIOnSmallScreens_KeepsEveryButtonInsideViewport" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="1292221603" result="Passed" start-time="2026-11-14 04:01:02Z" end-time="2026-11-14 04:01:04Z" duration="1.124156" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1198" name="Shop_TooFewStarsOrLocked_RefusesAndKeepsBalance" fullname="PackItPerfect.Tests.PackingFlowTests.Shop_TooFewStarsOrLocked_RefusesAndKeepsBalance" methodname="Shop_TooFewStarsOrLocked_RefusesAndKeepsBalance" classname="PackItPerfect.Tests.PackingFlowTests" runstate="Runnable" seed="377783713" result="Passed" start-time="2026-11-14 04:01:04Z" end-time="2026-11-14 04:01:04Z" duration="0.081103" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1212" name="PerformanceBudgetTests" fullname="PackItPerfect.Tests.PerformanceBudgetTests" classname="PackItPerfect.Tests.PerformanceBudgetTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-14 04:01:04Z" end-time="2026-11-14 04:01:05Z" duration="0.958435" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1213" name="Gameplay_IdleDragAndLoad_StaysWithinBudgetAndWritesReport" fullname="PackItPerfect.Tests.PerformanceBudgetTests.Gameplay_IdleDragAndLoad_StaysWithinBudgetAndWritesReport" methodname="Gameplay_IdleDragAndLoad_StaysWithinBudgetAndWritesReport" classname="PackItPerfect.Tests.PerformanceBudgetTests" runstate="Runnable" seed="1454664266" result="Passed" start-time="2026-11-14 04:01:04Z" end-time="2026-11-14 04:01:05Z" duration="0.955452" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[PackingGame: loaded level 1 "Weekend suitcase"
+PackingGame: loaded level 10 "Holiday suitcase"
+PackingGame: loaded level 20 "Grand voyage trunk"
+PackingGame: loaded level 10 "Holiday suitcase"
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /home/vuongnd/.config/unity3d/DefaultCompany/Pack It Perfect/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

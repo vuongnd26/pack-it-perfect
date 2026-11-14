@@ -20,6 +20,8 @@ namespace PackItPerfect
         public int SolutionTurns { get; }
         /// <summary>Reflect the authored illustration horizontally before rotating it.</summary>
         public bool Mirrored { get; }
+        /// <summary>Natural sourced illustration displayed on a cell-shaped base instead of a silhouette illustration.</summary>
+        public bool OnTile { get; internal set; }
 
         internal PieceArt(Sprite sprite, string displayName, PieceShape shape, int solutionTurns, bool mirrored)
         {
@@ -53,6 +55,7 @@ namespace PackItPerfect
         {
             public int level;
             public string spriteName;
+            public string sourcedSpriteName;
             public string displayName;
             public PieceShape shape;
             public int solutionTurns;
@@ -76,6 +79,7 @@ namespace PackItPerfect
             public string id;
             public string display_name;
             public string sprite;
+            public string sourced_sprite;
             public string[] cells;
         }
         [Serializable] sealed class BindingDto
@@ -112,6 +116,7 @@ namespace PackItPerfect
                 {
                     level = binding.level,
                     spriteName = item.sprite,
+                    sourcedSpriteName = item.sourced_sprite,
                     displayName = item.display_name,
                     shape = PieceShape.FromCells(cells),
                     solutionTurns = binding.solution_turns,
@@ -125,14 +130,17 @@ namespace PackItPerfect
         {
             if (!bindings.TryGetValue(Key(levelNumber, pieceLetter), out var binding) || binding.missing) return null;
             if (binding.art != null) return binding.art;
-            var sprite = factory.GetArt(binding.spriteName);
+            var sprite = string.IsNullOrEmpty(binding.sourcedSpriteName) ? null : factory.GetArt(binding.sourcedSpriteName);
+            bool onTile = sprite != null;
+            if (sprite == null) sprite = factory.GetArt(binding.spriteName);
             if (sprite == null)
             {
                 binding.missing = true;
                 Debug.LogError($"PieceArtCatalog: missing illustrated object {binding.spriteName}.");
                 return null;
             }
-            binding.art = new PieceArt(sprite, binding.displayName, binding.shape, binding.solutionTurns, binding.mirrored);
+            binding.art = new PieceArt(sprite, binding.displayName, binding.shape, binding.solutionTurns, binding.mirrored)
+                { OnTile = onTile };
             return binding.art;
         }
 
@@ -145,13 +153,17 @@ namespace PackItPerfect
             var keep = new HashSet<string>();
             foreach (var binding in bindings.Values)
             {
-                if (binding.level == levelNumber) keep.Add(binding.spriteName);
+                if (binding.level != levelNumber) continue;
+                keep.Add(binding.spriteName);
+                if (!string.IsNullOrEmpty(binding.sourcedSpriteName)) keep.Add(binding.sourcedSpriteName);
             }
             foreach (var binding in bindings.Values)
             {
                 if (binding.level == levelNumber || binding.art == null) continue;
                 binding.art = null;
                 if (!keep.Contains(binding.spriteName)) factory.ForgetArt(binding.spriteName);
+                if (!string.IsNullOrEmpty(binding.sourcedSpriteName) && !keep.Contains(binding.sourcedSpriteName))
+                    factory.ForgetArt(binding.sourcedSpriteName);
             }
         }
 

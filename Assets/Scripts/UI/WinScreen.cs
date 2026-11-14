@@ -18,7 +18,14 @@ namespace PackItPerfect.UI
     {
         const int CARD_PADDING = 40;
         const float CARD_SPACING = 14f;
-        const float TITLE_HEIGHT = 120f;
+        const float TITLE_HEIGHT = 150f;
+        // The ribbon art is 5:1; its flat face is the middle 66% of the width and 58% of the height, a little above centre.
+        const float RIBBON_ASPECT = 5f;
+        const float RIBBON_FACE_WIDTH = 0.66f;
+        const float RIBBON_FACE_HEIGHT = 0.58f;
+        const float RIBBON_FACE_RISE = 0.07f;
+        const float TITLE_MAX_FONT = 70f;
+        const float TITLE_MIN_FONT = 34f;
         const float NAME_HEIGHT = 50f;
         const float NOTE_HEIGHT = 40f;
         const float END_BODY_HEIGHT = 110f;
@@ -118,7 +125,12 @@ namespace PackItPerfect.UI
             }
             title = factory.Text("Title", titleBlock, UIStrings.WIN_TITLE, tuning.headingFontSize, tuning.ink, FontStyles.Bold);
             title.textWrappingMode = TextWrappingModes.NoWrap;
-            UIFactory.Stretch(title.rectTransform);
+            // Keep the words on the ribbon's face: sized to it, and shrinking for the longer end-of-game title.
+            title.enableAutoSizing = true;
+            title.fontSizeMax = Mathf.Min(tuning.headingFontSize, TITLE_MAX_FONT);
+            title.fontSizeMin = TITLE_MIN_FONT;
+            UIFactory.Place(title.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, TITLE_HEIGHT * RIBBON_FACE_RISE),
+                new Vector2(TITLE_HEIGHT * RIBBON_ASPECT * RIBBON_FACE_WIDTH, TITLE_HEIGHT * RIBBON_FACE_HEIGHT));
 
             var starRow = UIFactory.CreateRect("Stars", card);
             UIFactory.FixedSize(starRow, tuning.winStarSize);

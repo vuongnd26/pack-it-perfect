@@ -10,7 +10,7 @@ namespace PackItPerfect
         Return, Undo, Hint, Freeze, Locked, Banner, LevelStart, Star, Reward, Lose,
     }
 
-    /// <summary>Owns a bounded voice bank and original short procedural PCM clips; no downloads or imported audio.</summary>
+    /// <summary>Bounded voices using sourced clips where available and procedural tones for remaining cues.</summary>
     public sealed class GameAudio : IDisposable
     {
         const int SOUND_COUNT = (int)GameSound.Lose + 1;
@@ -18,6 +18,7 @@ namespace PackItPerfect
         const float MAX_PITCH = 2f;
 
         readonly AudioClip[] _clips = new AudioClip[SOUND_COUNT];
+        readonly bool[] _ownsClip = new bool[SOUND_COUNT];
         readonly float[] _lastPlayed = new float[SOUND_COUNT];
         readonly AudioSource[] _voices;
         readonly GameObject _root;
@@ -82,6 +83,9 @@ namespace PackItPerfect
         void Build(int index)
         {
             var sound = (GameSound)index;
+            _clips[index] = Resources.Load<AudioClip>("Audio/Sourced/" + sound);
+            if (_clips[index] != null) return;
+            _ownsClip[index] = true;
             if (sound == GameSound.Win)
             {
                 _clips[index] = VictoryClip();
@@ -238,7 +242,8 @@ namespace PackItPerfect
         public void Dispose()
         {
             Stop();
-            foreach (var clip in _clips) if (clip != null) UnityEngine.Object.Destroy(clip);
+            for (int i = 0; i < _clips.Length; i++)
+                if (_ownsClip[i] && _clips[i] != null) UnityEngine.Object.Destroy(_clips[i]);
             if (_root != null) UnityEngine.Object.Destroy(_root);
         }
     }

@@ -1,121 +1,68 @@
-// Level-load banner: "Hard level!" / "Pack before the taxi leaves" on timed levels, else the level's bannerTitle/Subtitle.
-// Pops in, holds, fades out; never blocks input.
-// Implements: design/game-brief.md "Cơ chế chính" (Hẹn giờ banner, Khuôn gợi ý banner), "Quyết định đã chốt" (Banner luật mới).
-// Story: production/epics/pack-it-perfect/story-006-timer-mode.md
-
+// Transient level notices share the HUD info strip, so they never cover playable cells.
+using System;
 using TMPro;
 using UnityEngine;
 
 namespace PackItPerfect.UI
 {
-    /// <summary>Transient, non-blocking banner card under the HUD.</summary>
+    /// <summary>Non-blocking one-line notice inside the HUD; longer explanations remain in Rules.</summary>
     public sealed class BannerView
     {
-        const float CARD_GAP = 20f;
-        const float TITLE_HEIGHT_SHARE = 0.55f;
-        const float PADDING = 24f;
-        const float TITLE_SIZE_SHARE = 0.62f;
-        const float TAG_WIDTH = 140f;
-        const float TAG_HEIGHT = 46f;
-        const float TAG_INSET = 28f;
-        const float TAG_FONT_SIZE = 30f;
-
         readonly UITuning tuning;
         readonly UIAnimator animator;
         readonly RectTransform card;
         readonly CanvasGroup group;
         readonly TextMeshProUGUI title;
-        readonly TextMeshProUGUI subtitle;
-        readonly GameObject tag;
-        readonly object popKey = new object();
+        readonly Action<bool> visibilityChanged;
         readonly object fadeKey = new object();
-        float bandHeight;
-        float fittedTop = float.NaN;
-        float fittedWidth = float.NaN;
+        readonly object copyKey = new object();
 
-        /// <summary>Builds the (hidden) banner under <paramref name="parent"/>, just below the HUD band.</summary>
-        public BannerView(UIFactory factory, Transform parent, UITuning tuning, UIAnimator animator)
+        public BannerView(UIFactory factory, RectTransform host, UITuning tuning, UIAnimator animator,
+            Action<bool> visibilityChanged)
         {
             this.tuning = tuning;
             this.animator = animator;
-            var safe = factory.SafeContent(parent);
-            UIFactory.Isolate(safe.gameObject);
-            bandHeight = tuning.hudHeight;
-            var image = factory.Panel("Banner", safe, tuning.bannerBackground, tuning.cardRadius);
+            this.visibilityChanged = visibilityChanged;
+            var image = factory.Panel("Banner", host, tuning.bannerBackground, tuning.chipHeight / 2f);
+            image.raycastTarget = false;
             card = image.rectTransform;
-            UIFactory.Place(card, new Vector2(0.5f, 1f), new Vector2(0f, -(tuning.hudHeight + CARD_GAP)),
-                new Vector2(tuning.bannerWidth, tuning.bannerHeight));
+            UIFactory.Stretch(card);
             group = card.gameObject.AddComponent<CanvasGroup>();
             group.blocksRaycasts = false;
             group.interactable = false;
-
-            title = factory.Text("Title", card, string.Empty, tuning.headingFontSize * TITLE_SIZE_SHARE, tuning.accent, FontStyles.Bold);
-            subtitle = factory.Text("Subtitle", card, string.Empty, tuning.bodyFontSize - 8f, Color.white);
-            // Long titles and translated subtitles shrink inside the card instead of spilling out of it.
-            foreach (var label in new[] { title, subtitle })
-            {
-                label.enableAutoSizing = true;
-                label.fontSizeMax = label.fontSize;
-                label.fontSizeMin = label.fontSize * 0.55f;
-                label.overflowMode = TextOverflowModes.Truncate;
-            }
-            var tagImage = factory.Panel("New Tag", card, tuning.accent, TAG_HEIGHT / 2f);
-            UIFactory.Place(tagImage.rectTransform, new Vector2(0f, 1f), new Vector2(TAG_INSET, TAG_HEIGHT / 2f),
-                new Vector2(TAG_WIDTH, TAG_HEIGHT));
-            tagImage.rectTransform.pivot = new Vector2(0f, 0.5f);
-            var tagText = factory.Text("Text", tagImage.transform, UIStrings.NEW_TAG, TAG_FONT_SIZE, tuning.ink, FontStyles.Bold);
-            tagText.textWrappingMode = TextWrappingModes.NoWrap;
-            UIFactory.Stretch(tagText.rectTransform);
-            tag = tagImage.gameObject;
+            title = factory.Text("Title", card, string.Empty, tuning.hudNameFontSize, tuning.accent, FontStyles.Bold);
+            title.textWrappingMode = TextWrappingModes.NoWrap;
+            title.overflowMode = TextOverflowModes.Truncate;
+            UIFactory.Stretch(title.rectTransform, 12f, 0f, 12f, 0f);
             card.gameObject.SetActive(false);
         }
 
-        /// <summary>Shows the banner (cleaned for TMP); an empty subtitle centres the title alone.</summary>
-        /// <param name="isNew">True to add the "New!" tag (a level that introduces a rule).</param>
         public void Show(string titleText, string subtitleText, bool isNew = false)
         {
-            bool hasSubtitle = !string.IsNullOrEmpty(subtitleText);
+            animator.Cancel(fadeKey);
+            animator.Cancel(copyKey);
             title.text = TmpText.Clean(titleText);
-            subtitle.text = TmpText.Clean(subtitleText);
-            subtitle.gameObject.SetActive(hasSubtitle);
-            float height = hasSubtitle ? tuning.bannerHeight : tuning.bannerHeightSingle;
-            card.sizeDelta = new Vector2(tuning.bannerWidth, height);
-            tag.SetActive(isNew);
-            float split = height * (1f - TITLE_HEIGHT_SHARE);
-            UIFactory.Stretch(title.rectTransform, PADDING, hasSubtitle ? split : 0f, PADDING, 0f);
-            UIFactory.Stretch(subtitle.rectTransform, PADDING, PADDING, PADDING, height * TITLE_HEIGHT_SHARE);
-
+            title.color = tuning.accent;
             card.gameObject.SetActive(true);
-            fittedTop = float.NaN;
-            FitBelowHUD(bandHeight);
+            visibilityChanged?.Invoke(true);
             group.alpha = 1f;
-            UIMotion.Pop(animator, popKey, card, 0f, tuning.bannerPopIn, tuning.popStartScale, tuning.reduceMotion);
+            // Each line gets its own time at full size, instead of squeezing two lines into the strip.
+            if (!string.IsNullOrEmpty(subtitleText))
+                animator.Play(copyKey, tuning.bannerPopIn + tuning.bannerHold * 0.5f, 0f, _ => { }, () =>
+                {
+                    title.text = TmpText.Clean(subtitleText);
+                    title.color = Color.white;
+                });
             animator.Play(fadeKey, tuning.bannerPopIn + tuning.bannerHold, tuning.bannerFadeOut,
-                t => group.alpha = 1f - t, () => card.gameObject.SetActive(false));
+                t => group.alpha = 1f - t, Hide);
         }
 
-        /// <summary>Positions transient copy below the actual wrapped HUD and inside safe-area width.</summary>
-        public void FitBelowHUD(float topBandHeight)
-        {
-            bandHeight = topBandHeight;
-            if (!card.gameObject.activeSelf) return; // placed when it is next shown
-            var safe = (RectTransform)card.parent;
-            float top = -(topBandHeight + CARD_GAP);
-            float width = Mathf.Max(1f, Mathf.Min(tuning.bannerWidth, safe.rect.width - tuning.sideMargin * 2f));
-            // Writing a RectTransform every frame re-meshes its canvas even when nothing moved.
-            if (Mathf.Approximately(top, fittedTop) && Mathf.Approximately(width, fittedWidth)) return;
-            fittedTop = top;
-            fittedWidth = width;
-            card.anchoredPosition = new Vector2(0f, top);
-            card.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-        }
-
-        /// <summary>Hides the banner at once.</summary>
         public void Hide()
         {
-            animator.Cancel(popKey);
+            animator.Cancel(copyKey);
             animator.Cancel(fadeKey);
             card.gameObject.SetActive(false);
+            visibilityChanged?.Invoke(false);
         }
     }
 }

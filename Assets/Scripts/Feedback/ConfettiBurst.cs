@@ -22,6 +22,8 @@ namespace PackItPerfect
 
         readonly ParticleSystem _puff;
         readonly Material _softMaterial;
+        readonly Material _confettiMaterial;
+        readonly Material _sparkleMaterial;
         readonly System.Random _random = new System.Random(4099);
 
         const int SORTING_ORDER = 49;
@@ -46,19 +48,29 @@ namespace PackItPerfect
             var material = probe.sharedMaterial;
             Object.Destroy(probe.gameObject);
 
-            _confetti = Create(parent, "Confetti", material);
+            _confettiMaterial = SourcedMaterial(factory, material, "star");
+            _sparkleMaterial = SourcedMaterial(factory, material, "spark");
+            _confetti = Create(parent, "Confetti", _confettiMaterial != null ? _confettiMaterial : material);
             ConfigureConfetti();
-            _sparkle = Create(parent, "Placement sparkle", material);
+            _sparkle = Create(parent, "Placement sparkle", _sparkleMaterial != null ? _sparkleMaterial : material);
             ConfigureSparkle();
 
             // Same shader as every sprite, but sampling the blurred disc so puffs have soft edges.
             if (material != null)
             {
-                _softMaterial = new Material(material) { name = "PackSoftParticle", mainTexture = factory.SoftTexture };
+                _softMaterial = SourcedMaterial(factory, material, "puff") ??
+                    new Material(material) { name = "PackSoftParticle", mainTexture = factory.SoftTexture };
             }
             _puff = Create(parent, "Soft puff", _softMaterial != null ? _softMaterial : material);
             _puff.GetComponent<ParticleSystemRenderer>().sortingOrder = SORTING_ORDER - 1;
             ConfigurePuff();
+        }
+
+        static Material SourcedMaterial(SpriteFactory factory, Material source, string name)
+        {
+            var sprite = factory.GetArt("Sourced/VFX/" + name);
+            return source != null && sprite != null
+                ? new Material(source) { name = "PackParticle " + name, mainTexture = sprite.texture } : null;
         }
 
         void ConfigurePuff()
@@ -297,6 +309,8 @@ namespace PackItPerfect
         public void Dispose()
         {
             if (_softMaterial != null) Object.Destroy(_softMaterial);
+            if (_confettiMaterial != null) Object.Destroy(_confettiMaterial);
+            if (_sparkleMaterial != null) Object.Destroy(_sparkleMaterial);
         }
     }
 }

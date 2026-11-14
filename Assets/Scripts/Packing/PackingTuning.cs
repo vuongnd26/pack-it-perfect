@@ -47,7 +47,19 @@ namespace PackItPerfect
 
         [Header("Pieces")]
         [Tooltip("Scale of pieces resting in the tray. Prototype: 0.6.")]
-        public float trayScale = 0.6f;
+        public float trayScale = 0.8f;
+
+        [Tooltip("Smallest tray scale. The tray shrinks from trayScale towards this until every item fits on one screen.")]
+        public float trayMinScale = 0.46f;
+
+        [Tooltip("Tray rows per page; 0 shows every item on one page (no paging).")]
+        public int trayRowsPerPage = 0;
+
+        [Tooltip("Lay the biggest items out first so rows waste less room.")]
+        public bool traySortBySize = true;
+
+        [Tooltip("Show the world-space fill bar above the container (the HUD level pill shows the fill instead when off).")]
+        public bool showFillBar = false;
 
         [Header("Piece motion (visual only; skipped under reduced motion)")]
         [Tooltip("Seconds a dropped piece takes to settle into its cells.")]
@@ -112,17 +124,17 @@ namespace PackItPerfect
 
         [Header("Tray")]
         [Tooltip("Space between the frame and the tray, in cells.")]
-        public float trayGap = 0.5f;
+        public float trayGap = 0.36f;
 
         [Tooltip("Space between tray slots and between tray rows, in cells.")]
-        public float traySlotSpacing = 0.28f;
+        public float traySlotSpacing = 0.22f;
 
         [Tooltip("Minimum tray width, in cells; the tray is at least as wide as the frame.")]
         public float minTrayWidth = 9f; // the widest the tray grows; small levels use a narrower tray (see PackingGame.TrayWidthFor)
 
         [Header("Camera")]
         [Tooltip("Space kept between the content and the screen edge, in cells.")]
-        public float screenMargin = 0.5f;
+        public float screenMargin = 0.3f;
 
         [Tooltip("Camera background colour.")]
         public Color backgroundColor = new Color(0xFF / 255f, 0xF8 / 255f, 0xEE / 255f, 1f);
@@ -163,10 +175,18 @@ namespace PackItPerfect
 
         [Header("Rule badges")]
         [Tooltip("Diameter of a rule badge (zone, heavy, upright, pair) on a piece, in cells.")]
-        public float badgeSize = 0.36f;
+        public float badgeSize = 0.42f;
 
         [Tooltip("Gap between a badge and the edge of its cell, in cells.")]
         public float badgeMargin = 0.03f;
+
+        /// <summary>Readable rule-marker diameter in rendered screen pixels, capped to avoid crossing occupied cells.</summary>
+        [Tooltip("Minimum rendered rule marker diameter. A physically smaller cell caps it; multiple traits aggregate instead of overlapping.")]
+        public float badgeMinimumScreenPixels = 18f;
+
+        /// <summary>Minimum separation between neighboring rule-marker edges, in local cells.</summary>
+        [Tooltip("Extra edge-to-edge space between rule markers; insufficient room uses one +N summary.")]
+        public float badgeMarkerGap = 0.04f;
 
         [Tooltip("Emoji size inside a badge, as a fraction of the badge diameter.")]
         public float badgeEmojiScale = 0.62f;
@@ -197,7 +217,7 @@ namespace PackItPerfect
         [Range(0.05f, 1f)] public float zoneDividerDashFill = 0.6f;
 
         [Tooltip("Height of the zone label text (\"🍴 Food\"), in cells.")]
-        public float zoneLabelSize = 0.26f;
+        public float zoneLabelSize = 0.32f;
 
         [Tooltip("Zone label text colour.")]
         public Color zoneLabelColor = new Color(0x3C / 255f, 0x28 / 255f, 0x14 / 255f, 0.7f);

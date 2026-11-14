@@ -153,8 +153,32 @@ MonoBehaviour:
   startLevel: 1
   tuning:
     dragThresholdPixels: 7
+    touchDragMillimetres: 1.5
+    touchDragPixelBounds: {x: 8, y: 28}
+    touchHitPaddingPixels: 10
+    touchHitMaxCells: 0.25
     ghostHideDistance: 1
-    trayScale: 0.6
+    touchLiftCells: 1.1
+    mouseLiftCells: 0
+    liftEaseSeconds: 0.08
+    undoDepth: 40
+    autoPackNodesPerFrame: 2500
+    autoPackNodeLimit: 300000
+    autoPackFlySeconds: 0.38
+    fragileBadgeColor: {r: 0.42352942, g: 0.77254903, b: 0.9098039, a: 1}
+    trayScale: 0.8
+    trayMinScale: 0.46
+    trayShelfColor: {r: 1, g: 1, b: 1, a: 0.42}
+    trayShelfPadding: 0.14
+    trayRowsPerPage: 0
+    traySortBySize: 1
+    showFillBar: 0
+    snapSeconds: 0.08
+    returnSeconds: 0.2
+    rotateSeconds: 0.14
+    dealSeconds: 0.26
+    dealStagger: 0.035
+    fillBarSpeed: 10
     pieceCellInset: 0.06
     ghostValidColor: {r: 0.24705882, g: 0.7137255, b: 0.54509807, a: 0.5}
     ghostInvalidColor: {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 0.5}
@@ -168,10 +192,10 @@ MonoBehaviour:
     fillBarGap: 0.45
     fillBarBackColor: {r: 0, g: 0, b: 0, a: 0.15}
     fillBarColor: {r: 0.24705882, g: 0.7137255, b: 0.54509807, a: 1}
-    trayGap: 0.5
-    traySlotSpacing: 0.28
+    trayGap: 0.36
+    traySlotSpacing: 0.22
     minTrayWidth: 9
-    screenMargin: 0.5
+    screenMargin: 0.3
     backgroundColor: {r: 1, g: 0.972549, b: 0.93333334, a: 1}
     lidSlideDuration: 0.55
     zipperDuration: 0.5
@@ -189,8 +213,10 @@ MonoBehaviour:
       maxPieces: 13
     iconSizeOnBlock: 1.2
     iconSizeOnCell: 0.82
-    badgeSize: 0.36
+    badgeSize: 0.42
     badgeMargin: 0.03
+    badgeMinimumScreenPixels: 18
+    badgeMarkerGap: 0.04
     badgeEmojiScale: 0.62
     zoneBadgeColor: {r: 1, g: 1, b: 1, a: 0.92}
     heavyBadgeColor: {r: 0.18039216, g: 0.18039216, b: 0.22745098, a: 1}
@@ -200,7 +226,7 @@ MonoBehaviour:
     zoneDividerWidth: 0.06
     zoneDividerDashesPerCell: 3
     zoneDividerDashFill: 0.6
-    zoneLabelSize: 0.26
+    zoneLabelSize: 0.32
     zoneLabelColor: {r: 0.23529412, g: 0.15686275, b: 0.078431375, a: 0.7}
     outlineColor: {r: 0.23529412, g: 0.15686275, b: 0.078431375, a: 0.13}
     outlineIconAlpha: 0.32
@@ -300,31 +326,95 @@ MonoBehaviour:
     bodyFontSize: 46
     buttonFontSize: 60
     smallFontSize: 40
-    chipFontSize: 34
+    chipFontSize: 38
     hudHeight: 320
-    hudRowHeight: 120
-    hudButtonSize: 120
+    hudTopMargin: 10
+    hudButtonSize: 104
+    hudPillHeight: 84
+    hudNameHeight: 58
+    hudNameFontSize: 40
     levelPillWidth: 420
-    timerPillWidth: 230
-    fillPillWidth: 170
-    chipHeight: 64
+    timerPillWidth: 250
+    chipRowTop: 140
+    chipHeight: 58
+    chipSpacing: 10
+    chipPaddingX: 18
     bottomBarHeight: 140
-    bottomBarMargin: 32
+    bottomBarMargin: 10
+    dockSlotSize: 132
+    dockSpacing: 12
+    badgeSize: 54
+    badgeFontSize: 48
+    badgeOffset: {x: 6, y: 6}
+    dockLabelFontSize: 42
+    lockIconSize: 44
+    lockLabelFontSize: 42
+    dockTileHeight: 112
+    dockTileMinWidth: 200
+    dockTileMaxWidth: 260
+    dockIconSize: 52
+    dockTileCompactHeight: 150
+    badgeRise: 24
+    pagerHeight: 76
+    pagerButtonWidth: 120
+    pagerWidth: 720
+    pagerFontSize: 42
+    pagerGap: 10
+    dockDisabledTint: {r: 0.72, g: 0.72, b: 0.72, a: 0.9}
+    dockLockVeil: {r: 0.1, g: 0.14, b: 0.2, a: 0.62}
+    badgeColor: {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 1}
+    badgeEmptyColor: {r: 0.5411765, g: 0.58431375, b: 0.64705884, a: 1}
+    toastWidth: 940
+    toastHeight: 104
+    toastFontSize: 40
+    toastHold: 1.8
+    toastFade: 0.3
+    toastGap: 22
+    freezeTint: {r: 0.7490196, g: 0.89411765, b: 1, a: 1}
+    freezeText: {r: 0.08627451, g: 0.2901961, b: 0.47843137, a: 1}
+    pauseCardWidth: 860
+    pauseButtonHeight: 130
+    pauseToggleHeight: 110
+    resultCardHeightShare: 0.55
+    winDim: {r: 0.039215688, g: 0.0627451, b: 0.09411765, a: 0.35}
+    winCardWidth: 900
+    winCardBottomMargin: 40
+    winStarSize: 140
+    winRewardItemWidth: 210
+    winRewardItemHeight: 96
+    winBoosterBlockHeight: 150
+    winBlockColor: {r: 1, g: 0.9254902, b: 0.72156864, a: 1}
+    bannerWidth: 780
+    bannerHeight: 150
+    bannerHeightSingle: 100
     timerStartDelay: 1.3
     timerDangerSeconds: 10
     timerWarningSeconds: 5
     reduceMotion: 0
     popStartScale: 0.6
+    screenFade: 0.16
+    toastPop: 0.18
+    timerPulse: 0.26
+    pulseAmount: 0.14
     bannerPopIn: 0.25
     bannerHold: 1
     bannerFadeOut: 0.25
     cardPopDuration: 0.25
     starPopDuration: 0.35
     starPopStagger: 0.15
+    rewardPopStagger: 0.12
+    badgePopDuration: 0.3
+    badgePopStart: 0.5
+    dockBounceDuration: 0.28
+    dockBounceAmount: 0.16
+    shakeDuration: 0.3
+    shakeDistance: 14
     emptyStarAlpha: 0.2
     levelSelectColumns: 3
     levelCellSize: {x: 280, y: 250}
     levelCellSpacing: {x: 40, y: 40}
+    giftMarkerSize: 56
+    mainBoosterChipSize: {x: 190, y: 90}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

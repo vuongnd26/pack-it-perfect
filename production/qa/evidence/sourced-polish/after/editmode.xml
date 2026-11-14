@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="113" result="Passed" total="113" passed="113" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-14 09:57:46Z" end-time="2026-11-14 09:57:49Z" duration="2.2912488">
+  <test-suite type="TestSuite" id="1257" name="Pack It Perfect" fullname="Pack It Perfect" runstate="Runnable" testcasecount="113" result="Passed" start-time="2026-11-14 09:57:46Z" end-time="2026-11-14 09:57:49Z" duration="2.291249" total="113" passed="113" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1391" name="PackItPerfect.EditModeTests.dll" fullname="/home/vuongnd/Workspace/pack-it-perfect/Library/ScriptAssemblies/PackItPerfect.EditModeTests.dll" runstate="Runnable" testcasecount="113" result="Passed" start-time="2026-11-14 09:57:46Z" end-time="2026-11-14 09:57:49Z" duration="2.192207" total="113" passed="113" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="3307499" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1392" name="PackItPerfect" fullname="PackItPerfect" runstate="Runnable" testcasecount="113" result="Passed" start-time="2026-11-14 09:57:46Z" end-time="2026-11-14 09:57:49Z" duration="2.092389" total="113" passed="113" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1393" name="Tests" fullname="PackItPerfect.Tests" runstate="Runnable" testcasecount="113" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:49Z" duration="1.992494" total="113" passed="113" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1259" name="AssistRegressionTests" fullname="PackItPerfect.Tests.AssistRegressionTests" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.200896" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="Unit" />
+            </properties>
+            <test-case id="1266" name="CompleteBoard_HintDoesNothingAndRemainsUnused" fullname="PackItPerfect.Tests.AssistRegressionTests.CompleteBoard_HintDoesNothingAndRemainsUnused" methodname="CompleteBoard_HintDoesNothingAndRemainsUnused" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="599999098" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000135" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1264" name="HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag" fullname="PackItPerfect.Tests.AssistRegressionTests.HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.100165" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="Regression" />
+              </properties>
+              <test-case id="1262" name="HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag(False)" fullname="PackItPerfect.Tests.AssistRegressionTests.HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag(False)" methodname="HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="1041195058" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000155" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1263" name="HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag(True)" fullname="PackItPerfect.Tests.AssistRegressionTests.HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag(True)" methodname="HintTargetBlockedByFragileNeighbor_RejectsWithoutMutationOrUsedFlag" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="1824155143" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000073" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1268" name="IsolatedGap_SolverReportsImpossibleWithoutMutatingSource" fullname="PackItPerfect.Tests.AssistRegressionTests.IsolatedGap_SolverReportsImpossibleWithoutMutatingSource" methodname="IsolatedGap_SolverReportsImpossibleWithoutMutatingSource" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="1010773565" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000073" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1260" name="RejectedCandidate_StepDoesNotOvershootNodeBudget" fullname="PackItPerfect.Tests.AssistRegressionTests.RejectedCandidate_StepDoesNotOvershootNodeBudget" methodname="RejectedCandidate_StepDoesNotOvershootNodeBudget" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="1414011261" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000053" asserts="0">
+              <properties>
+                <property name="Category" value="Regression" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1261" name="RejectedCandidate_TotalLimitStopsBeforeSecondCandidate" fullname="PackItPerfect.Tests.AssistRegressionTests.RejectedCandidate_TotalLimitStopsBeforeSecondCandidate" methodname="RejectedCandidate_TotalLimitStopsBeforeSecondCandidate" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="73942715" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000046" asserts="0">
+              <properties>
+                <property name="Category" value="Regression" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1267" name="SolvablePartialBoard_SolverPreservesSourceAndFixedPlacement" fullname="PackItPerfect.Tests.AssistRegressionTests.SolvablePartialBoard_SolverPreservesSourceAndFixedPlacement" methodname="SolvablePartialBoard_SolverPreservesSourceAndFixedPlacement" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="474710013" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000057" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1265" name="ValidHint_EvictsOnlyTargetOccupantsAndMarksUsed" fullname="PackItPerfect.Tests.AssistRegressionTests.ValidHint_EvictsOnlyTargetOccupantsAndMarksUsed" methodname="ValidHint_EvictsOnlyTargetOccupantsAndMarksUsed" classname="PackItPerfect.Tests.AssistRegressionTests" runstate="Runnable" seed="766700435" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000085" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1269" name="LevelCatalogIntegrationTests" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" testcasecount="41" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.304791" total="41" passed="41" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="Integration" />
+            </properties>
+            <output><![CDATA[Catalog binding: Assets/Scenes/SampleScene.unity -> Assets/Data/Levels/levels.json; solver node limit: 300000.
+]]></output>
+            <test-suite type="ParameterizedMethod" id="1312" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.101417" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1292" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(1)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(1)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1080084905" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000189" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 1: empty-board solution won, 3 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1293" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(2)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(2)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1618383550" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 2: empty-board solution won, 5 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1294" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(3)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(3)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1676758536" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000128" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 3: empty-board solution won, 6 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1295" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(4)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(4)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="158142341" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 4: empty-board solution won, 8 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1296" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(5)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(5)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1803953643" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000135" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 5: empty-board solution won, 7 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1297" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(6)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(6)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="228757260" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000107" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 6: empty-board solution won, 5 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1298" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(7)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(7)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="751176615" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000122" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 7: empty-board solution won, 6 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1299" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(8)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(8)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1315003670" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000146" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 8: empty-board solution won, 8 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1300" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(9)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(9)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="334833449" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000178" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 9: empty-board solution won, 9 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1301" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(10)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(10)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="655712600" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000193" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 10: empty-board solution won, 9 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1302" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(11)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(11)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1964220344" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000163" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 11: empty-board solution won, 7 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1303" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(12)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(12)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1710281888" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000192" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 12: empty-board solution won, 8 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1304" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(13)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(13)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="904102409" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000167" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 13: empty-board solution won, 8 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1305" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(14)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(14)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1003798301" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000196" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 14: empty-board solution won, 10 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1306" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(15)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(15)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1557509510" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000278" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 15: empty-board solution won, 13 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1307" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(16)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(16)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="4412139" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000163" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 16: empty-board solution won, 7 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1308" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(17)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(17)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1003141859" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000190" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 17: empty-board solution won, 9 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1309" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(18)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(18)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1335085086" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000198" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 18: empty-board solution won, 11 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1310" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(19)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(19)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="679285329" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000234" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 19: empty-board solution won, 11 nodes.
+]]></output>
+              </test-case>
+              <test-case id="1311" name="EmptyBoard_SolverSolutionReplaysWithoutChangingSource(20)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.EmptyBoard_SolverSolutionReplaysWithoutChangingSource(20)" methodname="EmptyBoard_SolverSolutionReplaysWithoutChangingSource" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="815456830" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000280" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 20: empty-board solution won, 13 nodes.
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1291" name="ReferenceWitness_ReplaysToFullLegalWin" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.097158" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1271" name="ReferenceWitness_ReplaysToFullLegalWin(1)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(1)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="746231561" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 1: reference witness won, 12 cells, 3 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1272" name="ReferenceWitness_ReplaysToFullLegalWin(2)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(2)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="956881283" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000085" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 2: reference witness won, 16 cells, 5 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1273" name="ReferenceWitness_ReplaysToFullLegalWin(3)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(3)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="818492114" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000067" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 3: reference witness won, 18 cells, 6 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1274" name="ReferenceWitness_ReplaysToFullLegalWin(4)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(4)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="523027301" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000075" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 4: reference witness won, 25 cells, 8 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1275" name="ReferenceWitness_ReplaysToFullLegalWin(5)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(5)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1169801748" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000065" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 5: reference witness won, 24 cells, 7 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1276" name="ReferenceWitness_ReplaysToFullLegalWin(6)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(6)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="218683732" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 6: reference witness won, 16 cells, 5 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1277" name="ReferenceWitness_ReplaysToFullLegalWin(7)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(7)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1936813190" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000075" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 7: reference witness won, 20 cells, 6 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1278" name="ReferenceWitness_ReplaysToFullLegalWin(8)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(8)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1347948782" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 8: reference witness won, 25 cells, 8 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1279" name="ReferenceWitness_ReplaysToFullLegalWin(9)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(9)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="8867508" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000087" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 9: reference witness won, 28 cells, 9 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1280" name="ReferenceWitness_ReplaysToFullLegalWin(10)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(10)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="654281370" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000082" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 10: reference witness won, 30 cells, 9 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1281" name="ReferenceWitness_ReplaysToFullLegalWin(11)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(11)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1342741186" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 11: reference witness won, 30 cells, 7 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1282" name="ReferenceWitness_ReplaysToFullLegalWin(12)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(12)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1787836577" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 12: reference witness won, 36 cells, 8 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1283" name="ReferenceWitness_ReplaysToFullLegalWin(13)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(13)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="349342087" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000070" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 13: reference witness won, 34 cells, 8 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1284" name="ReferenceWitness_ReplaysToFullLegalWin(14)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(14)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1089250019" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 14: reference witness won, 42 cells, 10 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1285" name="ReferenceWitness_ReplaysToFullLegalWin(15)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(15)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1950384069" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000120" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 15: reference witness won, 49 cells, 13 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1286" name="ReferenceWitness_ReplaysToFullLegalWin(16)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(16)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="866544915" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 16: reference witness won, 25 cells, 7 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1287" name="ReferenceWitness_ReplaysToFullLegalWin(17)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(17)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1894022987" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 17: reference witness won, 30 cells, 9 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1288" name="ReferenceWitness_ReplaysToFullLegalWin(18)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(18)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="314486738" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000104" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 18: reference witness won, 36 cells, 11 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1289" name="ReferenceWitness_ReplaysToFullLegalWin(19)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(19)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="554945956" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000118" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 19: reference witness won, 40 cells, 11 pieces.
+]]></output>
+              </test-case>
+              <test-case id="1290" name="ReferenceWitness_ReplaysToFullLegalWin(20)" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.ReferenceWitness_ReplaysToFullLegalWin(20)" methodname="ReferenceWitness_ReplaysToFullLegalWin" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1227018282" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 20: reference witness won, 49 cells, 13 pieces.
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-case id="1270" name="SceneCatalog_ContainsTwentyValidSequentialLevels" fullname="PackItPerfect.Tests.LevelCatalogIntegrationTests.SceneCatalog_ContainsTwentyValidSequentialLevels" methodname="SceneCatalog_ContainsTwentyValidSequentialLevels" classname="PackItPerfect.Tests.LevelCatalogIntegrationTests" runstate="Runnable" seed="1874833931" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.003747" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1313" name="MobileReadabilityLayoutTests" fullname="PackItPerfect.Tests.MobileReadabilityLayoutTests" classname="PackItPerfect.Tests.MobileReadabilityLayoutTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.092158" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1314" name="DockTypography_MinimumPortrait_DoesNotShrinkBelowReadableFloor" fullname="PackItPerfect.Tests.MobileReadabilityLayoutTests.DockTypography_MinimumPortrait_DoesNotShrinkBelowReadableFloor" methodname="DockTypography_MinimumPortrait_DoesNotShrinkBelowReadableFloor" classname="PackItPerfect.Tests.MobileReadabilityLayoutTests" runstate="Runnable" seed="319202935" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000100" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1315" name="PackingRulesTests" fullname="PackItPerfect.Tests.PackingRulesTests" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:48Z" duration="0.300386" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="Unit" />
+            </properties>
+            <test-case id="1318" name="CloneAndRemove_PreserveSourceAndCoveredCellCounts" fullname="PackItPerfect.Tests.PackingRulesTests.CloneAndRemove_PreserveSourceAndCoveredCellCounts" methodname="CloneAndRemove_PreserveSourceAndCoveredCellCounts" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="1441601837" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000233" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1329" name="FragileHeavyReferenceConflict_LoaderRejectsBeforePlay" fullname="PackItPerfect.Tests.PackingRulesTests.FragileHeavyReferenceConflict_LoaderRejectsBeforePlay" methodname="FragileHeavyReferenceConflict_LoaderRejectsBeforePlay" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="169319183" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000117" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1328" name="FragilePiece_AllowsDiagonalHeavyAndEdgeOrdinaryNeighbors" fullname="PackItPerfect.Tests.PackingRulesTests.FragilePiece_AllowsDiagonalHeavyAndEdgeOrdinaryNeighbors" methodname="FragilePiece_AllowsDiagonalHeavyAndEdgeOrdinaryNeighbors" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="189057257" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000045" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1324" name="FullBoard_PairsRequireEdgeNotCornerContact" fullname="PackItPerfect.Tests.PackingRulesTests.FullBoard_PairsRequireEdgeNotCornerContact" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.099476" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1322" name="FullBoard_PairsRequireEdgeNotCornerContact(True)" fullname="PackItPerfect.Tests.PackingRulesTests.FullBoard_PairsRequireEdgeNotCornerContact(True)" methodname="FullBoard_PairsRequireEdgeNotCornerContact" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="1330489024" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000126" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1323" name="FullBoard_PairsRequireEdgeNotCornerContact(False)" fullname="PackItPerfect.Tests.PackingRulesTests.FullBoard_PairsRequireEdgeNotCornerContact(False)" methodname="FullBoard_PairsRequireEdgeNotCornerContact" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="263252578" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:47Z" duration="0.000122" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1327" name="HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder" fullname="PackItPerfect.Tests.PackingRulesTests.HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 09:57:47Z" end-time="2026-11-14 09:57:48Z" duration="0.099349" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1325" name="HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder(True)" fullname="PackItPerfect.Tests.PackingRulesTests.HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder(True)" methodname="HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="1379029815" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1326" name="HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder(False)" fullname="PackItPerfect.Tests.PackingRulesTests.HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder(False)" methodname="HeavyFragileEdgeContact_IsRejectedInEitherPlacementOrder" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="84152999" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1319" name="HeavyPiece_RequiresBottomRowContact" fullname="PackItPerfect.Tests.PackingRulesTests.HeavyPiece_RequiresBottomRowContact" methodname="HeavyPiece_RequiresBottomRowContact" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="594380724" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000076" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1316" name="InvalidDrop_ReturnsCombinedFlagsAndLeavesBoardUnchanged" fullname="PackItPerfect.Tests.PackingRulesTests.InvalidDrop_ReturnsCombinedFlagsAndLeavesBoardUnchanged" methodname="InvalidDrop_ReturnsCombinedFlagsAndLeavesBoardUnchanged" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="814791565" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000056" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1317" name="OffsetShape_RotationNormalizesAndPreservesReadingOrderAnchor" fullname="PackItPerfect.Tests.PackingRulesTests.OffsetShape_RotationNormalizesAndPreservesReadingOrderAnchor" methodname="OffsetShape_RotationNormalizesAndPreservesReadingOrderAnchor" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="1227083887" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000082" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1320" name="UprightPiece_DisallowsRotationAndLoaderRejectsTurnedStart" fullname="PackItPerfect.Tests.PackingRulesTests.UprightPiece_DisallowsRotationAndLoaderRejectsTurnedStart" methodname="UprightPiece_DisallowsRotationAndLoaderRejectsTurnedStart" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="1628232181" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000231" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1321" name="ZonedPiece_RequiresEveryOccupiedCellInsideItsZone" fullname="PackItPerfect.Tests.PackingRulesTests.ZonedPiece_RequiresEveryOccupiedCellInsideItsZone" methodname="ZonedPiece_RequiresEveryOccupiedCellInsideItsZone" classname="PackItPerfect.Tests.PackingRulesTests" runstate="Runnable" seed="281756799" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000072" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1330" name="PiecePresentationLayoutTests" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.297268" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1334" name="ConcaveShape_AllRotations_ImageFitsOccupiedCells" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ConcaveShape_AllRotations_ImageFitsOccupiedCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.114645" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1331" name="ConcaveShape_AllRotations_ImageFitsOccupiedCells(0.35f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ConcaveShape_AllRotations_ImageFitsOccupiedCells(0.35f)" methodname="ConcaveShape_AllRotations_ImageFitsOccupiedCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="1418744065" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.003529" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1332" name="ConcaveShape_AllRotations_ImageFitsOccupiedCells(1.0f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ConcaveShape_AllRotations_ImageFitsOccupiedCells(1.0f)" methodname="ConcaveShape_AllRotations_ImageFitsOccupiedCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="667610991" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.002045" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1333" name="ConcaveShape_AllRotations_ImageFitsOccupiedCells(2.8f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ConcaveShape_AllRotations_ImageFitsOccupiedCells(2.8f)" methodname="ConcaveShape_AllRotations_ImageFitsOccupiedCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="427352588" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.009084" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1340" name="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.085108" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1336" name="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XXX/X.X&quot;,0.35f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XXX/X.X&quot;,0.35f)" methodname="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="596620438" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000287" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1337" name="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XXX/.X.&quot;,1.0f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XXX/.X.&quot;,1.0f)" methodname="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="1557649531" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000234" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1338" name="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;X../XXX&quot;,2.8f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;X../XXX&quot;,2.8f)" methodname="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="20703929" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000224" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1339" name="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XX/XX&quot;,1.0f)" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells(&quot;XX/XX&quot;,1.0f)" methodname="ReservedMarker_AllRotations_ImageAvoidsMarkerAndEmptyCells" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="410273409" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000229" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1335" name="SquareFootprint_SquareIllustration_UsesLargestOccupiedRectangle" fullname="PackItPerfect.Tests.PiecePresentationLayoutTests.SquareFootprint_SquareIllustration_UsesLargestOccupiedRectangle" methodname="SquareFootprint_SquareIllustration_UsesLargestOccupiedRectangle" classname="PackItPerfect.Tests.PiecePresentationLayoutTests" runstate="Runnable" seed="511439609" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000053" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1341" name="ShopTests" fullname="PackItPerfect.Tests.ShopTests" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.108762" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="Unit" />
+            </properties>
+            <test-case id="1343" name="Buy_AfterPurchase_LeavesLevelStarsAndTotalUntouched" fullname="PackItPerfect.Tests.ShopTests.Buy_AfterPurchase_LeavesLevelStarsAndTotalUntouched" methodname="Buy_AfterPurchase_LeavesLevelStarsAndTotalUntouched" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="523222589" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000075" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1346" name="Buy_BoosterWithoutPrice_IsNotForSale" fullname="PackItPerfect.Tests.ShopTests.Buy_BoosterWithoutPrice_IsNotForSale" methodname="Buy_BoosterWithoutPrice_IsNotForSale" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="1474148925" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000038" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1345" name="Buy_LockedBooster_IsRefusedEvenWithEnoughStars" fullname="PackItPerfect.Tests.ShopTests.Buy_LockedBooster_IsRefusedEvenWithEnoughStars" methodname="Buy_LockedBooster_IsRefusedEvenWithEnoughStars" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="759442840" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000028" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1344" name="Buy_NotEnoughStars_IsRefusedAndChangesNothing" fullname="PackItPerfect.Tests.ShopTests.Buy_NotEnoughStars_IsRefusedAndChangesNothing" methodname="Buy_NotEnoughStars_IsRefusedAndChangesNothing" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="1250170541" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000024" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1347" name="Buy_RepeatedUntilEmpty_StopsAtZeroBalance" fullname="PackItPerfect.Tests.ShopTests.Buy_RepeatedUntilEmpty_StopsAtZeroBalance" methodname="Buy_RepeatedUntilEmpty_StopsAtZeroBalance" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="1320026489" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000030" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1342" name="Buy_UnlockedBoosterWithEnoughStars_SpendsPriceAndAddsOne" fullname="PackItPerfect.Tests.ShopTests.Buy_UnlockedBoosterWithEnoughStars_SpendsPriceAndAddsOne" methodname="Buy_UnlockedBoosterWithEnoughStars_SpendsPriceAndAddsOne" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="481222861" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000027" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1350" name="DamagedSaveWithHugeSpent_ClampsToEarnedStars" fullname="PackItPerfect.Tests.ShopTests.DamagedSaveWithHugeSpent_ClampsToEarnedStars" methodname="DamagedSaveWithHugeSpent_ClampsToEarnedStars" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="396156804" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000031" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1349" name="OldSaveWithoutSpentField_StartsWithFullBalance" fullname="PackItPerfect.Tests.ShopTests.OldSaveWithoutSpentField_StartsWithFullBalance" methodname="OldSaveWithoutSpentField_StartsWithFullBalance" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="1226227686" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000019" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1348" name="Purchase_Reloaded_KeepsBalanceAndBoosters" fullname="PackItPerfect.Tests.ShopTests.Purchase_Reloaded_KeepsBalanceAndBoosters" methodname="Purchase_Reloaded_KeepsBalanceAndBoosters" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="246650240" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000026" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1352" name="ShippedProgressionJson_DefinesPositivePricesForEveryBooster" fullname="PackItPerfect.Tests.ShopTests.ShippedProgressionJson_DefinesPositivePricesForEveryBooster" methodname="ShippedProgressionJson_DefinesPositivePricesForEveryBooster" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="1052134656" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.009819" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1351" name="StarsChanged_FiresOnNewBestAndOnPurchase" fullname="PackItPerfect.Tests.ShopTests.StarsChanged_FiresOnNewBestAndOnPurchase" methodname="StarsChanged_FiresOnNewBestAndOnPurchase" classname="PackItPerfect.Tests.ShopTests" runstate="Runnable" seed="761960345" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000050" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1353" name="TimerProgressionTests" fullname="PackItPerfect.Tests.TimerProgressionTests" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.487487" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="Unit" />
+            </properties>
+            <test-suite type="ParameterizedMethod" id="1366" name="AssistanceFlag_SelectsExpectedStarAward" fullname="PackItPerfect.Tests.TimerProgressionTests.AssistanceFlag_SelectsExpectedStarAward" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.099998" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1364" name="AssistanceFlag_SelectsExpectedStarAward(False,3)" fullname="PackItPerfect.Tests.TimerProgressionTests.AssistanceFlag_SelectsExpectedStarAward(False,3)" methodname="AssistanceFlag_SelectsExpectedStarAward" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="2045574543" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1365" name="AssistanceFlag_SelectsExpectedStarAward(True,2)" fullname="PackItPerfect.Tests.TimerProgressionTests.AssistanceFlag_SelectsExpectedStarAward(True,2)" methodname="AssistanceFlag_SelectsExpectedStarAward" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1206577305" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000022" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1371" name="BoosterConsumption_PersistsOneChargeAndRejectsEmptyInventory" fullname="PackItPerfect.Tests.TimerProgressionTests.BoosterConsumption_PersistsOneChargeAndRejectsEmptyInventory" methodname="BoosterConsumption_PersistsOneChargeAndRejectsEmptyInventory" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1197159600" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000039" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1368" name="FirstThreeStarClear_GrantsMilestoneBonusAndUnlockExactlyOnce" fullname="PackItPerfect.Tests.TimerProgressionTests.FirstThreeStarClear_GrantsMilestoneBonusAndUnlockExactlyOnce" methodname="FirstThreeStarClear_GrantsMilestoneBonusAndUnlockExactlyOnce" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1354145379" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000041" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1356" name="FreezeAvailability_RejectsStoppedDelayedExpiredAndUntimedClocks" fullname="PackItPerfect.Tests.TimerProgressionTests.FreezeAvailability_RejectsStoppedDelayedExpiredAndUntimedClocks" methodname="FreezeAvailability_RejectsStoppedDelayedExpiredAndUntimedClocks" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="264784979" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000021" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1355" name="FreezeOverflow_ResumesCountdownAndEmitsOneEndEvent" fullname="PackItPerfect.Tests.TimerProgressionTests.FreezeOverflow_ResumesCountdownAndEmitsOneEndEvent" methodname="FreezeOverflow_ResumesCountdownAndEmitsOneEndEvent" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1431677853" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000085" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1367" name="FreshProgress_UnlocksOnlyFirstLevelAndCannotSpendEmptyInventory" fullname="PackItPerfect.Tests.TimerProgressionTests.FreshProgress_UnlocksOnlyFirstLevelAndCannotSpendEmptyInventory" methodname="FreshProgress_UnlocksOnlyFirstLevelAndCannotSpendEmptyInventory" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1501796809" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000028" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1363" name="FrozenClock_SuppressesWarningsAndRestartClearsFreeze" fullname="PackItPerfect.Tests.TimerProgressionTests.FrozenClock_SuppressesWarningsAndRestartClearsFreeze" methodname="FrozenClock_SuppressesWarningsAndRestartClearsFreeze" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="931145154" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000053" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1378" name="InvalidCompletion_DoesNotRewardOrWriteSave" fullname="PackItPerfect.Tests.TimerProgressionTests.InvalidCompletion_DoesNotRewardOrWriteSave" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.099031" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1375" name="InvalidCompletion_DoesNotRewardOrWriteSave(0,3)" fullname="PackItPerfect.Tests.TimerProgressionTests.InvalidCompletion_DoesNotRewardOrWriteSave(0,3)" methodname="InvalidCompletion_DoesNotRewardOrWriteSave" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1621661605" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000075" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1376" name="InvalidCompletion_DoesNotRewardOrWriteSave(21,3)" fullname="PackItPerfect.Tests.TimerProgressionTests.InvalidCompletion_DoesNotRewardOrWriteSave(21,3)" methodname="InvalidCompletion_DoesNotRewardOrWriteSave" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="2108880242" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000030" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1377" name="InvalidCompletion_DoesNotRewardOrWriteSave(1,0)" fullname="PackItPerfect.Tests.TimerProgressionTests.InvalidCompletion_DoesNotRewardOrWriteSave(1,0)" methodname="InvalidCompletion_DoesNotRewardOrWriteSave" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="251669557" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000022" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1373" name="InvalidStoredValues_NormalizeCountsAndPreserveValidProgress" fullname="PackItPerfect.Tests.TimerProgressionTests.InvalidStoredValues_NormalizeCountsAndPreserveValidProgress" methodname="InvalidStoredValues_NormalizeCountsAndPreserveValidProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="2107288204" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000035" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1357" name="LargeActiveDelta_ExpiresExactlyOnceWithoutClampingTime" fullname="PackItPerfect.Tests.TimerProgressionTests.LargeActiveDelta_ExpiresExactlyOnceWithoutClampingTime" methodname="LargeActiveDelta_ExpiresExactlyOnceWithoutClampingTime" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1343587736" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000023" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1372" name="LegacyMigration_PreservesStarsAndDoesNotRegrantAfterSaveReload" fullname="PackItPerfect.Tests.TimerProgressionTests.LegacyMigration_PreservesStarsAndDoesNotRegrantAfterSaveReload" methodname="LegacyMigration_PreservesStarsAndDoesNotRegrantAfterSaveReload" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="249904766" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000028" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1370" name="MilestoneClears_UnlockFreezeAndAutoPackAndPersistRewards" fullname="PackItPerfect.Tests.TimerProgressionTests.MilestoneClears_UnlockFreezeAndAutoPackAndPersistRewards" methodname="MilestoneClears_UnlockFreezeAndAutoPackAndPersistRewards" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="977968155" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000048" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1374" name="MissingSave_FallsBackToFreshProgressWithoutWritingOnLoad" fullname="PackItPerfect.Tests.TimerProgressionTests.MissingSave_FallsBackToFreshProgressWithoutWritingOnLoad" methodname="MissingSave_FallsBackToFreshProgressWithoutWritingOnLoad" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="141753839" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000023" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1362" name="NonpositiveTick_DoesNotAdvanceClock" fullname="PackItPerfect.Tests.TimerProgressionTests.NonpositiveTick_DoesNotAdvanceClock" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.099030" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1360" name="NonpositiveTick_DoesNotAdvanceClock(0.0f)" fullname="PackItPerfect.Tests.TimerProgressionTests.NonpositiveTick_DoesNotAdvanceClock(0.0f)" methodname="NonpositiveTick_DoesNotAdvanceClock" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1237795298" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000079" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1361" name="NonpositiveTick_DoesNotAdvanceClock(-1.0f)" fullname="PackItPerfect.Tests.TimerProgressionTests.NonpositiveTick_DoesNotAdvanceClock(-1.0f)" methodname="NonpositiveTick_DoesNotAdvanceClock" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1522173332" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000031" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1359" name="OwnerWithholdsTicksDuringPause_ResumeContinuesFrozenRemainder" fullname="PackItPerfect.Tests.TimerProgressionTests.OwnerWithholdsTicksDuringPause_ResumeContinuesFrozenRemainder" methodname="OwnerWithholdsTicksDuringPause_ResumeContinuesFrozenRemainder" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="223097142" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000039" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1354" name="StartDelay_ConsumesOnlyDelayThenCountsOverflow" fullname="PackItPerfect.Tests.TimerProgressionTests.StartDelay_ConsumesOnlyDelayThenCountsOverflow" methodname="StartDelay_ConsumesOnlyDelayThenCountsOverflow" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="304448977" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000022" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1358" name="StopBeforeExpiryTick_KeepsRemainingTimeAndSuppressesExpiry" fullname="PackItPerfect.Tests.TimerProgressionTests.StopBeforeExpiryTick_KeepsRemainingTimeAndSuppressesExpiry" methodname="StopBeforeExpiryTick_KeepsRemainingTimeAndSuppressesExpiry" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1414570602" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000020" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1385" name="TrayTouchPadding_ExactHitsWinAndEmptySlotsAreIgnored" fullname="PackItPerfect.Tests.TimerProgressionTests.TrayTouchPadding_ExactHitsWinAndEmptySlotsAreIgnored" methodname="TrayTouchPadding_ExactHitsWinAndEmptySlotsAreIgnored" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="651169448" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000034" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1369" name="TwoToThreeStarUpgrade_PaysBonusOnceAndLowerReplayKeepsBest" fullname="PackItPerfect.Tests.TimerProgressionTests.TwoToThreeStarUpgrade_PaysBonusOnceAndLowerReplayKeepsBest" methodname="TwoToThreeStarUpgrade_PaysBonusOnceAndLowerReplayKeepsBest" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1690967371" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000033" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1384" name="UISize_LoadAndSave_PreservesProgress" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.099388" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1379" name="UISize_LoadAndSave_PreservesProgress(0,100)" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress(0,100)" methodname="UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1768927288" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000087" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1380" name="UISize_LoadAndSave_PreservesProgress(100,100)" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress(100,100)" methodname="UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="905121864" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000036" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1381" name="UISize_LoadAndSave_PreservesProgress(125,125)" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress(125,125)" methodname="UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="914761235" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000034" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1382" name="UISize_LoadAndSave_PreservesProgress(150,150)" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress(150,150)" methodname="UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="356049098" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000029" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1383" name="UISize_LoadAndSave_PreservesProgress(999,100)" fullname="PackItPerfect.Tests.TimerProgressionTests.UISize_LoadAndSave_PreservesProgress(999,100)" methodname="UISize_LoadAndSave_PreservesProgress" classname="PackItPerfect.Tests.TimerProgressionTests" runstate="Runnable" seed="1365079790" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:48Z" duration="0.000026" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1386" name="TrayPaginationTests" fullname="PackItPerfect.Tests.TrayPaginationTests" classname="PackItPerfect.Tests.TrayPaginationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-14 09:57:48Z" end-time="2026-11-14 09:57:49Z" duration="0.099425" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1387" name="CrowdedTray_ViewportHeightNeverExceedsTwoRows" fullname="PackItPerfect.Tests.TrayPaginationTests.CrowdedTray_ViewportHeightNeverExceedsTwoRows" methodname="CrowdedTray_ViewportHeightNeverExceedsTwoRows" classname="PackItPerfect.Tests.TrayPaginationTests" runstate="Runnable" seed="2103800723" result="Passed" start-time="2026-11-14 09:57:49Z" end-time="2026-11-14 09:57:49Z" duration="0.000092" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1389" name="HitTest_HiddenPage_IsIgnoredUntilThatPageIsShown" fullname="PackItPerfect.Tests.TrayPaginationTests.HitTest_HiddenPage_IsIgnoredUntilThatPageIsShown" methodname="HitTest_HiddenPage_IsIgnoredUntilThatPageIsShown" classname="PackItPerfect.Tests.TrayPaginationTests" runstate="Runnable" seed="2103993820" result="Passed" start-time="2026-11-14 09:57:49Z" end-time="2026-11-14 09:57:49Z" duration="0.000039" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1388" name="Pages_AssignEveryPieceInDataOrder_AndIgnoreRotation" fullname="PackItPerfect.Tests.TrayPaginationTests.Pages_AssignEveryPieceInDataOrder_AndIgnoreRotation" methodname="Pages_AssignEveryPieceInDataOrder_AndIgnoreRotation" classname="PackItPerfect.Tests.TrayPaginationTests" runstate="Runnable" seed="267790056" result="Passed" start-time="2026-11-14 09:57:49Z" end-time="2026-11-14 09:57:49Z" duration="0.000177" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1390" name="SinglePageTray_CrowdedCatalog_ShowsEveryItemAndFitsTheRoom" fullname="PackItPerfect.Tests.TrayPaginationTests.SinglePageTray_CrowdedCatalog_ShowsEveryItemAndFitsTheRoom" methodname="SinglePageTray_CrowdedCatalog_ShowsEveryItemAndFitsTheRoom" classname="PackItPerfect.Tests.TrayPaginationTests" runstate="Runnable" seed="1521351626" result="Passed" start-time="2026-11-14 09:57:49Z" end-time="2026-11-14 09:57:49Z" duration="0.000064" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /home/vuongnd/.config/unity3d/DefaultCompany/Pack It Perfect/TestResults.xml
+Saving results to: /home/vuongnd/.config/unity3d/DefaultCompany/Pack It Perfect/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

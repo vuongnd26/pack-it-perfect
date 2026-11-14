@@ -1,5 +1,5 @@
 // Original whole-object illustrations. No external images or generated icons are embedded.
-// node item-art-build.js <resvg dependency directory> <output Resources/Art directory> <levels.json>
+// node item-art-build.js <resvg dependency directory> <existing empty absolute staging directory> <levels.json>
 //
 // Every object is drawn as the thing itself inside its polyomino footprint: the silhouette is the footprint, the
 // interior shows the object's construction (cuffs, seams, caps, labels, handles), and a shared lighting model gives
@@ -7,24 +7,32 @@
 const fs = require('fs');
 const path = require('path');
 const [,, runtime, output, levelsPath] = process.argv;
+// This generator prunes unreferenced images, so never allow an import folder or an existing staging run.
+if (!runtime || !output || !levelsPath || !path.isAbsolute(output) || !fs.existsSync(output) || !fs.statSync(output).isDirectory())
+  throw Error('Usage: node item-art-build.js <resvg runtime directory> <existing empty absolute staging directory> <levels.json>');
+const destination = fs.realpathSync(output), project = fs.realpathSync(path.join(__dirname, '../..'));
+const relative = path.relative(project, destination);
+if (!relative || (relative !== '..' && !relative.startsWith('..' + path.sep) && !path.isAbsolute(relative)))
+  throw Error('Output must be scratch staging outside the project; promote reviewed PNGs separately.');
+if (fs.readdirSync(destination).length) throw Error('Output staging directory must be empty.');
 const { Resvg } = require(path.join(runtime, 'node_modules/@resvg/resvg-js'));
 const INK = '#3E3246', SW = 5, CELL = 100, PPC = 128;
 const objects = [];
-let uid = 0;
 const rect = (x,y,w,h,r,fill,extra='') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" ${extra}/>`;
-const line = (d,color=INK,width=SW,extra='') => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" ${extra}/>`;
+// Quiet hairline decoration without changing structural strokes or the occupied silhouette.
+const line = (d,color=INK,width=SW,extra='') => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${Math.max(width,3.5)}" stroke-linecap="round" stroke-linejoin="round" ${width < 4 ? 'stroke-opacity=".55"' : ''} ${extra}/>`;
 const shape = (d,fill,extra='') => `<path d="${d}" fill="${fill}" ${extra}/>`;
 const circle = (x,y,r,fill,extra='') => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" ${extra}/>`;
 const ellipse = (x,y,rx,ry,fill,extra='') => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;
 const outline = `stroke="${INK}" stroke-width="${SW}" stroke-linejoin="round" stroke-linecap="round"`;
-const thin = `stroke="${INK}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"`;
 const star = (x,y,s,c,extra='') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0,-12 L3.6,-4 L12,-3 L6,3 L8,12 L0,7 L-8,12 L-6,3 L-12,-3 L-3.6,-4Z" fill="${c}" ${extra}/>`;
-const sparkle = (x,y,s,c='#fff') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0,-10 Q1.5,-1.5 10,0 Q1.5,1.5 0,10 Q-1.5,1.5 -10,0 Q-1.5,-1.5 0,-10Z" fill="${c}" opacity=".9"/>`;
-// Soft specular: a white blob with a blurred edge (resvg renders feGaussianBlur).
-const gloss = (x,y,rx,ry,op=.5,rot=0) => { const id='g'+(uid++); return `<defs><filter id="${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" opacity="${op}" filter="url(#${id})" transform="rotate(${rot} ${x} ${y})"/>`; };
-// Repeated vertical ribs (knit cuffs, bottle grips, corrugation).
-const ribs = (x,y,w,h,n,color,width=3,op=.55) => Array.from({length:n},(_,i)=>line(`M${x+(i+.5)*w/n},${y} V${y+h}`,color,width,`opacity="${op}"`)).join('');
-const stitches = (d,color='#fff',op=.6) => line(d,color,3,`stroke-dasharray="6 7" opacity="${op}"`);
+// Fewer, broader ribs preserve cuffs/caps/grips without becoming a fine striped texture at tray scale.
+const ribs = (x,y,w,h,n,color,width=3,op=.55) => {
+  const count = Math.min(n, Math.max(2, Math.floor(w/18)));
+  return Array.from({length:count},(_,i)=>line(`M${x+(i+.5)*w/count},${y} V${y+h}`,color,Math.max(4,width),`opacity="${op*.72}"`)).join('');
+};
+// Construction seams remain, but a single quiet smooth line replaces bright micro-dashes.
+const stitches = (d,color='#fff',op=.6) => line(d,color,3.5,`opacity="${op*.55}"`);
 
 function contour(rows) {
   const cells = new Set(); rows.forEach((row,y)=>[...row].forEach((v,x)=>{if(v==='X')cells.add(`${x},${y}`)}));
@@ -39,14 +47,13 @@ function contour(rows) {
   points.forEach((p,i)=>{const a=points[(i+points.length-1)%points.length],b=points[(i+1)%points.length];let l=Math.hypot(p[0]-a[0],p[1]-a[1]),n=Math.hypot(b[0]-p[0],b[1]-p[1]);const pre=[p[0]+(a[0]-p[0])*radius/l,p[1]+(a[1]-p[1])*radius/l],post=[p[0]+(b[0]-p[0])*radius/n,p[1]+(b[1]-p[1])*radius/n];d+=`${i?'L':'M'}${pre} Q${p} ${post} `;});return d+'Z';
 }
 
-// Material finishes layered inside the silhouette. 'cloth' adds a fine weave, 'metal' a hard diagonal reflection,
-// 'glass' a tall soft reflection, 'paper' a faint grain; 'matte' adds nothing beyond the shared light.
+// Broad material responses, not procedural texture. Cuffs, labels, folds and caps supply construction cues.
 function finish(kind,w,h){
   switch(kind){
-    case 'cloth': return `<rect width="${w}" height="${h}" fill="#000" opacity=".07" filter="url(#weave)"/>`;
-    case 'paper': return `<rect width="${w}" height="${h}" fill="#000" opacity=".05" filter="url(#grain)"/>`;
-    case 'metal': return `<path d="M${w*.08},${h*.9} L${w*.4},${h*.06} L${w*.52},${h*.06} L${w*.2},${h*.9}Z" fill="#fff" opacity=".1" filter="url(#soft)"/><path d="M${w*.56},${h*.95} L${w*.8},${h*.1} L${w*.84},${h*.1} L${w*.6},${h*.95}Z" fill="#fff" opacity=".07" filter="url(#soft)"/>`;
-    case 'glass': return `<path d="M${w*.1},${h*.14} Q${w*.16},${h*.5} ${w*.1},${h*.82}" fill="none" stroke="#fff" stroke-width="${Math.min(w,h)*.045}" stroke-linecap="round" opacity=".32" filter="url(#soft)"/>`;
+    case 'cloth': return `<ellipse cx="${w*.27}" cy="${h*.2}" rx="${w*.52}" ry="${h*.32}" fill="#fff" opacity=".055" filter="url(#soft)"/>`;
+    case 'paper': return ''; // No grain: pages, seams and printed panels identify paper at gameplay scale.
+    case 'metal': return `<path d="M${w*.06},${h*.88} L${w*.36},${h*.08} L${w*.56},${h*.08} L${w*.26},${h*.88}Z" fill="#fff" opacity=".12" filter="url(#soft)"/>`;
+    case 'glass': return `<path d="M${w*.12},${h*.15} Q${w*.19},${h*.48} ${w*.12},${h*.8}" fill="none" stroke="#fff" stroke-width="${Math.min(w,h)*.065}" stroke-linecap="round" opacity=".24" filter="url(#soft)"/>`;
     default: return '';
   }
 }
@@ -56,12 +63,10 @@ function add(id,name,rows,base,details,opts={}){
   const [light,mid,dark]=base;
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w*PPC/CELL}" height="${h*PPC/CELL}" viewBox="0 0 ${w} ${h}"><defs>
   <linearGradient id="base" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="${light}"/><stop offset=".5" stop-color="${mid}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
-  <radialGradient id="key" cx="0.22" cy="0.14" r="0.75"><stop stop-color="#fff" stop-opacity=".42"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></radialGradient>
-  <linearGradient id="contact" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="${INK}" stop-opacity="0"/><stop offset="1" stop-color="${INK}" stop-opacity=".28"/></linearGradient>
+  <radialGradient id="key" cx="0.22" cy="0.14" r="0.75"><stop stop-color="#fff" stop-opacity=".32"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="contact" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="${INK}" stop-opacity="0"/><stop offset=".82" stop-color="${INK}" stop-opacity=".06"/><stop offset="1" stop-color="${INK}" stop-opacity=".22"/></linearGradient>
   <linearGradient id="glassfill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9FB3DC"/><stop offset="1" stop-color="#4C405B"/></linearGradient>
-  <filter id="weave" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/></filter>
   <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
-  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="1" seed="3"/><feColorMatrix type="saturate" values="0"/></filter>
   <clipPath id="clip"><path d="${d}"/></clipPath></defs>
   <g transform="translate(5 5) scale(${(w-10)/w} ${(h-10)/h})">
     <path d="${d}" fill="url(#base)" ${outline}/>
@@ -70,12 +75,12 @@ function add(id,name,rows,base,details,opts={}){
       ${details(w,h)}
       ${finish(opts.finish||'matte',w,h)}
       <path d="${d}" fill="url(#contact)"/>
-      ${line(d,'#fff',9,'opacity=".38" transform="translate(4 5)"')}${line(d,INK,13,'opacity=".14" transform="translate(-3 -7)"')}
+      ${line(d,'#fff',9,'opacity=".14" filter="url(#soft)" transform="translate(4 5)"')}${line(d,INK,13,'opacity=".1" filter="url(#soft)" transform="translate(-3 -7)"')}
     </g>
     <path d="${d}" fill="none" ${outline}/>
   </g></svg>`;
-  fs.mkdirSync(path.join(output,'Items'),{recursive:true});
-  fs.writeFileSync(path.join(output,'Items',id+'.png'),new Resvg(svg).render().asPng());
+  fs.mkdirSync(path.join(destination,'Items'),{recursive:true});
+  fs.writeFileSync(path.join(destination,'Items',id+'.png'),new Resvg(svg).render().asPng());
   objects.push({id,display_name:name,sprite:'Items/'+id,cells:rows});
 }
 
@@ -95,7 +100,7 @@ function sock(id,name,rows,palette,pattern='stripe'){
     s+=rect(8,8,legW-16,36,8,'#FFF8E7',outline)+ribs(14,12,legW-28,28,6,'#D9C6AC',3,.8);            // cuff
     s+=line(`M${legW-70},56 V${foot-14}`,'#fff',9,'opacity=".35"');                                   // leg highlight
     if(pattern==='stripe') s+=line(`M14,74 H${legW-14} M14,96 H${legW-14}`,'#fff',8,'opacity=".5"');
-    if(pattern==='dots') for(let y=72;y<foot-30;y+=26) for(let x=24;x<legW-16;x+=28) s+=circle(x+(y/26%2)*14,y,4.5,'#fff','opacity=".7"');
+    if(pattern==='dots') s+=circle(30,76,7,'#fff','opacity=".55"')+circle(68,86,7,'#fff','opacity=".55"');
     if(pattern==='heart') s+=shape(`M${legW/2},104 C${legW/2-18},86 ${legW/2-34},110 ${legW/2},126 C${legW/2+34},110 ${legW/2+18},86 ${legW/2},104Z`,'#fff','opacity=".8"');
     s+=shape(`M4,${foot-34} Q6,${h-6} 60,${h-6} Q30,${h-30} 46,${foot-10}Z`,'#FFF4DF',outline);       // heel
     s+=shape(`M${w-54},${foot+8} Q${w-8},${foot+10} ${w-8},${h/2+foot/2} Q${w-10},${h-8} ${w-54},${h-8} Q${w-28},${h/2+foot/2} ${w-54},${foot+8}Z`,'#FFF4DF',outline); // toe
@@ -132,7 +137,7 @@ add('sock_straight','Rolled-flat sock',['XXX'],pink,(w,h)=>
 // ------------------------------------------------------------------ bottles and jars
 // Vertical bottle in a column: cap, neck, shoulder, body with a label; the pump/atomizer sits in the side cell.
 function capAt(x,y,w,h,color){ return rect(x,y,w,h,8,color,outline)+ribs(x+6,y+5,w-12,h-10,4,'#fff',3,.5); }
-function label(x,y,w,h,color,mark){ return rect(x,y,w,h,10,color,outline)+line(`M${x+12},${y+h*.3} H${x+w-12} M${x+12},${y+h*.5} H${x+w-12} M${x+12},${y+h*.7} H${x+w*.6}`,'#C9B99A',4)+(mark||''); }
+function label(x,y,w,h,color,mark){ return rect(x,y,w,h,10,color,outline)+(mark||line(`M${x+12},${y+h*.35} H${x+w-12} M${x+12},${y+h*.65} H${x+w*.65}`,'#C9B99A',5)); }
 add('perfume','Perfume atomizer',['X.','XX'],purple,(w,h)=>
  capAt(22,8,56,44,'#FFE5A8')+rect(30,56,40,22,5,'#E3C58C',outline)+                                    // cap and neck
  label(22,112,60,64,'#FFF3D9',star(52,144,.9,'#B48BD8'))+line('M16,92 V104','#fff',8,'opacity=".5"')+
@@ -415,6 +420,6 @@ for(let li=0;li<levels.length;li++){
 }
 // Omit unused work-in-progress illustrations from the runtime catalog (no orphan entries).
 const used=new Set(bindings.map(b=>b.art_id));
-for(const object of objects)if(!used.has(object.id))fs.unlinkSync(path.join(output,object.sprite+'.png'));
-fs.writeFileSync(path.join(output,'item_catalog.json'),JSON.stringify({schema_version:1,objects:objects.filter(o=>used.has(o.id)),bindings},null,2)+'\n');
+for(const object of objects)if(!used.has(object.id))fs.unlinkSync(path.join(destination,object.sprite+'.png'));
+fs.writeFileSync(path.join(destination,'item_catalog.json'),JSON.stringify({schema_version:1,objects:objects.filter(o=>used.has(o.id)),bindings},null,2)+'\n');
 console.log(`${bindings.length} pieces bound to ${used.size} whole-object illustrations; geometry checked for every binding.`);

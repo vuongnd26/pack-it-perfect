@@ -1,8 +1,15 @@
-// Builds the hand-authored vector art in Assets/Resources/Art (original work for this project).
-// Usage: node tools/asset-pipeline/art-build.js <dir containing node_modules/@resvg/resvg-js> <output dir> <Fredoka Bold .ttf>
-// The logo bakes its lettering from a static Bold instance of Assets/Fonts/Fredoka.ttf (SIL OFL 1.1).
+// Stages hand-authored environment vector art (original work for this project).
+// Usage: node tools/asset-pipeline/art-build.js <resvg runtime directory> <existing empty absolute staging directory> <static Fredoka .ttf>
+// Use the existing Assets/Fonts/Fredoka-SemiBold.ttf static face (SIL OFL 1.1); no font download is needed.
 const fs=require('fs'),path=require('path');
 const [,, resvgDir, outDir, fontFile]=process.argv;
+if (!resvgDir || !outDir || !fontFile || !path.isAbsolute(outDir) || !fs.existsSync(outDir) || !fs.statSync(outDir).isDirectory())
+  throw Error('Usage: node art-build.js <resvg runtime directory> <existing empty absolute staging directory> <static Fredoka .ttf>');
+const destination=fs.realpathSync(outDir), project=fs.realpathSync(path.join(__dirname,'../..'));
+const relative=path.relative(project,destination);
+if (!relative || (relative !== '..' && !relative.startsWith('..'+path.sep) && !path.isAbsolute(relative)))
+  throw Error('Output must be scratch staging outside the project; promote reviewed PNGs separately.');
+if (fs.readdirSync(destination).length) throw Error('Output staging directory must be empty.');
 const {Resvg}=require(path.join(resvgDir,'node_modules/@resvg/resvg-js'));
 const INK='#2A2436';
 const svg=(w,h,body,defs='')=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs>${defs}</defs>${body}</svg>`;
@@ -10,15 +17,14 @@ const A={};
 
 // ---- container frame / lid (9-slice, tintable greyscale) ----
 {
- const guard=(cx,cy,rx,ry)=>`<circle cx="${cx}" cy="${cy}" r="50" fill="#000" fill-opacity=".2" stroke="${INK}" stroke-opacity=".85" stroke-width="4"/><circle cx="${rx}" cy="${ry}" r="5.5" fill="#fff" fill-opacity=".85"/>`;
+ const guard=(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="50" fill="#000" fill-opacity=".14"/>`;
  A.frame=svg(192,192,`
  <rect x="4.5" y="4.5" width="183" height="183" rx="36" fill="#DEDEDE" stroke="${INK}" stroke-width="9"/>
  <g clip-path="url(#in)">
   <rect x="0" y="9" width="192" height="13" fill="#fff"/>
   <rect x="0" y="166" width="192" height="20" fill="#000" fill-opacity=".2"/>
-  ${guard(9,9,31,31)}${guard(183,9,161,31)}${guard(9,183,31,161)}${guard(183,183,161,161)}
- </g>
- <rect x="25" y="25" width="142" height="142" rx="18" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>`,
+  ${guard(9,9)}${guard(183,9)}${guard(9,183)}${guard(183,183)}
+ </g>`,
  `<clipPath id="in"><rect x="9" y="9" width="174" height="174" rx="31.5"/></clipPath>`);
 }
 // ---- inner shadow overlay (9-slice) ----
@@ -44,10 +50,9 @@ A.wheel=svg(96,96,`<circle cx="48" cy="48" r="40" fill="#3B3F4E" stroke="${INK}"
  <path d="M22,36 A30,30 0 0 1 48,18" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="6" stroke-linecap="round"/>`);
 // ---- blocked cell (tinted by the theme block colour) ----
 {
- let lines='';for(let i=-128;i<256;i+=26)lines+=`<line x1="${i}" y1="128" x2="${i+128}" y2="0" stroke="#fff" stroke-width="9"/>`;
+ let lines='';for(let i=-128;i<256;i+=52)lines+=`<line x1="${i}" y1="128" x2="${i+128}" y2="0" stroke="#fff" stroke-width="13"/>`;
  A.blocked=svg(128,128,`<rect x="4" y="4" width="120" height="120" rx="20" fill="#fff" fill-opacity=".62"/>
- <g clip-path="url(#c)" opacity=".55">${lines}</g>
- <rect x="7" y="7" width="114" height="114" rx="17" fill="none" stroke="#fff" stroke-width="6"/>`,
+ <g clip-path="url(#c)" opacity=".4">${lines}</g>`,
  `<clipPath id="c"><rect x="4" y="4" width="120" height="120" rx="20"/></clipPath>`);
 }
 // ---- fill bar (9-slice) ----
@@ -78,24 +83,25 @@ A.bar_fill=svg(96,48,`<rect x="7" y="7" width="82" height="34" rx="17" fill="url
 }
 // ---- backgrounds ----
 {
- let dots='';for(let y=0,r=0;y<1220;y+=58,r++)for(let x=(r%2)*29-10;x<560;x+=58)dots+=`<circle cx="${x}" cy="${y}" r="6.5"/>`;
- A.bg_game=svg(540,1170,`<rect width="540" height="1170" fill="url(#g)"/><g fill="#FFCF9A" fill-opacity=".3">${dots}</g>
- <path d="M0,930 Q135,880 270,925 T540,905 V1170 H0Z" fill="#FFD9AE" fill-opacity=".55"/>
- <path d="M0,1010 Q160,960 300,1005 T540,985 V1170 H0Z" fill="#FFC98F" fill-opacity=".5"/>`,
+ // Quiet play field: no repeating dots behind labels/markers. Broad warm dunes retain travel depth.
+ A.bg_game=svg(540,1170,`<rect width="540" height="1170" fill="url(#g)"/>
+ <ellipse cx="90" cy="180" rx="410" ry="390" fill="#FFFBF0" fill-opacity=".4"/>
+ <path d="M0,930 Q135,880 270,925 T540,905 V1170 H0Z" fill="#FFD9AE" fill-opacity=".42"/>
+ <path d="M0,1010 Q160,960 300,1005 T540,985 V1170 H0Z" fill="#FFC98F" fill-opacity=".32"/>`,
  `<linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFBF0"/><stop offset="1" stop-color="#FFEAD0"/></linearGradient>`);
- let rays='';const cx=270,cy=400,R=1400;for(let i=0;i<18;i++){const a0=(i*20-5)*Math.PI/180,a1=(i*20+5)*Math.PI/180;rays+=`<path d="M${cx},${cy} L${cx+R*Math.cos(a0)},${cy+R*Math.sin(a0)} L${cx+R*Math.cos(a1)},${cy+R*Math.sin(a1)}Z"/>`;}
- A.bg_menu=svg(540,1170,`<rect width="540" height="1170" fill="url(#r)"/><g fill="#fff" fill-opacity=".16">${rays}</g>
- <circle cx="70" cy="1010" r="150" fill="#FF9B54" fill-opacity=".55"/><circle cx="300" cy="1090" r="190" fill="#FF8F4A" fill-opacity=".5"/><circle cx="520" cy="1000" r="150" fill="#FF9B54" fill-opacity=".55"/>
- <g fill="#fff" fill-opacity=".8"><ellipse cx="90" cy="150" rx="60" ry="20"/><ellipse cx="120" cy="134" rx="34" ry="20"/><ellipse cx="440" cy="250" rx="52" ry="17"/><ellipse cx="418" cy="237" rx="28" ry="17"/></g>`,
+ // Menu keeps its soft radial glow/clouds/hills, not a high-frequency sunburst.
+ A.bg_menu=svg(540,1170,`<rect width="540" height="1170" fill="url(#r)"/>
+ <circle cx="70" cy="1010" r="150" fill="#FF9B54" fill-opacity=".38"/><circle cx="300" cy="1090" r="190" fill="#FF8F4A" fill-opacity=".36"/><circle cx="520" cy="1000" r="150" fill="#FF9B54" fill-opacity=".38"/>
+ <g fill="#fff" fill-opacity=".5"><path d="M30,150 C30,132 65,126 89,134 C98,103 151,111 154,136 C192,143 180,170 125,170 H86 C49,170 30,166 30,150Z"/><path d="M388,250 C388,232 401,227 415,230 C429,209 456,218 456,235 C500,239 506,265 443,267 C410,268 388,263 388,250Z"/></g>`,
  `<radialGradient id="r" cx="270" cy="400" r="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF0B8"/><stop offset=".45" stop-color="#FFD27A"/><stop offset="1" stop-color="#FFA95C"/></radialGradient>`);
 }
 // ---- logo ----
 {
  const star=(x,y,s,f)=>`<path transform="translate(${x} ${y}) scale(${s})" d="M0,-20 Q3,-3 20,0 Q3,3 0,20 Q-3,3 -20,0 Q-3,-3 0,-20Z" fill="${f}" stroke="${INK}" stroke-width="${5/s}" stroke-linejoin="round"/>`;
  const text=(t,y,size,fill,sw)=>`
-  <text x="450" y="${y+12}" font-family="Fredoka" font-weight="700" font-size="${size}" text-anchor="middle" fill="${INK}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round">${t}</text>
-  <text x="450" y="${y}" font-family="Fredoka" font-weight="700" font-size="${size}" text-anchor="middle" fill="${INK}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round">${t}</text>
-  <text x="450" y="${y}" font-family="Fredoka" font-weight="700" font-size="${size}" text-anchor="middle" fill="${fill}">${t}</text>`;
+  <text x="450" y="${y+12}" font-family="Fredoka" font-weight="600" font-size="${size}" text-anchor="middle" fill="${INK}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round">${t}</text>
+  <text x="450" y="${y}" font-family="Fredoka" font-weight="600" font-size="${size}" text-anchor="middle" fill="${INK}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round">${t}</text>
+  <text x="450" y="${y}" font-family="Fredoka" font-weight="600" font-size="${size}" text-anchor="middle" fill="${fill}">${t}</text>`;
  A.logo=svg(900,640,`
  <g transform="rotate(-7 450 170)">
   <path d="M380,78 L380,48 Q380,26 402,26 L498,26 Q520,26 520,48 L520,78" fill="none" stroke="${INK}" stroke-width="34" stroke-linejoin="round"/>
@@ -124,7 +130,7 @@ A.bar_fill=svg(96,48,`<rect x="7" y="7" width="82" height="34" rx="17" fill="url
   <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE873"/><stop offset="1" stop-color="#FFB02E"/></linearGradient>`);
 }
 for(const k of Object.keys(A)){
-  const zoom=k.startsWith('bg_')?2:2; const png=new Resvg(A[k],{fitTo:{mode:'zoom',value:zoom},font:{fontFiles:[fontFile],loadSystemFonts:false,defaultFontFamily:'Fredoka'}}).render().asPng();
-  fs.writeFileSync(path.join(outDir,k+'.png'),png);
+  const png=new Resvg(A[k],{fitTo:{mode:'zoom',value:2},font:{fontFiles:[fontFile],loadSystemFonts:false,defaultFontFamily:'Fredoka'}}).render().asPng();
+  fs.writeFileSync(path.join(destination,k+'.png'),png);
 }
-console.log(Object.keys(A).join(','));
+console.log(`Staged ${Object.keys(A).length} original environment assets: ${Object.keys(A).join(',')}; no project assets imported or changed.`);

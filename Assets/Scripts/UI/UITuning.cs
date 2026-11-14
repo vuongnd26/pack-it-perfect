@@ -64,7 +64,7 @@ namespace PackItPerfect.UI
         public float bodyFontSize = 46f;
         public float buttonFontSize = 60f;
         public float smallFontSize = 40f;
-        public float chipFontSize = 34f;
+        public float chipFontSize = 38f;
 
         [Header("HUD")]
         [Tooltip("Height of the top HUD band (pause, level pill, timer, rule chips); the board is fitted below it.")]
@@ -72,32 +72,51 @@ namespace PackItPerfect.UI
         [Tooltip("Gap above the first HUD row.")]
         public float hudTopMargin = 10f;
         [Tooltip("Diameter of the round pause button.")]
-        public float hudButtonSize = 120f;
-        public float hudPillHeight = 76f;
-        public float hudNameHeight = 42f;
-        public float hudNameFontSize = 34f;
+        public float hudButtonSize = 104f;
+        public float hudPillHeight = 84f;
+        public float hudNameHeight = 58f;
+        public float hudNameFontSize = 40f;
         public float levelPillWidth = 300f;
         public float timerPillWidth = 250f;
         [Tooltip("Distance from the top of the band to the rule chip row.")]
         public float chipRowTop = 140f;
-        public float chipHeight = 50f;
+        public float chipHeight = 58f;
+        public float rulesButtonWidth = 140f;
         public float chipSpacing = 10f;
         public float chipPaddingX = 18f;
         [Tooltip("Height of the booster dock; equals the slot diameter. The board is fitted above it.")]
         public float bottomBarHeight = 132f;
-        public float bottomBarMargin = 18f;
+        public float bottomBarMargin = 10f;
 
         [Header("Booster dock")]
         [Tooltip("Diameter of a dock slot (at least 120 reference px for touch).")]
         public float dockSlotSize = 132f;
-        public float dockSpacing = 36f;
-        public float badgeSize = 52f;
-        public float badgeFontSize = 30f;
+        public float dockSpacing = 12f;
+        public float badgeSize = 54f;
+        public float badgeFontSize = 48f;
         [Tooltip("How far the count badge sits outside the slot's top-right corner.")]
         public Vector2 badgeOffset = new Vector2(6f, 6f);
-        public float dockLabelFontSize = 26f;
+        public float dockLabelFontSize = 42f;
         public float lockIconSize = 44f;
-        public float lockLabelFontSize = 28f;
+        public float lockLabelFontSize = 42f;
+        [Tooltip("Height of a booster tile (icon left, name right, count pill on the top edge).")]
+        public float dockTileHeight = 112f;
+        [Tooltip("A tile narrower than this switches the dock to two columns instead of shrinking its text.")]
+        public float dockTileMinWidth = 200f;
+        public float dockTileMaxWidth = 260f;
+        public float dockIconSize = 52f;
+        [Tooltip("Tile height when four tiles only fit as narrow columns (large UI size): icon above the name.")]
+        public float dockTileCompactHeight = 150f;
+        [Tooltip("How far the count pill rises above the tile's top edge.")]
+        public float badgeRise = 24f;
+
+        [Header("Tray pager")]
+        [Tooltip("Height of the previous/next row shown above the dock when the tray has more than one page.")]
+        public float pagerHeight = 76f;
+        public float pagerButtonWidth = 120f;
+        public float pagerWidth = 720f;
+        public float pagerFontSize = 42f;
+        public float pagerGap = 10f;
         [Tooltip("Tint multiplied onto a slot that cannot be used right now.")]
         public Color dockDisabledTint = new Color(0.72f, 0.72f, 0.72f, 0.9f);
         [Tooltip("Dark veil over a locked slot.")]
@@ -107,8 +126,8 @@ namespace PackItPerfect.UI
 
         [Header("Toast")]
         public float toastWidth = 940f;
-        public float toastHeight = 96f;
-        public float toastFontSize = 34f;
+        public float toastHeight = 104f;
+        public float toastFontSize = 40f;
         public float toastHold = 1.8f;
         public float toastFade = 0.3f;
         public float toastGap = 22f;

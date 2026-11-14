@@ -1,5 +1,4 @@
-// Implements: design/game-brief.md "Core loop" (Chọn và xoay: pick an item from the tray).
-// Story: production/epics/pack-it-perfect/story-001-core-packing-loop.md
+// Implements: design/game-brief.md "Core loop" and the approved mobile readability plan.
 
 using System;
 using System.Collections.Generic;
@@ -8,74 +7,56 @@ using UnityEngine;
 namespace PackItPerfect
 {
     /// <summary>
-    /// Lays out one square home slot per piece below the grid, in centred rows that wrap at the tray width.
-    /// A slot's side is the piece's larger dimension × tray scale, so rotating a piece never changes the layout.
-    /// A piece keeps its slot while placed; the slot is empty until it returns.
+    /// Presents stable square home slots in a fixed two-row viewport. Membership and scale are established on load;
+    /// placed items leave empty slots and hidden pages never participate in pointer hit testing.
     /// </summary>
     public sealed class TrayView
     {
-        readonly Rect[] slots;
-        readonly float scale;
+        readonly TrayPagination pagination;
 
-        /// <summary>World rectangle the tray occupies.</summary>
-        public Rect Bounds { get; }
+        /// <summary>World rectangle occupied by the visible viewport, not by all catalog pages.</summary>
+        public Rect Bounds => pagination.Viewport;
 
-        /// <summary>Lays out slots for <paramref name="shapes"/> starting at world y <paramref name="top"/>.</summary>
-        public TrayView(IReadOnlyList<PieceShape> shapes, float top, float width, PackingTuning tuning)
+        /// <summary>Effective resting scale, capped only to make the largest item fit within the frame width.</summary>
+        public float Scale => pagination.Scale;
+
+        /// <summary>Zero-based currently displayed page.</summary>
+        public int Page { get; private set; }
+
+        /// <summary>Number of stable pages, zero for an empty tray.</summary>
+        public int PageCount => pagination.PageCount;
+
+        /// <summary>Lays out permanent slots at the supplied frame width, starting at world y <paramref name="top"/>.</summary>
+        /// <param name="scale">Resting scale to lay out at (see <see cref="TrayPagination.FitScale"/>).</param>
+        public TrayView(IReadOnlyList<PieceShape> shapes, float top, float width, PackingTuning tuning, float scale = 0f)
         {
-            scale = tuning.trayScale;
-            float spacing = tuning.traySlotSpacing;
-            slots = new Rect[shapes.Count];
-
-            var rows = new List<List<int>>();
-            var row = new List<int>();
-            float rowWidth = 0f;
-            for (int i = 0; i < shapes.Count; i++)
-            {
-                float size = shapes[i].MaxDimension * scale;
-                if (row.Count > 0 && rowWidth + spacing + size > width)
-                {
-                    rows.Add(row);
-                    row = new List<int>();
-                    rowWidth = 0f;
-                }
-                rowWidth += (row.Count > 0 ? spacing : 0f) + size;
-                row.Add(i);
-            }
-            rows.Add(row);
-
-            float y = top;
-            foreach (var r in rows)
-            {
-                float rowHeight = 0f;
-                float total = spacing * (r.Count - 1);
-                foreach (int i in r)
-                {
-                    float size = shapes[i].MaxDimension * scale;
-                    rowHeight = Mathf.Max(rowHeight, size);
-                    total += size;
-                }
-                float x = -total / 2f;
-                foreach (int i in r)
-                {
-                    float size = shapes[i].MaxDimension * scale;
-                    slots[i] = new Rect(x, y - rowHeight / 2f - size / 2f, size, size);
-                    x += size + spacing;
-                }
-                y -= rowHeight + spacing;
-            }
-            float bottom = y + spacing;
-            Bounds = new Rect(-width / 2f, bottom, width, top - bottom);
+            if (scale <= 0f) scale = tuning.trayScale;
+            pagination = new TrayPagination(shapes, top, width, scale, tuning.traySlotSpacing, tuning.trayRowsPerPage,
+                tuning.traySortBySize);
         }
 
-        /// <summary>World top-left corner for <paramref name="shape"/> centred in slot <paramref name="pieceIndex"/> at tray scale.</summary>
+        /// <summary>Stable zero-based home page for a piece, or -1 when the piece index is invalid.</summary>
+        public int PageFor(int pieceIndex) => pagination.PageFor(pieceIndex);
+
+        /// <summary>True when the piece belongs to the currently displayed page.</summary>
+        public bool IsOnVisiblePage(int pieceIndex) => PageFor(pieceIndex) == Page && PageCount > 0;
+
+        /// <summary>Changes pages without changing slots; returns false for an invalid page or the current page.</summary>
+        public bool SetPage(int page)
+        {
+            if (page < 0 || page >= PageCount || page == Page) return false;
+            Page = page;
+            return true;
+        }
+
+        /// <summary>World top-left for a rotated shape centered in its permanent square home slot.</summary>
         public Vector3 TopLeftFor(int pieceIndex, PieceShape shape)
         {
-            var center = slots[pieceIndex].center;
-            return new Vector3(center.x - shape.Width * scale / 2f, center.y + shape.Height * scale / 2f, 0f);
+            var center = pagination.SlotFor(pieceIndex).center;
+            return new Vector3(center.x - shape.Width * Scale / 2f, center.y + shape.Height * Scale / 2f, 0f);
         }
 
-        /// <summary>Nearest available slot within a bounded margin; exact hits win and ties keep data order.</summary>
+        /// <summary>Nearest visible available slot within a bounded margin; exact hits win and ties keep data order.</summary>
         public int HitTestExpanded(Vector2 world, Func<int, bool> isInTray, float margin)
         {
             int exact = HitTest(world, isInTray);
@@ -86,26 +67,24 @@ namespace PackItPerfect
             if (!allowed.Contains(world)) return -1;
             int nearest = -1;
             float distance = margin * margin;
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < pagination.Count; i++)
             {
-                if (!isInTray(i)) continue;
-                var closest = new Vector2(Mathf.Clamp(world.x, slots[i].xMin, slots[i].xMax),
-                    Mathf.Clamp(world.y, slots[i].yMin, slots[i].yMax));
+                if (!IsOnVisiblePage(i) || !isInTray(i)) continue;
+                Rect slot = pagination.SlotFor(i);
+                var closest = new Vector2(Mathf.Clamp(world.x, slot.xMin, slot.xMax),
+                    Mathf.Clamp(world.y, slot.yMin, slot.yMax));
                 float squared = (closest - world).sqrMagnitude;
                 if (squared < distance) { distance = squared; nearest = i; }
             }
             return nearest;
         }
 
-        /// <summary>Index of the slot under the world point whose piece is in the tray, or -1.</summary>
+        /// <summary>Index of the visible, unplaced piece whose home slot contains the point, or -1.</summary>
         public int HitTest(Vector2 world, Func<int, bool> isInTray)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < pagination.Count; i++)
             {
-                if (isInTray(i) && slots[i].Contains(world))
-                {
-                    return i;
-                }
+                if (IsOnVisiblePage(i) && isInTray(i) && pagination.SlotFor(i).Contains(world)) return i;
             }
             return -1;
         }

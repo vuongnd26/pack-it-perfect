@@ -32,6 +32,11 @@ namespace PackItPerfect.UI
         public const string LEVEL_PILL_FORMAT = "Level {0}";
         /// <summary>HUD fill percentage: {0} = 0..100.</summary>
         public const string FILL_FORMAT = "{0}%";
+        public const string RULES_BUTTON = "Rules";
+
+        /// <summary>First displayed symbol of a rule chip, preserving surrogate pairs.</summary>
+        public static string RuleIcon(string text) => string.IsNullOrEmpty(text) ? string.Empty
+            : System.Globalization.StringInfo.GetNextTextElement(text);
         /// <summary>HUD timer: {0} = seconds left.</summary>
         public const string TIMER_FORMAT = "⏱ {0}s";
         /// <summary>Hint button (GDD verbatim, "Booster").</summary>
@@ -161,6 +166,27 @@ namespace PackItPerfect.UI
         public const string BADGE_OVERFLOW = "99+";
         /// <summary>Marker text when the gift art is missing.</summary>
         public const string GIFT_FALLBACK = "+";
+
+        /// <summary>Tray pager label: {0} page, {1} page count, {2} items still to pack.</summary>
+        public const string TRAY_PAGE_FORMAT = "Tray {0}/{1}  ·  {2} left";
+        /// <summary>Previous tray page button.</summary>
+        public const string TRAY_PREVIOUS = "<";
+        /// <summary>Next tray page button.</summary>
+        public const string TRAY_NEXT = ">";
+        /// <summary>Held item line: {0} item name, {1} its rules.</summary>
+        public const string ITEM_INFO_FORMAT = "{0}  ·  {1}";
+        /// <summary>Separator between an item's rules.</summary>
+        public const string ITEM_TRAIT_SEPARATOR = "  ";
+        /// <summary>Held item rule: heavy.</summary>
+        public const string TRAIT_HEAVY = "⚓ Heavy";
+        /// <summary>Held item rule: fragile.</summary>
+        public const string TRAIT_FRAGILE = "✨ Fragile";
+        /// <summary>Held item rule: cannot be turned.</summary>
+        public const string TRAIT_UPRIGHT = "⬆️ Upright";
+        /// <summary>Held item rule: must touch its partner.</summary>
+        public const string TRAIT_PAIR = "🔗 Pair";
+        /// <summary>Held item rule: zone, {0} icon, {1} zone name.</summary>
+        public const string TRAIT_ZONE_FORMAT = "{0} {1}";
 
         /// <summary>Display name of a booster.</summary>
         public static string BoosterName(BoosterType type) => type == BoosterType.Hint ? BOOSTER_HINT

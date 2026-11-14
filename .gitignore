@@ -71,6 +71,11 @@ export_presets.cfg
 # *.import
 
 # === Engine: Unity ===
+/.utmp/
+/Assets/InitTestScene*.unity
+/Assets/InitTestScene*.unity.meta
+/Assets/_Recovery/
+/Assets/_Recovery.meta
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -180,6 +185,8 @@ $RECYCLE.BIN/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
+!tools/build/
+!tools/build/release.json
 [Bb]uilds/
 [Uu]serSettings/
 *.slnx

@@ -1,0 +1,65 @@
+ M .gitignore
+ M "Assets/Resources/Fonts/Fredoka SDF.asset"
+ M Assets/Settings/UniversalRP.asset
+ M Assets/Settings/UniversalRenderPipelineGlobalSettings.asset
+ M ProjectSettings/ProjectSettings.asset
+ M production/qa/evidence/mobile-puzzle/480x800-level20-large.png
+ M production/qa/evidence/mobile-puzzle/480x800-level20.png
+ M production/qa/evidence/mobile-puzzle/480x800-levels.png
+ M production/qa/evidence/mobile-puzzle/480x800-main.png
+ M production/qa/evidence/mobile-puzzle/480x800-pause.png
+ M production/qa/evidence/mobile-puzzle/800x480-level20-large.png
+ M production/qa/evidence/mobile-puzzle/800x480-level20.png
+ M production/qa/evidence/mobile-puzzle/800x480-lose-large.png
+ M production/qa/evidence/mobile-puzzle/level-01-initial.png
+ M production/qa/evidence/mobile-puzzle/level-01-won.png
+ M production/qa/evidence/mobile-puzzle/level-02-initial.png
+ M production/qa/evidence/mobile-puzzle/level-02-won.png
+ M production/qa/evidence/mobile-puzzle/level-03-initial.png
+ M production/qa/evidence/mobile-puzzle/level-03-won.png
+ M production/qa/evidence/mobile-puzzle/level-04-initial.png
+ M production/qa/evidence/mobile-puzzle/level-04-won.png
+ M production/qa/evidence/mobile-puzzle/level-05-initial.png
+ M production/qa/evidence/mobile-puzzle/level-05-won.png
+ M production/qa/evidence/mobile-puzzle/level-06-initial.png
+ M production/qa/evidence/mobile-puzzle/level-06-won.png
+ M production/qa/evidence/mobile-puzzle/level-07-initial.png
+ M production/qa/evidence/mobile-puzzle/level-07-won.png
+ M production/qa/evidence/mobile-puzzle/level-08-initial.png
+ M production/qa/evidence/mobile-puzzle/level-08-won.png
+ M production/qa/evidence/mobile-puzzle/level-09-initial.png
+ M production/qa/evidence/mobile-puzzle/level-09-won.png
+ M production/qa/evidence/mobile-puzzle/level-10-initial.png
+ M production/qa/evidence/mobile-puzzle/level-10-won.png
+ M production/qa/evidence/mobile-puzzle/level-11-initial.png
+ M production/qa/evidence/mobile-puzzle/level-11-won.png
+ M production/qa/evidence/mobile-puzzle/level-12-initial.png
+ M production/qa/evidence/mobile-puzzle/level-12-won.png
+ M production/qa/evidence/mobile-puzzle/level-13-initial.png
+ M production/qa/evidence/mobile-puzzle/level-13-won.png
+ M production/qa/evidence/mobile-puzzle/level-14-initial.png
+ M production/qa/evidence/mobile-puzzle/level-14-won.png
+ M production/qa/evidence/mobile-puzzle/level-15-initial.png
+ M production/qa/evidence/mobile-puzzle/level-15-won.png
+ M production/qa/evidence/mobile-puzzle/level-16-initial.png
+ M production/qa/evidence/mobile-puzzle/level-16-won.png
+ M production/qa/evidence/mobile-puzzle/level-17-initial.png
+ M production/qa/evidence/mobile-puzzle/level-17-won.png
+ M production/qa/evidence/mobile-puzzle/level-18-initial.png
+ M production/qa/evidence/mobile-puzzle/level-18-won.png
+ M production/qa/evidence/mobile-puzzle/level-19-initial.png
+ M production/qa/evidence/mobile-puzzle/level-19-won.png
+ M production/qa/evidence/mobile-puzzle/level-20-initial.png
+ M production/qa/evidence/mobile-puzzle/level-20-won.png
+ M production/qa/evidence/mobile-puzzle/safearea-top-bottom-large.png
+ M production/qa/evidence/mobile-puzzle/shop-bought.png
+ M production/qa/evidence/mobile-puzzle/shop-main.png
+ M production/qa/perf-report.md
+?? .utmp/
+?? Assets/Editor/ReleaseBuild.cs
+?? Assets/Editor/ReleaseBuild.cs.meta
+?? Assets/_Recovery.meta
+?? Assets/_Recovery/
+?? production/qa/evidence/mobile-readability/
+?? production/releases/
+?? tools/build/
