@@ -1,5 +1,5 @@
 // In-level HUD: top band (round pause button, level pill with the level name, timer pill, compact rule chips) and the
-// bottom booster dock (Undo, Hint, Auto Pack, Freeze) with a toast line above it.
+// bottom booster dock (Hint, Auto Pack, Freeze) with a toast line above it.
 // Implements: design/game-brief.md "Cơ chế chính" (Hẹn giờ), "Nâng cấp Cozy Travel" (HUD gọn, booster dock).
 // Stories: production/epics/pack-it-perfect/story-006-timer-mode.md, story-007-progression-meta.md
 
@@ -56,7 +56,6 @@ namespace PackItPerfect.UI
         readonly object pillFillKey = new object();
         bool chipsDirty = true;
         float pillFillShown;
-        readonly DockSlot undoSlot;
         readonly DockSlot[] boosterSlots = new DockSlot[BoosterBundle.TYPE_COUNT];
         readonly GameObject toast;
         readonly CanvasGroup toastGroup;
@@ -66,13 +65,10 @@ namespace PackItPerfect.UI
         readonly object fillKey = new object();
         readonly RectTransform toastRect;
         readonly RectTransform safeRect;
-        bool undoUsable = true;
         int shownFillPercent = -1;
 
         /// <summary>Pause button clicked.</summary>
         public event Action PauseClicked;
-        /// <summary>Undo slot clicked.</summary>
-        public event Action UndoClicked;
         /// <summary>A booster slot (Hint, Auto Pack, Freeze) clicked, locked or not.</summary>
         public event Action<BoosterType> BoosterClicked;
         /// <summary>Requests the pause overlay's complete rule explanation.</summary>
@@ -163,12 +159,10 @@ namespace PackItPerfect.UI
             dock.anchoredPosition = new Vector2(0f, tuning.bottomBarMargin);
             dock.sizeDelta = new Vector2(-2f * tuning.sideMargin, tuning.dockTileHeight);
 
-            undoSlot = new DockSlot(factory, dock, tuning, animator, "HUD Undo", "ui_undo", UIStrings.UNDO, false,
-                () => UndoClicked?.Invoke());
             boosterSlots[(int)BoosterType.Hint] = CreateBoosterSlot(BoosterType.Hint, "HUD Hint");
             boosterSlots[(int)BoosterType.AutoPack] = CreateBoosterSlot(BoosterType.AutoPack, "HUD AutoPack");
             boosterSlots[(int)BoosterType.Freeze] = CreateBoosterSlot(BoosterType.Freeze, "HUD Freeze");
-            dockOrder = new[] { undoSlot, boosterSlots[(int)BoosterType.Hint], boosterSlots[(int)BoosterType.AutoPack],
+            dockOrder = new[] { boosterSlots[(int)BoosterType.Hint], boosterSlots[(int)BoosterType.AutoPack],
                 boosterSlots[(int)BoosterType.Freeze] };
 
             var toastImage = factory.Panel("Toast", safe, tuning.bannerBackground, TOAST_RADIUS);
@@ -395,7 +389,6 @@ namespace PackItPerfect.UI
                 animator.Cancel(pillFillKey);
                 fillLabel.rectTransform.localScale = Vector3.one;
                 toast.SetActive(false);
-                undoSlot.ResetMotion();
                 foreach (var slot in boosterSlots) slot.ResetMotion();
             }
             root.SetActive(visible);
@@ -474,28 +467,11 @@ namespace PackItPerfect.UI
             }
         }
 
-        /// <summary>Dims the Undo slot when there is nothing to undo. Cheap to call every frame.</summary>
-        public void SetUndoUsable(bool usable)
-        {
-            if (usable == undoUsable)
-            {
-                return;
-            }
-            undoUsable = usable;
-            undoSlot.SetUsable(usable);
-        }
-
         /// <summary>Shakes a booster slot (a refused tap).</summary>
         public void ShakeBooster(BoosterType type) => boosterSlots[(int)type].Shake();
 
-        /// <summary>Shakes the Undo slot.</summary>
-        public void ShakeUndo() => undoSlot.Shake();
-
         /// <summary>Bounces a booster slot after it was used.</summary>
         public void BounceBooster(BoosterType type) => boosterSlots[(int)type].PlayUse();
-
-        /// <summary>Bounces the Undo slot.</summary>
-        public void BounceUndo() => undoSlot.PlayUse();
 
         /// <summary>Shows a short message above the dock; it fades after <see cref="UITuning.toastHold"/> seconds.</summary>
         public void ShowToast(string message)

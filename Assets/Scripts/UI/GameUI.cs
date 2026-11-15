@@ -125,7 +125,6 @@ namespace PackItPerfect.UI
             game.ScreenToast = OnGameToast;
             game.LevelLoaded += OnLevelLoaded;
             game.FillChanged += OnFillChanged;
-            game.HistoryChanged += OnHistoryChanged;
             game.AutoPackFinished += OnAutoPackFinished;
             game.LevelWon += OnLevelWon;
             game.LevelCompleted += OnLevelCompleted;
@@ -175,7 +174,6 @@ namespace PackItPerfect.UI
             {
                 game.LevelLoaded -= OnLevelLoaded;
                 game.FillChanged -= OnFillChanged;
-                game.HistoryChanged -= OnHistoryChanged;
                 game.AutoPackFinished -= OnAutoPackFinished;
                 game.LevelWon -= OnLevelWon;
                 game.LevelCompleted -= OnLevelCompleted;
@@ -216,7 +214,6 @@ namespace PackItPerfect.UI
                 if (!paused)
                 {
                     timer.Tick(deltaTime);
-                    hud.SetUndoUsable(game.CanUndo);
                     if (timer.IsFrozen)
                     {
                         hud.Timer.SetFrozen(true, Mathf.CeilToInt(timer.FrozenRemaining));
@@ -266,7 +263,6 @@ namespace PackItPerfect.UI
             // Sibling order is draw order: HUD, banner, overlays, then the opaque menus on top.
             hud = new HudView(factory, canvasRect, tuning, animator);
             hud.PauseClicked += OpenPause;
-            hud.UndoClicked += OnUndoClicked;
             hud.BoosterClicked += OnBoosterClicked;
             hud.RulesClicked += OpenPause;
 
@@ -482,7 +478,6 @@ namespace PackItPerfect.UI
             bool timed = info != null && info.HasTimer;
             hud.SetTimed(timed);
             hud.Timer.SetFrozen(false);
-            hud.SetUndoUsable(game.CanUndo);
             hud.RefreshBoosters(progress, false);
             if (timed)
             {
@@ -655,23 +650,6 @@ namespace PackItPerfect.UI
             game.RestartLevel();
         }
 
-        void OnUndoClicked()
-        {
-            if (!CanAct())
-            {
-                return;
-            }
-            if (game.RequestUndo())
-            {
-                hud.BounceUndo();
-            }
-            else
-            {
-                hud.ShakeUndo();
-                Cue?.Invoke(UICue.Refused, 0);
-            }
-        }
-
         void OnBoosterClicked(BoosterType type)
         {
             if (!CanAct())
@@ -786,14 +764,6 @@ namespace PackItPerfect.UI
         void OnFillChanged(float fraction)
         {
             if (built) hud.SetFill(fraction);
-        }
-
-        void OnHistoryChanged()
-        {
-            if (built)
-            {
-                hud.SetUndoUsable(game.CanUndo);
-            }
         }
 
         void OnBoostersChanged()
