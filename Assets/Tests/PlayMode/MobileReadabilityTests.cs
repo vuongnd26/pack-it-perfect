@@ -101,12 +101,15 @@ namespace PackItPerfect.Tests
         {
             // Arrange: activate boosters through legitimate isolated progression, never through production saves.
             for (int n = 1; n <= 7; n++) ui.Progress.CompleteLevel(n, 3);
-            game.LoadLevel(20);
+            game.LoadLevel(RichestLevel());
             for (int frame = 0; frame < 8; frame++) yield return null;
             yield return Capture("after/unlocked-dock");
-            foreach (var name in new[] { "HUD Hint", "HUD AutoPack", "HUD Freeze" })
+            var dockCanvas = (GameObject)Field(ui, "canvasObject").GetValue(ui);
+            Assert.That(Find(dockCanvas.transform, "HUD Freeze").gameObject.activeInHierarchy, Is.False,
+                "No level has a timer, so Freeze stays out of the dock.");
+            foreach (var name in new[] { "HUD Hint", "HUD AutoPack" })
             {
-                var uiCanvas = (GameObject)Field(ui, "canvasObject").GetValue(ui);
+                var uiCanvas = dockCanvas;
                 var slot = Find(uiCanvas.transform, name);
                 Assert.That(slot, Is.Not.Null, name);
                 int checkedLabels = 0;
@@ -129,8 +132,8 @@ namespace PackItPerfect.Tests
         [UnityTest]
         public IEnumerator LevelIntro_BannerStaysInsideReservedHud()
         {
-            // Arrange/act: loading a timed level triggers the actual banner.
-            game.LoadLevel(20);
+            // Arrange/act: loading a level that introduces a rule triggers the actual banner.
+            game.LoadLevel(FirstLevelWithBanner());
             for (int i = 0; i < 8; i++) yield return null;
             var hud = Field(ui, "hud").GetValue(ui);
             var banner = Field(ui, "banner").GetValue(ui);
@@ -155,7 +158,9 @@ namespace PackItPerfect.Tests
         [UnityTest]
         public IEnumerator RulesButton_PausesWithFullCurrentLevelExplanations()
         {
-            game.LoadLevel(20);
+            int number = RichestLevel();
+            var level = Levels().levels[number - 1];
+            game.LoadLevel(number);
             yield return null;
             var canvas = (GameObject)Field(ui, "canvasObject").GetValue(ui);
             Find(canvas.transform, "HUD Rules").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
@@ -165,9 +170,13 @@ namespace PackItPerfect.Tests
             Assert.That(rules.gameObject.activeInHierarchy, Is.True);
             var label = rules.GetComponent("TextMeshProUGUI");
             string text = (string)label.GetType().GetProperty("text").GetValue(label);
-            StringAssert.Contains("bottom", text);
-            StringAssert.Contains("Fragile", text);
-            StringAssert.Contains("touch", text);
+            int explained = 0;
+            foreach (var expected in RuleLines(level))
+            {
+                StringAssert.Contains(expected, text);
+                explained++;
+            }
+            Assert.That(explained, Is.GreaterThanOrEqualTo(2), "Use a level with several rules, not an empty check.");
             Assert.That(game.InputLocked, Is.True);
             yield return Capture("after/rules-level20");
         }
@@ -269,7 +278,7 @@ namespace PackItPerfect.Tests
             SetSize(800, 480);
             ui.Progress.SetUIScalePercent(150);
             typeof(GameUI).GetMethod("ApplyPreferences", Private).Invoke(ui, null);
-            game.LoadLevel(20);
+            game.LoadLevel(RichestLevel());
             for (int frame = 0; frame < 8; frame++) yield return null;
             var canvas = (GameObject)Field(ui, "canvasObject").GetValue(ui);
             var rules = Find(canvas.transform, "HUD Rules").GetComponent<UnityEngine.UI.Button>();
@@ -290,6 +299,50 @@ namespace PackItPerfect.Tests
             Assert.That(top.y, Is.InRange(scroll.viewport.rect.yMin, scroll.viewport.rect.yMax),
                 "Opening Rules must reveal its first line even after settings were scrolled.");
             yield return Capture("after/rules-landscape-reopened");
+        }
+
+        LevelsFile Levels() => JsonUtility.FromJson<LevelsFile>(catalog.text);
+
+        /// <summary>The level with the most distinct rules (first one on ties), found in the data, not hard-coded.</summary>
+        int RichestLevel()
+        {
+            int best = 1, most = -1;
+            foreach (var level in Levels().levels)
+            {
+                int count = RuleLines(level).Count;
+                if (count > most)
+                {
+                    best = level.number;
+                    most = count;
+                }
+            }
+            return best;
+        }
+
+        int FirstLevelWithBanner()
+        {
+            foreach (var level in Levels().levels)
+                if (!string.IsNullOrEmpty(level.bannerTitle)) return level.number;
+            Assert.Fail("No level introduces a rule with a banner.");
+            return 1;
+        }
+
+        /// <summary>Words the pause screen must show for each rule the level uses.</summary>
+        static System.Collections.Generic.List<string> RuleLines(LevelData level)
+        {
+            bool heavy = false, upright = false, paired = false, fragile = false, zoned = false;
+            foreach (var piece in level.pieces)
+            {
+                heavy |= piece.heavy; upright |= piece.upright; paired |= piece.pair >= 0;
+                fragile |= piece.fragile; zoned |= !string.IsNullOrEmpty(piece.zone);
+            }
+            var lines = new System.Collections.Generic.List<string>();
+            if (zoned) lines.Add("zone");
+            if (heavy) lines.Add("bottom");
+            if (upright) lines.Add("cannot be turned");
+            if (paired) lines.Add("touch");
+            if (fragile) lines.Add("Fragile");
+            return lines;
         }
 
         static FieldInfo Field(object target, string name) => target.GetType().GetField(name, Private);

@@ -76,9 +76,9 @@ namespace PackItPerfect.Tests
         }
 
         [UnityTest]
-        public IEnumerator AllTwentyLevels_ControllerDragReplay_WinsWithoutAssists()
+        public IEnumerator AllLevels_ControllerDragReplay_WinsWithoutAssists()
         {
-            Assert.That(game.LevelCount, Is.EqualTo(20));
+            Assert.That(game.LevelCount, Is.EqualTo(100));
             for (int number = 1; number <= game.LevelCount; number++)
             {
                 LogAssert.Expect(LogType.Log, new System.Text.RegularExpressions.Regex($"^PackingGame: loaded level {number} "));
@@ -86,7 +86,9 @@ namespace PackItPerfect.Tests
                 yield return null;
                 var level = game.CurrentLevel;
                 Assert.That(level, Is.Not.Null, $"Level {number} failed to load.");
-                yield return Capture($"level-{number:00}-initial");
+                // Captures: the first twenty and every tenth level, so evidence stays reviewable.
+                bool capture = number <= 20 || number % 10 == 0;
+                if (capture) yield return Capture($"level-{number:00}-initial");
                 for (int piece = 0; piece < level.SolutionShapes.Length; piece++)
                 {
                     RotateToReference(piece, level.SolutionShapes[piece]);
@@ -96,8 +98,11 @@ namespace PackItPerfect.Tests
                 Assert.That(game.IsWon, Is.True, $"Level {number}: full controller replay did not win.");
                 Assert.That(game.AssistUsed, Is.False);
                 Assert.That(ui.Timer.IsRunning, Is.False, "Winning callback must stop the timer.");
-                yield return new WaitForSecondsRealtime(1.5f);
-                yield return Capture($"level-{number:00}-won");
+                if (capture)
+                {
+                    yield return new WaitForSecondsRealtime(1.5f);
+                    yield return Capture($"level-{number:00}-won");
+                }
                 LogAssert.NoUnexpectedReceived();
             }
         }

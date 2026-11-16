@@ -1169,743 +1169,5146 @@
     {
       "level": 10,
       "piece": "A",
-      "art_id": "sock_short",
-      "solution_turns": 1,
+      "art_id": "book",
+      "solution_turns": 0,
       "mirrored": false
     },
     {
       "level": 10,
       "piece": "B",
-      "art_id": "sock_long",
-      "solution_turns": 2,
-      "mirrored": true
-    },
-    {
-      "level": 10,
-      "piece": "C",
-      "art_id": "perfume",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 10,
-      "piece": "D",
-      "art_id": "cap",
+      "art_id": "umbrella",
       "solution_turns": 1,
       "mirrored": false
     },
     {
       "level": 10,
-      "piece": "E",
-      "art_id": "perfume",
-      "solution_turns": 2,
+      "piece": "C",
+      "art_id": "sandwich",
+      "solution_turns": 0,
       "mirrored": false
     },
     {
       "level": 10,
-      "piece": "F",
-      "art_id": "trainer",
+      "piece": "D",
+      "art_id": "prawn",
       "solution_turns": 3,
       "mirrored": false
     },
     {
       "level": 10,
-      "piece": "G",
-      "art_id": "pump_t",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 10,
-      "piece": "H",
-      "art_id": "sock_short",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 10,
-      "piece": "I",
-      "art_id": "sock_straight",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 11,
-      "piece": "A",
-      "art_id": "pillow_v",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 11,
-      "piece": "B",
-      "art_id": "camp_lantern",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 11,
-      "piece": "C",
-      "art_id": "thermos",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 11,
-      "piece": "D",
-      "art_id": "scarf_w",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 11,
       "piece": "E",
-      "art_id": "sneaker",
+      "art_id": "sushi_roll",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 11,
+      "level": 10,
       "piece": "F",
-      "art_id": "lunchbox",
-      "solution_turns": 0,
+      "art_id": "cheese_u",
+      "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 11,
+      "level": 10,
       "piece": "G",
       "art_id": "carrot",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 12,
+      "level": 11,
       "piece": "A",
-      "art_id": "baguette_v",
+      "art_id": "sushi_roll",
       "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 12,
+      "level": 11,
       "piece": "B",
-      "art_id": "baguette",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 12,
-      "piece": "C",
-      "art_id": "pepper",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 12,
-      "piece": "D",
-      "art_id": "leek",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 12,
-      "piece": "E",
       "art_id": "lunchbox",
       "solution_turns": 0,
       "mirrored": false
     },
     {
+      "level": 11,
+      "piece": "C",
+      "art_id": "pepper",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 11,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 11,
+      "piece": "E",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 11,
+      "piece": "F",
+      "art_id": "sausage",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 12,
+      "piece": "A",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 12,
+      "piece": "B",
+      "art_id": "sneaker",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 12,
+      "piece": "C",
+      "art_id": "sneaker",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 12,
+      "piece": "D",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 12,
+      "piece": "E",
+      "art_id": "pillow_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
       "level": 12,
       "piece": "F",
-      "art_id": "potato_sack",
-      "solution_turns": 1,
+      "art_id": "biscuit",
+      "solution_turns": 0,
       "mirrored": false
     },
     {
       "level": 12,
       "piece": "G",
-      "art_id": "cheese_u",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 12,
-      "piece": "H",
-      "art_id": "jar_t",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 13,
-      "piece": "A",
-      "art_id": "towel_p",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 13,
-      "piece": "B",
-      "art_id": "shampoo_pump",
-      "solution_turns": 3,
-      "mirrored": true
-    },
-    {
-      "level": 13,
-      "piece": "C",
-      "art_id": "toothpaste",
+      "art_id": "sock_short",
       "solution_turns": 1,
       "mirrored": false
     },
     {
       "level": 13,
-      "piece": "D",
-      "art_id": "atomizer_f",
-      "solution_turns": 0,
+      "piece": "A",
+      "art_id": "scarf_s",
+      "solution_turns": 1,
       "mirrored": false
     },
     {
       "level": 13,
-      "piece": "E",
-      "art_id": "shampoo_w",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 13,
-      "piece": "F",
+      "piece": "B",
       "art_id": "toothbrush",
       "solution_turns": 0,
       "mirrored": false
     },
     {
       "level": 13,
-      "piece": "G",
-      "art_id": "perfume",
+      "piece": "C",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 13,
+      "piece": "D",
+      "art_id": "poster_tube",
       "solution_turns": 1,
       "mirrored": false
     },
     {
       "level": 13,
-      "piece": "H",
-      "art_id": "bath_brush",
-      "solution_turns": 0,
+      "piece": "E",
+      "art_id": "sock_short",
+      "solution_turns": 2,
       "mirrored": false
     },
     {
-      "level": 14,
-      "piece": "A",
-      "art_id": "hoodie_p",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 14,
-      "piece": "B",
-      "art_id": "thermos",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 14,
-      "piece": "C",
-      "art_id": "perfume_upright",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 14,
-      "piece": "D",
-      "art_id": "umbrella",
+      "level": 13,
+      "piece": "F",
+      "art_id": "sock_short",
       "solution_turns": 3,
       "mirrored": false
     },
     {
       "level": 14,
+      "piece": "A",
+      "art_id": "croissant",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "B",
+      "art_id": "watering_can",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "D",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "E",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 14,
+      "piece": "G",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "A",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "B",
+      "art_id": "sock_sport",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "C",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "D",
+      "art_id": "thermos",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "E",
+      "art_id": "hiking_boot",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 15,
+      "piece": "F",
+      "art_id": "potato_sack",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "A",
+      "art_id": "sock_sport",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "B",
+      "art_id": "pillow_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "C",
+      "art_id": "sock_sport",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "D",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 16,
+      "piece": "E",
+      "art_id": "wrench_z",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 16,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "A",
+      "art_id": "headphones",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "B",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "C",
+      "art_id": "atomizer_f",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 17,
+      "piece": "D",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 17,
       "piece": "E",
       "art_id": "sock_folded",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 14,
-      "piece": "F",
-      "art_id": "scarf_w",
+      "level": 18,
+      "piece": "A",
+      "art_id": "headphones",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "B",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "C",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 18,
+      "piece": "D",
+      "art_id": "sock_sport",
       "solution_turns": 3,
       "mirrored": false
     },
     {
-      "level": 14,
-      "piece": "G",
-      "art_id": "pump_long",
+      "level": 18,
+      "piece": "E",
+      "art_id": "sock_sport",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 14,
-      "piece": "H",
-      "art_id": "sock_scrunched",
-      "solution_turns": 0,
-      "mirrored": false
+      "level": 18,
+      "piece": "F",
+      "art_id": "snorkel",
+      "solution_turns": 1,
+      "mirrored": true
     },
     {
-      "level": 14,
-      "piece": "I",
-      "art_id": "wrench_z",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 14,
-      "piece": "J",
-      "art_id": "powerbank",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 15,
+      "level": 19,
       "piece": "A",
-      "art_id": "atomizer_short",
-      "solution_turns": 0,
+      "art_id": "book",
+      "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 19,
       "piece": "B",
-      "art_id": "sock_t",
+      "art_id": "umbrella",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "C",
+      "art_id": "biscuit",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 19,
+      "piece": "D",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 19,
+      "piece": "E",
+      "art_id": "bath_brush",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "F",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 19,
+      "piece": "G",
+      "art_id": "sock_sport",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "B",
+      "art_id": "umbrella",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
       "piece": "C",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "D",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "E",
+      "art_id": "shampoo_w",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 20,
+      "piece": "F",
+      "art_id": "trainer",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 21,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 21,
+      "piece": "B",
+      "art_id": "umbrella",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 21,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 21,
+      "piece": "D",
+      "art_id": "sock_short",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 21,
+      "piece": "E",
       "art_id": "headphones",
       "solution_turns": 3,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 21,
+      "piece": "F",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 22,
+      "piece": "A",
+      "art_id": "bottle_tall",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 22,
+      "piece": "B",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 22,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 22,
+      "piece": "D",
+      "art_id": "pepper",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 22,
+      "piece": "E",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 22,
+      "piece": "F",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 22,
+      "piece": "G",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 23,
+      "piece": "A",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 23,
+      "piece": "B",
+      "art_id": "headphones",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 23,
+      "piece": "C",
+      "art_id": "sock_short",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 23,
       "piece": "D",
       "art_id": "book",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 23,
       "piece": "E",
-      "art_id": "sock_travel",
-      "solution_turns": 0,
+      "art_id": "umbrella",
+      "solution_turns": 3,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 23,
       "piece": "F",
-      "art_id": "slipper_folded",
-      "solution_turns": 0,
+      "art_id": "toy_drill",
+      "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 15,
+      "level": 23,
       "piece": "G",
       "art_id": "bottle_tall",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 15,
-      "piece": "H",
-      "art_id": "thermos",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 15,
-      "piece": "I",
-      "art_id": "slipper_straight",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 15,
-      "piece": "J",
-      "art_id": "sock_short",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 15,
-      "piece": "K",
-      "art_id": "scarf_s",
-      "solution_turns": 1,
-      "mirrored": true
-    },
-    {
-      "level": 15,
-      "piece": "L",
-      "art_id": "wrench_z",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 15,
-      "piece": "M",
-      "art_id": "powerbank",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 16,
+      "level": 24,
       "piece": "A",
-      "art_id": "book_stack",
+      "art_id": "milk_carton",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 16,
+      "level": 24,
       "piece": "B",
-      "art_id": "teapot",
-      "solution_turns": 0,
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 16,
+      "level": 24,
       "piece": "C",
-      "art_id": "wine_glass",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 16,
-      "piece": "D",
-      "art_id": "scarf_s",
-      "solution_turns": 1,
-      "mirrored": true
-    },
-    {
-      "level": 16,
-      "piece": "E",
-      "art_id": "sock_long",
-      "solution_turns": 3,
-      "mirrored": true
-    },
-    {
-      "level": 16,
-      "piece": "F",
-      "art_id": "cap",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 16,
-      "piece": "G",
-      "art_id": "toothpaste",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "A",
-      "art_id": "dumbbell",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "B",
-      "art_id": "hiking_boot",
-      "solution_turns": 1,
-      "mirrored": true
-    },
-    {
-      "level": 17,
-      "piece": "C",
-      "art_id": "vase",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "D",
-      "art_id": "tea_set",
+      "art_id": "cheese_u",
       "solution_turns": 3,
       "mirrored": false
     },
     {
-      "level": 17,
-      "piece": "E",
-      "art_id": "snow_globe",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "F",
-      "art_id": "sock_short",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "G",
-      "art_id": "sock_short",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 17,
-      "piece": "H",
-      "art_id": "towel_p",
-      "solution_turns": 2,
-      "mirrored": true
-    },
-    {
-      "level": 17,
-      "piece": "I",
-      "art_id": "book",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "A",
-      "art_id": "toolbox",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "B",
-      "art_id": "iron_l",
-      "solution_turns": 3,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "C",
-      "art_id": "hand_mirror",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
+      "level": 24,
       "piece": "D",
-      "art_id": "wine_glass",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "E",
-      "art_id": "teapot",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "F",
-      "art_id": "pump_long",
-      "solution_turns": 0,
-      "mirrored": true
-    },
-    {
-      "level": 18,
-      "piece": "G",
-      "art_id": "perfume_upright",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "H",
-      "art_id": "trainer",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "I",
-      "art_id": "trainer",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "J",
-      "art_id": "book",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 18,
-      "piece": "K",
       "art_id": "biscuit",
       "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 19,
+      "level": 24,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 24,
+      "piece": "F",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 25,
       "piece": "A",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 25,
+      "piece": "B",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 25,
+      "piece": "C",
+      "art_id": "fried_egg",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 25,
+      "piece": "D",
+      "art_id": "bottle_tall",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 25,
+      "piece": "E",
+      "art_id": "sandwich",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 25,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 25,
+      "piece": "G",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "A",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "B",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "C",
+      "art_id": "sneaker",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "D",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "E",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "F",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 26,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "A",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "B",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "D",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "E",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "F",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 27,
+      "piece": "G",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 28,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "B",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "C",
+      "art_id": "toy_dinosaur",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "D",
+      "art_id": "snorkel",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "E",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 28,
+      "piece": "F",
+      "art_id": "plush",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "G",
+      "art_id": "poster_tube",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 28,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "A",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "B",
+      "art_id": "prawn",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "D",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "F",
+      "art_id": "potato_sack",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "G",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 29,
+      "piece": "H",
+      "art_id": "croissant",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "A",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "B",
+      "art_id": "shampoo_w",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "C",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "D",
+      "art_id": "sock_short",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "E",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 30,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 30,
+      "piece": "G",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "C",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "D",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "E",
+      "art_id": "sausage",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 31,
+      "piece": "F",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 31,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "A",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "B",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "C",
+      "art_id": "perfume",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "D",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "E",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "F",
+      "art_id": "toothpaste",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "G",
+      "art_id": "hand_mirror",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 32,
+      "piece": "H",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "A",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 33,
+      "piece": "B",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "C",
+      "art_id": "umbrella",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "D",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "E",
+      "art_id": "iron_l",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "F",
+      "art_id": "oven_mitt",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "G",
+      "art_id": "toy_dinosaur",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 33,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "B",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "C",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "D",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "E",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "F",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 34,
+      "piece": "G",
+      "art_id": "shampoo_w",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 35,
+      "piece": "A",
+      "art_id": "sock_long",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 35,
+      "piece": "B",
+      "art_id": "sneaker",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 35,
+      "piece": "C",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 35,
+      "piece": "D",
+      "art_id": "towel_p",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 35,
+      "piece": "E",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 35,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 35,
+      "piece": "G",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "A",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "B",
+      "art_id": "croissant",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "C",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "D",
+      "art_id": "baguette_v",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "E",
+      "art_id": "leek",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "F",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 36,
+      "piece": "G",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "A",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "B",
+      "art_id": "shaker",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "C",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "D",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "E",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 37,
+      "piece": "G",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 38,
+      "piece": "A",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 38,
+      "piece": "B",
       "art_id": "book_stack",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 19,
-      "piece": "B",
-      "art_id": "dumbbell",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 19,
+      "level": 38,
       "piece": "C",
-      "art_id": "vase",
+      "art_id": "shampoo_w",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 38,
+      "piece": "D",
+      "art_id": "sock_short",
       "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 19,
+      "level": 38,
+      "piece": "E",
+      "art_id": "scarf_w",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 38,
+      "piece": "F",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 39,
+      "piece": "A",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 39,
+      "piece": "B",
+      "art_id": "sock_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 39,
+      "piece": "C",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 39,
       "piece": "D",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 39,
+      "piece": "E",
+      "art_id": "umbrella",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 39,
+      "piece": "F",
+      "art_id": "slipper_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 39,
+      "piece": "G",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 40,
+      "piece": "C",
+      "art_id": "sock_short",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "D",
+      "art_id": "potato_sack",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "E",
+      "art_id": "croissant",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "F",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 40,
+      "piece": "G",
+      "art_id": "fried_egg",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "A",
+      "art_id": "cheese_u",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "B",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "D",
+      "art_id": "wrench_z",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 41,
+      "piece": "E",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 41,
+      "piece": "G",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "A",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "B",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "C",
+      "art_id": "umbrella",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "D",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "E",
+      "art_id": "sock_sport",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "F",
+      "art_id": "headphones",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 42,
+      "piece": "G",
+      "art_id": "perfume",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "A",
+      "art_id": "watering_can",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "B",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "C",
+      "art_id": "potato_sack",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "D",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "E",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "F",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "G",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 43,
+      "piece": "H",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "A",
+      "art_id": "toy_drill",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "D",
+      "art_id": "hand_mirror",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "E",
       "art_id": "snow_globe",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 19,
+      "level": 44,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "G",
+      "art_id": "sock_short",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 44,
+      "piece": "H",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "A",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "B",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "C",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "D",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 45,
+      "piece": "E",
+      "art_id": "cheese_u",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "F",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 45,
+      "piece": "G",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 45,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "A",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "B",
+      "art_id": "baguette_v",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "C",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "D",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "E",
+      "art_id": "oven_mitt",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 46,
+      "piece": "G",
+      "art_id": "cheese_u",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "A",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "B",
+      "art_id": "sneaker",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "C",
+      "art_id": "broccoli",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "D",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "E",
+      "art_id": "slipper_folded",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 47,
+      "piece": "F",
+      "art_id": "carrot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "A",
+      "art_id": "sock_long",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 48,
+      "piece": "B",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "D",
+      "art_id": "perfume_upright",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "E",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "F",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "G",
+      "art_id": "pump_long",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 48,
+      "piece": "H",
+      "art_id": "sock_long",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 49,
+      "piece": "A",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "B",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "C",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "D",
+      "art_id": "sausage",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "F",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 49,
+      "piece": "G",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "B",
+      "art_id": "sock_sport",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "C",
+      "art_id": "atomizer_short",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "D",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "E",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "F",
+      "art_id": "shampoo_pump",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 50,
+      "piece": "G",
+      "art_id": "trainer",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 50,
+      "piece": "H",
+      "art_id": "slipper_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "A",
+      "art_id": "leek",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "B",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "C",
+      "art_id": "baguette_v",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "E",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "F",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 51,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 51,
+      "piece": "H",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 52,
+      "piece": "A",
+      "art_id": "snorkel",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 52,
+      "piece": "B",
+      "art_id": "shaker",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 52,
+      "piece": "C",
+      "art_id": "scarf_w",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 52,
+      "piece": "D",
+      "art_id": "sneaker",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 52,
+      "piece": "E",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 52,
+      "piece": "F",
+      "art_id": "sock_travel",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 52,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 52,
+      "piece": "H",
+      "art_id": "sneaker",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 52,
+      "piece": "I",
+      "art_id": "shampoo_w",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "A",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "B",
+      "art_id": "croissant",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "E",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "F",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "G",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "H",
+      "art_id": "potato_sack",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 53,
+      "piece": "I",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "A",
+      "art_id": "wrench_z",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 54,
+      "piece": "B",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "C",
+      "art_id": "dumbbell",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "D",
+      "art_id": "headphones",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "E",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "F",
+      "art_id": "snorkel",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 54,
+      "piece": "I",
+      "art_id": "plush",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "A",
+      "art_id": "carrot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "B",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "D",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "E",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "F",
+      "art_id": "potato_sack",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "G",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "H",
+      "art_id": "jar_t",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 55,
+      "piece": "I",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "B",
+      "art_id": "snorkel",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 56,
+      "piece": "C",
+      "art_id": "sock_long",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "D",
+      "art_id": "scarf_w",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "E",
+      "art_id": "sneaker",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "G",
+      "art_id": "pillow_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 56,
+      "piece": "H",
+      "art_id": "cap",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "B",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "C",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "D",
+      "art_id": "cheese_u",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "E",
+      "art_id": "pepper",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "F",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "G",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 57,
+      "piece": "H",
+      "art_id": "sandwich",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "A",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "B",
+      "art_id": "umbrella",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "C",
+      "art_id": "iron_l",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "E",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "F",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "H",
+      "art_id": "broccoli",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 58,
+      "piece": "I",
+      "art_id": "potato_sack",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "A",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "B",
+      "art_id": "sock_straight",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "D",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "E",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "F",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 59,
+      "piece": "G",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "H",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 59,
+      "piece": "I",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "A",
+      "art_id": "jar_t",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "E",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "F",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "G",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "H",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 60,
+      "piece": "I",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "A",
+      "art_id": "pepper",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 61,
+      "piece": "B",
+      "art_id": "baguette_v",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "C",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "D",
+      "art_id": "carrot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "E",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "F",
+      "art_id": "sausage",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 61,
+      "piece": "G",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 61,
+      "piece": "H",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "A",
+      "art_id": "sock_sport",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "B",
+      "art_id": "sock_sport",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "C",
+      "art_id": "scarf_w",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "D",
+      "art_id": "trainer",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "E",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "G",
+      "art_id": "umbrella",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "H",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 62,
+      "piece": "I",
+      "art_id": "bottle_tall",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 63,
+      "piece": "A",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "B",
+      "art_id": "thermos",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "C",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 63,
+      "piece": "D",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "E",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "F",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "G",
+      "art_id": "cheese_u",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 63,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "A",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "B",
+      "art_id": "perfume",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "C",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "D",
+      "art_id": "scarf_s",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "E",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "F",
+      "art_id": "umbrella",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "G",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "H",
+      "art_id": "trainer",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 64,
+      "piece": "I",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "A",
+      "art_id": "slipper_straight",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "B",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "D",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 65,
+      "piece": "E",
+      "art_id": "sneaker",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 65,
+      "piece": "F",
+      "art_id": "toothpaste",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "G",
+      "art_id": "umbrella",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "H",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 65,
+      "piece": "I",
+      "art_id": "sock_travel",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 66,
+      "piece": "A",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "B",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "D",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "E",
+      "art_id": "sausage",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 66,
+      "piece": "F",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "G",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 66,
+      "piece": "H",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "A",
+      "art_id": "jar_t",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "B",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "D",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "E",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "G",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "H",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 67,
+      "piece": "I",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "A",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "B",
+      "art_id": "oven_mitt",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "C",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "D",
+      "art_id": "poster_tube",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "E",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 68,
+      "piece": "F",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "G",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 68,
+      "piece": "H",
+      "art_id": "cheese_u",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "A",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "B",
+      "art_id": "hoodie_p",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 69,
+      "piece": "C",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "D",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "E",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "F",
+      "art_id": "trainer",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "G",
+      "art_id": "fried_egg",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "H",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 69,
+      "piece": "I",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "A",
+      "art_id": "trainer",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "B",
+      "art_id": "thermos",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "C",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "D",
+      "art_id": "sock_sport",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "E",
+      "art_id": "hiking_boot",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 70,
+      "piece": "F",
+      "art_id": "umbrella",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "G",
+      "art_id": "hand_mirror",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "H",
+      "art_id": "cap",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 70,
+      "piece": "I",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "A",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "B",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "C",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "D",
+      "art_id": "cheese_u",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "E",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 71,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 71,
+      "piece": "H",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 72,
+      "piece": "C",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "D",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "E",
+      "art_id": "headphones",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "F",
+      "art_id": "cap",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "G",
+      "art_id": "perfume",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "H",
+      "art_id": "sock_sport",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 72,
+      "piece": "I",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 73,
+      "piece": "A",
+      "art_id": "sock_travel",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 73,
+      "piece": "B",
+      "art_id": "shampoo_pump",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 73,
+      "piece": "C",
+      "art_id": "scarf_s",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 73,
+      "piece": "D",
+      "art_id": "camp_lantern",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 73,
+      "piece": "E",
+      "art_id": "atomizer_short",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 73,
+      "piece": "F",
+      "art_id": "cap",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 73,
+      "piece": "G",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 73,
+      "piece": "H",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 74,
+      "piece": "A",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 74,
+      "piece": "B",
+      "art_id": "book_stack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 74,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 74,
+      "piece": "D",
+      "art_id": "leek",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 74,
       "piece": "E",
       "art_id": "tea_set",
       "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 19,
+      "level": 74,
       "piece": "F",
-      "art_id": "sock_long",
-      "solution_turns": 2,
-      "mirrored": true
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
     },
     {
-      "level": 19,
+      "level": 74,
       "piece": "G",
-      "art_id": "sock_long",
+      "art_id": "pepper",
       "solution_turns": 2,
-      "mirrored": true
+      "mirrored": false
     },
     {
-      "level": 19,
+      "level": 74,
       "piece": "H",
-      "art_id": "hoodie_p",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "A",
+      "art_id": "prawn",
       "solution_turns": 3,
       "mirrored": false
     },
     {
-      "level": 19,
-      "piece": "I",
-      "art_id": "sock_short",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 19,
-      "piece": "J",
-      "art_id": "toothpaste",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 19,
-      "piece": "K",
-      "art_id": "cap",
-      "solution_turns": 2,
-      "mirrored": false
-    },
-    {
-      "level": 20,
-      "piece": "A",
-      "art_id": "toolbox",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 20,
+      "level": 75,
       "piece": "B",
-      "art_id": "hiking_boot",
+      "art_id": "broccoli",
       "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "D",
+      "art_id": "carrot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "E",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "G",
+      "art_id": "jar_t",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "H",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 75,
+      "piece": "I",
+      "art_id": "thermos",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "C",
+      "art_id": "pepper",
+      "solution_turns": 0,
       "mirrored": true
     },
     {
-      "level": 20,
-      "piece": "C",
-      "art_id": "book_stack",
+      "level": 76,
+      "piece": "D",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "E",
+      "art_id": "fried_egg",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "F",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 76,
+      "piece": "G",
+      "art_id": "lunchbox",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 20,
+      "level": 76,
+      "piece": "H",
+      "art_id": "baguette_v",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "B",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "C",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 77,
       "piece": "D",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "E",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "F",
+      "art_id": "shampoo_w",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 77,
+      "piece": "G",
+      "art_id": "sneaker",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 77,
+      "piece": "H",
       "art_id": "hand_mirror",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 20,
-      "piece": "E",
-      "art_id": "teapot",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 20,
-      "piece": "F",
-      "art_id": "wine_glass",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 20,
-      "piece": "G",
-      "art_id": "vase",
-      "solution_turns": 0,
-      "mirrored": false
-    },
-    {
-      "level": 20,
-      "piece": "H",
-      "art_id": "shampoo_pump",
-      "solution_turns": 0,
-      "mirrored": true
-    },
-    {
-      "level": 20,
+      "level": 77,
       "piece": "I",
-      "art_id": "atomizer_short",
-      "solution_turns": 1,
-      "mirrored": false
-    },
-    {
-      "level": 20,
-      "piece": "J",
-      "art_id": "slipper_straight",
+      "art_id": "telescope",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 20,
-      "piece": "K",
-      "art_id": "slipper_straight",
+      "level": 78,
+      "piece": "A",
+      "art_id": "biscuit",
       "solution_turns": 1,
       "mirrored": false
     },
     {
-      "level": 20,
-      "piece": "L",
+      "level": 78,
+      "piece": "B",
+      "art_id": "scarf_w",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "C",
+      "art_id": "toothbrush",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "D",
+      "art_id": "umbrella",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "E",
+      "art_id": "toothpaste",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "F",
+      "art_id": "sock_t",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "G",
+      "art_id": "iron_l",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 78,
+      "piece": "H",
       "art_id": "headphones",
       "solution_turns": 0,
       "mirrored": false
     },
     {
-      "level": 20,
-      "piece": "M",
+      "level": 79,
+      "piece": "A",
+      "art_id": "sock_sport",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "B",
+      "art_id": "umbrella",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "C",
+      "art_id": "camp_lantern",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "D",
       "art_id": "scarf_s",
       "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "E",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "F",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "G",
+      "art_id": "shampoo_w",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 79,
+      "piece": "H",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "B",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "C",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "D",
+      "art_id": "sneaker",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "E",
+      "art_id": "sneaker",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 80,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "G",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "H",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 80,
+      "piece": "I",
+      "art_id": "prawn",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 80,
+      "piece": "J",
+      "art_id": "scarf_s",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 81,
+      "piece": "A",
+      "art_id": "carrot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "B",
+      "art_id": "oven_mitt",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "C",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "D",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "E",
+      "art_id": "cheese_u",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "F",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "G",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "H",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 81,
+      "piece": "I",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "A",
+      "art_id": "baguette_v",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "B",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "D",
+      "art_id": "sausage",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 82,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "F",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "G",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "H",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "I",
+      "art_id": "potato_sack",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 82,
+      "piece": "J",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "A",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "B",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "C",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 83,
+      "piece": "D",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "E",
+      "art_id": "sandwich",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "F",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "G",
+      "art_id": "poster_tube",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "H",
+      "art_id": "cheese_u",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "I",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 83,
+      "piece": "J",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "A",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 84,
+      "piece": "B",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "D",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 84,
+      "piece": "E",
+      "art_id": "sausage",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 84,
+      "piece": "F",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "G",
+      "art_id": "croissant",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "H",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "I",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 84,
+      "piece": "J",
+      "art_id": "thermos",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "A",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "B",
+      "art_id": "fried_egg",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "C",
+      "art_id": "sausage",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 85,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "F",
+      "art_id": "cheese_u",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "G",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "H",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "I",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 85,
+      "piece": "J",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "A",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "B",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "C",
+      "art_id": "wrench_z",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "D",
+      "art_id": "toy_drill",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "E",
+      "art_id": "umbrella",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "F",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "H",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 86,
+      "piece": "I",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "A",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "B",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 87,
+      "piece": "C",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "D",
+      "art_id": "fried_egg",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "E",
+      "art_id": "snow_globe",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "G",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "H",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 87,
+      "piece": "I",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "B",
+      "art_id": "jar_t",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "D",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "E",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "F",
+      "art_id": "pepper",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "G",
+      "art_id": "umbrella",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "H",
+      "art_id": "sock_straight",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "I",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 88,
+      "piece": "J",
+      "art_id": "hiking_boot",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 89,
+      "piece": "A",
+      "art_id": "pepper",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 89,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "C",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "D",
+      "art_id": "fried_egg",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "E",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "F",
+      "art_id": "sandwich",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "G",
+      "art_id": "jar_t",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "H",
+      "art_id": "prawn",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "I",
+      "art_id": "croissant",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 89,
+      "piece": "J",
+      "art_id": "potato_sack",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "A",
+      "art_id": "wrench_z",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 90,
+      "piece": "B",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "C",
+      "art_id": "sandwich",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "D",
+      "art_id": "headphones",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "E",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "F",
+      "art_id": "thermos",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "H",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "I",
+      "art_id": "shaker",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 90,
+      "piece": "J",
+      "art_id": "broccoli",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "A",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "C",
+      "art_id": "leek",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 91,
+      "piece": "D",
+      "art_id": "baguette_v",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "E",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "F",
+      "art_id": "fried_egg",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 91,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "A",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "B",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "D",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "E",
+      "art_id": "pepper",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 92,
+      "piece": "F",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "G",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "H",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "I",
+      "art_id": "broccoli",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 92,
+      "piece": "J",
+      "art_id": "sausage",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 93,
+      "piece": "A",
+      "art_id": "headphones",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "B",
+      "art_id": "hiking_boot",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "C",
+      "art_id": "telescope",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "D",
+      "art_id": "toothbrush",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "E",
+      "art_id": "cap",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "F",
+      "art_id": "trainer",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "G",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "H",
+      "art_id": "sock_straight",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "I",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 93,
+      "piece": "J",
+      "art_id": "scarf_w",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "A",
+      "art_id": "bottle_tall",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "B",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "C",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 94,
+      "piece": "D",
+      "art_id": "prawn",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "E",
+      "art_id": "sandwich",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "F",
+      "art_id": "sock_t",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "G",
+      "art_id": "scarf_s",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 94,
+      "piece": "H",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "I",
+      "art_id": "book",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 94,
+      "piece": "J",
+      "art_id": "trainer",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "A",
+      "art_id": "sandwich",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "B",
+      "art_id": "baguette_v",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "C",
+      "art_id": "tea_set",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "D",
+      "art_id": "wine_glass",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "E",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "F",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "G",
+      "art_id": "leek",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 95,
+      "piece": "H",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 95,
+      "piece": "I",
+      "art_id": "watering_can",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 95,
+      "piece": "J",
+      "art_id": "croissant",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "A",
+      "art_id": "fried_egg",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "B",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "C",
+      "art_id": "croissant",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "E",
+      "art_id": "cheese_u",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 96,
+      "piece": "F",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 96,
+      "piece": "G",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": true
+    },
+    {
+      "level": 96,
+      "piece": "H",
+      "art_id": "baguette",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "A",
+      "art_id": "leek",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 97,
+      "piece": "B",
+      "art_id": "broccoli",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "C",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "D",
+      "art_id": "biscuit",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "E",
+      "art_id": "potato_sack",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "F",
+      "art_id": "sandwich",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "G",
+      "art_id": "sushi_roll",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "H",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "I",
+      "art_id": "prawn",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 97,
+      "piece": "J",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "A",
+      "art_id": "baguette_v",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "B",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "C",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "D",
+      "art_id": "baguette",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "E",
+      "art_id": "croissant",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "F",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "G",
+      "art_id": "milk_carton",
+      "solution_turns": 0,
+      "mirrored": true
+    },
+    {
+      "level": 98,
+      "piece": "H",
+      "art_id": "cheese_u",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "I",
+      "art_id": "broccoli",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 98,
+      "piece": "J",
+      "art_id": "sandwich",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "A",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "B",
+      "art_id": "book",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "C",
+      "art_id": "cheese_u",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "D",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "E",
+      "art_id": "lunchbox",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "F",
+      "art_id": "pepper",
+      "solution_turns": 2,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "G",
+      "art_id": "sausage",
+      "solution_turns": 3,
+      "mirrored": true
+    },
+    {
+      "level": 99,
+      "piece": "H",
+      "art_id": "sushi_roll",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "I",
+      "art_id": "carrot",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 99,
+      "piece": "J",
+      "art_id": "sneaker",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 100,
+      "piece": "A",
+      "art_id": "trainer",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "B",
+      "art_id": "toothpaste",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "C",
+      "art_id": "hand_mirror",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "D",
+      "art_id": "toothbrush",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "E",
+      "art_id": "snorkel",
+      "solution_turns": 1,
+      "mirrored": true
+    },
+    {
+      "level": 100,
+      "piece": "F",
+      "art_id": "hiking_boot",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "G",
+      "art_id": "biscuit",
+      "solution_turns": 0,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "H",
+      "art_id": "sock_sport",
+      "solution_turns": 3,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "I",
+      "art_id": "telescope",
+      "solution_turns": 1,
+      "mirrored": false
+    },
+    {
+      "level": 100,
+      "piece": "J",
+      "art_id": "shampoo_w",
+      "solution_turns": 1,
       "mirrored": false
     }
   ]

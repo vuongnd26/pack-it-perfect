@@ -165,9 +165,12 @@ namespace PackItPerfect.Tests
             Assert.That(progress.StarBalance, Is.EqualTo(3 - HINT_PRICE));
         }
 
-        /// <summary>The shipped prices parse from progression.json and every price is positive.</summary>
+        /// <summary>
+        /// The shipped prices parse from progression.json. Hint and Auto Pack are for sale; Freeze is not, because no
+        /// level has a timer since 2026-11-15 and a Freeze would buy nothing.
+        /// </summary>
         [Test]
-        public void ShippedProgressionJson_DefinesPositivePricesForEveryBooster()
+        public void ShippedProgressionJson_SellsHintAndAutoPackButNotFreeze()
         {
             var asset = UnityEngine.Resources.Load<UnityEngine.TextAsset>(ProgressionRules.RESOURCE);
             Assert.That(asset, Is.Not.Null);
@@ -176,8 +179,11 @@ namespace PackItPerfect.Tests
 
             Assert.That(error, Is.Null);
             Assert.That(rules.HasShop, Is.True);
-            for (int i = 0; i < BoosterBundle.TYPE_COUNT; i++)
-                Assert.That(rules.ShopPrice((BoosterType)i), Is.GreaterThan(0), $"Booster {(BoosterType)i} has no price.");
+            Assert.That(rules.ShopPrice(BoosterType.Hint), Is.GreaterThan(0), "Hint has no price.");
+            Assert.That(rules.ShopPrice(BoosterType.AutoPack), Is.GreaterThan(0), "Auto Pack has no price.");
+            Assert.That(rules.ShopPrice(BoosterType.Freeze), Is.Zero, "Freeze must not be sold while no level is timed.");
+            for (int level = 1; level <= 100; level++)
+                Assert.That(rules.MilestoneReward(level).freeze, Is.Zero, $"Milestone {level} still gives Freeze.");
         }
     }
 }

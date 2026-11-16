@@ -42,15 +42,23 @@ namespace PackItPerfect.Tests
             TestContext.WriteLine($"Catalog binding: {ScenePath} -> {catalogPath}; solver node limit: {searchLimit}.");
         }
 
-        /// <summary>All twenty numbered levels must meet shape, coverage, blocked, zone, pair and rule validation.</summary>
+        /// <summary>All numbered levels must meet shape, coverage, blocked, zone, pair and rule validation.</summary>
         [Test]
-        public void SceneCatalog_ContainsTwentyValidSequentialLevels()
+        public void SceneCatalog_ContainsAllValidSequentialLevels()
         {
             Assert.That(catalog.levels.Length, Is.EqualTo(PackingFixtures.LevelCount));
 
             var errors = LevelLoader.ValidateAll(catalog, limits);
 
             Assert.That(errors, Is.Empty, string.Join("\n", errors));
+        }
+
+        /// <summary>Timers were removed from every level (2026-11-15): players found the countdown too hard.</summary>
+        [Test]
+        public void SceneCatalog_HasNoTimedLevels()
+        {
+            foreach (var level in catalog.levels)
+                Assert.That(level.timerSeconds, Is.Zero, $"Level {level.number} still has a timer.");
         }
 
         /// <summary>Each authored witness must win through real C# board placement and completion rules.</summary>

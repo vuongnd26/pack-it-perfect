@@ -10,7 +10,7 @@ namespace PackItPerfect.Tests
     internal static class PackingFixtures
     {
         internal const long SearchLimit = 1000;
-        internal const int LevelCount = 20;
+        internal const int LevelCount = 100;
         internal const int WarningSeconds = 5;
         internal const int CountdownSeconds = 30;
         internal const float StartDelay = 2f;
